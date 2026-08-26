@@ -1,0 +1,22 @@
+{
+  "allow_bser_phase1a": true,
+  "delivery_valid": true,
+  "e0_completed": 60,
+  "e0_passed": 60,
+  "generated_at_utc": "2026-08-02T10:44:12.282814+00:00",
+  "git_branch": "main",
+  "git_head_before_final_commit": "b90c270",
+  "git_initialized": true,
+  "git_planned_commit_count": 3,
+  "legacy_all_unchanged": true,
+  "maximum_absolute_difference": 0.0,
+  "missing_required_files": [],
+  "phase_status": "PASS_CH3_E0_EQUIVALENCE",
+  "required_file_count": 33,
+  "schema": "crk.phase0b1.delivery_validation.v1",
+  "snapshot_all_hashes_match": true,
+  "snapshot_source_file_count": 27,
+  "task_event_mismatch_count": 0,
+  "unit_tests_passed": 6,
+  "unit_tests_total": 6
+}

@@ -1,0 +1,33 @@
+{
+  "experiment": "CH3-E0 Canonical Environment Migration Equivalence",
+  "generator_seed": 1729,
+  "profiles": {
+    "M00_MOVING_CLEAR": {
+      "manifest_sha256": "3f20e86ee7a4b245d2b1ca8bb146bf22493a11f10675d14d6d937943b6d721a5",
+      "path": "configs/scenarios/e0_equivalence/M00_MOVING_CLEAR.json",
+      "scenario_count": 5
+    },
+    "M10_MOVING_UNKNOWN_SINGLE": {
+      "manifest_sha256": "29356cc469788e6806021a90f8525fdb992de000f5b5973e046b0d464a748352",
+      "path": "configs/scenarios/e0_equivalence/M10_MOVING_UNKNOWN_SINGLE.json",
+      "scenario_count": 5
+    },
+    "M20_MOVING_UNKNOWN_MULTI": {
+      "manifest_sha256": "3db5141dd2d7fda003b8a324bc5a21a34adc8888e97f00e1b0c0cdc3b742f3db",
+      "path": "configs/scenarios/e0_equivalence/M20_MOVING_UNKNOWN_MULTI.json",
+      "scenario_count": 5
+    },
+    "M90_MOVING_KNOWN_ORACLE": {
+      "manifest_sha256": "2b95c2842b5a1f9cd0f259466aa3da713606cc9cfe4fc97e57fe72c3d75e247d",
+      "path": "configs/scenarios/e0_equivalence/M90_MOVING_KNOWN_ORACLE.json",
+      "scenario_count": 5
+    }
+  },
+  "scenario_seeds": [
+    1729,
+    1730,
+    1731,
+    1732,
+    1733
+  ]
+}

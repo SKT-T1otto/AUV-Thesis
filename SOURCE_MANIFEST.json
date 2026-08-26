@@ -1,0 +1,62 @@
+{
+  "schema": "crk.thesis.source_manifest.v2",
+  "phase": "chapter3_phase1c_wip",
+  "formal_code_migrated": true,
+  "core_self_contained": true,
+  "runtime_legacy_dependency": false,
+  "semantic_authority": "CH3 accepted working snapshot",
+  "source_provenance": "docs/provenance/ch3_to_core_migration_manifest.json",
+  "environment_contract": {
+    "agents": 4,
+    "role_order": [
+      "search_fast",
+      "search_balanced",
+      "search_precise",
+      "executor"
+    ],
+    "observation_dimensions": [28, 28, 28, 28],
+    "action_dimensions": [3, 3, 3, 3],
+    "centralized_critic_input_dimension": 124,
+    "canonical_profile": "M20_MOVING_UNKNOWN_MULTI"
+  },
+  "phase0b2_validation": {
+    "status": "historical_baseline",
+    "unit_tests": "17/17",
+    "legacy_vs_core_e0": "60/60",
+    "core_only_e0": "60/60",
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "training_smoke_passed": true,
+    "checkpoint_roundtrip_passed": true
+  },
+  "chapter_status": {
+    "chapter3_bser": "phase1c_wip_resume_ready",
+    "chapter4_rcag": "not_implemented",
+    "chapter5_vsgc": "not_implemented"
+  },
+  "current_experiment": {
+    "method": "ch3_bser_rmaddpg_phase1c",
+    "profile": "M20_MOVING_UNKNOWN_MULTI",
+    "seed": 2729,
+    "episodes_planned": 1000,
+    "max_steps": 400,
+    "workers": 4,
+    "training_update": true,
+    "checkpoint_interval_episodes": 50,
+    "status": "interrupted_resume_ready",
+    "last_recorded_episode": 128,
+    "resume_checkpoint_episode": 100
+  },
+  "latest_recorded_verification": {
+    "context": "local_not_github_ci",
+    "phase1c_guidance": "3 tests OK",
+    "observation_and_phase1b_compatibility": "PASS (2 tests)",
+    "checkpoint_100_readable": true,
+    "training_state_restore_verified": true
+  },
+  "historical_sources": {
+    "CH3": "accepted read-only reference outside this repository",
+    "CH4": "read-only reference outside this repository",
+    "CH5": "read-only reference outside this repository"
+  }
+}

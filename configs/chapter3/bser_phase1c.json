@@ -1,0 +1,20 @@
+{
+  "schema": "bser.phase1c.integration.v1",
+  "enabled": false,
+  "phase1c_enable_bser_guidance": false,
+  "integration_mode": "bser_high_level_rmaddpg_residual",
+  "control_context_schema": "bser.control_context.v1",
+  "observation_dim": 28,
+  "action_dim": 3,
+  "centralized_critic_input_dim": 124,
+  "training_enabled": false,
+  "preflight": {
+    "base_candidate": "ch3_v3_full_reference",
+    "profile": "M20_MOVING_UNKNOWN_MULTI",
+    "seed": 2729,
+    "episodes": 10,
+    "max_steps": 400,
+    "training_update": false,
+    "device": "cpu"
+  }
+}

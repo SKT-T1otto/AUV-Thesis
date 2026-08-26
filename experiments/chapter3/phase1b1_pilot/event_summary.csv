@@ -1,0 +1,14 @@
+count,event,method
+184,BELIEF_SHIFT,Event-BSER-phase1b_v1
+7650,EXECUTOR_INVALID,Event-BSER-phase1b_v1
+163,OBSTACLE_DISCOVERED,Event-BSER-phase1b_v1
+80,PERIODIC_REFRESH,Event-BSER-phase1b_v1
+6,TARGET_FOUND,Event-BSER-phase1b_v1
+7707,WAYPOINT_STALE,Event-BSER-phase1b_v1
+174,BELIEF_SHIFT,Event-BSER-phase1b1_corrected
+7608,EXECUTOR_INVALID,Event-BSER-phase1b1_corrected
+5,EXECUTOR_TARGET_RECEIVED,Event-BSER-phase1b1_corrected
+181,OBSTACLE_DISCOVERED,Event-BSER-phase1b1_corrected
+80,PERIODIC_REFRESH,Event-BSER-phase1b1_corrected
+5,TARGET_FOUND,Event-BSER-phase1b1_corrected
+7729,WAYPOINT_STALE,Event-BSER-phase1b1_corrected

@@ -1,0 +1,77 @@
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# =========================
+# IDE
+# =========================
+.idea/
+.vscode/
+
+# =========================
+# OS
+# =========================
+Thumbs.db
+.DS_Store
+
+# =========================
+# Runtime / experiment outputs
+# =========================
+outputs/
+runs/
+logs/
+wandb/
+
+# =========================
+# Checkpoints / model weights
+# =========================
+**/_checkpoints/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# =========================
+# Historical backup artifacts
+# =========================
+phase1b21_backup/
+phase1b21_patch_bundle/
+chapter3_bser_phase1b3a_diagnosis/
+
+# =========================
+# Temporary Git investigation files
+# =========================
+local_history.txt
+remote_history.txt
+
+# =========================
+# Temporary archives
+# =========================
+*.zip
+*.sha256
+
+# =========================
+# Large raw diagnostic traces
+# =========================
+experiments/chapter3/phase1b1_pilot/step_diagnostics.csv
+docs/chapter3_bser/phase1b3a_diagnosis/event_step_diagnostics.csv
+
+# =========================
+# Temporary Git baseline inspection
+# =========================
+staged_stat.txt
+staged_check.txt
+staged_large_files.txt
+
+# Temporary AI/code-review diff files
+codex_*.diff
+
+# Machine-specific runtime diagnostics
+3090/
+
+# Legacy preflight output path
+runtime/linux_preflight.json

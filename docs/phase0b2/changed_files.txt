@@ -1,0 +1,105 @@
+M	.gitattributes
+A	core/algorithms/__init__.py
+R096	legacy_adapters/ch3_snapshot/utils/agents.py	core/algorithms/agents.py
+R099	legacy_adapters/ch3_snapshot/algorithms/maddpg.py	core/algorithms/maddpg.py
+R100	legacy_adapters/ch3_snapshot/utils/misc.py	core/algorithms/misc.py
+R100	legacy_adapters/ch3_snapshot/utils/networks.py	core/algorithms/networks.py
+R100	legacy_adapters/ch3_snapshot/utils/noise.py	core/algorithms/noise.py
+A	core/communication/__init__.py
+R100	legacy_adapters/ch3_snapshot/comm/basic_communication.py	core/communication/basic_communication.py
+A	core/config/__init__.py
+R098	legacy_adapters/ch3_snapshot/ch3_config.py	core/config/ch3_config.py
+R096	legacy_adapters/ch3_snapshot/ch3_constants.py	core/config/ch3_constants.py
+R078	legacy_adapters/ch3_snapshot/base_env.py	core/env/base_env.py
+M	core/env/mission_env.py
+R100	legacy_adapters/ch3_snapshot/target_motion.py	core/env/target_motion.py
+R099	legacy_adapters/ch3_snapshot/env.py	core/env/uav_env.py
+A	core/mapping/__init__.py
+R100	legacy_adapters/ch3_snapshot/map/map_module.py	core/mapping/map_module.py
+R099	legacy_adapters/ch3_snapshot/map/path_planner.py	core/mapping/path_planner.py
+A	core/provenance/__init__.py
+R093	legacy_adapters/ch3_snapshot/utils/provenance.py	core/provenance/provenance.py
+A	core/registry/__init__.py
+R098	legacy_adapters/ch3_snapshot/registry/ch3_efficiency_v3_registry.py	core/registry/ch3_efficiency_v3_registry.py
+R100	legacy_adapters/ch3_snapshot/registry/experiment_registry.py	core/registry/experiment_registry.py
+A	core/replay/__init__.py
+R100	legacy_adapters/ch3_snapshot/utils/ch3_buffer.py	core/replay/ch3_buffer.py
+A	core/runtime/__init__.py
+R089	legacy_adapters/ch3_snapshot/runtime.py	core/runtime/builder.py
+R099	legacy_adapters/ch3_snapshot/train.py	core/runtime/engine.py
+R100	legacy_adapters/ch3_snapshot/metrics.py	core/runtime/metrics.py
+R099	legacy_adapters/ch3_snapshot/training.py	core/runtime/training.py
+R099	legacy_adapters/ch3_snapshot/tools/build_ch3_scenarios.py	core/scenarios/ch3_generator_impl.py
+M	core/scenarios/generator.py
+A	docs/phase0b2/architecture_after_migration.md
+A	docs/phase0b2/delivery_validation.json
+A	docs/phase0b2/github_self_containment_report.md
+A	docs/phase0b2/import_dependency_report.md
+A	docs/phase0b2/legacy_removal_report.md
+A	docs/phase0b2/no_legacy_dependency_report.md
+A	docs/phase0b2/phase0b2_summary.md
+A	docs/phase0b2/pre_migration_baseline.md
+A	docs/phase0b2/pre_migration_hashes.json
+A	docs/phase0b2/source_migration_manifest.json
+A	docs/phase0b2/standalone_clone_test_report.md
+A	docs/phase0b2/test_report.md
+A	docs/phase0b2/unresolved_issues.md
+R078	legacy_adapters/ch3_snapshot/SOURCE_HASHES.json	docs/provenance/ch3_authority_source_hashes_v1.json
+A	docs/provenance/ch3_to_core_migration_manifest.json
+A	experiments/chapter3/core_self_contained_training_smoke/test_report.md
+A	experiments/chapter3/core_self_contained_training_smoke/training_smoke_summary.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/action_trace_manifest.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/equivalence_summary.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/equivalence_summary.md
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/experiment_manifest.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/per_step_mismatch_details.csv
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/per_trajectory_results.csv
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/scenario_manifest_index.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_run/source_hash_manifest.json
+A	experiments/chapter3/e0_core_migration/core_without_legacy_summary.json
+A	experiments/chapter3/e0_core_migration/experiment_manifest.json
+A	experiments/chapter3/e0_core_migration/golden_trace_manifest.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/action_trace_manifest.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/equivalence_summary.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/equivalence_summary.md
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/experiment_manifest.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/legacy_integrity_after.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/legacy_integrity_before.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/per_step_mismatch_details.csv
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/per_trajectory_results.csv
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/scenario_manifest_index.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_run/source_hash_manifest.json
+A	experiments/chapter3/e0_core_migration/legacy_vs_core_summary.json
+A	experiments/chapter3/e0_core_migration/per_step_mismatch_details.csv
+A	experiments/chapter3/e0_core_migration/per_trajectory_results.csv
+A	experiments/chapter3/e0_core_migration/test_report.md
+M	experiments/chapter3/e0_equivalence/equivalence_summary.json
+M	experiments/chapter3/e0_equivalence/legacy_integrity_after.json
+M	experiments/chapter3/e0_equivalence/legacy_integrity_before.json
+M	experiments/chapter3/e0_equivalence/source_hash_manifest.json
+M	legacy_adapters/README.md
+D	legacy_adapters/ch3_snapshot/__init__.py
+D	legacy_adapters/ch3_snapshot/algorithms/__init__.py
+D	legacy_adapters/ch3_snapshot/comm/__init__.py
+D	legacy_adapters/ch3_snapshot/map/__init__.py
+D	legacy_adapters/ch3_snapshot/registry/__init__.py
+D	legacy_adapters/ch3_snapshot/tools/__init__.py
+D	legacy_adapters/ch3_snapshot/utils/__init__.py
+D	tests/test_ch3_snapshot_hashes.py
+A	tests/test_clean_clone_standalone.py
+A	tests/test_core_checkpoint_roundtrip.py
+A	tests/test_core_has_no_legacy_imports.py
+A	tests/test_core_import_graph.py
+A	tests/test_core_scenario_generation.py
+A	tests/test_core_source_provenance.py
+A	tests/test_core_standalone_env.py
+A	tests/test_core_training_smoke.py
+A	tests/test_core_without_legacy_directory.py
+M	tests/test_mission_core_contract.py
+M	tests/test_no_legacy_write.py
+A	tools/__init__.py
+D	tools/create_ch3_snapshot.py
+D	tools/finalize_phase0b1.py
+R069	tools/run_ch3_e0_equivalence.py	tools/run_core_golden_e0.py
+A	tools/run_core_training_smoke.py
+A	docs/phase0b2/changed_files.txt

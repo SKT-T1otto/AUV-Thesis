@@ -1,0 +1,20 @@
+{
+  "schema": "phase0a1.legacy_contract_fixture_manifest.v1",
+  "fixtures": [
+    {
+      "repository": "CH3",
+      "fixture": "ch3_contract.json",
+      "sha256": "af4fa3570c67fb351e20951a96992d6559cc023c95a81b35be7eb99b8f9c65a4"
+    },
+    {
+      "repository": "CH4",
+      "fixture": "ch4_contract.json",
+      "sha256": "b91d08b3399f26a04c0d1fa6a46a9a45e4a892faaf9003bf756b925ef78f9d2a"
+    },
+    {
+      "repository": "CH5",
+      "fixture": "ch5_contract.json",
+      "sha256": "e75a1bd1e6b6c3d299d01b51e6f7693c18efb1cbd342e8b2e7a0e43fdfad2b5a"
+    }
+  ]
+}

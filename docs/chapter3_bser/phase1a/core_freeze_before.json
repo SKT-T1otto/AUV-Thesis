@@ -1,0 +1,247 @@
+{
+  "schema": "bser.phase1a.core_freeze_before.v1",
+  "base_head": "cf9b6e1de8a2ddf5bd992ff6dad20f8de13971a5",
+  "existing_core_python_count": 40,
+  "files": [
+    {
+      "path": "core/__init__.py",
+      "size_bytes": 65,
+      "sha256": "c36a60a9bf0a665613e4c5c65f2442c12f769db003b0a544c9dfb50ff5c7e214",
+      "ast_dump_sha256": "02826af1739bde34c9a75111034511f0b8d0131758399d3980e13b03edd2cb3b"
+    },
+    {
+      "path": "core/algorithms/__init__.py",
+      "size_bytes": 87,
+      "sha256": "c31e610f78e23fe8e5aabd5b5326d40471bb47ee6ba3421177aec244425557aa",
+      "ast_dump_sha256": "ae9dea1a40b62c1a0369e521672bd9076d02ca148b5afa66cdbbaf9d1344ffa9"
+    },
+    {
+      "path": "core/algorithms/agents.py",
+      "size_bytes": 5448,
+      "sha256": "b507fc584689c4da3ce517cf35d423c73a1fa9e7e51470aa61aed35daa3a572d",
+      "ast_dump_sha256": "9108acc932fb44a4124773d2f4beaac2783e0948250dae65f3fc4d931c4612d2"
+    },
+    {
+      "path": "core/algorithms/maddpg.py",
+      "size_bytes": 18994,
+      "sha256": "a574285b33d9a82971cf8016ce93e79f1c90b07cca5236edf5deb7fcb9b6d907",
+      "ast_dump_sha256": "53a21b4b41746cbb53fa77ca0f4a8940d12a711aa19fc5953cc64d7fef75311f"
+    },
+    {
+      "path": "core/algorithms/misc.py",
+      "size_bytes": 1785,
+      "sha256": "aeec704d3bc84afa0e321f6870d81ec6841616793168160905eeac956f5bc53f",
+      "ast_dump_sha256": "c1e094d6b98863136dfe3e1e35a8a1c0f516edb0f57abf427ae40621f52d86b2"
+    },
+    {
+      "path": "core/algorithms/networks.py",
+      "size_bytes": 1246,
+      "sha256": "fe28d54150c245f698418c57b850db44225a8fd65f8119ca38469270d5be54cc",
+      "ast_dump_sha256": "3a370f4c3df340688c9c46ba98340892ca391fc9701572f9e015db26178431da"
+    },
+    {
+      "path": "core/algorithms/noise.py",
+      "size_bytes": 1149,
+      "sha256": "3d3fb7c0248d3900900ab311d6d3c68dd41b33216a04c70435ad2a5b1163fe9f",
+      "ast_dump_sha256": "efb4493d7902c13f50c35d5f4511b2cfaaa88e00e2c81df1d323529ee7edc1e2"
+    },
+    {
+      "path": "core/communication/__init__.py",
+      "size_bytes": 128,
+      "sha256": "884a125f89485cc25d1ba33a19aa1ba94dcc2a67efcc4fa75caa81057e89c1aa",
+      "ast_dump_sha256": "81eea285da048036682eb80e915bd2447062cbb7581f0bd58b11caede235e0cc"
+    },
+    {
+      "path": "core/communication/basic_communication.py",
+      "size_bytes": 2704,
+      "sha256": "cde58122008981ae4fa29fb003310824ebd6c7116452a2bfd272eaa9b784c595",
+      "ast_dump_sha256": "511234d873b6e2c585dcd4012d2b2557fc0ab677adc1c588cca1b7e05dbe6185"
+    },
+    {
+      "path": "core/config/__init__.py",
+      "size_bytes": 125,
+      "sha256": "2076dc28dbe5094b6ecabf541dcbcf8dbec929c05b8a5a1b2a3a503339e99852",
+      "ast_dump_sha256": "9e7fbdce4108c56259e19d3c533c719876b5af19fd964a68a77fe86a65d37c5b"
+    },
+    {
+      "path": "core/config/ch3_config.py",
+      "size_bytes": 6181,
+      "sha256": "445ab698c37ac698ca2b291a25427d9f5647cacc979167d1deaa0657aa9c6085",
+      "ast_dump_sha256": "627cb22e670f646edec74a53d75eb20e6476e4b5b621706bcf2c2939ec7c5aa2"
+    },
+    {
+      "path": "core/config/ch3_constants.py",
+      "size_bytes": 1547,
+      "sha256": "53ebf6bafd9ba4ad9286a6a15ce415f821593ac14d779650a6ab53bc15038146",
+      "ast_dump_sha256": "105ebbdb2c9447641265e84a248deec24a3110d1671af9b6dbcd6e44262f07d6"
+    },
+    {
+      "path": "core/env/__init__.py",
+      "size_bytes": 178,
+      "sha256": "1b81d05ab38ff3627aec8f0435669e50984044578367190a27e8fa1a5159b449",
+      "ast_dump_sha256": "4eb5fe0ab596ae7d4bd033ce232276db4ce14bdbb8e3cd7e9e943f94b116d1b6"
+    },
+    {
+      "path": "core/env/base_env.py",
+      "size_bytes": 446,
+      "sha256": "17c71f0ee058f32715f5210d8249d85ee0270cc365163a1295b88f5f19d5f954",
+      "ast_dump_sha256": "87e76683babef1d97957c8ede10f930ef4a7e4018ad195eb0f0d4430dec47947"
+    },
+    {
+      "path": "core/env/mission_env.py",
+      "size_bytes": 7629,
+      "sha256": "21d62729cb214ff0b6707fd6ce58c410ac2d6e49a7fbcdbf0e3746aa3a31ad45",
+      "ast_dump_sha256": "1cdd14df5e6ae907263fd3dac6428b4c3b6ed9b215bab2c7df3b1839b01e4007"
+    },
+    {
+      "path": "core/env/observation_contract.py",
+      "size_bytes": 3483,
+      "sha256": "0bc4d78e09c9228744451bf07fdaaaf5c5eb275a2bb772603656cd4c444dd510",
+      "ast_dump_sha256": "08714d12cb98894b6834ea87bf93ef02a7cb41cefa9e18c657d125cd491a32ba"
+    },
+    {
+      "path": "core/env/target_motion.py",
+      "size_bytes": 15956,
+      "sha256": "8e2cd1fc585bd3b148a1f0ff87ab8eb758bfe3db9142792d40da987b7ec5fde0",
+      "ast_dump_sha256": "8dbd02fd58da055fb212e7d0e97087d812bd2365bb76217994fbd52b4d0d6e62"
+    },
+    {
+      "path": "core/env/task_state.py",
+      "size_bytes": 1480,
+      "sha256": "dcaee2043544994f82aa16f052f48aed198551a4404e52cb6278bf54620ddb11",
+      "ast_dump_sha256": "5ee05c2c2fd3eb9ce53daf203107bb88623402eb3ac3b3fdb395241fdf372978"
+    },
+    {
+      "path": "core/env/uav_env.py",
+      "size_bytes": 116303,
+      "sha256": "ef964149b6af3a164cd35ce3ff81636e140fd88180750b12ecac6f30e2b9f698",
+      "ast_dump_sha256": "23d3377b3c3073bf3d0535203b77610097332c186fef88facdcce31d32f2454e"
+    },
+    {
+      "path": "core/mapping/__init__.py",
+      "size_bytes": 49,
+      "sha256": "c506f66317a8fda56028ece149069672961c613d15e74eb22a0feb0cf3d842d0",
+      "ast_dump_sha256": "25fb657ddf264960759a914dcdc0d124264f71f718d39e8542eb050a9f88a467"
+    },
+    {
+      "path": "core/mapping/map_module.py",
+      "size_bytes": 45408,
+      "sha256": "21cd5be94738c0b85cdead218e480925b42abc42a53190f4870f066347a3a907",
+      "ast_dump_sha256": "661161e48f3897300562ee9137d8601256f61e79f5cfb08c647e703747067d38"
+    },
+    {
+      "path": "core/mapping/path_planner.py",
+      "size_bytes": 77134,
+      "sha256": "0c86f2a701c931179d6609ea755f82fe27d1e8df35672ff5696f5471bcad1925",
+      "ast_dump_sha256": "4bd69909f882933b718255c077d2f02328e3ba98c5a3a4306c1644fdc99794a2"
+    },
+    {
+      "path": "core/provenance/__init__.py",
+      "size_bytes": 47,
+      "sha256": "b190a8da2cf552bb60391eb609adabb5e6b5b2a53f3f4677382e2c6ec26aaa69",
+      "ast_dump_sha256": "19c95477fda773c8fb2512a234401d6925ceae368ce190ff012c245d9aff92ab"
+    },
+    {
+      "path": "core/provenance/provenance.py",
+      "size_bytes": 11746,
+      "sha256": "ed4a6dabd82b4d56aa09a77e170c8c45ff8d744dc6216e6c31b4fad647c72c16",
+      "ast_dump_sha256": "8e4718a6e8b107129aa21171634b4a5e67f41f4ddc65839259924d53e965f3a6"
+    },
+    {
+      "path": "core/registry/__init__.py",
+      "size_bytes": 29,
+      "sha256": "5f99f65b368099e95be91baaf840917c6a167ccc8c3da84290d76734d1cda309",
+      "ast_dump_sha256": "b2f5f6c25e1efcaf4eb4d77a0a551130961e86d7deb3fb01e58df73dc46d581d"
+    },
+    {
+      "path": "core/registry/ch3_efficiency_v3_registry.py",
+      "size_bytes": 6308,
+      "sha256": "e81296e7566015231fec3717568e242f766cb7ed0be502648574252a82af28cd",
+      "ast_dump_sha256": "311dccad3f97e7937a3349da8f345d1a9b3d29bb0c6887942a7ddd46173c9535"
+    },
+    {
+      "path": "core/registry/experiment_registry.py",
+      "size_bytes": 1230,
+      "sha256": "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61",
+      "ast_dump_sha256": "386044d811ef85bf9bed09bb183e3e85092484a7205998b52b01bbc319ef09a7"
+    },
+    {
+      "path": "core/replay/__init__.py",
+      "size_bytes": 94,
+      "sha256": "acd9497b026113c23b152e059ce162be5c0a1b82711e4a546d172211947ac6dc",
+      "ast_dump_sha256": "e2ba140ac5d0f3336e22197ee2dfc1ea7f0cfe59064de2e2f9e8e89e6addcc37"
+    },
+    {
+      "path": "core/replay/ch3_buffer.py",
+      "size_bytes": 9134,
+      "sha256": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42",
+      "ast_dump_sha256": "0fd9ce835edfbbb1d9ecd96d8db9973134e5b7382b8b62c491e9428ed05dfcd7"
+    },
+    {
+      "path": "core/runtime/__init__.py",
+      "size_bytes": 114,
+      "sha256": "93b1cf7e67ced85afc0b86fec63525d9f17209475af7955e52986c91c46f465d",
+      "ast_dump_sha256": "5bbc3c69f92825131cd3ce9fcf2a90e2236501518549c94a2cbda1ef2955e384"
+    },
+    {
+      "path": "core/runtime/builder.py",
+      "size_bytes": 3516,
+      "sha256": "5533be17d3b37c75ef65df6774c41929e866ae02b4161d32951d78eb88799d52",
+      "ast_dump_sha256": "6ef97d2cb22050baccc08748103a5d50cfc90ac049cee2d87c141c870f245f2c"
+    },
+    {
+      "path": "core/runtime/engine.py",
+      "size_bytes": 59791,
+      "sha256": "1998051dc1651ea9413a4e18124d40dce0e56cc58aeb5e345c4a552a46e698cc",
+      "ast_dump_sha256": "a287673e2d672c4272ea94c99c39ab874e144826f2df2212e1aecaa35847d481"
+    },
+    {
+      "path": "core/runtime/metrics.py",
+      "size_bytes": 5438,
+      "sha256": "bedf29a47199064e88ac29a8bd21d13a573be7612c2e81242b51b0481504ea1a",
+      "ast_dump_sha256": "11a715e218dfb83e62760bae9e0e2ef074a925e2879f5c53c30cabb55156f0cb"
+    },
+    {
+      "path": "core/runtime/training.py",
+      "size_bytes": 29358,
+      "sha256": "58cf5abf4700923293c046d51227c0df105f48ac2c21f4953345cc080a41bef4",
+      "ast_dump_sha256": "997b45e2e4836f7ba58edd41ce6910003c8309af02d841dd6c829b700ae6a111"
+    },
+    {
+      "path": "core/scenarios/__init__.py",
+      "size_bytes": 227,
+      "sha256": "14bfb9a631b5a37360308528bd5f5a50bdd0195a896d42f29f45a02d070b5d61",
+      "ast_dump_sha256": "1ead2547618333382a9baf1873e20e5a7a9170e25234388fbb86d0368245afd9"
+    },
+    {
+      "path": "core/scenarios/ch3_generator_impl.py",
+      "size_bytes": 39218,
+      "sha256": "2c6c414bca3d79fd038f96537603f78938fe91574e1ee02fcd8f2e1038a95633",
+      "ast_dump_sha256": "7d5efe50464462ebfa5d4f75293bdb0a96d23b48a4e0fbd6ea3a00c406ac8b26"
+    },
+    {
+      "path": "core/scenarios/generator.py",
+      "size_bytes": 2134,
+      "sha256": "0d52920e83734526e5ac33f87c22e0a9d9b57705467d549a24cb0c333c45d8ac",
+      "ast_dump_sha256": "a1be29d6113987f899a8e02bcab3a113ed953d7b6016b143368db377e6bb1bc4"
+    },
+    {
+      "path": "core/scenarios/manifest.py",
+      "size_bytes": 645,
+      "sha256": "9534439726bb0442e4102eaa5da0c6cf0f87ceb7c09c82577791bf745dd6cccb",
+      "ast_dump_sha256": "716fe72c14a4eb65b31bb05231219184316064a484cecc8fa1a011cf5634f75d"
+    },
+    {
+      "path": "core/scenarios/registry.py",
+      "size_bytes": 771,
+      "sha256": "30d60e133ffa4d6c29055519966df1c4b304a2b9143017b1a1551f394d11d9fa",
+      "ast_dump_sha256": "041e1623ee481670c93d675ff7e5c5daa8c3f90f6f184a17c982ac2d5a3eda75"
+    },
+    {
+      "path": "core/scenarios/schema.py",
+      "size_bytes": 355,
+      "sha256": "f17b04cebacd597b634b37a6e77cd30ed565212c2b44807a295358f217711263",
+      "ast_dump_sha256": "2b14cf01bf2805f1d901b19dcf68e48aaaba371c5918bf44998bf79e8ebfcf6d"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "bser.phase1a.config.v1",
+  "frozen_before_e1": true,
+  "candidate_generation": {
+    "k_search_exact": 4,
+    "k_standby_exact": 4,
+    "search_scaling": [4, 8, 16, 32],
+    "standby_scaling": [4, 8, 16],
+    "minimum_separation": 0.45,
+    "maximum_travel_time": 120.0
+  },
+  "detection_model": {
+    "model_parameter_notice": "Fixed algorithm-model parameters, not calibrated sensor truth; sensitivity analysis is required before formal experiments.",
+    "p_max_by_role": {
+      "search_fast": 0.72,
+      "search_balanced": 0.78,
+      "search_precise": 0.84
+    },
+    "sigma_sensor_radius_multiplier": 1.0
+  },
+  "objective": {
+    "tau_executor": 18.0,
+    "epsilon": 1e-12
+  },
+  "solver": {
+    "exact_combination_limit": 100000,
+    "random_repetitions": 100,
+    "random_seed": 20260802
+  },
+  "e1": {
+    "snapshot_steps": [0, 10, 25, 50],
+    "action_traces": ["zero_action", "seeded_random_low_amplitude", "deterministic_scripted"],
+    "scalability_instance_count": 20
+  }
+}

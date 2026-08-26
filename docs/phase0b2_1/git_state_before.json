@@ -1,0 +1,24 @@
+{
+  "schema": "phase0b2_1.git_state_before.v1",
+  "captured_from_branch": "phase0b2-core-self-contained",
+  "working_branch": "phase0b2-remote-closure",
+  "head": "dbdbb431f59fac501a2b331cd3939384045a66b2",
+  "working_tree_clean": true,
+  "staged_diff_empty": true,
+  "unstaged_diff_empty": true,
+  "tracked_file_count": 162,
+  "configured_remotes": [],
+  "recent_commits": [
+    "dbdbb43 test(core): verify standalone operation without legacy or siblings",
+    "6094ad8 fix(core): stabilize provenance hashes across archives",
+    "6116ec5 chore(legacy): remove executable CH3 snapshot code",
+    "3b5c909 test(core): validate training and standalone runtime closure",
+    "c570d18 test(core): verify exact E0 equivalence before legacy removal",
+    "3e43901 refactor(core): migrate CH3 implementation closure into core",
+    "d85b2b8 chore(core): freeze Phase 0B-2 migration baseline",
+    "57a5e74 refactor(core): remove crk prefix from internal paths",
+    "bdfe70a test(ch3): add E0 migration equivalence experiment",
+    "b90c270 feat(core): add CH3-compatible mission core environment",
+    "5dd42dd chore: establish accepted thesis-v2 workspace baseline"
+  ]
+}

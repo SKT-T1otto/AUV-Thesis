@@ -1,0 +1,38 @@
+{
+  "schema": "bser.phase1b2.test_report.v1",
+  "status": "PASS",
+  "environment": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+  "targeted_phase1b2": {
+    "tests_run": 5,
+    "passed_count": 5,
+    "failure_count": 0,
+    "error_count": 0,
+    "runtime_seconds": 0.092
+  },
+  "complete_active_suite": {
+    "discovered_test_count": 87,
+    "active_test_count": 83,
+    "tests_run": 83,
+    "passed_count": 83,
+    "failure_count": 0,
+    "error_count": 0,
+    "skipped_count": 0,
+    "superseded_test_count": 4,
+    "runtime_seconds": 412.13976490002824
+  },
+  "formal_pilot": {
+    "planned_condition_episode_count": 80,
+    "completed_condition_episode_count": 80,
+    "failure_count": 0
+  },
+  "static_validation": {
+    "git_diff_check_passed": true,
+    "frozen_theory_diff_count": 0,
+    "core_diff_count": 0,
+    "chapter4_diff_count": 0,
+    "chapter5_diff_count": 0,
+    "pycache_count": 0,
+    "information_boundary_tests_passed": true
+  },
+  "invocation_note": "A direct-path complete-suite attempt was invalid because Python placed tools/ rather than the repository root on sys.path. The authoritative module-mode rerun passed 83/83 and replaces that invocation error."
+}

@@ -1,0 +1,203 @@
+{
+  "schema": "phase0a1.environment_contract.v1",
+  "repository": "CH3",
+  "constructor": "env.UAVEnv(max_steps=10, device=cpu, return_numpy=False where accepted)",
+  "smoke_protocol": {
+    "seed": 1729,
+    "reset_count": 1,
+    "action": "all-zero legal action",
+    "step_count": 3
+  },
+  "n_agents": 4,
+  "role_order": [
+    "search_fast",
+    "search_balanced",
+    "search_precise",
+    "executor"
+  ],
+  "observation_dimensions": [
+    28,
+    28,
+    28,
+    28
+  ],
+  "observation_shapes_after_reset": [
+    [
+      28
+    ],
+    [
+      28
+    ],
+    [
+      28
+    ],
+    [
+      28
+    ]
+  ],
+  "observation_layout": [
+    {
+      "name": "position",
+      "slice": [
+        0,
+        3
+      ]
+    },
+    {
+      "name": "velocity",
+      "slice": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "navigation_target_delta",
+      "slice": [
+        6,
+        9
+      ]
+    },
+    {
+      "name": "navigation_target_direction",
+      "slice": [
+        9,
+        12
+      ]
+    },
+    {
+      "name": "known_target_delta",
+      "slice": [
+        12,
+        15
+      ]
+    },
+    {
+      "name": "navigation_distance",
+      "slice": [
+        15,
+        16
+      ]
+    },
+    {
+      "name": "speed",
+      "slice": [
+        16,
+        17
+      ]
+    },
+    {
+      "name": "closing_speed",
+      "slice": [
+        17,
+        18
+      ]
+    },
+    {
+      "name": "nearest_obstacle_distance",
+      "slice": [
+        18,
+        19
+      ]
+    },
+    {
+      "name": "waypoint_progress",
+      "slice": [
+        19,
+        20
+      ]
+    },
+    {
+      "name": "agent_finished",
+      "slice": [
+        20,
+        21
+      ]
+    },
+    {
+      "name": "hold_progress",
+      "slice": [
+        21,
+        22
+      ]
+    },
+    {
+      "name": "role_onehot",
+      "slice": [
+        22,
+        26
+      ]
+    },
+    {
+      "name": "target_knowledge_phase",
+      "slice": [
+        26,
+        28
+      ]
+    }
+  ],
+  "action_dimensions": [
+    3,
+    3,
+    3,
+    3
+  ],
+  "action_semantics": "Per-agent normalized 3-D residual acceleration command; clipped and scaled, then combined with the waypoint/navigation prior.",
+  "reward_vector_shape": [
+    4
+  ],
+  "found_definition": "A search agent detects the target within the configured sensor/detection radius; task_found becomes true and finder/found step are recorded.",
+  "handoff_definition": "Target knowledge must be delivered to/assigned to the executor through the repository communication mechanism; receipt step determines handoff delay.",
+  "mission_complete_definition": "The executor reaches/captures the assigned target and satisfies the configured consecutive hold requirement.",
+  "target_motion_mode": "static",
+  "obstacle_semantics": "3-D obstacle collision/proximity semantics; default constructor obstacle enable/state is recorded from live attributes.",
+  "obstacle_default_enabled": false,
+  "disturbance_state": "No Chapter-4 plant-disturbance protocol; nominal dynamics unless explicitly configured by constructor.",
+  "communication_state": {
+    "mode": "ch3_fixed_reliable",
+    "semantics": "Fixed reliable target handoff with one-step delivery; no lossy acoustic channel state."
+  },
+  "reset_state_sha256": "b25690c82e47af54d8c1c3618e3306f2d3e5dc0ac3bcf1be5d49a937750bde86",
+  "reset_state_fields": [
+    "step_count",
+    "task_found",
+    "finder_idx",
+    "mission_complete",
+    "executor_target_assigned",
+    "found_step",
+    "handoff_step",
+    "executor_received_target_step",
+    "_agent_pos",
+    "_agent_vel",
+    "_agent_acc",
+    "_prev_acc",
+    "_nav_targets",
+    "_targets",
+    "agent_finished",
+    "hold_counters",
+    "_agent_task_known",
+    "_agent_task_est",
+    "obstacles"
+  ],
+  "three_step_state_sha256": "b96cf688ee10b3508d8272e53e452bcf1dde6afe9fc50f37a491163c432ee8e7",
+  "three_step_state_fields": [
+    "step_count",
+    "task_found",
+    "finder_idx",
+    "mission_complete",
+    "executor_target_assigned",
+    "found_step",
+    "handoff_step",
+    "executor_received_target_step",
+    "_agent_pos",
+    "_agent_vel",
+    "_agent_acc",
+    "_prev_acc",
+    "_nav_targets",
+    "_targets",
+    "agent_finished",
+    "hold_counters",
+    "_agent_task_known",
+    "_agent_task_est",
+    "obstacles"
+  ]
+}

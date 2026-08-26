@@ -1,0 +1,28 @@
+{
+  "episode_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "formal_training": false,
+  "max_steps": 400,
+  "methods": [
+    "No-BSER-static",
+    "Periodic-BSER",
+    "Event-BSER-phase1b_v1",
+    "Event-BSER-phase1b1_corrected"
+  ],
+  "oracle_access": false,
+  "planned_condition_episode_count": 80,
+  "profile": "M20_MOVING_UNKNOWN_MULTI",
+  "scenario_seeds": [
+    2729,
+    2730,
+    2731,
+    2732,
+    2733
+  ],
+  "schema": "bser.phase1b1.pilot.experiment.v1",
+  "smoke": false
+}

@@ -1,0 +1,19 @@
+{
+  "active_test_count": 87,
+  "discovered_test_count": 91,
+  "error_count": 0,
+  "failure_count": 0,
+  "passed": true,
+  "passed_count": 87,
+  "runtime_seconds": 544.282964,
+  "schema": "bser.phase1b1.active_test_report.v1",
+  "skipped_count": 0,
+  "superseded_test_count": 4,
+  "superseded_tests": [
+    "test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest.test_all_v1_files_match_before_manifest",
+    "test_ch3_e0_equivalence.E0DeliveryTests.test_full_e0_passed",
+    "test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_completed_phase0b2"
+  ],
+  "tests_run": 87
+}

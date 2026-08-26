@@ -1,0 +1,17 @@
+count,decision,method,reason
+371,ACCEPT,Periodic-BSER,PERIODIC_20
+163,ACCEPT,Event-BSER-phase1b_v1,critical:OBSTACLE_DISCOVERED
+6,ACCEPT,Event-BSER-phase1b_v1,critical:TARGET_FOUND
+27,ACCEPT,Event-BSER-phase1b_v1,gain_and_cooldown
+3838,REJECT,Event-BSER-phase1b_v1,cooldown_active
+3869,REJECT,Event-BSER-phase1b_v1,insufficient_gain
+75,ACCEPT,Event-BSER-phase1b1_corrected,ACCEPT_EXECUTOR_INVALID
+42,ACCEPT,Event-BSER-phase1b1_corrected,ACCEPT_OBSTACLE_DISCOVERED
+5,ACCEPT,Event-BSER-phase1b1_corrected,ACCEPT_PUBLIC_HANDOFF
+42,ACCEPT,Event-BSER-phase1b1_corrected,ACCEPT_RELATIVE_GAIN
+1234,REJECT,Event-BSER-phase1b1_corrected,ATOMIC_REJECT_MISSING_SEARCH_ROUTE
+57,REJECT,Event-BSER-phase1b1_corrected,NO_REPLAN_EVENT
+25,REJECT,Event-BSER-phase1b1_corrected,OBSTACLE_OFF_ROUTE
+4573,REJECT,Event-BSER-phase1b1_corrected,REJECT_EVENT_COOLDOWN
+137,REJECT,Event-BSER-phase1b1_corrected,REJECT_INSUFFICIENT_RELATIVE_GAIN
+1720,REJECT,Event-BSER-phase1b1_corrected,REJECT_NO_ASSIGNMENT_CHANGE

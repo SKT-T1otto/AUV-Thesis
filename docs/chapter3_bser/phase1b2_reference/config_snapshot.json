@@ -1,0 +1,124 @@
+{
+  "phase1b1": {
+    "events": {
+      "belief_shift_threshold": 0.15,
+      "enable_belief_trigger": true,
+      "enable_obstacle_trigger": true,
+      "enable_target_trigger": true,
+      "obstacle_mass_threshold": 0.5,
+      "periodic_refresh_steps": 100,
+      "waypoint_stale_distance": 0.75
+    },
+    "experiment": {
+      "episode_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "max_steps": 400,
+      "methods": [
+        "No-BSER-static",
+        "Periodic-BSER",
+        "Event-BSER-phase1b_v1",
+        "Event-BSER-phase1b1_corrected"
+      ],
+      "periodic_replan_steps": 20,
+      "profile": "M20_MOVING_UNKNOWN_MULTI",
+      "scenario_seeds": [
+        2729,
+        2730,
+        2731,
+        2732,
+        2733
+      ],
+      "total_condition_episodes": 80
+    },
+    "formal_training": false,
+    "hysteresis": {
+      "belief_cooldown_steps": 20,
+      "cooldown_steps": 20,
+      "enabled": true,
+      "executor_invalid_cooldown_steps": 0,
+      "minimum_gain_threshold": 0.01,
+      "minimum_relative_gain": 0.01,
+      "minimum_waypoint_switch_distance": 1.0,
+      "obstacle_cooldown_steps": 5,
+      "target_received_cooldown_steps": 0,
+      "waypoint_stale_cooldown_steps": 5
+    },
+    "mechanism_version": "phase1b1_corrected",
+    "online": {
+      "state_refresh_interval": 20
+    },
+    "route_impact": {
+      "corridor_probability_mass_threshold": 0.2,
+      "planning_cost_relative_threshold": 0.15
+    },
+    "schema": "bser.phase1b1.config.v1",
+    "thresholds_tuned_from_results": false
+  },
+  "phase1b2_corrected": {
+    "events": {
+      "belief_shift_threshold": 0.15,
+      "enable_belief_trigger": true,
+      "enable_obstacle_trigger": true,
+      "enable_target_trigger": true,
+      "obstacle_mass_threshold": 0.5,
+      "periodic_refresh_steps": 100,
+      "waypoint_stale_distance": 0.75
+    },
+    "execution": {
+      "executor_cost_increase_threshold": 0.15,
+      "path_tracking_threshold": 0.75
+    },
+    "experiment": {
+      "episode_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "max_steps": 400,
+      "methods": [
+        "No-BSER-static",
+        "Periodic-BSER",
+        "Event-BSER-phase1b1",
+        "Event-BSER-phase1b2_corrected"
+      ],
+      "periodic_replan_steps": 20,
+      "profile": "M20_MOVING_UNKNOWN_MULTI",
+      "scenario_seeds": [
+        2729,
+        2730,
+        2731,
+        2732,
+        2733
+      ],
+      "total_condition_episodes": 80
+    },
+    "formal_training": false,
+    "hysteresis": {
+      "belief_cooldown_steps": 20,
+      "cooldown_steps": 20,
+      "enabled": true,
+      "executor_invalid_cooldown_steps": 0,
+      "minimum_gain_threshold": 0.01,
+      "minimum_relative_gain": 0.01,
+      "minimum_waypoint_switch_distance": 1.0,
+      "obstacle_cooldown_steps": 5,
+      "target_received_cooldown_steps": 0,
+      "waypoint_stale_cooldown_steps": 5
+    },
+    "mechanism_version": "phase1b2_corrected",
+    "online": {
+      "state_refresh_interval": 20
+    },
+    "route_impact": {
+      "corridor_probability_mass_threshold": 0.2,
+      "planning_cost_relative_threshold": 0.15
+    },
+    "schema": "bser.phase1b2.config.v1",
+    "thresholds_tuned_from_results": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "all_legacy_repositories_unchanged": true,
+  "baseline": "configs/legacy_baseline/WORKING_BASELINE_V2.json",
+  "captured_at_utc": "2026-08-02T10:44:06.381039+00:00",
+  "repositories": {
+    "CH3": {
+      "expected_file_count": 369,
+      "mismatches": [],
+      "unchanged": true
+    },
+    "CH4": {
+      "expected_file_count": 103,
+      "mismatches": [],
+      "unchanged": true
+    },
+    "CH5": {
+      "expected_file_count": 312,
+      "mismatches": [],
+      "unchanged": true
+    }
+  }
+}

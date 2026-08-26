@@ -1,0 +1,16 @@
+count,method,source
+7737,No-BSER-static,standby:y03
+342,Periodic-BSER,no_feasible_candidate_fallback
+322,Periodic-BSER,standby:y01
+3034,Periodic-BSER,standby:y02
+3726,Periodic-BSER,standby:y03
+1006,Event-BSER-phase1b_v1,no_feasible_candidate_fallback
+121,Event-BSER-phase1b_v1,standby:y01
+3006,Event-BSER-phase1b_v1,standby:y02
+3751,Event-BSER-phase1b_v1,standby:y03
+116,Event-BSER-phase1b_v1,target_found_belief_peak
+1181,Event-BSER-phase1b1_corrected,BELIEF_PEAK_FALLBACK
+1789,Event-BSER-phase1b1_corrected,NO_VALID_ROUTE
+12,Event-BSER-phase1b1_corrected,standby:y01
+1799,Event-BSER-phase1b1_corrected,standby:y02
+3219,Event-BSER-phase1b1_corrected,standby:y03

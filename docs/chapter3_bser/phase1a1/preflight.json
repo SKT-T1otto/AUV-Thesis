@@ -1,0 +1,39 @@
+{
+  "schema": "bser.phase1a1.preflight.v1",
+  "base_branch": "origin/chapter3-bser-phase1a",
+  "base_head": "43f06faf45af6964dc1f4544575944a72591531f",
+  "frozen_tag": "chapter3-bser-phase1a-e1-verified-v1",
+  "frozen_tag_is_ancestor": true,
+  "tests": {
+    "passed": 37,
+    "failed": 0,
+    "elapsed_seconds": 530.447
+  },
+  "e0": {
+    "status": "PASS_CORE_WITHOUT_LEGACY_E0",
+    "completed_trajectory_count": 60,
+    "passed_trajectory_count": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "historical_runtime_required": false,
+    "execution_location": "isolated git archive under system temporary storage"
+  },
+  "training_smoke": {
+    "status": "PASS",
+    "episodes": 2,
+    "max_steps_per_episode": 10,
+    "critic_loss_finite": true,
+    "actor_loss_finite": true,
+    "checkpoint_roundtrip_passed": true,
+    "post_load_step_completed": true,
+    "checkpoint_persisted_in_repository": false,
+    "output_location": "%TEMP%/bser_phase1a1_preflight_smoke"
+  },
+  "phase1a_v1_e1": {
+    "valid_instance_count": 180,
+    "skipped_instance_count": 60,
+    "deterministic_summary_sha256": "d3e4ffd9eb05e13406de622931e9810df8a7a0647a43ea532dc8b53d2c09bfe7",
+    "required_sha256_matched": true
+  },
+  "passed": true
+}

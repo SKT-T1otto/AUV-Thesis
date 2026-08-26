@@ -1,0 +1,53 @@
+{
+  "schema": "bser.phase1a.remote_verification.v1",
+  "repository": "https://github.com/SKT-T1otto/CH.git",
+  "branch": "chapter3-bser-phase1a",
+  "verified_commit": "11e2bb569f02028c294969654dc41a721f53e18d",
+  "clone_path": "C:/Users/lenovo/AppData/Local/Temp/CH_BSER_PHASE1A_REMOTE_VERIFY",
+  "fresh_clone": true,
+  "head_matches_origin": true,
+  "unittest": {
+    "tests_run": 37,
+    "passed": 37,
+    "failures": 0,
+    "errors": 0
+  },
+  "source_provenance_passed": true,
+  "no_legacy_passed": true,
+  "core_freeze": {
+    "existing_files": 40,
+    "changed_files": 0,
+    "passed": true
+  },
+  "e0": {
+    "completed": 60,
+    "passed": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0
+  },
+  "training_smoke": {
+    "status": "PASS",
+    "actor_update_finite": true,
+    "critic_update_finite": true,
+    "checkpoint_roundtrip": true,
+    "post_load_step": true,
+    "repository_checkpoint_written": false
+  },
+  "e1": {
+    "valid_instances": 180,
+    "skipped_instances": 60,
+    "property_pass_count": 180,
+    "monotonicity_failures": 0,
+    "submodularity_failures": 0,
+    "partition_constraint_failures": 0,
+    "greedy_bound_failures": 0,
+    "lazy_equivalence_failures": 0,
+    "minimum_greedy_exact_ratio": 0.983549219825,
+    "mean_greedy_exact_ratio": 0.99877892802445,
+    "deterministic_summary_sha256": "d3e4ffd9eb05e13406de622931e9810df8a7a0647a43ea532dc8b53d2c09bfe7",
+    "instance_hashes_match_local": true,
+    "passed": true
+  },
+  "working_tree_clean_after_restoring_generated_runtime_fields": true,
+  "passed": true
+}

@@ -1,0 +1,860 @@
+{
+  "branch": "phase0b2-core-self-contained",
+  "captured_at_utc": "2026-08-02T12:44:43.896175+00:00",
+  "core_source": {
+    "aggregate_sha256": "66eb867269dd7f819da4b09649af76dc54b296b50b0c32aec8514e5535e7e324",
+    "file_count": 10,
+    "files": [
+      {
+        "path": "__init__.py",
+        "sha256": "c36a60a9bf0a665613e4c5c65f2442c12f769db003b0a544c9dfb50ff5c7e214",
+        "size_bytes": 65
+      },
+      {
+        "path": "env/__init__.py",
+        "sha256": "1b81d05ab38ff3627aec8f0435669e50984044578367190a27e8fa1a5159b449",
+        "size_bytes": 178
+      },
+      {
+        "path": "env/mission_env.py",
+        "sha256": "ce4aef8d3498b5fe7261b76b539ffd24e9073a7f6f6101eb1a8c9e8262a07f31",
+        "size_bytes": 8025
+      },
+      {
+        "path": "env/observation_contract.py",
+        "sha256": "0bc4d78e09c9228744451bf07fdaaaf5c5eb275a2bb772603656cd4c444dd510",
+        "size_bytes": 3483
+      },
+      {
+        "path": "env/task_state.py",
+        "sha256": "dcaee2043544994f82aa16f052f48aed198551a4404e52cb6278bf54620ddb11",
+        "size_bytes": 1480
+      },
+      {
+        "path": "scenarios/__init__.py",
+        "sha256": "14bfb9a631b5a37360308528bd5f5a50bdd0195a896d42f29f45a02d070b5d61",
+        "size_bytes": 227
+      },
+      {
+        "path": "scenarios/generator.py",
+        "sha256": "7bfdec45a4ea5ba38395c27b9314b8debf5f4b30692718174e7fe2b1cb7560bd",
+        "size_bytes": 2308
+      },
+      {
+        "path": "scenarios/manifest.py",
+        "sha256": "9534439726bb0442e4102eaa5da0c6cf0f87ceb7c09c82577791bf745dd6cccb",
+        "size_bytes": 645
+      },
+      {
+        "path": "scenarios/registry.py",
+        "sha256": "30d60e133ffa4d6c29055519966df1c4b304a2b9143017b1a1551f394d11d9fa",
+        "size_bytes": 771
+      },
+      {
+        "path": "scenarios/schema.py",
+        "sha256": "f17b04cebacd597b634b37a6e77cd30ed565212c2b44807a295358f217711263",
+        "size_bytes": 355
+      }
+    ]
+  },
+  "e0": {
+    "action_trace_manifest_sha256": "29187e2c7a90e8312888892c6d40180559231e3fd9cd63234fd3820c511c9486",
+    "completed": 60,
+    "maximum_absolute_difference": 0.0,
+    "passed": 60,
+    "scenario_manifest_index_sha256": "96909b62a60f21cbe293036f933cfce7029786c7cc57baa90159120cb97cd6f4",
+    "summary_sha256": "a8ae8ad92b8bc5082d5f019e138eeaf5afa57efb74b9fd1deb0cac2e333b3771",
+    "task_event_mismatch_count": 0,
+    "trajectory_results_sha256": "e22a02b0d8aff22cf2341c269fe640696a5380c31b2bac589360824e63aedbe7"
+  },
+  "git_diff_stat_before_migration": "experiments/chapter3/e0_equivalence/equivalence_summary.json     | 4 ++--\n experiments/chapter3/e0_equivalence/legacy_integrity_after.json  | 2 +-\n experiments/chapter3/e0_equivalence/legacy_integrity_before.json | 2 +-\n experiments/chapter3/e0_equivalence/source_hash_manifest.json    | 4 ++--\n 4 files changed, 6 insertions(+), 6 deletions(-)",
+  "git_status_before_migration": "M experiments/chapter3/e0_equivalence/equivalence_summary.json\n M experiments/chapter3/e0_equivalence/experiment_manifest.json\n M experiments/chapter3/e0_equivalence/legacy_integrity_after.json\n M experiments/chapter3/e0_equivalence/legacy_integrity_before.json\n M experiments/chapter3/e0_equivalence/source_hash_manifest.json\n?? tools/capture_phase0b2_baseline.py",
+  "head": "57a5e740ede04fd1b653cab6386060bbf595d642",
+  "import_graph": {
+    "aggregate_sha256": "df0dd7c408bd8e8d606743da904ec7d9631720ba53e9e341f13ce05b93e03593",
+    "edge_count": 124,
+    "edges": [
+      {
+        "kind": "from",
+        "module": ".mission_env",
+        "source": "core/env/__init__.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "import",
+        "module": "sys",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "import",
+        "module": "inspect",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "import",
+        "module": "numpy",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "import",
+        "module": "torch",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": ".observation_contract",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": ".task_state",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": "legacy_adapters.ch3_snapshot.env",
+        "source": "core/env/mission_env.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/env/observation_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "dataclasses",
+        "source": "core/env/observation_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "core/env/observation_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/env/task_state.py"
+      },
+      {
+        "kind": "from",
+        "module": "dataclasses",
+        "source": "core/env/task_state.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "core/env/task_state.py"
+      },
+      {
+        "kind": "from",
+        "module": ".generator",
+        "source": "core/scenarios/__init__.py"
+      },
+      {
+        "kind": "from",
+        "module": ".registry",
+        "source": "core/scenarios/__init__.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "import",
+        "module": "sys",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": "copy",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": ".manifest",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": ".registry",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": "tools.build_ch3_scenarios",
+        "source": "core/scenarios/generator.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/scenarios/manifest.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "core/scenarios/manifest.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "core/scenarios/manifest.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "core/scenarios/manifest.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "core/scenarios/manifest.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/scenarios/registry.py"
+      },
+      {
+        "kind": "from",
+        "module": ".schema",
+        "source": "core/scenarios/registry.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "core/scenarios/schema.py"
+      },
+      {
+        "kind": "from",
+        "module": "dataclasses",
+        "source": "core/scenarios/schema.py"
+      },
+      {
+        "kind": "import",
+        "module": "csv",
+        "source": "tests/test_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tests/test_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tests/test_ch3_snapshot_hashes.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tests/test_ch3_snapshot_hashes.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_ch3_snapshot_hashes.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_ch3_snapshot_hashes.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "import",
+        "module": "sys",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "import",
+        "module": "torch",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "ch3_config",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.env",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.env.task_state",
+        "source": "tests/test_mission_core_contract.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tests/test_no_legacy_write.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tests/test_no_legacy_write.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_no_legacy_write.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_no_legacy_write.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_observation_28d_contract.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.env.observation_contract",
+        "source": "tests/test_observation_28d_contract.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tests/test_scenario_manifest_reproducibility.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_scenario_manifest_reproducibility.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_scenario_manifest_reproducibility.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.scenarios.generator",
+        "source": "tests/test_scenario_manifest_reproducibility.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.scenarios.registry",
+        "source": "tests/test_scenario_manifest_reproducibility.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "csv",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "importlib.util",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "tempfile",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "unittest",
+        "source": "tests/test_verify_external_archive.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "ast",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "subprocess",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "datetime",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/capture_phase0b2_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "from",
+        "module": "datetime",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "import",
+        "module": "shutil",
+        "source": "tools/create_ch3_snapshot.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/establish_working_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "datetime",
+        "source": "tools/establish_working_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/establish_working_baseline.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/establish_working_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/establish_working_baseline.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "import",
+        "module": "subprocess",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "from",
+        "module": "datetime",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/finalize_phase0b1.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "argparse",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "copy",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "csv",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "importlib.util",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "math",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "os",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "random",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "sys",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "concurrent.futures",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "datetime",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "numpy",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "import",
+        "module": "torch",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "ch3_config",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "core.env",
+        "source": "tools/run_ch3_e0_equivalence.py"
+      },
+      {
+        "kind": "from",
+        "module": "__future__",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "argparse",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "csv",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "from",
+        "module": "concurrent.futures",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "hashlib",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "json",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "os",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "from",
+        "module": "pathlib",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "stat",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "import",
+        "module": "sys",
+        "source": "tools/verify_external_archive.py"
+      },
+      {
+        "kind": "from",
+        "module": "typing",
+        "source": "tools/verify_external_archive.py"
+      }
+    ]
+  },
+  "legacy_source": {
+    "aggregate_sha256": "e12a7b338715f4ccf17d849fcfceddfdbc48a37d6e20bf7e5063f1fc4545e3fe",
+    "file_count": 30,
+    "files": [
+      {
+        "path": "__init__.py",
+        "sha256": "b1876b629c59b4f592e6c42cd892bb4a2d6ba8b898be3ada422c0bcb68d066ec",
+        "size_bytes": 74
+      },
+      {
+        "path": "algorithms/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "algorithms/maddpg.py",
+        "sha256": "b49ffe858df40f9e05c0127b37ad8930b2f593f26eeb7bec056be845e8939cb2",
+        "size_bytes": 18974
+      },
+      {
+        "path": "base_env.py",
+        "sha256": "e64ed6ef16b9136b3dff86583525cc50de7010278319b6bc268b7792ae2918b4",
+        "size_bytes": 420
+      },
+      {
+        "path": "ch3_config.py",
+        "sha256": "ba9476d9a865ff810299be05e11b41c38a93f818f1ca57d1be7b9218c0c7ac7f",
+        "size_bytes": 6164
+      },
+      {
+        "path": "ch3_constants.py",
+        "sha256": "aa650c77f0f3dd9ef8846c4eda762941c2bc5cc7818c9675996d75ba714d86a3",
+        "size_bytes": 1543
+      },
+      {
+        "path": "comm/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "comm/basic_communication.py",
+        "sha256": "cde58122008981ae4fa29fb003310824ebd6c7116452a2bfd272eaa9b784c595",
+        "size_bytes": 2704
+      },
+      {
+        "path": "env.py",
+        "sha256": "8b2eb96473a25ec5a36bfc42f6da7207a4db1fbc21b5cf04de00f594f39cad91",
+        "size_bytes": 116250
+      },
+      {
+        "path": "map/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "map/map_module.py",
+        "sha256": "21cd5be94738c0b85cdead218e480925b42abc42a53190f4870f066347a3a907",
+        "size_bytes": 45408
+      },
+      {
+        "path": "map/path_planner.py",
+        "sha256": "6efb9d8745d63784eeec2f6a75c11e311f0c5aad77ccff6c6e548f6b546f0cbd",
+        "size_bytes": 77116
+      },
+      {
+        "path": "metrics.py",
+        "sha256": "bedf29a47199064e88ac29a8bd21d13a573be7612c2e81242b51b0481504ea1a",
+        "size_bytes": 5438
+      },
+      {
+        "path": "registry/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "registry/ch3_efficiency_v3_registry.py",
+        "sha256": "5b9d39fbead69800e3f472c8b6169b90a14f33a206718575110866529b530300",
+        "size_bytes": 6294
+      },
+      {
+        "path": "registry/experiment_registry.py",
+        "sha256": "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61",
+        "size_bytes": 1230
+      },
+      {
+        "path": "runtime.py",
+        "sha256": "156d103298bced92c2fce4bdcd56dfab78ac3df1a5f5464c10104e8346eca988",
+        "size_bytes": 3454
+      },
+      {
+        "path": "SOURCE_HASHES.json",
+        "sha256": "3cdbb246ac209ff1df80e2f6ce11aee0c787fa96e57398b53c5a018bbad0d6dc",
+        "size_bytes": 11037
+      },
+      {
+        "path": "target_motion.py",
+        "sha256": "8e2cd1fc585bd3b148a1f0ff87ab8eb758bfe3db9142792d40da987b7ec5fde0",
+        "size_bytes": 15956
+      },
+      {
+        "path": "tools/__init__.py",
+        "sha256": "341bfc8fffe8db4ccb0a0733949299f300a89ba7112162c81a115deae2017dbc",
+        "size_bytes": 33
+      },
+      {
+        "path": "tools/build_ch3_scenarios.py",
+        "sha256": "e49d9baba61afe3ef5e001034d14e02bbbaf2f621f609b3505bf73f7f827b59a",
+        "size_bytes": 40352
+      },
+      {
+        "path": "train.py",
+        "sha256": "5578263a44d46d0484cefd19c6476f6794f710d124d021c7fbbb60b1a4b5adb6",
+        "size_bytes": 59722
+      },
+      {
+        "path": "training.py",
+        "sha256": "da5f2c88a0cb838d5a3ac629aa22691be3e35a946a5d92032dd3473f71dd5173",
+        "size_bytes": 29292
+      },
+      {
+        "path": "utils/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "utils/agents.py",
+        "sha256": "bbf8d504e05548a5792b7e0107c315ac52e20883220e65a70b0188031b984ad4",
+        "size_bytes": 5403
+      },
+      {
+        "path": "utils/ch3_buffer.py",
+        "sha256": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42",
+        "size_bytes": 9134
+      },
+      {
+        "path": "utils/misc.py",
+        "sha256": "aeec704d3bc84afa0e321f6870d81ec6841616793168160905eeac956f5bc53f",
+        "size_bytes": 1785
+      },
+      {
+        "path": "utils/networks.py",
+        "sha256": "fe28d54150c245f698418c57b850db44225a8fd65f8119ca38469270d5be54cc",
+        "size_bytes": 1246
+      },
+      {
+        "path": "utils/noise.py",
+        "sha256": "3d3fb7c0248d3900900ab311d6d3c68dd41b33216a04c70435ad2a5b1163fe9f",
+        "size_bytes": 1149
+      },
+      {
+        "path": "utils/provenance.py",
+        "sha256": "80fbfc51a5e3da276b805dd4b4081330ff804116164a3fb56eea398c5c001402",
+        "size_bytes": 11874
+      }
+    ]
+  },
+  "phase0b1_tests": {
+    "passed": 6,
+    "total": 6
+  },
+  "schema": "phase0b2.pre_migration_hashes.v1"
+}

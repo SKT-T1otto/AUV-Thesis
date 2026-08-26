@@ -1,0 +1,254 @@
+{
+  "schema": "phase0a1.environment_contract.v1",
+  "repository": "CH5",
+  "constructor": "env.UAVEnv(max_steps=10, device=cpu, return_numpy=False where accepted)",
+  "smoke_protocol": {
+    "seed": 1729,
+    "reset_count": 1,
+    "action": "all-zero legal action",
+    "step_count": 3
+  },
+  "n_agents": 4,
+  "role_order": [
+    "search_fast",
+    "search_balanced",
+    "search_precise",
+    "executor"
+  ],
+  "observation_dimensions": [
+    139,
+    139,
+    139,
+    139
+  ],
+  "observation_shapes_after_reset": [
+    [
+      139
+    ],
+    [
+      139
+    ],
+    [
+      139
+    ],
+    [
+      139
+    ]
+  ],
+  "observation_layout": [
+    {
+      "name": "position",
+      "slice": [
+        0,
+        3
+      ]
+    },
+    {
+      "name": "velocity",
+      "slice": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "navigation_target_delta",
+      "slice": [
+        6,
+        9
+      ]
+    },
+    {
+      "name": "navigation_target_direction",
+      "slice": [
+        9,
+        12
+      ]
+    },
+    {
+      "name": "known_target_delta",
+      "slice": [
+        12,
+        15
+      ]
+    },
+    {
+      "name": "navigation_distance",
+      "slice": [
+        15,
+        16
+      ]
+    },
+    {
+      "name": "speed",
+      "slice": [
+        16,
+        17
+      ]
+    },
+    {
+      "name": "closing_speed",
+      "slice": [
+        17,
+        18
+      ]
+    },
+    {
+      "name": "nearest_obstacle_distance",
+      "slice": [
+        18,
+        19
+      ]
+    },
+    {
+      "name": "waypoint_progress",
+      "slice": [
+        19,
+        20
+      ]
+    },
+    {
+      "name": "agent_finished",
+      "slice": [
+        20,
+        21
+      ]
+    },
+    {
+      "name": "hold_progress",
+      "slice": [
+        21,
+        22
+      ]
+    },
+    {
+      "name": "role_onehot",
+      "slice": [
+        22,
+        26
+      ]
+    },
+    {
+      "name": "target_knowledge_phase",
+      "slice": [
+        26,
+        28
+      ]
+    },
+    {
+      "name": "neighbor_0_communication_block",
+      "slice": [
+        28,
+        65
+      ]
+    },
+    {
+      "name": "neighbor_1_communication_block",
+      "slice": [
+        65,
+        102
+      ]
+    },
+    {
+      "name": "neighbor_2_communication_block",
+      "slice": [
+        102,
+        139
+      ]
+    }
+  ],
+  "action_dimensions": [
+    3,
+    3,
+    3,
+    3
+  ],
+  "action_semantics": "Per-agent normalized 3-D residual acceleration command; clipped and scaled, then combined with the waypoint/navigation prior.",
+  "reward_vector_shape": [
+    4
+  ],
+  "found_definition": "A search agent detects the target within the configured sensor/detection radius; task_found becomes true and finder/found step are recorded.",
+  "handoff_definition": "Target knowledge must be delivered to/assigned to the executor through the repository communication mechanism; receipt step determines handoff delay.",
+  "mission_complete_definition": "The executor reaches/captures the assigned target and satisfies the configured consecutive hold requirement.",
+  "target_motion_mode": "static",
+  "obstacle_semantics": "3-D obstacle collision/proximity semantics; default constructor obstacle enable/state is recorded from live attributes.",
+  "obstacle_default_enabled": false,
+  "disturbance_state": {
+    "enabled_at_default_construction": false,
+    "semantics": "Chapter-4/5 plant disturbances are constructor/config driven and are disabled in this nominal contract smoke unless defaults enable them."
+  },
+  "communication_state": {
+    "mode": "acoustic/dynamic communication state",
+    "per_neighbor_features": 37,
+    "semantics": "CH5 includes acoustic loss/delay/bandwidth/TTL queues and semantic communication."
+  },
+  "reset_state_sha256": "041889d496d7c59d5cd07a1f330fb82960fd9000b52b1b32e973b02bc2495a0d",
+  "reset_state_fields": [
+    "step_count",
+    "task_found",
+    "finder_idx",
+    "mission_complete",
+    "executor_target_assigned",
+    "_found_step",
+    "_executor_received_target_step",
+    "_agent_pos",
+    "_agent_vel",
+    "_agent_acc",
+    "_prev_acc",
+    "_nav_targets",
+    "_targets",
+    "agent_finished",
+    "hold_counters",
+    "_agent_task_known",
+    "_agent_task_est",
+    "obstacles",
+    "_comm_matrix",
+    "_comm_messages",
+    "_lower_delivered_messages",
+    "_lower_delivered_steps",
+    "_lower_delivered_quality",
+    "_lower_delivered_state",
+    "_lower_delivered_mask",
+    "_lower_link_state",
+    "_upper_link_state",
+    "_upper_belief_pos",
+    "_upper_belief_vel",
+    "_upper_belief_valid",
+    "_actuator_scale_xy",
+    "_actuator_scale_z"
+  ],
+  "three_step_state_sha256": "adc14d136d9143f38a202f6edd4dc9be30cd132a468a139689261a96a6a8fa02",
+  "three_step_state_fields": [
+    "step_count",
+    "task_found",
+    "finder_idx",
+    "mission_complete",
+    "executor_target_assigned",
+    "_found_step",
+    "_executor_received_target_step",
+    "_agent_pos",
+    "_agent_vel",
+    "_agent_acc",
+    "_prev_acc",
+    "_nav_targets",
+    "_targets",
+    "agent_finished",
+    "hold_counters",
+    "_agent_task_known",
+    "_agent_task_est",
+    "obstacles",
+    "_comm_matrix",
+    "_comm_messages",
+    "_lower_delivered_messages",
+    "_lower_delivered_steps",
+    "_lower_delivered_quality",
+    "_lower_delivered_state",
+    "_lower_delivered_mask",
+    "_lower_link_state",
+    "_upper_link_state",
+    "_upper_belief_pos",
+    "_upper_belief_vel",
+    "_upper_belief_valid",
+    "_actuator_scale_xy",
+    "_actuator_scale_z"
+  ]
+}

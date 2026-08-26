@@ -1,0 +1,5 @@
+method,obstacle_event_count,route_impact_ratio,route_impacted_count
+No-BSER-static,0,0.0,0
+Periodic-BSER,0,0.0,0
+Event-BSER-phase1b_v1,163,0.0,0
+Event-BSER-phase1b1_corrected,181,0.4585635359116022,83

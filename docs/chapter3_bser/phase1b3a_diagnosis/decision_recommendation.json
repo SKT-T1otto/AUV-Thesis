@@ -1,0 +1,47 @@
+{
+  "recommendations": [
+    {
+      "recommendation": "Split EXECUTOR_RESPONSE_DEGRADED from hard route invalidation.",
+      "rule": 1,
+      "triggered": false
+    },
+    {
+      "recommendation": "Use assignment_version plus map_revision for executor-event deduplication.",
+      "rule": 2,
+      "triggered": true
+    },
+    {
+      "recommendation": "Split edge-triggered SEARCH_WAYPOINT_REACHED from WAYPOINT_STALE.",
+      "rule": 3,
+      "triggered": false
+    },
+    {
+      "recommendation": "Create a separate SEARCH_WAYPOINT_UNREACHABLE event.",
+      "rule": 4,
+      "triggered": true
+    },
+    {
+      "recommendation": "Add replan_executor_standby() without search-candidate dependency.",
+      "rule": 5,
+      "triggered": true
+    },
+    {
+      "recommendation": "Treat public-target lock violations as a Phase 1B.3B blocker.",
+      "rule": 6,
+      "triggered": false
+    },
+    {
+      "recommendation": "Do not describe reachable soft degradation in successful episodes as executor failure.",
+      "rule": 7,
+      "triggered": true
+    }
+  ],
+  "schema": "bser.phase1b3a.decision.v1",
+  "status": "RECOMMENDATIONS_ONLY",
+  "triggered_rule_numbers": [
+    2,
+    4,
+    5,
+    7
+  ]
+}

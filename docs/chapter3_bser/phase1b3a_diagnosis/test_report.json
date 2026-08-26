@@ -1,0 +1,42 @@
+{
+  "active_suite": {
+    "active_test_count": 99,
+    "discovered_test_count": 103,
+    "error_count": 0,
+    "failure_count": 0,
+    "passed": true,
+    "passed_count": 99,
+    "runtime_seconds": 673.4749991999997,
+    "schema": "bser.phase1b1.active_test_report.v1",
+    "skipped_count": 0,
+    "superseded_test_count": 4,
+    "superseded_tests": [
+      "test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest.test_all_v1_files_match_before_manifest",
+      "test_ch3_e0_equivalence.E0DeliveryTests.test_full_e0_passed",
+      "test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+      "test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_completed_phase0b2"
+    ],
+    "tests_run": 99
+  },
+  "error_count": 0,
+  "failure_count": 0,
+  "schema": "bser.phase1b3a.test_report.v1",
+  "specialized": {
+    "error_count": 0,
+    "failure_count": 0,
+    "modules": [
+      "tests.test_phase1b3a_reason_partition",
+      "tests.test_phase1b3a_behavior_preservation",
+      "tests.test_phase1b3a_duplicate_event_keys",
+      "tests.test_phase1b3a_public_information_only",
+      "tests.test_phase1b3a_case_manifest"
+    ],
+    "passed": true,
+    "passed_count": 12,
+    "runtime_seconds": 0.2934620999985782,
+    "schema": "bser.phase1b3a.specialized_tests.v1",
+    "skipped_count": 0,
+    "tests_run": 12
+  },
+  "status": "PASS_PHASE1B3A_DIAGNOSIS"
+}

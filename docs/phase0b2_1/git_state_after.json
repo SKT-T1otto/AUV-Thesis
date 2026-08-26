@@ -1,0 +1,17 @@
+{
+  "schema": "phase0b2_1.git_state_after.v1",
+  "branch": "phase0b2-remote-closure",
+  "verified_candidate_head": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "remote_branch_head_at_verification": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "origin_main": "5b186a7adf95d7bdc8d37653610e771d7028d33a",
+  "origin_main_modified": false,
+  "common_history_with_origin_main": false,
+  "fast_forward_to_verified_branch_possible": false,
+  "remote_tag": "phase0b2-remote-verified-v1",
+  "remote_tag_object": "7258adbd094d065d355849ee912c5a87d1a982e5",
+  "remote_tag_target": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "candidate_working_tree_clean_before_push": true,
+  "force_push_used": false,
+  "main_push_used": false,
+  "note": "The later delivery-report commit contains documentation only; its final SHA is reported by Git and in the task handoff."
+}

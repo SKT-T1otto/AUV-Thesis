@@ -1,0 +1,34 @@
+{
+  "schema": "phase0b2_1.local_verification.v1",
+  "candidate_head": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "full_test_count": 20,
+  "full_tests_passed": 20,
+  "full_tests_failed": 0,
+  "required_regression_tests_passed": 4,
+  "metadata_tests_passed": 3,
+  "core_only_e0": {
+    "completed": 60,
+    "passed": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "golden_manifest_sha256": "b51987de18e93051fcdd7bb88025308f46bdada8fcc6b56a7b84f010ebbe54b9"
+  },
+  "training_smoke": {
+    "status": "PASS",
+    "device": "cpu",
+    "episodes": 2,
+    "episode_steps": [10, 10],
+    "transitions_pushed": 20,
+    "actor_update_completed": true,
+    "actor_loss_finite": true,
+    "critic_update_completed": true,
+    "critic_loss_finite": true,
+    "checkpoint_roundtrip_passed": true,
+    "post_load_step_completed": true,
+    "checkpoint_persisted_in_repository": false
+  },
+  "source_provenance_passed": 27,
+  "legacy_runtime_import_count": 0,
+  "sys_path_injection_count": 0,
+  "external_sibling_dependency_count": 0
+}

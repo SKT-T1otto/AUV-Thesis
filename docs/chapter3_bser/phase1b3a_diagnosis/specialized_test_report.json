@@ -1,0 +1,17 @@
+{
+  "error_count": 0,
+  "failure_count": 0,
+  "modules": [
+    "tests.test_phase1b3a_reason_partition",
+    "tests.test_phase1b3a_behavior_preservation",
+    "tests.test_phase1b3a_duplicate_event_keys",
+    "tests.test_phase1b3a_public_information_only",
+    "tests.test_phase1b3a_case_manifest"
+  ],
+  "passed": true,
+  "passed_count": 12,
+  "runtime_seconds": 0.2934620999985782,
+  "schema": "bser.phase1b3a.specialized_tests.v1",
+  "skipped_count": 0,
+  "tests_run": 12
+}

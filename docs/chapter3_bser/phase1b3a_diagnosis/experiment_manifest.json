@@ -1,0 +1,33 @@
+{
+  "cases": [
+    [
+      2729,
+      2
+    ],
+    [
+      2731,
+      1
+    ],
+    [
+      2731,
+      3
+    ],
+    [
+      2732,
+      3
+    ],
+    [
+      2733,
+      0
+    ]
+  ],
+  "diagnosis_only": true,
+  "formal_training": false,
+  "max_steps": 400,
+  "method": "Event-BSER-phase1b2_corrected",
+  "oracle_access": false,
+  "planned_condition_episode_count": 5,
+  "profile": "M20_MOVING_UNKNOWN_MULTI",
+  "schema": "bser.phase1b3a.experiment.v1",
+  "state_refresh_interval": 20
+}

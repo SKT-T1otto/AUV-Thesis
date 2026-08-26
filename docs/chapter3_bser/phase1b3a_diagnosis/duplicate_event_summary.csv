@@ -1,0 +1,3 @@
+consecutive_repeat_count,event_type,maximum_consecutive_run_length,repeated_same_key_count,repeated_same_key_share,repeated_without_assignment_change_count,repeated_without_map_change_count,repeated_without_phase_change_count,total_event_count,unique_event_key_count
+1807,EXECUTOR_INVALID,241,1807,0.9500525762355415,1884,1813,1892,1902,95
+3370,WAYPOINT_STALE,20,3370,0.9460976979225154,3523,3370,3550,3562,192

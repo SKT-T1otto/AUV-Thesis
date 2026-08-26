@@ -1,0 +1,7 @@
+{
+  "branch": "chapter3-bser-phase1b",
+  "commit": "2c8483e8e360697cba19f0a0e3acb3119a33475c",
+  "phase1a1_summary_sha256": "4c75b8e593e5afd276f181f3ae072a7ebd04280c3fccb133e2039a8154e150bc",
+  "schema": "bser.phase1b.git_baseline.v1",
+  "tag": "chapter3-bser-phase1a1-e1v2-verified-v1"
+}

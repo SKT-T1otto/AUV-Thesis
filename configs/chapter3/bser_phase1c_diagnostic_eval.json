@@ -1,0 +1,37 @@
+{
+  "schema": "bser.phase1c.diagnostic_eval.v1",
+  "method": "ch3_bser_rmaddpg_phase1c",
+  "implementation_version": "diagnostics.v1",
+  "base_candidate": "ch3_v3_full_reference",
+  "profile": "M20_MOVING_UNKNOWN_MULTI",
+  "evaluation_episodes": 200,
+  "scenario_count": 200,
+  "max_steps": 400,
+  "workers": 4,
+  "scenario_seed": 1729,
+  "evaluation_seed": 1729,
+  "split": "validation",
+  "explore": false,
+  "training_update": false,
+  "device": "cpu",
+  "observation_dim": 28,
+  "action_dim": 3,
+  "critic_dim": 124,
+  "modes": [
+    "full_residual",
+    "executor_residual_off",
+    "all_residual_off",
+    "oracle_current_target_diagnostic"
+  ],
+  "checkpoints": [],
+  "checkpoint_globs": [],
+  "output_dir": "outputs/chapter3/phase1c_bser_rmaddpg/diagnostics_v1",
+  "rl": {
+    "gamma": 0.95,
+    "tau": 0.005,
+    "lr_actor": 0.001,
+    "lr_critic": 0.0005,
+    "hidden_dim": 128,
+    "residual_action_reg": 0.01
+  }
+}

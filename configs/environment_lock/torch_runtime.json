@@ -1,0 +1,25 @@
+{
+  "torch_version": "2.11.0+cu126",
+  "torch_file": "D:\\anaconda\\anaconda\\envs\\AUV\\Lib\\site-packages\\torch\\__init__.py",
+  "cuda_compiled_version": "12.6",
+  "cuda_available": true,
+  "cudnn_version": 91002,
+  "mps_available": false,
+  "default_dtype": "torch.float32",
+  "num_threads": 14,
+  "num_interop_threads": 14,
+  "gpu_devices": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "capability": [
+        8,
+        6
+      ]
+    }
+  ],
+  "environment": {
+    "CONDA_PREFIX": "D:\\anaconda\\anaconda",
+    "CONDA_DEFAULT_ENV": "base"
+  }
+}

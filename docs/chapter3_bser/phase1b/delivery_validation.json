@@ -1,0 +1,46 @@
+{
+  "schema": "bser.phase1b.delivery_validation.v1",
+  "status": "PASS_BSER_PHASE1B_ONLINE",
+  "branch": "chapter3-bser-phase1b",
+  "base_tag": "chapter3-bser-phase1a1-e1v2-verified-v1",
+  "base_commit": "2c8483e8e360697cba19f0a0e3acb3119a33475c",
+  "implementation_commit": "4063a2382f984841410fd8651ce3e5755b93a3fe",
+  "added_file_count": 49,
+  "core_changed_file_count": 0,
+  "phase1a1_assets_changed": false,
+  "event_enum_value_count": 7,
+  "semantic_event_count_excluding_periodic_control": 6,
+  "online_controller_complete": true,
+  "hysteresis_complete": true,
+  "online_allocator_runnable": true,
+  "formal_training_run": false,
+  "oracle_target_used": false,
+  "thresholds_tuned_from_results": false,
+  "local_tests": {
+    "passed": 69,
+    "failed": 0,
+    "phase1b_requested_tests_passed": 9
+  },
+  "e2": {
+    "planned_condition_episodes": 100,
+    "completed_condition_episodes": 100,
+    "failure_count": 0,
+    "primary_method_count": 3,
+    "ablation_count": 4,
+    "deterministic_summary_sha256": "9874e3c3a0a84567c21a964e74567b3b58f4cce925f975e1d7c79a0b0b64743a"
+  },
+  "remote_clean_clone": {
+    "verified": true,
+    "path": "C:\\tmp\\CH_BSER_PHASE1B_REMOTE_VERIFY_4063a23",
+    "commit": "4063a2382f984841410fd8651ce3e5755b93a3fe",
+    "tests_passed": 69,
+    "tests_failed": 0,
+    "test_seconds": 333.885,
+    "e2_completed_condition_episodes": 100,
+    "e2_failure_count": 0,
+    "e2_deterministic_summary_sha256": "9874e3c3a0a84567c21a964e74567b3b58f4cce925f975e1d7c79a0b0b64743a",
+    "deterministic_files_byte_identical": 8,
+    "episode_metrics_equal_excluding_runtime_seconds": true
+  },
+  "allow_phase1c": true
+}

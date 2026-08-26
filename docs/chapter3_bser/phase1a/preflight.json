@@ -1,0 +1,36 @@
+{
+  "schema": "bser.phase1a.preflight.v1",
+  "base_branch": "origin/phase0b2-remote-closure",
+  "base_head": "cf9b6e1de8a2ddf5bd992ff6dad20f8de13971a5",
+  "base_verified_tag": "phase0b2-remote-verified-v1",
+  "base_verified_tag_commit": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "verified_tag_is_ancestor": true,
+  "unittest": {
+    "tests_run": 20,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "e0": {
+    "completed": 60,
+    "passed": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "golden_summary_sha256": "b51987de18e93051fcdd7bb88025308f46bdada8fcc6b56a7b84f010ebbe54b9"
+  },
+  "training_smoke": {
+    "passed": true,
+    "device": "cpu",
+    "episodes": 2,
+    "steps_per_episode": 10,
+    "transitions": 20,
+    "actor_update_finite": true,
+    "critic_update_finite": true,
+    "checkpoint_roundtrip": true,
+    "post_load_step": true,
+    "repository_checkpoint_written": false,
+    "summary_sha256": "0de155d0e8532258a259c9fc47bab49d02bea6d901b08c06e19b6095ca02565f"
+  },
+  "formal_training_run": false,
+  "passed": true
+}

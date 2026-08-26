@@ -1,0 +1,37 @@
+{
+  "schema": "phase0b2_1.remote_clone_verification.v1",
+  "remote": "https://github.com/SKT-T1otto/CH.git",
+  "branch": "phase0b2-remote-closure",
+  "verified_head": "edcc2a9acd5bb8b0f2584fd58aa07ff2f3900925",
+  "initial_working_tree_clean": true,
+  "head_matches_pushed_candidate": true,
+  "required_files_present": 10,
+  "required_files_missing": [],
+  "gitattributes_effective": true,
+  "full_test_count": 20,
+  "full_tests_passed": 20,
+  "full_tests_failed": 0,
+  "core_only_e0": {
+    "completed": 60,
+    "passed": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "golden_manifest_unchanged": true
+  },
+  "training_smoke": {
+    "status": "PASS",
+    "episodes": 2,
+    "episode_steps": [10, 10],
+    "actor_update_finite": true,
+    "critic_update_finite": true,
+    "checkpoint_roundtrip_passed": true,
+    "post_load_step_completed": true
+  },
+  "source_provenance_passed": 27,
+  "legacy_snapshot_present": false,
+  "sibling_repository_paths_present": false,
+  "tracked_checkpoint_count": 0,
+  "tracked_raw_data_directory_count": 0,
+  "largest_tracked_file_bytes": 237211,
+  "note": "E0 updated three derived summary/hash files in the disposable clone; the frozen golden manifest remained unchanged."
+}

@@ -1,0 +1,5 @@
+accepted_replan_count,collision_count,episode_count,executor_invalid_count,found_rate,mean_completion_step_success_only,mean_completion_step_truncated,mean_replans,method,optimizer_invocation_count,partial_reallocation_attempt_count,partial_reallocation_success_count,partial_reallocation_success_rate,path_tracking_error,rejected_replan_count,route_impact_ratio,success_rate,total_switch_distance,waypoint_stale_count,waypoint_switch_count
+0,489,20,0,0.45,261.3333333333333,379.2,0.0,No-BSER-static,0,0,0,0.0,4.327761926881497,0,0.0,0.15,0.0,0,0
+383,476,20,0,0.45,321.25,384.25,19.15,Periodic-BSER,383,0,0,0.0,1.7900588478306656,0,0.0,0.2,3818.168273347548,0,757
+185,0,20,7611,0.4,376.0,398.8,9.25,Event-BSER-phase1b1,1363,1222,64,0.05237315875613748,3.0892834723311218,7725,0.6645962732919255,0.05,1793.3321693247703,7761,199
+75,152,20,7705,0.4,369.5,396.95,3.75,Event-BSER-phase1b2_corrected,553,369,37,0.1002710027100271,3.6826114139258004,7802,0.7847222222222222,0.1,1134.7424265655475,5398,115

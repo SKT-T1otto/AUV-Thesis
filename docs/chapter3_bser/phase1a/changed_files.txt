@@ -1,0 +1,90 @@
+﻿# Phase 1A tracked files changed or created relative to base cf9b6e1
+
+chapter3_bser/__init__.py
+chapter3_bser/baselines/__init__.py
+chapter3_bser/baselines/legacy_pse_snapshot.py
+chapter3_bser/baselines/random_allocator.py
+chapter3_bser/baselines/search_only_allocator.py
+chapter3_bser/candidate_generator.py
+chapter3_bser/config.py
+chapter3_bser/detection_model.py
+chapter3_bser/exact_solver.py
+chapter3_bser/experiments/__init__.py
+chapter3_bser/experiments/instance_builder.py
+chapter3_bser/experiments/plot_e1.py
+chapter3_bser/experiments/run_e1_offline.py
+chapter3_bser/greedy_solver.py
+chapter3_bser/lazy_greedy_solver.py
+chapter3_bser/metrics.py
+chapter3_bser/objective.py
+chapter3_bser/README.md
+chapter3_bser/standby_optimizer.py
+chapter3_bser/types.py
+configs/chapter3/bser_phase1a.json
+core/mapping/planning_state.py
+core/mapping/travel_cost_service.py
+docs/chapter3_bser/phase1a/architecture.md
+docs/chapter3_bser/phase1a/candidate_model.md
+docs/chapter3_bser/phase1a/changed_files.txt
+docs/chapter3_bser/phase1a/core_freeze_after.json
+docs/chapter3_bser/phase1a/core_freeze_before.json
+docs/chapter3_bser/phase1a/core_freeze_report.md
+docs/chapter3_bser/phase1a/delivery_validation.json
+docs/chapter3_bser/phase1a/e1_results.md
+docs/chapter3_bser/phase1a/exact_solver_validation.md
+docs/chapter3_bser/phase1a/greedy_validation.md
+docs/chapter3_bser/phase1a/information_boundary.md
+docs/chapter3_bser/phase1a/local_verification.json
+docs/chapter3_bser/phase1a/mathematical_contract.md
+docs/chapter3_bser/phase1a/phase1a_summary.md
+docs/chapter3_bser/phase1a/preflight.json
+docs/chapter3_bser/phase1a/preflight.md
+docs/chapter3_bser/phase1a/remote_verification.json
+docs/chapter3_bser/phase1a/test_report.md
+docs/chapter3_bser/phase1a/unresolved_issues.md
+experiments/chapter3/bser_e1_offline/aggregate_by_profile.csv
+experiments/chapter3/bser_e1_offline/aggregate_by_protocol_slice.csv
+experiments/chapter3/bser_e1_offline/aggregate_by_solver.csv
+experiments/chapter3/bser_e1_offline/baseline_comparison.csv
+experiments/chapter3/bser_e1_offline/candidate_statistics.csv
+experiments/chapter3/bser_e1_offline/config_snapshot.json
+experiments/chapter3/bser_e1_offline/determinism_manifest.json
+experiments/chapter3/bser_e1_offline/e1_summary.json
+experiments/chapter3/bser_e1_offline/e1_summary.md
+experiments/chapter3/bser_e1_offline/experiment_manifest.json
+experiments/chapter3/bser_e1_offline/failure_cases.csv
+experiments/chapter3/bser_e1_offline/instance_manifest.csv
+experiments/chapter3/bser_e1_offline/instance_manifest.json
+experiments/chapter3/bser_e1_offline/per_instance_results.csv
+experiments/chapter3/bser_e1_offline/property_check_results.csv
+experiments/chapter3/bser_e1_offline/skipped_instances.csv
+experiments/chapter3/bser_e1_offline/solver_scalability.csv
+experiments/chapter3/bser_e1_offline/test_report.md
+experiments/chapter3/bser_e1_offline/typical_case.json
+tests/bser_test_utils.py
+tests/test_bser_candidate_generation.py
+tests/test_bser_detection_probability.py
+tests/test_bser_determinism.py
+tests/test_bser_e1_smoke.py
+tests/test_bser_exact_solver.py
+tests/test_bser_greedy_bound.py
+tests/test_bser_joint_standby_bound.py
+tests/test_bser_lazy_equivalence.py
+tests/test_bser_monotonicity.py
+tests/test_bser_no_ground_truth_leakage.py
+tests/test_bser_objective.py
+tests/test_bser_partition_constraint.py
+tests/test_bser_planning_state_readonly.py
+tests/test_bser_submodularity.py
+tests/test_bser_travel_cost_purity.py
+tests/test_phase1a_core_freeze.py
+tests/test_repository_metadata.py
+tools/verify_bser_core_freeze.py
+
+# Generated locally and intentionally ignored by Git
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/bser_vs_search_only_response.png
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/candidate_scale_runtime.png
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/greedy_exact_ratio_distribution.png
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/m20_typical_belief_allocation_3d.png
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/objective_by_profile.png
+[ignored-generated] experiments/chapter3/bser_e1_offline/figures/generated/standard_vs_lazy_runtime.png

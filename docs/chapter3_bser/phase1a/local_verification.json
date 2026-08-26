@@ -1,0 +1,39 @@
+{
+  "schema": "bser.phase1a.local_verification.v1",
+  "branch": "chapter3-bser-phase1a",
+  "base_head": "cf9b6e1de8a2ddf5bd992ff6dad20f8de13971a5",
+  "unittest": {
+    "tests_run": 37,
+    "passed": 37,
+    "failures": 0,
+    "errors": 0
+  },
+  "e0": {
+    "completed": 60,
+    "passed": 60,
+    "maximum_absolute_difference": 0.0,
+    "task_event_mismatch_count": 0,
+    "golden_manifest_sha256": "b51987de18e93051fcdd7bb88025308f46bdada8fcc6b56a7b84f010ebbe54b9"
+  },
+  "training_smoke": {
+    "status": "PASS",
+    "device": "cpu",
+    "episodes": 2,
+    "steps_per_episode": 10,
+    "transitions": 20,
+    "actor_update_finite": true,
+    "critic_update_finite": true,
+    "checkpoint_roundtrip": true,
+    "post_load_step": true,
+    "repository_checkpoint_written": false,
+    "temporary_checkpoint_sha256": "0de155d08c8a5d30eecbc097e7f55bb054a8ff0a940ab94e71c2c6a0a98f0fbd"
+  },
+  "e1": {
+    "valid_instances": 180,
+    "skipped_instances": 60,
+    "deterministic_summary_sha256": "d3e4ffd9eb05e13406de622931e9810df8a7a0647a43ea532dc8b53d2c09bfe7",
+    "passed": true
+  },
+  "core_existing_python_files_changed": 0,
+  "passed": true
+}

@@ -1,0 +1,229 @@
+{
+  "authority": "WORKSPACE/CH3 current working baseline",
+  "copy_policy": "byte-for-byte; no formatting; source code only; no data/log/checkpoint/eval/diagnostic/output/cache",
+  "created_at_utc": "2026-08-02T09:33:13.768500+00:00",
+  "files": [
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 0,
+      "snapshot_relative_path": "algorithms/__init__.py",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_relative_path": "algorithms/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 18974,
+      "snapshot_relative_path": "algorithms/maddpg.py",
+      "snapshot_sha256": "b49ffe858df40f9e05c0127b37ad8930b2f593f26eeb7bec056be845e8939cb2",
+      "source_relative_path": "algorithms/maddpg.py",
+      "source_sha256": "b49ffe858df40f9e05c0127b37ad8930b2f593f26eeb7bec056be845e8939cb2"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 420,
+      "snapshot_relative_path": "base_env.py",
+      "snapshot_sha256": "e64ed6ef16b9136b3dff86583525cc50de7010278319b6bc268b7792ae2918b4",
+      "source_relative_path": "base_env.py",
+      "source_sha256": "e64ed6ef16b9136b3dff86583525cc50de7010278319b6bc268b7792ae2918b4"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 6164,
+      "snapshot_relative_path": "ch3_config.py",
+      "snapshot_sha256": "ba9476d9a865ff810299be05e11b41c38a93f818f1ca57d1be7b9218c0c7ac7f",
+      "source_relative_path": "ch3_config.py",
+      "source_sha256": "ba9476d9a865ff810299be05e11b41c38a93f818f1ca57d1be7b9218c0c7ac7f"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 1543,
+      "snapshot_relative_path": "ch3_constants.py",
+      "snapshot_sha256": "aa650c77f0f3dd9ef8846c4eda762941c2bc5cc7818c9675996d75ba714d86a3",
+      "source_relative_path": "ch3_constants.py",
+      "source_sha256": "aa650c77f0f3dd9ef8846c4eda762941c2bc5cc7818c9675996d75ba714d86a3"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 0,
+      "snapshot_relative_path": "comm/__init__.py",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_relative_path": "comm/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 2704,
+      "snapshot_relative_path": "comm/basic_communication.py",
+      "snapshot_sha256": "cde58122008981ae4fa29fb003310824ebd6c7116452a2bfd272eaa9b784c595",
+      "source_relative_path": "comm/basic_communication.py",
+      "source_sha256": "cde58122008981ae4fa29fb003310824ebd6c7116452a2bfd272eaa9b784c595"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 116250,
+      "snapshot_relative_path": "env.py",
+      "snapshot_sha256": "8b2eb96473a25ec5a36bfc42f6da7207a4db1fbc21b5cf04de00f594f39cad91",
+      "source_relative_path": "env.py",
+      "source_sha256": "8b2eb96473a25ec5a36bfc42f6da7207a4db1fbc21b5cf04de00f594f39cad91"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 0,
+      "snapshot_relative_path": "map/__init__.py",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_relative_path": "map/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 45408,
+      "snapshot_relative_path": "map/map_module.py",
+      "snapshot_sha256": "21cd5be94738c0b85cdead218e480925b42abc42a53190f4870f066347a3a907",
+      "source_relative_path": "map/map_module.py",
+      "source_sha256": "21cd5be94738c0b85cdead218e480925b42abc42a53190f4870f066347a3a907"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 77116,
+      "snapshot_relative_path": "map/path_planner.py",
+      "snapshot_sha256": "6efb9d8745d63784eeec2f6a75c11e311f0c5aad77ccff6c6e548f6b546f0cbd",
+      "source_relative_path": "map/path_planner.py",
+      "source_sha256": "6efb9d8745d63784eeec2f6a75c11e311f0c5aad77ccff6c6e548f6b546f0cbd"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 5438,
+      "snapshot_relative_path": "metrics.py",
+      "snapshot_sha256": "bedf29a47199064e88ac29a8bd21d13a573be7612c2e81242b51b0481504ea1a",
+      "source_relative_path": "metrics.py",
+      "source_sha256": "bedf29a47199064e88ac29a8bd21d13a573be7612c2e81242b51b0481504ea1a"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 0,
+      "snapshot_relative_path": "registry/__init__.py",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_relative_path": "registry/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 6294,
+      "snapshot_relative_path": "registry/ch3_efficiency_v3_registry.py",
+      "snapshot_sha256": "5b9d39fbead69800e3f472c8b6169b90a14f33a206718575110866529b530300",
+      "source_relative_path": "registry/ch3_efficiency_v3_registry.py",
+      "source_sha256": "5b9d39fbead69800e3f472c8b6169b90a14f33a206718575110866529b530300"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 1230,
+      "snapshot_relative_path": "registry/experiment_registry.py",
+      "snapshot_sha256": "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61",
+      "source_relative_path": "registry/experiment_registry.py",
+      "source_sha256": "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 3454,
+      "snapshot_relative_path": "runtime.py",
+      "snapshot_sha256": "156d103298bced92c2fce4bdcd56dfab78ac3df1a5f5464c10104e8346eca988",
+      "source_relative_path": "runtime.py",
+      "source_sha256": "156d103298bced92c2fce4bdcd56dfab78ac3df1a5f5464c10104e8346eca988"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 15956,
+      "snapshot_relative_path": "target_motion.py",
+      "snapshot_sha256": "8e2cd1fc585bd3b148a1f0ff87ab8eb758bfe3db9142792d40da987b7ec5fde0",
+      "source_relative_path": "target_motion.py",
+      "source_sha256": "8e2cd1fc585bd3b148a1f0ff87ab8eb758bfe3db9142792d40da987b7ec5fde0"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 40352,
+      "snapshot_relative_path": "tools/build_ch3_scenarios.py",
+      "snapshot_sha256": "e49d9baba61afe3ef5e001034d14e02bbbaf2f621f609b3505bf73f7f827b59a",
+      "source_relative_path": "tools/build_ch3_scenarios.py",
+      "source_sha256": "e49d9baba61afe3ef5e001034d14e02bbbaf2f621f609b3505bf73f7f827b59a"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 59722,
+      "snapshot_relative_path": "train.py",
+      "snapshot_sha256": "5578263a44d46d0484cefd19c6476f6794f710d124d021c7fbbb60b1a4b5adb6",
+      "source_relative_path": "train.py",
+      "source_sha256": "5578263a44d46d0484cefd19c6476f6794f710d124d021c7fbbb60b1a4b5adb6"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 29292,
+      "snapshot_relative_path": "training.py",
+      "snapshot_sha256": "da5f2c88a0cb838d5a3ac629aa22691be3e35a946a5d92032dd3473f71dd5173",
+      "source_relative_path": "training.py",
+      "source_sha256": "da5f2c88a0cb838d5a3ac629aa22691be3e35a946a5d92032dd3473f71dd5173"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 0,
+      "snapshot_relative_path": "utils/__init__.py",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_relative_path": "utils/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 5403,
+      "snapshot_relative_path": "utils/agents.py",
+      "snapshot_sha256": "bbf8d504e05548a5792b7e0107c315ac52e20883220e65a70b0188031b984ad4",
+      "source_relative_path": "utils/agents.py",
+      "source_sha256": "bbf8d504e05548a5792b7e0107c315ac52e20883220e65a70b0188031b984ad4"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 9134,
+      "snapshot_relative_path": "utils/ch3_buffer.py",
+      "snapshot_sha256": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42",
+      "source_relative_path": "utils/ch3_buffer.py",
+      "source_sha256": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 1785,
+      "snapshot_relative_path": "utils/misc.py",
+      "snapshot_sha256": "aeec704d3bc84afa0e321f6870d81ec6841616793168160905eeac956f5bc53f",
+      "source_relative_path": "utils/misc.py",
+      "source_sha256": "aeec704d3bc84afa0e321f6870d81ec6841616793168160905eeac956f5bc53f"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 1246,
+      "snapshot_relative_path": "utils/networks.py",
+      "snapshot_sha256": "fe28d54150c245f698418c57b850db44225a8fd65f8119ca38469270d5be54cc",
+      "source_relative_path": "utils/networks.py",
+      "source_sha256": "fe28d54150c245f698418c57b850db44225a8fd65f8119ca38469270d5be54cc"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 1149,
+      "snapshot_relative_path": "utils/noise.py",
+      "snapshot_sha256": "3d3fb7c0248d3900900ab311d6d3c68dd41b33216a04c70435ad2a5b1163fe9f",
+      "source_relative_path": "utils/noise.py",
+      "source_sha256": "3d3fb7c0248d3900900ab311d6d3c68dd41b33216a04c70435ad2a5b1163fe9f"
+    },
+    {
+      "copied_at_utc": "2026-08-02T09:33:13.768500+00:00",
+      "size_bytes": 11874,
+      "snapshot_relative_path": "utils/provenance.py",
+      "snapshot_sha256": "80fbfc51a5e3da276b805dd4b4081330ff804116164a3fb56eea398c5c001402",
+      "source_relative_path": "utils/provenance.py",
+      "source_sha256": "80fbfc51a5e3da276b805dd4b4081330ff804116164a3fb56eea398c5c001402"
+    }
+  ],
+  "generated_package_files": [
+    "__init__.py",
+    "tools/__init__.py"
+  ],
+  "schema": "crk.ch3_source_snapshot.v1",
+  "source_file_count": 27
+}

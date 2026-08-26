@@ -1,0 +1,41 @@
+{
+  "schema": "bser.phase1b.config.v1",
+  "mechanism_version": "phase1b_v1",
+  "formal_training": false,
+  "thresholds_tuned_from_results": false,
+  "events": {
+    "belief_shift_threshold": 0.15,
+    "obstacle_mass_threshold": 0.5,
+    "periodic_refresh_steps": 100,
+    "waypoint_stale_distance": 0.75,
+    "enable_belief_trigger": true,
+    "enable_obstacle_trigger": true,
+    "enable_target_trigger": true
+  },
+  "hysteresis": {
+    "cooldown_steps": 20,
+    "minimum_gain_threshold": 0.01,
+    "enabled": true
+  },
+  "online": {
+    "state_refresh_interval": 20
+  },
+  "experiment": {
+    "profile": "M20_MOVING_UNKNOWN_MULTI",
+    "scenario_seeds": [1729, 1730, 1731, 1732, 1733],
+    "total_condition_episodes": 100,
+    "condition_episode_counts": {
+      "No-BSER-static": 20,
+      "Periodic-BSER": 20,
+      "Event-BSER": 20,
+      "Event-BSER-no-belief": 10,
+      "Event-BSER-no-obstacle": 10,
+      "Event-BSER-no-target": 10,
+      "Event-BSER-no-hysteresis": 10
+    },
+    "max_steps": 400,
+    "periodic_replan_steps": 20,
+    "methods": ["No-BSER-static", "Periodic-BSER", "Event-BSER"],
+    "ablations": ["Event-BSER-no-belief", "Event-BSER-no-obstacle", "Event-BSER-no-target", "Event-BSER-no-hysteresis"]
+  }
+}

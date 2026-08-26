@@ -1,0 +1,112 @@
+{
+  "active_tests_passed": true,
+  "algorithm_mechanism_changed": false,
+  "behavior_preserved": true,
+  "completed_condition_episode_count": 5,
+  "executor_reason_coverage_100_percent": true,
+  "failure_count": 0,
+  "legacy_repository_verification": {
+    "CH3": {
+      "file_count": 369,
+      "tree_sha256": "d48315b2d7c7a85e90d7c27d32cd1da6422a9fced7492e894cfc0ec619b97cec"
+    },
+    "CH4": {
+      "file_count": 103,
+      "tree_sha256": "90fd480c9a565e8f1ff9bdca321a1f72d4ca21ee8f67e8dc42e5eafb24670d3d"
+    },
+    "CH5": {
+      "file_count": 306,
+      "tree_sha256": "8ca2e57dea49686fdf3c4b37d730a4f86c294756705aa46f21f745670f412b2c"
+    },
+    "byte_for_byte_unchanged": true
+  },
+  "phase1a1_theory_changed": false,
+  "phase_reason_counts": [
+    {
+      "count": 2,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "DONE",
+      "primary_classification": "INSTALLED_ASSIGNMENT_INVALID"
+    },
+    {
+      "count": 3,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "EXECUTE_PUBLIC_TARGET",
+      "primary_classification": "HARD_ROUTE_INVALID"
+    },
+    {
+      "count": 692,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "EXECUTE_PUBLIC_TARGET",
+      "primary_classification": "INSTALLED_ASSIGNMENT_INVALID"
+    },
+    {
+      "count": 1180,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "SEARCH",
+      "primary_classification": "HARD_ROUTE_INVALID"
+    },
+    {
+      "count": 24,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "SEARCH",
+      "primary_classification": "SOFT_RESPONSE_DEGRADED_ONLY"
+    },
+    {
+      "count": 3562,
+      "event_type": "WAYPOINT_STALE",
+      "mission_phase": "SEARCH",
+      "primary_classification": "HARD_PATH_INVALID"
+    },
+    {
+      "count": 1,
+      "event_type": "EXECUTOR_INVALID",
+      "mission_phase": "WAIT_PUBLIC_HANDOFF",
+      "primary_classification": "SOFT_RESPONSE_DEGRADED_ONLY"
+    }
+  ],
+  "preregistered_metrics": {
+    "execution_target": {
+      "execute_phase_target_source_counts": {
+        "PUBLIC_HANDOFF_TARGET": 695
+      },
+      "public_target_lock_violation_count": 0,
+      "public_target_received_count": 3,
+      "standby_source_after_public_handoff_count": 0
+    },
+    "executor": {
+      "diagnostic_inconsistency_count": 0,
+      "duplicate_executor_event_share": 0.9500525762355415,
+      "executor_invalid_total": 1902,
+      "hard_route_invalid_count": 1183,
+      "hard_route_invalid_share": 0.6219768664563617,
+      "installed_assignment_invalid_count": 694,
+      "max_executor_invalid_run_length": 241,
+      "soft_response_degraded_only_count": 25,
+      "soft_response_degraded_share": 0.013144058885383806
+    },
+    "replanning": {
+      "accepted_replan_count": 14,
+      "actual_decision_rejection_count": 1920,
+      "atomic_reject_missing_local_candidates_count": 63,
+      "optimizer_invocation_count": 127
+    },
+    "waypoint": {
+      "diagnostic_inconsistency_count": 0,
+      "duplicate_waypoint_event_share": 0.9460976979225154,
+      "final_waypoint_reached_count": 0,
+      "final_waypoint_reached_share": 0.0,
+      "hard_path_invalid_count": 3562,
+      "max_waypoint_stale_run_length": 20,
+      "no_active_assignment_count": 0,
+      "raw_boolean_step_event_total": 1205,
+      "waypoint_stale_total": 3562
+    }
+  },
+  "schema": "bser.phase1b3a.delivery.v1",
+  "specialized_tests_passed": true,
+  "status": "PASS_PHASE1B3A_DIAGNOSIS",
+  "tests_finalized": true,
+  "thresholds_changed": false,
+  "waypoint_reason_coverage_100_percent": true
+}
