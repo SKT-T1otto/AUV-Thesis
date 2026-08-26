@@ -1,4 +1,4 @@
-import unittes
+import unittest
 from chapter3_bser.objective import evaluate_objective
 from chapter3_bser.baselines.search_only_allocator import solve_search_only_greedy
 from tests.bser_test_utils import synthetic_instance

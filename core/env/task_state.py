@@ -15,9 +15,9 @@ Vector3 = Tuple[float, float, float]
 
 @dataclass(frozen=True)
 class MissionTaskState:
-    step: in
+    step: int
     target_found: bool
-    finder_id: in
+    finder_id: int
     executor_knows_target: bool
     handoff_step: Optional[int]
     mission_complete: bool
@@ -28,7 +28,7 @@ class MissionTaskState:
 class TargetStateView:
     position: Vector3
     velocity: Vector3
-    sample_step: in
+    sample_step: int
     motion_mode: str
 
 
@@ -44,7 +44,7 @@ class AgentStateView:
 @dataclass(frozen=True)
 class SearchExecutionState:
     searcher_ids: Tuple[int, int, int]
-    executor_id: in
+    executor_id: int
     target_known_by_agent: Tuple[bool, ...]
     waypoint_reached_counts: Tuple[int, ...]
     agent_finished: Tuple[bool, ...]
@@ -55,7 +55,7 @@ class SearchExecutionState:
 class MappingStateView:
     obstacle_layout_identity: str
     obstacle_knowledge_mode: str
-    target_belief_entropy: floa
-    target_belief_peak: floa
-    occupancy_known_ratio: floa
-    map_revision: in
+    target_belief_entropy: float
+    target_belief_peak: float
+    occupancy_known_ratio: float
+    map_revision: int

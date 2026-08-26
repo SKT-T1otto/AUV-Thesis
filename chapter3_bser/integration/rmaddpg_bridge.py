@@ -11,7 +11,7 @@ from chapter3_bser.integration.control_context import (
     ExecutorAssignmentContextV1,
     Vector3,
 )
-from chapter3_bser.online.mission_context import OnlineMissionContex
+from chapter3_bser.online.mission_context import OnlineMissionContext
 from chapter3_bser.online.types import OnlineAllocation
 from core.mapping.planning_state import PlanningStateView
 
@@ -80,7 +80,7 @@ class RMADDPGGuidanceBridge:
         }
         execution_request = bool(
             mission_context.target_found
-            and mission_context.executor_knows_targe
+            and mission_context.executor_knows_target
             and not mission_context.mission_complete
         )
         active_ids = tuple(sorted(agents_by_id))
@@ -91,7 +91,7 @@ class RMADDPGGuidanceBridge:
             agent = agents_by_id[agent_id]
             position = _vector3(agent.position)
             if agent_id == int(planning_state.executor_id):
-                executor = allocation.executor_assignmen
+                executor = allocation.executor_assignment
                 reachable = bool(executor.reachable)
                 hold = bool(not reachable or mission_context.mission_complete)
                 final = _vector3(executor.target_region)
@@ -109,7 +109,7 @@ class RMADDPGGuidanceBridge:
                         role=str(agent.role),
                         assignment_kind=(
                             "executor_execution"
-                            if execution_reques
+                            if execution_request
                             else "executor_standby"
                         ),
                         assignment_id=str(executor.source),
@@ -160,7 +160,7 @@ class RMADDPGGuidanceBridge:
             for item in compiled
             if item.agent_id == int(planning_state.executor_id)
         )
-        executor = allocation.executor_assignmen
+        executor = allocation.executor_assignment
         allocation_hash = str(allocation.allocation_sha256)
         return BSERControlContextV1(
             schema_version=self.SCHEMA_VERSION,
@@ -213,7 +213,7 @@ def get_tracking_targets(
 
     return {
         item.agent_id: (
-            item.hold_position if item.hold_state else item.tracking_waypoin
+            item.hold_position if item.hold_state else item.tracking_waypoint
         )
         for item in context.agent_assignments
     }

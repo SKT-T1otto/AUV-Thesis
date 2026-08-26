@@ -13,7 +13,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-Set-Location -LiteralPath $RepoRoo
+Set-Location -LiteralPath $RepoRoot
 
 $CondaCommand = Get-Command conda -ErrorAction SilentlyContinue
 if ($null -eq $CondaCommand) {

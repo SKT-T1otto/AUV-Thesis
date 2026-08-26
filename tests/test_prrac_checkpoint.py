@@ -1,4 +1,5 @@
 from pathlib import Path
+from multiprocessing.reduction import ForkingPickler
 import tempfile
 import unittest
 
@@ -9,6 +10,7 @@ from chapter3_bser.experiments.phase1c_prrac.train_phase1c_prrac import (
     INCOMPATIBLE_MESSAGE,
     _load_checkpoint,
     _save_checkpoint,
+    _verify_checkpoint_roundtrip,
 )
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
 
@@ -58,6 +60,7 @@ class PRRACCheckpointTests(unittest.TestCase):
             restored_replay = PRRACReplayAdapter(8, config={})
             payload = _load_checkpoint(path, restored, restored_replay, config)
             self.assertEqual(payload["completed_episode"], 1)
+            self.assertTrue(_verify_checkpoint_roundtrip(path, config))
             for left, right in zip(learner.policy_snapshot(), restored.policy_snapshot()):
                 for key in left:
                     torch.testing.assert_close(left[key], right[key])
@@ -85,6 +88,15 @@ class PRRACCheckpointTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "v1/v2") as caught:
                     _load_checkpoint(path, _learner(config), PRRACReplayAdapter(8), config)
                 self.assertEqual(str(caught.exception), INCOMPATIBLE_MESSAGE)
+
+    def test_policy_snapshot_is_spawn_serializable(self):
+        snapshot = _learner(_config()).policy_snapshot()
+        encoded = ForkingPickler.dumps(snapshot)
+        restored = ForkingPickler.loads(encoded)
+        self.assertEqual(len(restored), 4)
+        for actor_state in restored:
+            self.assertTrue(actor_state)
+            self.assertTrue(all(tensor.device.type == "cpu" for tensor in actor_state.values()))
 
 
 if __name__ == "__main__":

@@ -92,7 +92,7 @@ class ResidualTrustGate(nn.Module):
         )
         alignment = self.alignment_cosine(residual_mix, observation[:, 9:12])
         gate = self.gate_from_base_logit(base_logit, alignment)
-        return gate, alignment, base_logi
+        return gate, alignment, base_logit
 
 
 __all__ = ("ResidualTrustGate",)

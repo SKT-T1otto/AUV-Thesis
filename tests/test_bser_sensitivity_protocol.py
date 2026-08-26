@@ -1,4 +1,4 @@
-import unittes
+import unittest
 from chapter3_bser.config import load_bser_phase1a1_config
 
 class SensitivityProtocolTest(unittest.TestCase):

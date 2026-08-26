@@ -1,4 +1,4 @@
-# CRK-Thesis-v2 Cross Platform Audi
+# CRK-Thesis-v2 Cross Platform Audit
 
 审计日期：2026-08-24（Asia/Shanghai）
 审计 commit：`83ededb056eaf8f1b51414335aab515f31f453e0`（`fix: use spawn workers for Phase 1C-v2 training`）
@@ -143,7 +143,7 @@
 
 历史 `docs/**/*.json` 中还存在 `C:\tmp`、`C:\Users\...`、`D:\...` 远程验证记录，均为 provenance snapshot，不是运行路径。
 
-## 10. Multiprocessing Audi
+## 10. Multiprocessing Audit
 
 | 文件 | 函数/位置 | start method / CUDA 时序 | 返回值 | 风险与建议 |
 |---|---|---|---|---|
@@ -165,7 +165,7 @@
 4. worker 返回大量 Tensor：v1/v2 均是。以 v2 每 step 约 10 个 Tensor storage、默认 400 step 估算，单 episode 可产生约 4000 个独立 storage 对象，FD/ancillary-data 压力显著。
 5. 是否需要 spawn：所有 trainer 需要；但 v2 证明 spawn 不是 Tensor IPC 的完整修复。
 
-## 11. PyTorch CUDA and Seed Audi
+## 11. PyTorch CUDA and Seed Audit
 
 - 未发现硬编码 `cuda:0`、`.cuda()` 或 `to("cuda")` 的正式调用。
 - `config["device"]`/CLI device 已贯穿 v1/v2 learner；worker 环境明确使用 CPU，这是合理的“CPU rollout + GPU learner”结构。
@@ -174,7 +174,7 @@
 - Phase1C v1/v2 自有 `_seed_all()` 只调用 Python/NumPy/`torch.manual_seed` 和 `torch.use_deterministic_algorithms(..., warn_only=True)`，未记录 CUDA RNG/cuDNN flags。现代 PyTorch 的 `torch.manual_seed` 会覆盖设备 RNG，但当前实现仍不足以证明 Windows/Linux bitwise 等价。
 - 跨 Windows CPU 与 Linux GPU 应追求协议可复现和统计一致，不应承诺浮点 bitwise 一致。
 
-## 12. Encoding and Shell Audi
+## 12. Encoding and Shell Audit
 
 编码：
 
@@ -192,7 +192,7 @@ Shell：
 | Phase1C diagnostic eval | `.ps1` + `.bat` | 缺 `.sh` | P1 |
 | Phase1C-v2 train | `.ps1` + `.bat` | 缺 `.sh` | P1 |
 
-## 13. Environment Dependency Audi
+## 13. Environment Dependency Audit
 
 实际源码第三方依赖集中为 `torch`、`numpy`、`matplotlib`；未发现 `scipy`、`pandas`、`gym/gymnasium`、`opencv` 等未锁定 import。`torchvision` 与 `torchaudio` 在扫描源码中没有 import，属于环境快照附带包。
 
@@ -204,7 +204,7 @@ Shell：
 | `pip_freeze.txt` | 记录当前 pip 包 | CUDA wheel source 不完整 | P1 |
 | `torch_runtime.json` | RTX3060 Laptop/Windows runtime snapshot | 不是 RTX3090 验收配置 | P2 provenance |
 
-## 14. Outputs, Experiments, and Git Audi
+## 14. Outputs, Experiments, and Git Audit
 
 ### 文件大小/保留分类
 
@@ -216,7 +216,7 @@ Shell：
 
 最大本地产物为 v2 dry-run checkpoint，约 500.8 MiB；v1 restart checkpoints 单文件最高约 405.4 MiB。没有已跟踪文件达到 5 MiB，当前 commit 没有明显 tracked large-file 阻断。
 
-### `.gitignore` / `.gitattributes
+### `.gitignore` / `.gitattributes`
 
 - `.gitignore` 正确覆盖 `outputs/`、`**/_checkpoints/`、`*.pt/*.pth/*.ckpt` 和指定 raw diagnostics。
 - `.gitattributes` 正确定义主流文本 EOL 和 checkpoint/image binary 类型。
@@ -233,19 +233,19 @@ Shell：
 
 ### 2. Repository integrity / provenance tests（13 个）
 
-- `test_bser_v1_artifacts_frozen.py
+- `test_bser_v1_artifacts_frozen.py`
 - `test_ch3_e0_equivalence.py`（当前缺 evidence，静态 FAIL）
-- `test_clean_clone_standalone.py
-- `test_core_has_no_legacy_imports.py
-- `test_core_import_graph.py
-- `test_core_source_provenance.py
-- `test_core_without_legacy_directory.py
-- `test_no_legacy_write.py
-- `test_phase1a1_original_core_freeze.py
-- `test_phase1a_core_freeze.py
+- `test_clean_clone_standalone.py`
+- `test_core_has_no_legacy_imports.py`
+- `test_core_import_graph.py`
+- `test_core_source_provenance.py`
+- `test_core_without_legacy_directory.py`
+- `test_no_legacy_write.py`
+- `test_phase1a1_original_core_freeze.py`
+- `test_phase1a_core_freeze.py`
 - `test_phase1c_v2_isolation.py`（当前缺 overlay manifest，静态 FAIL）
-- `test_repository_metadata.py
-- `test_verify_external_archive.py
+- `test_repository_metadata.py`
+- `test_verify_external_archive.py`
 
 这些测试依赖 Git metadata、`docs/`/`docs2/` provenance、历史 compact evidence 或 archive contract；在 Linux 可运行，但 clean clone 必须包含对应 evidence。
 
@@ -279,18 +279,18 @@ Shell：
 
 唯一创建的文件：
 
-- `docs2/cross_platform_audit/cross_platform_audit_report.md
+- `docs2/cross_platform_audit/cross_platform_audit_report.md`
 
 唯一创建的目录：
 
-- `docs2/cross_platform_audit/
+- `docs2/cross_platform_audit/`
 
 审计开始前 Git 状态：
 
-```tex
+```text
 ?? 3090/resolved_training_config.json
 ?? 3090/worker_failure_episode_0001.json
-
+```
 
 CH3/CH4/CH5 审计前 byte-tree 聚合 SHA-256：
 
@@ -304,10 +304,10 @@ CH3/CH4/CH5 审计前 byte-tree 聚合 SHA-256：
 
 最终 `git status --short`：
 
-```tex
+```text
 ?? 3090/resolved_training_config.json
 ?? 3090/worker_failure_episode_0001.json
 ?? docs2/cross_platform_audit/cross_platform_audit_report.md
-
+```
 
 `git diff --exit-code` = 0，`git diff --cached --exit-code` = 0。结论：tracked working tree 与 index unchanged；没有 source/config/test/script/README diff。状态不为空的原因仅为审计开始前已有的两个 `3090` JSON，以及本任务要求创建的审计报告。

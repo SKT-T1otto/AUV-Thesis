@@ -1,6 +1,6 @@
 from dataclasses import replace
 import numpy as np
-import unittes
+import unittest
 from chapter3_bser.objective import response_diagnostics
 from tests.bser_test_utils import synthetic_instance
 

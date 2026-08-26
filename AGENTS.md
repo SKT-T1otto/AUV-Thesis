@@ -10,13 +10,18 @@
 
 - Phase 0B-2 is a completed historical migration/equivalence baseline.
 - Chapter 3 Phase 1A through Phase 1B.3a implementations and evidence exist.
-- The independent Phase 1C method and trainer exist as
+- The historical independent Phase 1C method and trainer exist as
   `ch3_bser_rmaddpg_phase1c`.
-- Phase 1C is **WIP / short training interrupted / resume-ready**.
-- The planned 1000-episode short run stopped after episode 128; episode 100 is
-  the last complete recovery checkpoint, so episodes 101-128 must be replayed.
+- The independent PRRAC architecture and trainer are implemented under the
+  Chapter 3 namespace with frozen 28D/3D/124D contracts.
+- The repository is in post-rebuild source repair and verification status.
+- No PRRAC dry-run, 100-episode pilot, or formal experiment has run, and
+  `performance_passed` is not established.
+- The old Phase 1C run stopped after episode 128 with episode 100 as its last
+  checkpoint. Its earlier resume-ready status is historical only; it is not
+  the current experiment or current resume target.
 - Phase 1C training, convergence, and formal comparisons are not complete.
-- Chapter 4 RCAG and Chapter 5 VSGC remain placeholders in this repository.
+- Chapter 4 RCAG has not begun; Chapter 5 VSGC remains a placeholder.
 
 # Hard restrictions
 
@@ -68,9 +73,10 @@
 - Before reporting a Phase 1C run complete, require the planned terminal
   artifacts and explicit user-approved experiment execution.
 
-# Phase 1C resume gate
+# Historical Phase 1C resume gate
 
-Before treating the interrupted Phase 1C run as ready to resume:
+The following applies only if the user explicitly revives the historical run;
+it is not the current PRRAC plan. Before treating that run as ready to resume:
 
 - the working tree must be clean;
 - the intended code commit must be identified;

@@ -103,17 +103,21 @@ class RepositoryMetadataTests(unittest.TestCase):
             phase1c_status,
         ):
             self.assertIn("Phase 1C", document)
-            self.assertIn("resume-ready", document)
             self.assertNotIn("Phase 1C is complete", document)
             self.assertNotIn("Phase 1C 已完成", document)
             self.assertNotIn("1000 episodes 已完成", document)
 
         self.assertIn("ch3_bser_rmaddpg_phase1c", root_readme)
         self.assertIn("ch3_bser_rmaddpg_phase1c", chapter3_readme)
+        self.assertIn("PRRAC architecture", root_readme)
+        self.assertIn("post-rebuild source repair", root_readme)
+        self.assertIn("PRRAC dry-run: not run", root_readme)
+        self.assertIn("PRRAC 100-episode pilot: not run", root_readme)
+        self.assertIn("Chapter 4 RCAG: not begun", root_readme)
+        self.assertIn("historical", phase1c_status.lower())
+        self.assertIn("not the current experiment", root_readme)
         self.assertIn("episode 128", phase1c_status)
         self.assertIn("episode 100", phase1c_status)
-        self.assertIn("3 tests OK", phase1c_status)
-        self.assertIn("PASS (2 tests)", phase1c_status)
         self.assertIn("not GitHub CI results", root_readme)
 
         source_path = ROOT / "SOURCE_MANIFEST.json"
@@ -139,17 +143,31 @@ class RepositoryMetadataTests(unittest.TestCase):
             "not_implemented",
         )
 
-        current = source_manifest["current_experiment"]
+        self.assertIsNone(source_manifest["current_experiment"])
+        engineering = source_manifest["current_engineering_status"]
+        self.assertEqual(
+            engineering["state"],
+            "post_rebuild_source_repair_and_verification",
+        )
+        self.assertIs(engineering["prrac_architecture_implemented"], True)
+        self.assertIs(engineering["prrac_dry_run_completed"], False)
+        self.assertIs(engineering["prrac_pilot_100_completed"], False)
+        self.assertIsNone(engineering["performance_passed"])
+        self.assertIs(engineering["chapter4_rcag_begun"], False)
+
+        current = source_manifest["historical_phase1c_experiment"]
         self.assertEqual(
             current["method"],
             "ch3_bser_rmaddpg_phase1c",
         )
         self.assertEqual(
             current["status"],
-            "interrupted_resume_ready",
+            "historical_interrupted_previously_resume_ready",
         )
         self.assertEqual(current["last_recorded_episode"], 128)
         self.assertEqual(current["resume_checkpoint_episode"], 100)
+        self.assertIs(current["is_current_experiment"], False)
+        self.assertIs(current["is_current_resume_target"], False)
         self.assertEqual(
             source_manifest["latest_recorded_verification"]["context"],
             "local_not_github_ci",

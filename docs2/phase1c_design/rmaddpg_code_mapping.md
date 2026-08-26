@@ -2,7 +2,7 @@
 
 ## 1. 审查边界
 
-- 仓库快照：`cd83bd3ef6339de4319786dd60028f50f131adbf
+- 仓库快照：`cd83bd3ef6339de4319786dd60028f50f131adbf`
 - 审查对象：当前工作树（含用户已有的未提交 Phase 1B/1B.3A 文件）
 - 本阶段只做静态代码追踪与接口设计；未启动训练，未修改算法、环境或 Phase 1B 实验代码。
 - `chapter3_bser/objective.py`、`greedy_solver.py`、`candidate_generator.py`、`exact_solver.py` 均视为冻结组件。
@@ -51,12 +51,12 @@
 
 当前空间与网络维度：
 
-- 每智能体 observation：`28
-- 每智能体 actor 输入/输出：`28 -> 3
-- 四智能体联合 observation：`4 × 28 = 112
-- 四智能体联合 action：`4 × 3 = 12
-- 每个集中式 critic 输入：`112 + 12 = 124
-- Replay buffer：四组 `obs_dim=28`、四组 `action_dim=3
+- 每智能体 observation：`28`
+- 每智能体 actor 输入/输出：`28 -> 3`
+- 四智能体联合 observation：`4 × 28 = 112`
+- 四智能体联合 action：`4 × 3 = 12`
+- 每个集中式 critic 输入：`112 + 12 = 124`
+- Replay buffer：四组 `obs_dim=28`、四组 `action_dim=3`
 
 `core/runtime/builder.py::build_runtime` 的 replay 维度目前硬编码为 `(28,) * 4` 和 `(3,) * 4`；`core/runtime/engine.py::build_ch3_runtime_from_resolved_config` 则从环境空间动态读取。若未来改变 observation shape，这两条构建路径必须同时审计。
 
@@ -64,7 +64,7 @@
 
 ### Reset 路径
 
-```tex
+```text
 core.runtime.training.train_and_evaluate
   -> core.runtime.builder.build_runtime
      -> core.env.uav_env.UAVEnv(...)
@@ -75,7 +75,7 @@ core.runtime.training.train_and_evaluate
 core.runtime.training.run_episode
   -> core.runtime.engine._run_episode
      -> observations = env.reset(scenario)
-        -> UAVEnv.rese
+        -> UAVEnv.reset
         -> UAVEnv._get_obs
      -> core.runtime.engine._as_env_actions(runtime, observations)
         -> MADDPG.step(observations)
@@ -83,13 +83,13 @@ core.runtime.training.run_episode
            -> DDPGAgent.step(obs_i)
               -> DDPGAgent.policy(obs_i)
                  -> MLPNetwork.forward
-
+```
 
 若外层使用 `MissionCoreEnv`，则在 `UAVEnv.reset` 前多一层 `MissionCoreEnv.reset` 透明转发，不改变观测语义。
 
 ### 每步 next observation 路径
 
-```tex
+```text
 UAVEnv.step(actions)
   -> 更新动力学、目标、地图、任务状态和导航目标
   -> UAVEnv._get_obs
@@ -98,13 +98,13 @@ UAVEnv.step(actions)
                         next_observations, dones, success_flags)
   -> observations = next_observations
   -> 下一步 MADDPG.step
-
+```
 
 集中式训练时，`MADDPG._prepare_sample` 将四个 observation 和四个 action 拼接成 critic 输入；执行阶段每个 actor 只读取自身的本地 observation。
 
 ## 5. Action 完整调用链
 
-```tex
+```text
 core.runtime.engine._run_episode
   -> _as_env_actions(runtime, observations, explore)
      -> MADDPG.step
@@ -121,13 +121,13 @@ core.runtime.engine._run_episode
         -> prior = prior_strength * _compute_waypoint_prior_acc()
         -> final_acc = clamp(prior + residual)
         -> 更新速度与位置，并处理碰撞/边界
-
+```
 
 因此，RMADDPG 输出并不是完整的高层任务动作，而是三轴归一化残差加速度。环境已依据 `_nav_targets` 计算航点先验，再把学习残差叠加到先验上。这一现状是 Phase 1C 采用高低层方案的主要结构依据。
 
 ## 6. 训练更新链
 
-```tex
+```text
 _run_episode(train_updates=True)
   -> CH3ReplayBuffer.push(...)
   -> 达到 warmup_steps 且满足 update_frequency
@@ -138,6 +138,6 @@ _run_episode(train_updates=True)
        -> policy_delay 到期时更新 actor
   -> CH3ReplayBuffer.update_priorities(...)
   -> MADDPG.update_all_targets(...)
-
+```
 
 Checkpoint 的 `init_dict`/resume identity 包含网络输入维度。任何 observation 扩维都会使旧 checkpoint 与新模型结构不兼容，必须使用新的 Phase 1C checkpoint 命名空间，不能覆盖或冒充 Phase 1B/现有 RMADDPG checkpoint。

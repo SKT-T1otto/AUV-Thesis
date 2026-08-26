@@ -20,21 +20,29 @@ historical offline formulation and the later online/learning integration.
   Phase 1B experiment semantics.
 - **Phase 1B.3a - diagnosis.** Event/candidate failure diagnostics and baseline
   reproduction verify behavior preservation.
-- **Phase 1C - BSER-RMADDPG integration.** BSER supplies high-level guidance;
-  the existing waypoint prior feeds RMADDPG residual control. Observation,
-  action, centralized critic, and replay contracts remain 28/3/124/compatible.
+- **Phase 1C - residual-control architectures.** The earlier BSER-RMADDPG
+  integration is retained as historical work. The independent PRRAC
+  architecture and trainer are implemented with the same frozen 28D/3D/124D
+  contracts.
 
 The Phase 1A description above is historical scope, not the repository's
 current implementation limit.
 
-## Phase 1C current status
+## Current PRRAC status
+
+The repository is in post-rebuild source repair and verification. PRRAC has
+not run a dry-run, 100-episode pilot, or formal experiment;
+`performance_passed` is not established. Chapter 4 RCAG has not begun.
+
+## Historical BSER-RMADDPG status
 
 Method `ch3_bser_rmaddpg_phase1c` has an independent runtime, trainer,
 configuration, PowerShell/BAT launchers, metrics, checkpoint metadata, and
 resume support. Implementation availability is distinct from experiment
 completion.
 
-Current status: **WIP / short training interrupted / resume-ready**.
+Historical status: **WIP / short training interrupted / previously
+resume-ready**. This is not the current experiment or current resume target.
 
 - Profile: `M20_MOVING_UNKNOWN_MULTI`
 - Seed: `2729`
@@ -65,9 +73,10 @@ and complete console output are retained under the training log directory.
 These are local verification records, not GitHub CI results. No final training
 summary or convergence claim exists yet.
 
-## Recovery
+## Historical recovery command
 
-Recovery is user-initiated and must not be started automatically:
+This command is retained for provenance and must not be started automatically
+or presented as the current PRRAC workflow:
 
 ```powershell
 .\scripts\run_phase1c_train.ps1 `

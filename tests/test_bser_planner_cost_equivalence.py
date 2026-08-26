@@ -1,4 +1,4 @@
-import unittes
+import unittest
 from core.mapping.travel_cost_service import TravelCostService
 from tests.bser_test_utils import synthetic_state
 

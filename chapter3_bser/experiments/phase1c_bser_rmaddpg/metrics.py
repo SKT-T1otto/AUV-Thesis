@@ -134,7 +134,7 @@ def summarize_preflight(
         and not failures
         and dimensions_ok
         and finite_metrics
-        and allocation_versions_presen
+        and allocation_versions_present
     )
     return {
         "schema": "bser.phase1c.preflight.summary.v1",

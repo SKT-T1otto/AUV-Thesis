@@ -22,14 +22,26 @@ Chapter 3 has progressed beyond the historical Phase 0B-2 baseline:
 - Phase 1B through Phase 1B.3a: online event-triggered reallocation, partial
   BSER, path/waypoint consistency, public-information replanning, executor
   target consistency, and behavior-preserving diagnosis.
-- Phase 1C: BSER high-level guidance connected to RMADDPG residual control by
-  an isolated trainer and output namespace.
+- Phase 1C: the earlier BSER-RMADDPG integration is retained as historical
+  work, and the independent PRRAC architecture and trainer are implemented in
+  the Chapter 3 namespace.
 
-Phase 1C is **WIP / short training interrupted / resume-ready**. This does not
-mean that Phase 1C, the 1000-episode run, convergence analysis, or formal thesis
-comparisons are complete.
+The current engineering state is **post-rebuild source repair and
+verification**. The PRRAC architecture is implemented, while Phase 1C
+performance, convergence analysis, and formal thesis comparisons remain WIP.
 
-## Current Phase 1C run
+## PRRAC experiment status
+
+- PRRAC dry-run: not run.
+- PRRAC 100-episode pilot: not run.
+- PRRAC 300/1000-episode experiments: not run.
+- `performance_passed`: not established.
+- Chapter 4 RCAG: not begun.
+
+No PRRAC training result is claimed by the implementation and source-repair
+work.
+
+## Historical Phase 1C run
 
 - Method: `ch3_bser_rmaddpg_phase1c`
 - Profile: `M20_MOVING_UNKNOWN_MULTI`
@@ -39,7 +51,9 @@ comparisons are complete.
 - Updates: `training_update=true`
 - Checkpoint interval: `50` episodes
 
-The short training process exited after recording episode 128. The last full
+This is retained historical evidence, not the current experiment and not the
+current resume target. The old run was previously described as resume-ready.
+Its short training process exited after recording episode 128. The last full
 checkpoint is episode 100; episodes 101-128 are metrics-only and are not part
 of that checkpoint. The run has not produced the normal final
 `training_summary.json`, `training_log.json`, or formal curves.
@@ -50,15 +64,15 @@ Phase-1C-only reset guard now protects legacy initial waypoint setup before
 BSER guidance is installed. It does not skip scenarios or episodes and does
 not modify the shared path planner or frozen Phase 1B behavior.
 
-Local recovery, when explicitly initiated by the user, starts from episode
-100:
+The historical recovery command started from episode 100:
 
 ```powershell
 .\scripts\run_phase1c_train.ps1 `
   -Resume "outputs/chapter3/phase1c_bser_rmaddpg/training/checkpoints/phase1c_episode_0100.pt"
 ```
 
-Codex must not run this command automatically.
+Do not run this historical command automatically or present it as the current
+PRRAC workflow.
 
 ## Frozen environment contract
 
@@ -69,20 +83,18 @@ Codex must not run this command automatically.
 - Centralized critic input: `124`
 - Canonical profile: `M20_MOVING_UNKNOWN_MULTI`
 
-## Latest recorded local verification
+## Post-rebuild source verification
 
-These are recorded local results, not GitHub CI results.
+These are latest recorded local verification results, not GitHub CI results.
 
-Passed in the latest recorded local verification:
-
-- Phase 1C guidance: 3 tests OK.
-- Observation 28D contract and Phase 1B path tracking: PASS (2 tests).
-- Episode 100 checkpoint: locally verified readable and capable of restoring
-  actor, critic, optimizer, replay buffer, and training counters.
-
-These statements are historical local verification records. They do not imply
-that the current working tree has been revalidated after every later
-documentation or metadata edit.
+- Static compile and PRRAC PowerShell parser: PASS.
+- PRRAC unit suite: 16 tests PASS.
+- Frozen guidance/observation/path/reward/replay/metadata regressions: 18 tests
+  PASS.
+- Restored Phase 1A/1B regressions: 35 tests PASS after exact source/hash
+  repair and the explicitly pinned registry evolution.
+- PRRAC checkpoint verification loads the saved state into a new learner and
+  a new replay object; it is not inferred from checkpoint-file presence.
 
 ## Repository provenance policy
 
@@ -99,20 +111,6 @@ The current repository contains one explicitly reviewed post-baseline evolution:
   pins the reviewed current hash, and verifies the registry semantic contract.
 - Any additional provenance drift is treated as an error until explicitly
   reviewed.
-
-## Pre-resume verification
-
-Before resuming the interrupted Phase 1C run, run:
-
-```powershell
-conda run --no-capture-output -n AUV python -B -m unittest tests.test_phase1c_guidance -v
-conda run --no-capture-output -n AUV python -B -m unittest tests.test_observation_28d_contract tests.test_phase1b2_path_tracking -v
-conda run --no-capture-output -n AUV python -B -m unittest tests.test_repository_metadata -v
-```
-
-All required verification commands must pass in the current working tree before
-the resume command is treated as ready for execution. Do not describe these
-commands as GitHub CI; they are local verification commands.
 
 ## Outputs and retention
 

@@ -1,5 +1,5 @@
-import inspec
-import unittes
+import inspect
+import unittest
 
 import torch
 

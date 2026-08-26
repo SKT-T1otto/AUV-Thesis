@@ -1,8 +1,13 @@
-# Chapter 3 Phase 1C BSER-RMADDPG 当前实现与续跑状态
+# Chapter 3 Phase 1C BSER-RMADDPG 历史实现与运行记录
 
 ## 1. 状态结论
 
-Phase 1C 的接口骨架、独立 runtime、preflight、训练入口、checkpoint 与恢复机制均已实现。当前实验状态必须与代码实现状态分开描述：
+本文件是 Historical record，保留旧 BSER-RMADDPG Phase 1C 的历史实现与运行记录。它此前被描述为
+resume-ready，但不再是当前实验或当前续跑目标。当前工作是 PRRAC 架构实现后的
+post-rebuild source repair and verification；尚未运行 PRRAC dry-run 或 pilot，
+`performance_passed` 尚未成立，Chapter 4 RCAG 尚未开始。
+
+旧 Phase 1C 的接口骨架、独立 runtime、preflight、训练入口、checkpoint 与恢复机制均已实现。历史实验状态必须与当前 PRRAC 代码实现状态分开描述：
 
 - 实现状态：trainer 和恢复管线已存在。
 - 实验状态：**WIP / short training interrupted / resume-ready**。
@@ -54,9 +59,9 @@ belief/task state
 
 RMADDPG 仍是唯一动作生成位置。Observation 为每 agent 28D，action 为每 agent 3D，centralized critic 输入为 124；replay state/action/next_state contract 未改变。
 
-## 4. 当前训练配置
+## 4. 历史训练配置
 
-| 字段 | 当前值 |
+| 字段 | 历史值 |
 |---|---|
 | Method | `ch3_bser_rmaddpg_phase1c` |
 | Profile | `M20_MOVING_UNKNOWN_MULTI` |
@@ -67,9 +72,9 @@ RMADDPG 仍是唯一动作生成位置。Observation 为每 agent 28D，action �
 | Training update | `true` |
 | Checkpoint interval | `50 episodes` |
 
-输出隔离在 `outputs/chapter3/phase1c_bser_rmaddpg/training/`。
+历史输出隔离在 `outputs/chapter3/phase1c_bser_rmaddpg/training/`。
 
-## 5. 中断与修复
+## 5. 历史中断与修复
 
 短训练在记录 episode 128 后异常退出。最后完整 checkpoint 是 episode 100；episode 101-128 只存在于中断前 CSV，不属于该 checkpoint，恢复后需要重新运行。当前没有正常结束时应生成的完整 `training_summary.json`、`training_log.json` 和正式曲线。
 
@@ -90,7 +95,7 @@ RuntimeError: current_pos is not a legal reachable planner point
 - 不修改 `core/mapping/path_planner.py`；
 - 不修改 Phase 1B、reward、动力学、网络或 replay contract。
 
-## 6. Latest recorded verification（最近一次本地验证）
+## 6. Historical recorded verification（历史本地验证）
 
 这些结果来自最近一次本地验证，不是 GitHub CI workflow 结果：
 
@@ -108,9 +113,9 @@ conda run --no-capture-output -n AUV python -B -m unittest tests.test_phase1c_gu
 conda run --no-capture-output -n AUV python -B -m unittest tests.test_observation_28d_contract tests.test_phase1b2_path_tracking -v
 ```
 
-## 7. 续跑方式
+## 7. 历史续跑命令
 
-在本地验证环境后，可由用户显式执行：
+以下命令只为历史溯源保留，不是当前 PRRAC 工作流；只有用户明确恢复旧实验时才可执行：
 
 ```powershell
 .\scripts\run_phase1c_train.ps1 `
@@ -121,4 +126,4 @@ conda run --no-capture-output -n AUV python -B -m unittest tests.test_observatio
 
 ## 8. 边界结论
 
-Phase 1C 已具备 resume-ready 的工程条件，但不能标记为完成。只有计划训练正常结束、终态汇总与曲线存在，并完成用户批准的正式评估后，才能讨论最终性能或对比结论。
+旧 Phase 1C 曾被记录为具备 resume-ready 的工程条件，但它不再是当前实验或当前续跑目标，也不能标记为完成。当前 PRRAC 必须先由用户明确批准实验；只有计划训练正常结束、终态汇总与曲线存在，并完成正式评估后，才能讨论最终性能或对比结论。

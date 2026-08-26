@@ -1,5 +1,5 @@
 from dataclasses import replace
-import unittes
+import unittest
 from core.mapping.planning_state import planning_state_sha256
 from tests.bser_test_utils import synthetic_state
 

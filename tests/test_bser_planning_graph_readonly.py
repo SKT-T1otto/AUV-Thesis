@@ -1,4 +1,4 @@
-import unittes
+import unittest
 from tests.bser_test_utils import synthetic_state
 
 class PlanningGraphReadonlyTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 from pathlib import Path
 import tempfile
-import unittes
+import unittest
 from chapter3_bser.experiments.run_e1_v2 import run
 
 class E1V2SmokeTest(unittest.TestCase):

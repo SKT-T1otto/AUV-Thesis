@@ -257,6 +257,45 @@ def _load_checkpoint(
     return payload
 
 
+def _verify_checkpoint_roundtrip(
+    path: Path,
+    config: Mapping[str, Any],
+) -> bool:
+    """Load a checkpoint into newly constructed learner and replay objects."""
+
+    checkpoint = Path(path)
+    payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    replay_state = payload["prrac_replay_state"]["base_replay"]
+    rl = dict(config.get("rl", {}))
+    learner = PRRACMADDPG(
+        architecture=config["architecture"],
+        loss=config["loss"],
+        gamma=float(rl.get("gamma", 0.95)),
+        tau=float(rl.get("tau", 0.01)),
+        lr_actor=float(rl.get("lr_actor", 0.001)),
+        lr_critic=float(rl.get("lr_critic", 0.001)),
+    )
+    replay = PRRACReplayAdapter(
+        max_steps=int(replay_state["max_steps"]),
+        config=config.get("replay", {}),
+        generator_seed=int(config["seed"]) + 31,
+    )
+    restored = _load_checkpoint(checkpoint, learner, replay, config)
+    if int(restored["completed_episode"]) != int(
+        restored["metadata"]["completed_episode"]
+    ):
+        raise RuntimeError("PRRAC checkpoint episode metadata mismatch after restore")
+    if len(replay) != int(replay_state["filled_i"]):
+        raise RuntimeError("PRRAC checkpoint replay length mismatch after restore")
+    replay_roundtrip = replay.state_dict()
+    for name in ("stage_before", "stage_after"):
+        if not torch.equal(
+            replay_roundtrip[name], payload["prrac_replay_state"][name]
+        ):
+            raise RuntimeError(f"PRRAC checkpoint {name} mismatch after restore")
+    return True
+
+
 def _build_learner(config: Mapping[str, Any]):
     learner = PRRACMADDPG(
         architecture=config["architecture"],
@@ -601,6 +640,44 @@ def _current_group_parameters(learner: PRRACMADDPG, name: str):
     )
 
 
+def _dry_run_requirements_met(
+    requirements: Mapping[str, Any],
+    update_counts: Mapping[str, int],
+    *,
+    parameter_update_count: int,
+    critic_head_parameter_count: int,
+    checkpoint_count: int,
+    checkpoint_load_verified: bool,
+) -> bool:
+    return bool(
+        (
+            not requirements["require_parameter_update"]
+            or parameter_update_count > 0
+        )
+        and (
+            not requirements["require_router_update"]
+            or update_counts["router_parameter_update_count"] > 0
+        )
+        and (
+            not requirements["require_expert_update"]
+            or update_counts["expert_parameter_update_count"] > 0
+        )
+        and (
+            not requirements["require_gate_update"]
+            or update_counts["gate_parameter_update_count"] > 0
+        )
+        and (
+            not requirements["require_all_critic_heads_update"]
+            or update_counts["critic_head_parameter_update_count"]
+            == critic_head_parameter_count
+        )
+        and (
+            not requirements["require_checkpoint"]
+            or (checkpoint_count > 0 and checkpoint_load_verified)
+        )
+    )
+
+
 def run_training(
     *,
     config_path: Path = DEFAULT_CONFIG,
@@ -805,6 +882,10 @@ def run_training(
         ]
         return None if not values else float(statistics.fmean(values))
     parameter_update_count = sum(update_counts.values())
+    checkpoint_load_verified = bool(
+        checkpoints
+        and _verify_checkpoint_roundtrip(Path(checkpoints[-1]), config)
+    )
     pipeline_passed = bool(
         len(rows) == int(config["episodes"])
         and replay_sample_count > 0
@@ -816,9 +897,14 @@ def run_training(
     dry_run_passed = bool(
         dry_run
         and pipeline_passed
-        and (not dry_requirements["require_router_update"] or update_counts["router_parameter_update_count"] > 0)
-        and (not dry_requirements["require_expert_update"] or update_counts["expert_parameter_update_count"] > 0)
-        and (not dry_requirements["require_gate_update"] or update_counts["gate_parameter_update_count"] > 0)
+        and _dry_run_requirements_met(
+            dry_requirements,
+            update_counts,
+            parameter_update_count=parameter_update_count,
+            critic_head_parameter_count=len(initial_groups["critic_head"]),
+            checkpoint_count=len(checkpoints),
+            checkpoint_load_verified=checkpoint_load_verified,
+        )
     )
     summary = {
         "schema": "bser.phase1c.prrac.training.summary.v1",
@@ -865,7 +951,7 @@ def run_training(
         "hold_episode_rate": 0.0 if not rows else hold_count / len(rows),
         "collision_episode_rate": 0.0 if not rows else collision_count / len(rows),
         "checkpoint_count": len(checkpoints),
-        "checkpoint_load_verified": bool(checkpoints),
+        "checkpoint_load_verified": checkpoint_load_verified,
         "resumed_from": None if resume is None else str(Path(resume).resolve()),
         "wall_seconds": float(time.perf_counter() - started),
     }

@@ -9,8 +9,8 @@ from typing import Tuple
 @dataclass(frozen=True)
 class ObservationField:
     name: str
-    start: in
-    end: in
+    start: int
+    end: int
     normalization: str
     semantics: str
     target_unknown_behavior: str

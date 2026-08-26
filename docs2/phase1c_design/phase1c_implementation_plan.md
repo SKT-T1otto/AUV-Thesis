@@ -6,10 +6,10 @@
 
 当前基线结果仅作为冻结验收参考，本设计阶段未复跑实验：
 
-- Success rate：`0.20
-- Found rate：`0.55
-- Executor invalid：`1336
-- Waypoint stale：`740
+- Success rate：`0.20`
+- Found rate：`0.55`
+- Executor invalid：`1336`
+- Waypoint stale：`740`
 
 ## 2. Step 1：接口添加
 
@@ -17,9 +17,9 @@
 
 建议新增：
 
-- `chapter3_bser/integration/control_context.py
+- `chapter3_bser/integration/control_context.py`
   - 定义不可变、版本化的 `BSERControlContextV1` 和 per-agent guidance 数据。
-- `chapter3_bser/integration/rmaddpg_bridge.py
+- `chapter3_bser/integration/rmaddpg_bridge.py`
   - 读取公开 planning/mission state 与 `OnlineAllocation`。
   - 将 search waypoint、executor target/path、reachable/hold 状态转换为通用 tracking targets。
   - 只调用现有 `PathTracker`，不修改 PathTracker。
@@ -27,16 +27,16 @@
 - `chapter3_bser/integration/guided_env.py`（如采用 wrapper）
   - 管理 reset/step 后的 BSER 时序和 observation 刷新。
   - 禁止直接从训练 runner 写环境私有字段。
-- `configs/chapter3/bser_phase1c.json
+- `configs/chapter3/bser_phase1c.json`
   - 独立 method/config 名、机制版本、输出和 checkpoint namespace。
 
 ### 2.2 环境最小公共能力
 
 若 wrapper 无法完全通过现有公共 API 完成，需要在以下文件增加通用、默认关闭的接口：
 
-- `core/env/mission_env.py
+- `core/env/mission_env.py`
   - 转发 `install_navigation_guidance(...)` 与只读 `observe()`。
-- `core/env/uav_env.py
+- `core/env/uav_env.py`
   - 实现外部 guidance 的受控安装和无状态推进的 observation 重算。
   - 仅 Phase 1C 配置启用；旧配置行为必须逐位/逐指标保持。
 
@@ -58,7 +58,7 @@
 
 若 chapter-specific runner 能复用现有 `_run_episode` 而无需侵入 core，应优先把编排放在 `chapter3_bser/experiments/phase1c_bser_rmaddpg/`，减少对共享 runtime 的影响。
 
-## 3. Step 2：single episode smoke tes
+## 3. Step 2：single episode smoke test
 
 先测试，不训练：
 
@@ -74,11 +74,11 @@
 
 必要测试文件建议：
 
-- `tests/test_phase1c_bridge_contract.py
-- `tests/test_phase1c_guidance_timing.py
-- `tests/test_phase1c_observation_shape.py
-- `tests/test_phase1c_phase1b_isolation.py
-- `tests/test_phase1c_single_episode_smoke.py
+- `tests/test_phase1c_bridge_contract.py`
+- `tests/test_phase1c_guidance_timing.py`
+- `tests/test_phase1c_observation_shape.py`
+- `tests/test_phase1c_phase1b_isolation.py`
+- `tests/test_phase1c_single_episode_smoke.py`
 
 ## 4. Step 3：training pipeline
 
@@ -128,39 +128,39 @@ Smoke 全部通过后再接训练：
 
 ### 可新增
 
-- `chapter3_bser/integration/*
-- `chapter3_bser/experiments/phase1c_bser_rmaddpg/*
-- `configs/chapter3/bser_phase1c.json
-- `tests/test_phase1c_*.py
-- `docs2/phase1c_design/*
+- `chapter3_bser/integration/*`
+- `chapter3_bser/experiments/phase1c_bser_rmaddpg/*`
+- `configs/chapter3/bser_phase1c.json`
+- `tests/test_phase1c_*.py`
+- `docs2/phase1c_design/*`
 
 ### 可在严格 feature gate 下最小修改
 
-- `core/env/mission_env.py
-- `core/env/uav_env.py
-- `core/runtime/builder.py
-- `core/runtime/training.py
-- `core/runtime/engine.py
-- `core/registry/experiment_registry.py
+- `core/env/mission_env.py`
+- `core/env/uav_env.py`
+- `core/runtime/builder.py`
+- `core/runtime/training.py`
+- `core/runtime/engine.py`
+- `core/registry/experiment_registry.py`
 
 ### 方案 B 首版不需要修改
 
-- `core/algorithms/agents.py
-- `core/algorithms/networks.py
-- `core/algorithms/maddpg.py
-- `core/replay/ch3_buffer.py
-- `core/env/observation_contract.py
+- `core/algorithms/agents.py`
+- `core/algorithms/networks.py`
+- `core/algorithms/maddpg.py`
+- `core/replay/ch3_buffer.py`
+- `core/env/observation_contract.py`
 
 ### 禁止修改
 
-- `chapter3_bser/objective.py
-- `chapter3_bser/greedy_solver.py
-- `chapter3_bser/candidate_generator.py
-- `chapter3_bser/exact_solver.py
+- `chapter3_bser/objective.py`
+- `chapter3_bser/greedy_solver.py`
+- `chapter3_bser/candidate_generator.py`
+- `chapter3_bser/exact_solver.py`
 - EventDetector 逻辑、cooldown/ReplanningPolicy、allocator 决策
-- `chapter3_bser/controllers/path_tracker.py
-- `chapter3_bser/online/waypoint_manager.py
-- 所有 Phase 1B 正式实验代码和历史结果/checkpoin
+- `chapter3_bser/controllers/path_tracker.py`
+- `chapter3_bser/online/waypoint_manager.py`
+- 所有 Phase 1B 正式实验代码和历史结果/checkpoint
 
 ## 8. 阶段退出条件
 

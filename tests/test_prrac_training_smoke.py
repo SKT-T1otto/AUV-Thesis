@@ -8,6 +8,7 @@ from chapter3_bser.experiments.phase1c_common import Phase1CTransitionMetadata, 
 from chapter3_bser.experiments.phase1c_prrac.replay_adapter import PRRACReplayAdapter
 from chapter3_bser.experiments.phase1c_prrac.train_phase1c_prrac import (
     _apply_transitions,
+    _dry_run_requirements_met,
     _load_checkpoint,
     _save_checkpoint,
     _write_csv,
@@ -61,6 +62,35 @@ def _transitions():
 
 
 class PRRACTrainingSmokeTests(unittest.TestCase):
+    def test_every_dry_run_requirement_is_enforced(self):
+        requirements = {
+            "require_parameter_update": True,
+            "require_router_update": True,
+            "require_expert_update": True,
+            "require_gate_update": True,
+            "require_all_critic_heads_update": True,
+            "require_checkpoint": True,
+        }
+        updates = {
+            "router_parameter_update_count": 1,
+            "expert_parameter_update_count": 1,
+            "gate_parameter_update_count": 1,
+            "critic_head_parameter_update_count": 6,
+        }
+        arguments = {
+            "parameter_update_count": 9,
+            "critic_head_parameter_count": 6,
+            "checkpoint_count": 1,
+            "checkpoint_load_verified": True,
+        }
+        self.assertTrue(_dry_run_requirements_met(requirements, updates, **arguments))
+        for name in arguments:
+            broken = dict(arguments)
+            broken[name] = False if name == "checkpoint_load_verified" else 0
+            self.assertFalse(
+                _dry_run_requirements_met(requirements, updates, **broken), name
+            )
+
     def test_real_update_diagnostics_and_checkpoint_in_temporary_directory(self):
         torch.manual_seed(5)
         config = _config()

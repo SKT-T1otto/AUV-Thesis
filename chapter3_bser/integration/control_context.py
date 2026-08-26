@@ -13,7 +13,7 @@ Vector3 = Tuple[float, float, float]
 class AgentAssignmentContextV1:
     """One agent's read-only, action-free high-level assignment."""
 
-    agent_id: in
+    agent_id: int
     role: str
     assignment_kind: str
     assignment_id: str
@@ -30,7 +30,7 @@ class AgentAssignmentContextV1:
 class ExecutorAssignmentContextV1:
     """Executor-specific view retained separately for diagnostics and gating."""
 
-    executor_id: in
+    executor_id: int
     source: str
     target_region: Vector3
     planned_path: Tuple[Vector3, ...]
@@ -52,7 +52,7 @@ class BSERControlContextV1:
     schema_version: str
     allocation_version: str
     allocation_hash: str
-    step: in
+    step: int
     mission_phase: str
     agent_assignments: Tuple[AgentAssignmentContextV1, ...]
     executor_assignment: ExecutorAssignmentContextV1

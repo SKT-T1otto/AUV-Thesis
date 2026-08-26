@@ -1,4 +1,4 @@
-import unittes
+import unittest
 from chapter3_bser.experiments.instance_builder import ENVIRONMENT_MAX_STEPS
 from chapter3_bser.config import load_bser_phase1a1_config
 

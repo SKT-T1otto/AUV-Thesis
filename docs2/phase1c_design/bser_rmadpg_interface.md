@@ -4,21 +4,21 @@
 
 BSER 是高层分配器，不输出速度或加速度。核心类型位于 `chapter3_bser/online/types.py`：
 
-- `OnlineAllocation.search_assignments
-  - `agent_id
-  - `candidate_id
-  - `waypoin
-  - `path` / `path_cell_indices
+- `OnlineAllocation.search_assignments`
+  - `agent_id`
+  - `candidate_id`
+  - `waypoint`
+  - `path` / `path_cell_indices`
   - travel time、planning cost、failure reason
-- `OnlineAllocation.executor_assignmen
-  - `executor_id
-  - `target_region
-  - `path` / `path_cell_indices
+- `OnlineAllocation.executor_assignment`
+  - `executor_id`
+  - `target_region`
+  - `path` / `path_cell_indices`
   - ETA、source、reachable、planning cost、failure reason
-- `OnlineAllocation
+- `OnlineAllocation`
   - objective、detection probability、response time
   - trigger reason、status、search frozen、allocation hash
-- `BSERActionAssignmen
+- `BSERActionAssignment`
   - 本步事件、是否重规划、当前 allocation、waypoint updates、decision reason、diagnostics
 
 用户提出的五类接口语义与当前类型的对应关系如下：
@@ -56,13 +56,13 @@ Phase 1C 应保持相同时间尺度：
 
 结构：
 
-```tex
+```text
 local observation (28D)
   + BSERAssignmentEncoder(context_i)
   -> augmented observation
   -> RMADDPG actor
   -> residual action
-
+```
 
 一个可审计的候选编码是每 agent 追加 14 维 `BSER feature v1`：
 
@@ -81,10 +81,10 @@ local observation (28D)
 
 维度影响：
 
-- actor 输入：`28 + 14 = 42
-- actor 输出：仍为 `3
-- centralized critic 输入：`4 × 42 + 4 × 3 = 180
-- replay observation：每 agent 从 `28` 变为 `42
+- actor 输入：`28 + 14 = 42`
+- actor 输出：仍为 `3`
+- centralized critic 输入：`4 × 42 + 4 × 3 = 180`
+- replay observation：每 agent 从 `28` 变为 `42`
 - 旧 checkpoint 不可直接加载；必须新建模型、replay 与 checkpoint namespace
 
 实现边界：必须使用 observation wrapper/decorator，不应修改冻结的 28D 基础契约或直接把 BSER 字段塞入 `UAVEnv._get_obs`。编码器只能读取公开状态与已产生的 allocation，不能改变 candidate、event 或 allocator 结果。
@@ -100,7 +100,7 @@ local observation (28D)
 
 推荐结构：
 
-```tex
+```text
 公开 belief / map / task / agent state
   -> OnlinePlanningStateProvider
   -> OnlineBSERController
@@ -111,7 +111,7 @@ local observation (28D)
   -> 现有 28D observation 中的 nav delta/direction/distance
   -> RMADDPG actor 每步输出 3D residual action
   -> UAVEnv: final acceleration = waypoint prior + learned residual
-
+```
 
 方案 B 不把 `assignment_to_fixed_actions` 接到 RMADDPG 前面。该函数是 Phase 1B 固定反馈控制实验的执行器，会直接生成完整归一化动作；Phase 1C 应复用其“allocation/path 到跟踪目标”的语义，而不是复用完整动作输出。
 
@@ -119,7 +119,7 @@ local observation (28D)
 
 Phase 1C 适配层至少需要：
 
-```tex
+```text
 compile(allocation, planning_state, mission_context)
   -> BSERControlContextV1
 
@@ -131,7 +131,7 @@ install_guidance(targets, allocation_version)
 
 observe_after_guidance()
   -> 与当前状态和新导航目标一致的 28D observations
-
+```
 
 `install_guidance` 必须是显式公共接口；不能让训练循环直接写 `env._nav_targets`。接口应是通用“外部高层导航指导”，BSER 依赖留在 `chapter3_bser/integration/`，避免把 Chapter 3 特定类型引入 core 环境。
 
@@ -139,14 +139,14 @@ observe_after_guidance()
 
 当前 `env.step` 在返回 `next_observation` 前就已构造 observation，而事件检测发生在 step 之后。因此首版实现必须处理以下顺序：
 
-```tex
+```text
 env.step(residual_action)
-  -> public state snapsho
+  -> public state snapshot
   -> controller.step
   -> 若 allocation/跟踪点变化，install_guidance
   -> 重新读取 observation（只重算 observation，不推进环境）
   -> 写入 replay 的 next_observation
-
+```
 
 reset 后也应先初始化 BSER、安装初始 guidance，再取得训练使用的首个 observation。否则 replay 中会出现“observation 导航目标”和“实际下一步 prior 导航目标”不一致。
 
@@ -154,9 +154,9 @@ reset 后也应先初始化 BSER、安装初始 guidance，再取得训练使用
 
 首版方案 B 保持：
 
-- observation：每 agent `28
-- actor：`28 -> 3
-- centralized critic：`124 -> 1
+- observation：每 agent `28`
+- actor：`28 -> 3`
+- centralized critic：`124 -> 1`
 - replay shape：不变
 
 原因是 28D 观测已经包含 navigation target delta、direction 和 distance；当 BSER guidance 成为当前导航目标后，低层 actor 已能看到执行所需的局部目标几何信息。assignment priority 等高层信息继续由 BSER 决策，不需要重复交给低层 actor。

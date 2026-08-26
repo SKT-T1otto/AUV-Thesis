@@ -30,11 +30,20 @@
     "checkpoint_roundtrip_passed": true
   },
   "chapter_status": {
-    "chapter3_bser": "phase1c_wip_resume_ready",
-    "chapter4_rcag": "not_implemented",
+    "chapter3_bser": "prrac_implemented_post_rebuild_source_verified",
+    "chapter4_rcag": "not_begun",
     "chapter5_vsgc": "not_implemented"
   },
-  "current_experiment": {
+  "current_engineering_status": {
+    "state": "post_rebuild_source_repair_and_verification",
+    "prrac_architecture_implemented": true,
+    "prrac_dry_run_completed": false,
+    "prrac_pilot_100_completed": false,
+    "performance_passed": null,
+    "chapter4_rcag_begun": false
+  },
+  "current_experiment": null,
+  "historical_phase1c_experiment": {
     "method": "ch3_bser_rmaddpg_phase1c",
     "profile": "M20_MOVING_UNKNOWN_MULTI",
     "seed": 2729,
@@ -43,16 +52,21 @@
     "workers": 4,
     "training_update": true,
     "checkpoint_interval_episodes": 50,
-    "status": "interrupted_resume_ready",
+    "status": "historical_interrupted_previously_resume_ready",
     "last_recorded_episode": 128,
-    "resume_checkpoint_episode": 100
+    "resume_checkpoint_episode": 100,
+    "is_current_experiment": false,
+    "is_current_resume_target": false
   },
   "latest_recorded_verification": {
     "context": "local_not_github_ci",
-    "phase1c_guidance": "3 tests OK",
-    "observation_and_phase1b_compatibility": "PASS (2 tests)",
-    "checkpoint_100_readable": true,
-    "training_state_restore_verified": true
+    "compileall": "PASS",
+    "powershell_parser": "PASS",
+    "prrac_tests": "16 tests PASS",
+    "frozen_regressions": "18 tests PASS",
+    "restored_phase1a_phase1b_regressions": "35 tests PASS",
+    "prrac_checkpoint_fresh_learner_replay_roundtrip": true,
+    "formal_training_run": false
   },
   "historical_sources": {
     "CH3": "accepted read-only reference outside this repository",
