@@ -3,6 +3,7 @@ from multiprocessing.reduction import ForkingPickler
 import tempfile
 import unittest
 
+import numpy as np
 import torch
 
 from chapter3_bser.experiments.phase1c_prrac.replay_adapter import PRRACReplayAdapter
@@ -63,7 +64,7 @@ class PRRACCheckpointTests(unittest.TestCase):
             self.assertTrue(_verify_checkpoint_roundtrip(path, config))
             for left, right in zip(learner.policy_snapshot(), restored.policy_snapshot()):
                 for key in left:
-                    torch.testing.assert_close(left[key], right[key])
+                    np.testing.assert_array_equal(left[key], right[key])
             mismatch = dict(config)
             mismatch["seed"] = 9
             with self.assertRaisesRegex(ValueError, "config hash"):
@@ -91,12 +92,20 @@ class PRRACCheckpointTests(unittest.TestCase):
 
     def test_policy_snapshot_is_spawn_serializable(self):
         snapshot = _learner(_config()).policy_snapshot()
+        for actor_state in snapshot:
+            self.assertTrue(all(value.flags.owndata for value in actor_state.values()))
         encoded = ForkingPickler.dumps(snapshot)
         restored = ForkingPickler.loads(encoded)
         self.assertEqual(len(restored), 4)
         for actor_state in restored:
             self.assertTrue(actor_state)
-            self.assertTrue(all(tensor.device.type == "cpu" for tensor in actor_state.values()))
+            self.assertTrue(all(isinstance(value, np.ndarray) for value in actor_state.values()))
+            self.assertFalse(any(torch.is_tensor(value) for value in actor_state.values()))
+        loaded = _learner(_config())
+        loaded.load_policy_snapshot(restored)
+        for expected, actual in zip(snapshot, loaded.policy_snapshot()):
+            for key in expected:
+                np.testing.assert_array_equal(expected[key], actual[key])
 
 
 if __name__ == "__main__":

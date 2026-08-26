@@ -10,12 +10,15 @@ import argparse
 from concurrent.futures import ProcessPoolExecutor
 import copy
 import csv
+from dataclasses import fields, is_dataclass
 import hashlib
 import json
 import math
 import multiprocessing as mp
 import os
 from pathlib import Path
+import platform
+import socket
 import statistics
 import time
 import traceback
@@ -46,6 +49,9 @@ from chapter3_bser.experiments.phase1c_prrac import (
 from chapter3_bser.experiments.phase1c_prrac.diagnostics import PRRACDiagnostics
 from chapter3_bser.experiments.phase1c_prrac.replay_adapter import PRRACReplayAdapter
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
+from chapter3_bser.experiments.phase1c_prrac.transition_protocol import (
+    PRRACTransitionMetadata,
+)
 from chapter3_bser.integration.guided_env import GuidedEnv
 from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
@@ -321,6 +327,126 @@ def _changed(before, after) -> int:
     return sum(int(not torch.equal(left, right.detach().cpu())) for left, right in zip(before, after))
 
 
+def _numpy_copy(value: Any) -> np.ndarray:
+    if torch.is_tensor(value):
+        return value.detach().cpu().numpy().copy()
+    return np.asarray(value).copy()
+
+
+def _contains_tensor(payload: Any) -> bool:
+    if torch.is_tensor(payload):
+        return True
+    if isinstance(payload, Mapping):
+        return any(
+            _contains_tensor(key) or _contains_tensor(value)
+            for key, value in payload.items()
+        )
+    if isinstance(payload, (list, tuple, set, frozenset)):
+        return any(_contains_tensor(value) for value in payload)
+    if is_dataclass(payload) and not isinstance(payload, type):
+        return any(
+            _contains_tensor(getattr(payload, field.name)) for field in fields(payload)
+        )
+    return False
+
+
+def _combine_episode_diagnostics(
+    rollout: Mapping[str, Any], update: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Keep rollout actor diagnostics authoritative and update data separate."""
+
+    rollout_values = copy.deepcopy(dict(rollout))
+    update_values = copy.deepcopy(dict(update))
+    combined = dict(rollout_values)
+    combined.update(
+        {
+            "router_rollout_accuracy": rollout_values.get("router_accuracy"),
+            "router_rollout_confusion_matrix": rollout_values.get(
+                "router_confusion_matrix"
+            ),
+            "router_update_accuracy": update_values.get("router_accuracy"),
+            "router_update_confusion_matrix": update_values.get(
+                "router_confusion_matrix"
+            ),
+            "rollout_diagnostics": rollout_values,
+            "update_diagnostics": update_values,
+            "stage_critic_losses": update_values.get("stage_critic_losses", {}),
+            "stage_td_errors": update_values.get("stage_td_errors", {}),
+        }
+    )
+    return combined
+
+
+def _sum_confusion_matrices(
+    rows: list[dict[str, Any]],
+    field: str,
+    *,
+    fallback_field: str | None = None,
+) -> list[list[int]]:
+    matrix = np.zeros((3, 3), dtype=np.int64)
+    for row in rows:
+        value = row.get(field)
+        if value is None and fallback_field is not None:
+            value = row.get(fallback_field)
+        if value is not None:
+            candidate = np.asarray(value, dtype=np.int64)
+            if candidate.shape != (3, 3):
+                raise ValueError(f"{field} must be a 3x3 confusion matrix")
+            matrix += candidate
+    return [[int(value) for value in row] for row in matrix.tolist()]
+
+
+def _confusion_accuracy(matrix: list[list[int]]) -> float | None:
+    values = np.asarray(matrix, dtype=np.int64)
+    total = int(values.sum())
+    return None if total == 0 else float(np.trace(values) / total)
+
+
+def _router_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    rollout_matrix = _sum_confusion_matrices(
+        rows,
+        "router_rollout_confusion_matrix",
+        fallback_field="router_confusion_matrix",
+    )
+    update_matrix = _sum_confusion_matrices(rows, "router_update_confusion_matrix")
+    rollout_accuracy = _confusion_accuracy(rollout_matrix)
+    update_accuracy = _confusion_accuracy(update_matrix)
+    stage_coverage = {
+        name: bool(sum(rollout_matrix[index]) > 0)
+        for index, name in enumerate(("search", "intercept", "hold"))
+    }
+    return {
+        "router_accuracy": rollout_accuracy,
+        "router_confusion_matrix": rollout_matrix,
+        "router_rollout_accuracy": rollout_accuracy,
+        "router_rollout_confusion_matrix": rollout_matrix,
+        "router_update_accuracy": update_accuracy,
+        "router_update_confusion_matrix": update_matrix,
+        "stage_coverage": stage_coverage,
+        "all_stages_observed": all(stage_coverage.values()),
+    }
+
+
+def _runtime_metadata(
+    requested_device: str, resolved_device: torch.device
+) -> dict[str, Any]:
+    cuda_available = bool(torch.cuda.is_available())
+    cuda_device_name = (
+        str(torch.cuda.get_device_name(resolved_device))
+        if resolved_device.type == "cuda"
+        else None
+    )
+    return {
+        "python_version": platform.python_version(),
+        "torch_version": str(torch.__version__),
+        "cuda_available": cuda_available,
+        "requested_device": str(requested_device),
+        "resolved_device": str(resolved_device),
+        "cuda_device_name": cuda_device_name,
+        "hostname": socket.gethostname(),
+    }
+
+
 def _apply_transitions(
     learner: PRRACMADDPG,
     replay: PRRACReplayAdapter,
@@ -339,7 +465,17 @@ def _apply_transitions(
     optimizer_update_count = 0
     actor_update_count = 0
     for obs, actions, rewards, next_obs, dones, success_flags, metadata in transitions:
-        replay.push(obs, actions, rewards, next_obs, dones, success_flags, metadata)
+        replay.push(
+            tuple(torch.as_tensor(value, dtype=torch.float32) for value in obs),
+            torch.as_tensor(actions, dtype=torch.float32),
+            torch.as_tensor(rewards, dtype=torch.float32),
+            tuple(torch.as_tensor(value, dtype=torch.float32) for value in next_obs),
+            tuple(bool(value) for value in dones),
+            tuple(bool(value) for value in success_flags),
+            PRRACTransitionMetadata.from_dict(metadata)
+            if isinstance(metadata, Mapping)
+            else metadata,
+        )
         global_step += 1
         if (
             global_step < int(rl["warmup_steps"])
@@ -485,13 +621,13 @@ def _collect_episode(job: dict[str, Any]):
             final_step = int(task.step)
             transitions.append(
                 (
-                    tuple(torch.as_tensor(value).cpu().clone() for value in observations),
-                    actions.cpu().clone(),
-                    reward_tensor.cpu().clone(),
-                    tuple(torch.as_tensor(value).cpu().clone() for value in next_observations),
+                    tuple(_numpy_copy(value) for value in observations),
+                    _numpy_copy(actions),
+                    _numpy_copy(reward_tensor),
+                    tuple(_numpy_copy(value) for value in next_observations),
                     tuple(bool(value) for value in dones),
                     tuple(bool(task.mission_complete) for _ in range(4)),
-                    metadata,
+                    metadata.to_dict(),
                 )
             )
             observations = next_observations
@@ -519,7 +655,15 @@ def _collect_episode(job: dict[str, Any]):
             "action_norm": 0.0 if not action_norms else float(statistics.fmean(action_norms)),
             "wall_seconds": float(time.perf_counter() - started),
         }
-        return metrics, transitions, env.finalize_episode(), rollout_diagnostics.summary()
+        payload = (
+            metrics,
+            transitions,
+            env.finalize_episode(),
+            rollout_diagnostics.summary(),
+        )
+        if _contains_tensor(payload):
+            raise RuntimeError("PRRAC worker payload must not contain torch.Tensor")
+        return payload
     finally:
         env.close()
 
@@ -825,13 +969,8 @@ def run_training(
                 )
                 for name, count in replay.phase_counts().items():
                     metrics[f"replay_count_{name}"] = int(count)
-                combined_diag = dict(rollout_diag)
-                combined_diag.update(
-                    {
-                        key: value
-                        for key, value in update["diagnostics"].items()
-                        if value is not None
-                    }
+                combined_diag = _combine_episode_diagnostics(
+                    rollout_diag, update["diagnostics"]
                 )
                 combined_diag["episode"] = int(metrics["episode"])
                 rows.append(metrics)
@@ -870,6 +1009,8 @@ def run_training(
     contact_count = sum(bool(row["contact_episode"]) for row in rows)
     hold_count = sum(bool(row["hold_episode"]) for row in rows)
     collision_count = sum(int(row["collision"]) > 0 for row in rows)
+    router_summary = _router_summary(prrac_rows)
+
     def scalar_mean(name):
         values = [float(row[name]) for row in prrac_rows if row.get(name) is not None]
         return None if not values else float(statistics.fmean(values))
@@ -920,14 +1061,7 @@ def run_training(
         "optimizer_update_count": int(optimizer_update_count),
         "parameter_update_count": int(parameter_update_count),
         **update_counts,
-        "router_accuracy": scalar_mean("router_accuracy"),
-        "router_confusion_matrix": [
-            [
-                sum(int(row.get("router_confusion_matrix", [[0] * 3] * 3)[i][j]) for row in prrac_rows)
-                for j in range(3)
-            ]
-            for i in range(3)
-        ],
+        **router_summary,
         "router_stage_counts": replay.stage_counts(),
         "gate_mean": scalar_mean("gate_mean"),
         "gate_p10": scalar_mean("gate_p10"),
@@ -954,6 +1088,7 @@ def run_training(
         "checkpoint_load_verified": checkpoint_load_verified,
         "resumed_from": None if resume is None else str(Path(resume).resolve()),
         "wall_seconds": float(time.perf_counter() - started),
+        **_runtime_metadata(str(config["device"]), device),
     }
     _write_json(directories["metrics"] / "training_summary.json", summary)
     return summary

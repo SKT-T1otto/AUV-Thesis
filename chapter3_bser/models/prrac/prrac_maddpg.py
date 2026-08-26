@@ -348,7 +348,10 @@ class PRRACMADDPG:
 
     def policy_snapshot(self):
         return tuple(
-            {key: value.detach().cpu().clone() for key, value in agent.actor.state_dict().items()}
+            {
+                key: value.detach().cpu().numpy().copy()
+                for key, value in agent.actor.state_dict().items()
+            }
             for agent in self.agents
         )
 
@@ -357,7 +360,16 @@ class PRRACMADDPG:
         if len(states) != 4:
             raise ValueError("PRRAC policy snapshot must contain four actors")
         for agent, state in zip(self.agents, states):
-            agent.actor.load_state_dict(state)
+            model_state = agent.actor.state_dict()
+            converted = {
+                key: torch.as_tensor(
+                    value,
+                    dtype=model_state[key].dtype,
+                    device=model_state[key].device,
+                )
+                for key, value in state.items()
+            }
+            agent.actor.load_state_dict(converted)
 
     @classmethod
     def init_from_env(cls, env, **kwargs):
