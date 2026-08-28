@@ -48,6 +48,21 @@ from chapter3_bser.experiments.phase1c_prrac.evaluation_trace import (
     failure_trace_row,
     vector3,
 )
+from chapter3_bser.experiments.phase1c_prrac.execution_continuity import (
+    CHECKPOINT_RUNTIME_REVISION,
+    EXECUTION_ABLATION_SCHEMA,
+    OVERLAY_RUNTIME_REVISION,
+    VARIANT_ORDER,
+    ExecutionContinuityActionAdapter,
+    ExecutionContinuityController,
+    ExecutionContinuityDiagnostics,
+    ExecutionVariant,
+    aggregate_execution_variant,
+    overlay_config,
+    overlay_enabled,
+    paired_execution_variant_comparisons,
+    parse_execution_variant,
+)
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
 from chapter3_bser.integration.control_context import (
     AgentAssignmentContextV1,
@@ -72,6 +87,9 @@ DEFAULT_CONFIG = ROOT / "configs" / "chapter3" / "bser_phase1c_prrac_eval.json"
 DEFAULT_OUTPUT = ROOT / "outputs" / "chapter3" / "phase1c_prrac" / "evaluation_v1"
 EVALUATION_SCHEMA = "bser.phase1c.prrac.evaluation.v1"
 SUMMARY_SCHEMA = "bser.phase1c.prrac.evaluation.summary.v1"
+EXECUTION_VARIANT_SUMMARY_SCHEMA = (
+    "bser.phase1c.prrac.execution_ablation.summary.v1"
+)
 OLD_CHECKPOINT_MESSAGE = (
     "Phase 1C-v1/v2 checkpoints are incompatible with PRRAC deterministic evaluation."
 )
@@ -93,6 +111,11 @@ OUTPUT_FILES = (
     "failure_trace.jsonl",
     "failure_trace_index.csv",
     "evaluation_summary.json",
+    "execution_variant_episode.csv",
+    "execution_variant_summary.csv",
+    "paired_execution_variant_comparison.csv",
+    "execution_variant_failure_funnel.csv",
+    "execution_variant_summary.json",
 )
 
 
@@ -197,7 +220,6 @@ def _contains_tensor(payload: Any) -> bool:
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
     expected = {
-        "schema": EVALUATION_SCHEMA,
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
         "architecture_version": ARCHITECTURE_VERSION,
@@ -206,6 +228,8 @@ def _load_config(path: Path) -> dict[str, Any]:
         "action_dim": 3,
         "critic_dim": 124,
     }
+    if config.get("schema") not in {EVALUATION_SCHEMA, EXECUTION_ABLATION_SCHEMA}:
+        raise ValueError(f"invalid PRRAC evaluation config schema: {config.get('schema')!r}")
     for key, value in expected.items():
         if config.get(key) != value:
             raise ValueError(f"invalid PRRAC evaluation config {key}: {config.get(key)!r}")
@@ -213,7 +237,38 @@ def _load_config(path: Path) -> dict[str, Any]:
         raise ValueError("PRRAC deterministic evaluation requires explore=false")
     if config.get("training_update") is not False:
         raise ValueError("PRRAC deterministic evaluation requires training_update=false")
+    checkpoint_revision = str(
+        config.get(
+            "checkpoint_runtime_revision",
+            config.get("execution_runtime_revision", ""),
+        )
+    )
+    if checkpoint_revision != CHECKPOINT_RUNTIME_REVISION:
+        raise ValueError(
+            f"unsupported checkpoint runtime revision: {checkpoint_revision!r}"
+        )
+    configured_variants = tuple(
+        parse_execution_variant(value)
+        for value in config.get(
+            "execution_variants", (ExecutionVariant.B0_LEGACY_V2_1.value,)
+        )
+    )
+    expected_evaluation_revision = (
+        OVERLAY_RUNTIME_REVISION
+        if any(overlay_enabled(value) for value in configured_variants)
+        else CHECKPOINT_RUNTIME_REVISION
+    )
+    evaluation_revision = str(
+        config.get("evaluation_runtime_revision", expected_evaluation_revision)
+    )
+    if evaluation_revision != expected_evaluation_revision:
+        raise ValueError(
+            f"unregistered evaluation runtime overlay mismatch: {evaluation_revision!r}"
+        )
+    config["checkpoint_runtime_revision"] = CHECKPOINT_RUNTIME_REVISION
+    config["evaluation_runtime_revision"] = expected_evaluation_revision
     config["execution_runtime"] = execution_runtime_config(config)
+    config["execution_continuity"] = overlay_config(config)
     return config
 
 
@@ -251,10 +306,12 @@ def _validate_checkpoint_payload(
         raise ValueError("PRRAC checkpoint architecture mismatch")
     if dict(state.get("loss", {})) != dict(loss):
         raise ValueError("PRRAC checkpoint loss mismatch")
-    if config is not None and str(metadata.get("execution_runtime_revision", "")) != str(
-        config["execution_runtime_revision"]
-    ):
-        raise ValueError("checkpoint execution_runtime_revision mismatch")
+    if config is not None:
+        expected_checkpoint_revision = str(
+            config.get("checkpoint_runtime_revision", config["execution_runtime_revision"])
+        )
+        if str(metadata.get("execution_runtime_revision", "")) != expected_checkpoint_revision:
+            raise ValueError("checkpoint execution_runtime_revision mismatch")
     return dict(payload)
 
 
@@ -282,9 +339,19 @@ def load_prrac_checkpoint(
     return learner, payload
 
 
-def _checkpoint_info(path: Path, payload: Mapping[str, Any], mode: str) -> dict[str, Any]:
+def _checkpoint_info(
+    path: Path,
+    payload: Mapping[str, Any],
+    mode: str,
+    execution_variant: str | ExecutionVariant = ExecutionVariant.B0_LEGACY_V2_1,
+    *,
+    manifest_sha256: str = "",
+    execution_overlay_config_hash: str = "",
+) -> dict[str, Any]:
     metadata = dict(payload["metadata"])
     oracle = mode == "oracle_current_target_diagnostic"
+    variant = parse_execution_variant(execution_variant)
+    enabled = overlay_enabled(variant)
     return {
         "checkpoint": str(Path(path).resolve()),
         "checkpoint_episode": int(payload.get("completed_episode", metadata.get("completed_episode", 0))),
@@ -293,6 +360,16 @@ def _checkpoint_info(path: Path, payload: Mapping[str, Any], mode: str) -> dict[
         "evaluation_mode": str(mode),
         "diagnostic_only": oracle,
         "privileged_oracle": oracle,
+        "execution_variant": variant.value,
+        "checkpoint_runtime_revision": str(
+            metadata.get("execution_runtime_revision", CHECKPOINT_RUNTIME_REVISION)
+        ),
+        "evaluation_runtime_revision": (
+            OVERLAY_RUNTIME_REVISION if enabled else CHECKPOINT_RUNTIME_REVISION
+        ),
+        "runtime_overlay_enabled": enabled,
+        "manifest_sha256": str(manifest_sha256),
+        "execution_overlay_config_hash": str(execution_overlay_config_hash),
     }
 
 
@@ -517,7 +594,20 @@ def _trace_step(
         task_found=bool(task.target_found),
         executor_knows_target=bool(task.executor_knows_target),
         mission_complete=bool(task.mission_complete),
-        event_names=_event_names(result),
+        event_names=list(
+            dict.fromkeys(
+                (
+                    *_event_names(result),
+                    *tuple(
+                        getattr(
+                            getattr(controller, "last_detection", None),
+                            "events",
+                            (),
+                        )
+                    ),
+                )
+            )
+        ),
         replanned=bool(getattr(result, "replanned", False)),
         decision_reason=str(getattr(result, "decision_reason", "")),
         executor_invalid_reason=str(getattr(detection, "executor_invalid_reason", "")),
@@ -562,6 +652,9 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
     config = copy.deepcopy(dict(job["config"]))
     info = dict(job["checkpoint_info"])
     mode = str(info["evaluation_mode"])
+    execution_variant = parse_execution_variant(
+        info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
+    )
     device = torch.device(str(job["device"]))
     actor = PRRACMADDPG(
         architecture=job["architecture"],
@@ -590,7 +683,16 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         )
         state = provider.initialize()
         context = _public_context(env, state)
-        controller = OnlineBSERController(phase1b_config)
+        legacy_controller = OnlineBSERController(phase1b_config)
+        controller = (
+            legacy_controller
+            if execution_variant is ExecutionVariant.B0_LEGACY_V2_1
+            else ExecutionContinuityController(
+                legacy_controller,
+                variant=execution_variant,
+                config=config,
+            )
+        )
         initialized = controller.initialize(state, context)
         bridge = RMADDPGGuidanceBridge()
         guidance = bridge.compile_guidance(
@@ -603,6 +705,12 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         reward_total = 0.0
         episode_length = 0
         collision_episode = False
+        continuity_diagnostics = (
+            controller.diagnostics
+            if isinstance(controller, ExecutionContinuityController)
+            else ExecutionContinuityDiagnostics(execution_variant)
+        )
+        continuity_action_adapter = ExecutionContinuityActionAdapter()
 
         for _ in range(int(config["max_steps"])):
             with torch.no_grad():
@@ -612,9 +720,15 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 residual_actions = torch.stack(
                     [output.gated_residual_action.squeeze(0) for output in outputs]
                 )
-                actions = _apply_residual_mode(residual_actions, mode).to(
-                    env.unwrapped.device
+                mode_actions = _apply_residual_mode(residual_actions, mode)
+                actions, suppression = continuity_action_adapter.apply(
+                    mode_actions,
+                    plan=getattr(controller, "current_plan", None),
+                    variant=execution_variant,
+                    mission_phase=str(guidance.mission_phase),
+                    executor_id=3,
                 )
+                actions = actions.to(env.unwrapped.device)
             _, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
@@ -642,6 +756,18 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 context,
                 decision_reason=result.decision_reason,
             )
+            detection = getattr(controller, "last_detection", None)
+            legacy_detection = getattr(result, "event_detection", None)
+            continuity_diagnostics.observe_step(
+                post_found=bool(task.target_found),
+                plan=getattr(controller, "current_plan", None),
+                detection=detection,
+                suppression=suppression,
+                legacy_route_active=bool(public_guidance.executor_assignment.reachable),
+                legacy_invalid_reason=str(
+                    getattr(legacy_detection, "executor_invalid_reason", "")
+                ),
+            )
             use_oracle = bool(
                 mode == "oracle_current_target_diagnostic"
                 and context.executor_knows_target
@@ -667,6 +793,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     residual_action=actions[3],
                 )
             )
+            guidance = public_guidance
             observations = next_observations
             if all(bool(value) for value in dones):
                 break
@@ -675,6 +802,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         row = env.finalize_episode()
         row.update(info)
         row.update(diagnostics.summary())
+        row.update(continuity_diagnostics.summary())
         row.update(router_class_metrics(row["router_confusion_matrix"]))
         row.update(
             {
@@ -696,6 +824,18 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 "optimizer_update_count": 0,
                 "replay_sample_count": 0,
                 "parameter_update_count": 0,
+                "execution_variant": execution_variant.value,
+                "checkpoint_runtime_revision": str(
+                    info["checkpoint_runtime_revision"]
+                ),
+                "evaluation_runtime_revision": str(
+                    info["evaluation_runtime_revision"]
+                ),
+                "runtime_overlay_enabled": bool(info["runtime_overlay_enabled"]),
+                "manifest_sha256": str(info.get("manifest_sha256", "")),
+                "execution_overlay_config_hash": str(
+                    info.get("execution_overlay_config_hash", "")
+                ),
             }
         )
         row["failure_stage"] = failure_stage(row)
@@ -722,18 +862,36 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
         "checkpoint_episode": int(info["checkpoint_episode"]),
         "evaluation_mode": str(info["evaluation_mode"]),
+        "execution_variant": str(
+            info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
+        ),
         "manifest_sha256": str(manifest_hash),
+        "execution_overlay_config_hash": str(
+            info.get("execution_overlay_config_hash", "")
+        ),
     }
 
 
 def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in rows:
-        grouped.setdefault((str(row["checkpoint"]), str(row["evaluation_mode"])), []).append(row)
+        grouped.setdefault(
+            (
+                str(row["checkpoint"]),
+                str(row["evaluation_mode"]),
+                str(row.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)),
+            ),
+            [],
+        ).append(row)
     output = []
     stages = ("NOT_FOUND", "FOUND_NO_CONTACT", "CONTACT_NO_HOLD", "HOLD_NO_SUCCESS", "SUCCESS")
-    for (checkpoint, mode), values in sorted(grouped.items()):
-        result = {"checkpoint": checkpoint, "evaluation_mode": mode, "evaluation_episodes": len(values)}
+    for (checkpoint, mode, variant), values in sorted(grouped.items()):
+        result = {
+            "checkpoint": checkpoint,
+            "evaluation_mode": mode,
+            "execution_variant": variant,
+            "evaluation_episodes": len(values),
+        }
         for stage in stages:
             result[stage.lower()] = sum(row.get("failure_stage") == stage for row in values)
         output.append(result)
@@ -741,23 +899,34 @@ def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def _paired_rows(episode_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in episode_rows:
-        grouped.setdefault((str(row["checkpoint"]), str(row["evaluation_mode"])), []).append(row)
+        grouped.setdefault(
+            (
+                str(row["checkpoint"]),
+                str(row["evaluation_mode"]),
+                str(row.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)),
+            ),
+            [],
+        ).append(row)
     output = []
-    modes = sorted({mode for _, mode in grouped})
-    for mode in modes:
-        checkpoints = sorted(checkpoint for checkpoint, item_mode in grouped if item_mode == mode)
+    mode_variants = sorted({(mode, variant) for _, mode, variant in grouped})
+    for mode, variant in mode_variants:
+        checkpoints = sorted(
+            checkpoint
+            for checkpoint, item_mode, item_variant in grouped
+            if item_mode == mode and item_variant == variant
+        )
         for base, candidate in itertools.combinations(checkpoints, 2):
-            output.append(
-                paired_checkpoint_comparison(
-                    grouped[(base, mode)],
-                    grouped[(candidate, mode)],
+            row = paired_checkpoint_comparison(
+                    grouped[(base, mode, variant)],
+                    grouped[(candidate, mode, variant)],
                     base_checkpoint=base,
                     candidate_checkpoint=candidate,
                     evaluation_mode=mode,
                 )
-            )
+            row["execution_variant"] = variant
+            output.append(row)
     return output
 
 
@@ -792,11 +961,87 @@ def _plot(summary_rows: list[dict[str, Any]], output: Path) -> None:
     line("residual_ratio_curve.png", "Post-found residual ratio", ("mean_post_found_residual_ratio_if_found",))
 
 
+def _plot_execution_variants(
+    summary_rows: list[dict[str, Any]], output: Path
+) -> None:
+    plots = output / "plots"
+    plots.mkdir(parents=True, exist_ok=True)
+    order = [item.value for item in VARIANT_ORDER]
+    short = [f"B{index}" for index in range(4)]
+    grouped: dict[str, list[dict[str, Any]]] = {name: [] for name in order}
+    for row in summary_rows:
+        name = str(row.get("execution_variant", ""))
+        if name in grouped:
+            grouped[name].append(row)
+
+    def value(name: str, field: str) -> float:
+        numbers = [
+            float(row[field])
+            for row in grouped[name]
+            if row.get(field) not in {None, ""}
+        ]
+        return float(statistics.fmean(numbers)) if numbers else float("nan")
+
+    def bars(name: str, title: str, fields: tuple[str, ...]) -> None:
+        figure, axis = plt.subplots(figsize=(8.0, 4.8))
+        x = np.arange(4, dtype=np.float64)
+        width = 0.8 / max(1, len(fields))
+        for index, field in enumerate(fields):
+            offset = (index - (len(fields) - 1) / 2.0) * width
+            axis.bar(
+                x + offset,
+                [value(variant, field) for variant in order],
+                width=width,
+                label=field,
+            )
+        axis.set_xticks(x, short)
+        axis.set_title(title)
+        if len(fields) > 1:
+            axis.legend()
+        figure.tight_layout()
+        figure.savefig(plots / name, dpi=180)
+        plt.close(figure)
+
+    bars("execution_variant_success.png", "Execution variant success", ("success_rate",))
+    bars("execution_variant_found_contact.png", "Found and contact", ("found_rate", "contact_rate"))
+    bars("execution_variant_success_if_found.png", "Success if found", ("success_if_found_rate",))
+    bars("execution_variant_route_active_rate.png", "Post-found active route", ("executor_route_active_rate_post_found",))
+    bars("execution_variant_invalid_rate.png", "Post-found executor invalid", ("executor_invalid_rate_post_found",))
+    bars("execution_variant_assignment_unreachable_rate.png", "Post-found assignment unreachable", ("assignment_unreachable_rate_post_found",))
+    bars("execution_variant_executor_distance.png", "Executor distance if found", ("mean_executor_min_distance_if_found", "mean_executor_final_distance_if_found"))
+    bars("execution_variant_collision_rate.png", "Collision rate", ("collision_episode_rate",))
+    bars("execution_variant_proxy_last_valid_hold.png", "Proxy / last-valid / SAFE_HOLD", ("mean_proxy_plan_count_if_found", "mean_last_valid_plan_count_if_found", "mean_safe_hold_active_rate_if_found"))
+    bars("execution_variant_residual_suppression.png", "Executor residual suppression", ("mean_executor_residual_suppressed_steps_if_found",))
+
+
+def _execution_variant_summary(
+    *,
+    scenarios: list[dict[str, Any]],
+    variants: tuple[ExecutionVariant, ...],
+    summary_rows: list[dict[str, Any]],
+    output: Path,
+) -> dict[str, Any]:
+    return {
+        "schema": EXECUTION_VARIANT_SUMMARY_SCHEMA,
+        "checkpoint_runtime_revision": CHECKPOINT_RUNTIME_REVISION,
+        "evaluation_runtime_revision": OVERLAY_RUNTIME_REVISION,
+        "execution_variants": [item.value for item in variants],
+        "scenario_count": len(scenarios),
+        "same_scenarios_for_all_execution_variants": True,
+        "explore": False,
+        "training_update": False,
+        "performance_passed": None,
+        "output_dir": str(output.resolve()),
+        "variant_summaries": summary_rows,
+    }
+
+
 def _evaluation_summary(
     *,
     checkpoint_paths: list[Path],
     scenarios: list[dict[str, Any]],
     modes: tuple[str, ...],
+    execution_variants: tuple[ExecutionVariant, ...],
     summary_rows: list[dict[str, Any]],
     output: Path,
 ) -> dict[str, Any]:
@@ -809,6 +1054,7 @@ def _evaluation_summary(
         "checkpoint_count": len(checkpoint_paths),
         "scenario_count": len(scenarios),
         "evaluation_modes": list(modes),
+        "execution_variants": [item.value for item in execution_variants],
         "same_scenarios_for_all_checkpoints": True,
         "explore": False,
         "training_update": False,
@@ -816,7 +1062,14 @@ def _evaluation_summary(
         "replay_sample_count": 0,
         "parameter_update_count": 0,
         "output_dir": str(output.resolve()),
-        **recommend_checkpoint(summary_rows),
+        **recommend_checkpoint(
+            [
+                row
+                for row in summary_rows
+                if row.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
+                == ExecutionVariant.B0_LEGACY_V2_1.value
+            ]
+        ),
     }
 
 
@@ -826,6 +1079,7 @@ def _write_outputs(
     checkpoint_paths: list[Path],
     scenarios: list[dict[str, Any]],
     modes: tuple[str, ...],
+    execution_variants: tuple[ExecutionVariant, ...],
     episode_rows: list[dict[str, Any]],
     summary_rows: list[dict[str, Any]],
     trace_rows: list[dict[str, Any]],
@@ -836,6 +1090,70 @@ def _write_outputs(
     _write_csv(output / "checkpoint_summary.csv", summary_rows)
     _write_csv(output / "paired_checkpoint_comparison.csv", _paired_rows(episode_rows))
     _write_csv(output / "failure_funnel.csv", _failure_funnel(episode_rows))
+    execution_summary_rows = [
+        aggregate_execution_variant(
+            values,
+            {
+                key: values[0].get(key)
+                for key in (
+                    "checkpoint",
+                    "checkpoint_config_hash",
+                    "checkpoint_episode",
+                    "evaluation_mode",
+                    "execution_variant",
+                    "checkpoint_runtime_revision",
+                    "evaluation_runtime_revision",
+                    "runtime_overlay_enabled",
+                    "manifest_sha256",
+                    "execution_overlay_config_hash",
+                )
+            },
+        )
+        for _, values in sorted(
+            {
+                (
+                    str(row["checkpoint"]),
+                    str(row["evaluation_mode"]),
+                    str(row["execution_variant"]),
+                    str(row["manifest_sha256"]),
+                ): [
+                    item
+                    for item in episode_rows
+                    if (
+                        str(item["checkpoint"]),
+                        str(item["evaluation_mode"]),
+                        str(item["execution_variant"]),
+                        str(item["manifest_sha256"]),
+                    )
+                    == (
+                        str(row["checkpoint"]),
+                        str(row["evaluation_mode"]),
+                        str(row["execution_variant"]),
+                        str(row["manifest_sha256"]),
+                    )
+                ]
+                for row in episode_rows
+            }.items()
+        )
+    ]
+    _write_csv(output / "execution_variant_episode.csv", episode_rows)
+    _write_csv(output / "execution_variant_summary.csv", execution_summary_rows)
+    _write_csv(
+        output / "paired_execution_variant_comparison.csv",
+        paired_execution_variant_comparisons(episode_rows),
+    )
+    _write_csv(
+        output / "execution_variant_failure_funnel.csv", _failure_funnel(episode_rows)
+    )
+    _write_json(
+        output / "execution_variant_summary.json",
+        _execution_variant_summary(
+            scenarios=scenarios,
+            variants=execution_variants,
+            summary_rows=execution_summary_rows,
+            output=output,
+        ),
+    )
     _write_csv(output / "failure_trace_index.csv", trace_index)
     _atomic_text(
         output / "failure_trace.jsonl",
@@ -848,11 +1166,13 @@ def _write_outputs(
             checkpoint_paths=checkpoint_paths,
             scenarios=scenarios,
             modes=modes,
+            execution_variants=execution_variants,
             summary_rows=summary_rows,
             output=output,
         ),
     )
     _plot(summary_rows, output)
+    _plot_execution_variants(execution_summary_rows, output)
 
 
 def run_evaluation(
@@ -867,6 +1187,7 @@ def run_evaluation(
     workers_override: int | None = None,
     device_override: str | None = None,
     modes_override: Iterable[str] | None = None,
+    execution_variants_override: Iterable[str] | None = None,
     resume_evaluation: bool = False,
     disable_failure_trace: bool = False,
 ) -> dict[str, Any]:
@@ -885,6 +1206,25 @@ def run_evaluation(
     if not modes or any(mode not in SUPPORTED_MODES for mode in modes):
         raise ValueError(f"unsupported PRRAC evaluation modes: {modes}")
     config["modes"] = list(modes)
+    execution_variants = tuple(
+        parse_execution_variant(value)
+        for value in (
+            execution_variants_override
+            or config.get(
+                "execution_variants", (ExecutionVariant.B0_LEGACY_V2_1.value,)
+            )
+        )
+    )
+    if not execution_variants or len(set(execution_variants)) != len(execution_variants):
+        raise ValueError("execution variants must be a non-empty unique registered list")
+    config["execution_variants"] = [item.value for item in execution_variants]
+    config["checkpoint_runtime_revision"] = CHECKPOINT_RUNTIME_REVISION
+    config["evaluation_runtime_revision"] = (
+        OVERLAY_RUNTIME_REVISION
+        if any(overlay_enabled(item) for item in execution_variants)
+        else CHECKPOINT_RUNTIME_REVISION
+    )
+    execution_overlay_config_hash = _hash(config["execution_continuity"])
     if disable_failure_trace:
         config["failure_trace"]["enabled"] = False
     device = torch.device(str(config["device"]))
@@ -956,62 +1296,71 @@ def run_evaluation(
         if _contains_tensor(snapshot):
             raise RuntimeError("PRRAC evaluation snapshot contains torch.Tensor")
         for mode in modes:
-            info = _checkpoint_info(checkpoint, payload, mode)
-            combo = _combo_key(info, manifest_hash)
-            if _canonical_json(combo) in completed:
-                continue
-            trace_config = {
-                "enabled": bool(config["failure_trace"]["enabled"]),
-                "only_found_failures": bool(config["failure_trace"]["only_found_failures"]),
-                "max_traces": int(config["failure_trace"]["max_traces_per_checkpoint_mode"]),
-            }
-            jobs = [
-                {
-                    "episode_index": index,
-                    "scenario": scenario,
-                    "config": config,
-                    "checkpoint_info": info,
-                    "architecture": metadata["architecture"],
-                    "loss": metadata["loss"],
-                    "gamma": state["gamma"],
-                    "tau": state["tau"],
-                    "reward": metadata["reward"],
-                    "policy_snapshot": snapshot,
-                    "failure_trace": trace_config,
-                    "device": str(device),
+            for execution_variant in execution_variants:
+                info = _checkpoint_info(
+                    checkpoint,
+                    payload,
+                    mode,
+                    execution_variant,
+                    manifest_sha256=manifest_hash,
+                    execution_overlay_config_hash=execution_overlay_config_hash,
+                )
+                combo = _combo_key(info, manifest_hash)
+                if _canonical_json(combo) in completed:
+                    continue
+                trace_config = {
+                    "enabled": bool(config["failure_trace"]["enabled"]),
+                    "only_found_failures": bool(config["failure_trace"]["only_found_failures"]),
+                    "max_traces": int(config["failure_trace"]["max_traces_per_checkpoint_mode"]),
                 }
-                for index, scenario in enumerate(scenarios)
-            ]
-            if any(_contains_tensor(job) for job in jobs):
-                raise RuntimeError("PRRAC evaluation worker job contains torch.Tensor")
-            with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
-                results = list(executor.map(_evaluate_episode_job, jobs))
-            rows = [dict(result["episode"]) for result in results]
-            episode_rows.extend(rows)
-            summary_rows.append(aggregate_checkpoint(rows, info))
-            accepted_trace_count = 0
-            trace_limit = int(
-                config["failure_trace"]["max_traces_per_checkpoint_mode"]
-            )
-            for result in results:
-                if result["trace_index"] is not None and accepted_trace_count < trace_limit:
-                    trace_rows.extend(dict(row) for row in result["failure_trace"])
-                    trace_index.append(dict(result["trace_index"]))
-                    accepted_trace_count += 1
-            progress["completed"].append(combo)
-            completed.add(_canonical_json(combo))
-            _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
-            _write_outputs(
-                output,
-                checkpoint_paths=checkpoint_paths,
-                scenarios=scenarios,
-                modes=modes,
-                episode_rows=episode_rows,
-                summary_rows=summary_rows,
-                trace_rows=trace_rows,
-                trace_index=trace_index,
-                progress=progress,
-            )
+                jobs = [
+                    {
+                        "episode_index": index,
+                        "scenario": scenario,
+                        "config": config,
+                        "checkpoint_info": info,
+                        "architecture": metadata["architecture"],
+                        "loss": metadata["loss"],
+                        "gamma": state["gamma"],
+                        "tau": state["tau"],
+                        "reward": metadata["reward"],
+                        "policy_snapshot": snapshot,
+                        "failure_trace": trace_config,
+                        "device": str(device),
+                    }
+                    for index, scenario in enumerate(scenarios)
+                ]
+                if any(_contains_tensor(job) for job in jobs):
+                    raise RuntimeError("PRRAC evaluation worker job contains torch.Tensor")
+                with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
+                    results = list(executor.map(_evaluate_episode_job, jobs))
+                rows = [dict(result["episode"]) for result in results]
+                episode_rows.extend(rows)
+                summary_rows.append(aggregate_checkpoint(rows, info))
+                accepted_trace_count = 0
+                trace_limit = int(
+                    config["failure_trace"]["max_traces_per_checkpoint_mode"]
+                )
+                for result in results:
+                    if result["trace_index"] is not None and accepted_trace_count < trace_limit:
+                        trace_rows.extend(dict(row) for row in result["failure_trace"])
+                        trace_index.append(dict(result["trace_index"]))
+                        accepted_trace_count += 1
+                progress["completed"].append(combo)
+                completed.add(_canonical_json(combo))
+                _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
+                _write_outputs(
+                    output,
+                    checkpoint_paths=checkpoint_paths,
+                    scenarios=scenarios,
+                    modes=modes,
+                    execution_variants=execution_variants,
+                    episode_rows=episode_rows,
+                    summary_rows=summary_rows,
+                    trace_rows=trace_rows,
+                    trace_index=trace_index,
+                    progress=progress,
+                )
 
     _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
     _write_outputs(
@@ -1019,6 +1368,7 @@ def run_evaluation(
         checkpoint_paths=checkpoint_paths,
         scenarios=scenarios,
         modes=modes,
+        execution_variants=execution_variants,
         episode_rows=episode_rows,
         summary_rows=summary_rows,
         trace_rows=trace_rows,
@@ -1029,6 +1379,7 @@ def run_evaluation(
         checkpoint_paths=checkpoint_paths,
         scenarios=scenarios,
         modes=modes,
+        execution_variants=execution_variants,
         summary_rows=summary_rows,
         output=output,
     )
@@ -1046,6 +1397,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workers", type=int)
     parser.add_argument("--device")
     parser.add_argument("--modes", nargs="+")
+    parser.add_argument(
+        "--execution-variants",
+        nargs="+",
+        choices=[item.value for item in VARIANT_ORDER],
+    )
     parser.add_argument("--resume-evaluation", action="store_true")
     parser.add_argument("--disable-failure-trace", action="store_true")
     args = parser.parse_args(argv)
@@ -1060,6 +1416,7 @@ def main(argv: list[str] | None = None) -> int:
         workers_override=args.workers,
         device_override=args.device,
         modes_override=args.modes,
+        execution_variants_override=args.execution_variants,
         resume_evaluation=args.resume_evaluation,
         disable_failure_trace=args.disable_failure_trace,
     )
