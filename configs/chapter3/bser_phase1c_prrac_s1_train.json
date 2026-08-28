@@ -97,7 +97,7 @@
     "phase_replay_counts": true
   },
   "search_continuity_diagnostics": {
-    "schema": "bser.phase1c.prrac.search_continuity.v1",
+    "schema": "bser.phase1c.prrac.search_continuity.v2",
     "enabled": true
   },
   "dry_run": {

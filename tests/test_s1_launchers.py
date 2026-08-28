@@ -1,4 +1,5 @@
 from pathlib import Path
+import subprocess
 import unittest
 
 
@@ -30,6 +31,17 @@ class S1LauncherTests(unittest.TestCase):
         for option in ("--checkpoint", "--output-dir", "--runtime-origin", "--workers", "--episodes"):
             self.assertIn(option, search)
         self.assertIn("full_prrac searcher_residual_off", search)
+
+    def test_linux_launchers_are_git_executable(self):
+        for relative in (
+            "scripts/linux/run_phase1c_prrac_s1_train.sh",
+            "scripts/linux/run_phase1c_prrac_s1_search_diag.sh",
+        ):
+            completed = subprocess.run(
+                ["git", "ls-files", "--stage", relative],
+                cwd=ROOT, check=True, text=True, capture_output=True,
+            )
+            self.assertTrue(completed.stdout.startswith("100755 "), completed.stdout)
 
 
 if __name__ == "__main__":

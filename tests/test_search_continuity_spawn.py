@@ -30,6 +30,8 @@ class SearchContinuitySpawnTests(unittest.TestCase):
             self.assertFalse(evaluator._contains_tensor(one))
             self.assertFalse(evaluator._contains_tensor(two))
             self.assertEqual([item["episode"]["scenario_id"] for item in two[:2]], [item["episode"]["scenario_id"] for item in two[2:]])
+            self.assertTrue(all(not item["episode"]["searcher_residual_off_enabled"] for item in two[:2]))
+            self.assertTrue(all(item["episode"]["searcher_residual_off_enabled"] for item in two[2:]))
 
 
 if __name__ == "__main__":

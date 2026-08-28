@@ -21,6 +21,14 @@ def row(mode, scenario, found, success):
         "target_belief_peak_delta_pre_found": 0.1,
         "searcher_raw_residual_norm_mean_pre_found": 0.5,
         "searcher_applied_residual_norm_mean_pre_found": 0.5 if mode == "full_prrac" else 0.0,
+        "searcher_raw_action_norm_pre_found": 0.5,
+        "searcher_applied_action_norm_pre_found": 0.5 if mode == "full_prrac" else 0.0,
+        "searcher_assignment_switch_count_pre_found": 2,
+        "searcher_tracking_subgoal_switch_count_pre_found": 1 if mode == "full_prrac" else 0,
+        "searcher_residual_suppressed_env_step_count_pre_found": 0 if mode == "full_prrac" else 1,
+        "searcher_residual_suppressed_agent_step_count_pre_found": 0 if mode == "full_prrac" else 3,
+        "searcher_residual_alignment_zero_navigation_count_pre_found": 0,
+        "searcher_residual_alignment_zero_residual_count_pre_found": 0,
         "searcher_residual_negative_alignment_rate_pre_found": 0.25,
     }
 
@@ -32,6 +40,8 @@ class SearcherResidualPairedEvaluationTests(unittest.TestCase):
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["paired_scenario_count"], 2)
         self.assertEqual(result[0]["searcher_off_only_found"], 1)
+        self.assertEqual(result[0]["searcher_applied_action_norm_difference"], -0.5)
+        self.assertEqual(result[0]["searcher_tracking_subgoal_switch_count_difference"], -1.0)
 
     def test_manifest_mismatch_is_rejected(self):
         rows = [row("full_prrac", "a", True, True), row("searcher_residual_off", "b", True, True)]

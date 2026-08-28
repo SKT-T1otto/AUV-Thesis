@@ -40,7 +40,7 @@
     "executor_cost_increase_threshold": 0.15
   },
   "search_continuity_diagnostics": {
-    "schema": "bser.phase1c.prrac.search_continuity.v1",
+    "schema": "bser.phase1c.prrac.search_continuity.v2",
     "enabled": true
   },
   "failure_trace": {

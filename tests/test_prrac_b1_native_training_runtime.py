@@ -35,6 +35,12 @@ class B1NativeTrainingRuntimeTests(unittest.TestCase):
         metrics = result[0]
         self.assertEqual(metrics["pre_found_step_count"], 1)
         self.assertIn("searcher_route_active_rate_pre_found", metrics)
+        self.assertFalse(metrics["searcher_residual_off_enabled"])
+        self.assertEqual(
+            metrics["searcher_raw_action_norm_pre_found"],
+            metrics["searcher_raw_residual_norm_mean_pre_found"],
+        )
+        self.assertIn("searcher_hold_rate_pre_found_agent_2", metrics)
 
 
 if __name__ == "__main__":

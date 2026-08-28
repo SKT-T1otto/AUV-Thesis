@@ -7,7 +7,7 @@ import json
 from typing import Any, Mapping
 
 
-SEARCH_CONTINUITY_SCHEMA = "bser.phase1c.prrac.search_continuity.v1"
+SEARCH_CONTINUITY_SCHEMA = "bser.phase1c.prrac.search_continuity.v2"
 DEFAULT_SEARCH_CONTINUITY_CONFIG = {
     "schema": SEARCH_CONTINUITY_SCHEMA,
     "enabled": True,

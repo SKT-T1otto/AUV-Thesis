@@ -28,6 +28,8 @@ class SearchContinuityStageAttributionTests(unittest.TestCase):
         self.assertEqual(row["pre_found_step_count"], 1)
         self.assertEqual(row["found_step"], 1)
         self.assertEqual(row["searcher_hold_step_count_pre_found"], 3)
+        for agent_id in range(3):
+            self.assertEqual(row[f"searcher_hold_rate_pre_found_agent_{agent_id}"], 1.0)
         self.assertEqual(row["searcher_collision_count_pre_found"], 1)
 
 

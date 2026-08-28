@@ -509,6 +509,25 @@ def _public_context(env: Any, state: Any) -> OnlineMissionContext:
     )
 
 
+def _build_episode_controller(
+    phase1b_config: Mapping[str, Any],
+    experiment_config: Mapping[str, Any],
+    *,
+    execution_variant: str | ExecutionVariant,
+    runtime_integration_mode: str,
+    checkpoint_runtime_revision: str,
+):
+    """Thin evaluation entry point into the shared PRRAC controller factory."""
+
+    return build_prrac_online_controller(
+        phase1b_config,
+        experiment_config,
+        execution_variant=execution_variant,
+        runtime_integration_mode=runtime_integration_mode,
+        checkpoint_runtime_revision=checkpoint_runtime_revision,
+    )
+
+
 def _oracle_context(
     context: BSERControlContextV1, target: Iterable[float]
 ) -> BSERControlContextV1:
@@ -753,7 +772,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         )
         state = provider.initialize()
         context = _public_context(env, state)
-        controller = build_prrac_online_controller(
+        controller = _build_episode_controller(
             phase1b_config,
             config,
             execution_variant=execution_variant,
@@ -893,7 +912,9 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         row.update(continuity_diagnostics.summary())
         row.update(
             search_diagnostics.summary(
-                found=bool(task.target_found), max_steps=int(config["max_steps"])
+                found=bool(task.target_found),
+                max_steps=int(config["max_steps"]),
+                searcher_residual_off_enabled=(mode == "searcher_residual_off"),
             )
         )
         row.update(router_class_metrics(row["router_confusion_matrix"]))
@@ -913,13 +934,6 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 "success": bool(task.mission_complete),
                 "collision_episode": bool(collision_episode),
                 "max_steps": int(config["max_steps"]),
-                "searcher_residual_off_enabled": mode == "searcher_residual_off",
-                "searcher_raw_action_norm_pre_found": row.get(
-                    "searcher_raw_residual_norm_mean_pre_found"
-                ),
-                "searcher_applied_action_norm_pre_found": row.get(
-                    "searcher_applied_residual_norm_mean_pre_found"
-                ),
                 "explore": False,
                 "training_update": False,
                 "optimizer_update_count": 0,
@@ -980,6 +994,18 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
             info.get("search_continuity_diagnostics_hash", "")
         ),
     }
+
+
+def _validate_resume_search_diagnostics(
+    saved_config: Mapping[str, Any], expected_hash: str
+) -> None:
+    saved_search = dict(saved_config.get("search_continuity_diagnostics", {}))
+    if (
+        saved_search.get("schema") != SEARCH_CONTINUITY_SCHEMA
+        or str(saved_config.get("search_continuity_diagnostics_hash", ""))
+        != str(expected_hash)
+    ):
+        raise ValueError("resume search diagnostics schema/hash mismatch")
 
 
 def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1404,6 +1430,10 @@ def run_evaluation(
     scenarios, manifest = _build_evaluation_manifest(config)
     manifest_hash = str(manifest["manifest_sha256"])
     if resume_evaluation:
+        saved_config = json.loads(
+            (output / "resolved_evaluation_config.json").read_text(encoding="utf-8")
+        )
+        _validate_resume_search_diagnostics(saved_config, search_diagnostics_hash)
         saved_manifest = json.loads((output / "evaluation_manifest.json").read_text(encoding="utf-8"))
         if saved_manifest.get("manifest_sha256") != manifest_hash:
             raise ValueError("resume evaluation manifest hash mismatch")

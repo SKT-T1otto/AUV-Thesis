@@ -37,15 +37,20 @@ class SearchContinuityDiagnostics:
         self.hold = [0, 0, 0]
         self.assignment_missing = 0
         self.assignment_unreachable = 0
-        self.waypoint_switch_count = 0
+        self.assignment_switch_count = 0
+        self.tracking_subgoal_switch_count = 0
         self.distance = [0.0, 0.0, 0.0]
         self.raw_norms: list[float] = []
         self.applied_norms: list[float] = []
-        self.suppressed_count = 0
+        self.suppressed_env_step_count = 0
+        self.suppressed_agent_step_count = 0
         self.negative_alignment_count = 0
         self.alignment_valid_count = 0
+        self.alignment_zero_navigation_count = 0
+        self.alignment_zero_residual_count = 0
         self.contribution_ratios: list[float] = []
-        self._previous_waypoints: list[tuple[Any, ...] | None] = [None, None, None]
+        self._previous_assignment_identity: list[tuple[Any, ...] | None] = [None, None, None]
+        self._previous_tracking_waypoint: list[tuple[float, float, float] | None] = [None, None, None]
         self._initial: tuple[float, float, float] | None = None
         self._latest: tuple[float, float, float] | None = None
         self._found_step: int | None = None
@@ -97,6 +102,7 @@ class SearchContinuityDiagnostics:
         else:
             ratios = tuple(residual_contribution_ratios)
 
+        suppressed_this_transition = False
         for agent_id in range(3):
             try:
                 assignment = installed_guidance.assignment_for(agent_id)
@@ -116,15 +122,21 @@ class SearchContinuityDiagnostics:
             if hold:
                 self.hold[agent_id] += 1
             if assignment is not None:
-                waypoint = (
+                identity = (
                     str(assignment.assignment_id),
-                    tuple(float(v) for v in assignment.tracking_waypoint),
+                    str(assignment.assignment_kind),
                     tuple(float(v) for v in assignment.final_waypoint),
                 )
-                previous = self._previous_waypoints[agent_id]
-                if previous is not None and waypoint != previous:
-                    self.waypoint_switch_count += 1
-                self._previous_waypoints[agent_id] = waypoint
+                tracking = tuple(float(v) for v in assignment.tracking_waypoint)
+                previous_identity = self._previous_assignment_identity[agent_id]
+                previous_tracking = self._previous_tracking_waypoint[agent_id]
+                if previous_identity is not None:
+                    if identity != previous_identity:
+                        self.assignment_switch_count += 1
+                    elif tracking != previous_tracking:
+                        self.tracking_subgoal_switch_count += 1
+                self._previous_assignment_identity[agent_id] = identity
+                self._previous_tracking_waypoint[agent_id] = tracking
             self.distance[agent_id] += float(
                 np.linalg.norm(
                     np.asarray(after[agent_id].position, dtype=np.float64)
@@ -145,21 +157,48 @@ class SearchContinuityDiagnostics:
             self.raw_norms.append(raw_norm)
             self.applied_norms.append(applied_norm)
             if not np.array_equal(raw[agent_id], applied[agent_id]):
-                self.suppressed_count += 1
-            if agent_id < len(outputs):
+                self.suppressed_agent_step_count += 1
+                suppressed_this_transition = True
+            route_active = bool(not missing and reachable and not hold)
+            if route_active and agent_id < len(outputs):
+                navigation_norm = float(
+                    np.linalg.norm(
+                        np.asarray(assignment.tracking_waypoint, dtype=np.float64)
+                        - np.asarray(before[agent_id].position, dtype=np.float64)
+                    )
+                )
+                residual_norm = float(
+                    np.linalg.norm(_array(outputs[agent_id].residual_mix).reshape(-1, 3)[0])
+                )
+                if navigation_norm <= 1e-8:
+                    self.alignment_zero_navigation_count += 1
+                if residual_norm <= 1e-8:
+                    self.alignment_zero_residual_count += 1
                 alignment = _scalar(outputs[agent_id].alignment_cosine)
-                if math.isfinite(alignment):
+                if (
+                    navigation_norm > 1e-8
+                    and residual_norm > 1e-8
+                    and math.isfinite(alignment)
+                ):
                     self.alignment_valid_count += 1
                     self.negative_alignment_count += int(alignment < 0.0)
             if agent_id < len(ratios):
                 ratio = _scalar(ratios[agent_id])
                 if math.isfinite(ratio):
                     self.contribution_ratios.append(ratio)
+        if suppressed_this_transition:
+            self.suppressed_env_step_count += 1
         if scalar_ratio is not None and math.isfinite(scalar_ratio):
             self.contribution_ratios.append(scalar_ratio)
         self._latest = self._map_belief(planning_state_after)
 
-    def summary(self, *, found: bool, max_steps: int) -> dict[str, Any]:
+    def summary(
+        self,
+        *,
+        found: bool,
+        max_steps: int,
+        searcher_residual_off_enabled: bool = False,
+    ) -> dict[str, Any]:
         initial = self._initial or (0.0, 0.0, 0.0)
         latest = self._latest or initial
         steps = self.pre_found_step_count
@@ -168,6 +207,11 @@ class SearchContinuityDiagnostics:
         total_collisions = sum(self.collision_counts)
         total_active = sum(self.route_active)
         total_hold = sum(self.hold)
+        raw_norm_mean = None if not self.raw_norms else float(np.mean(self.raw_norms))
+        applied_norm_mean = None if not self.applied_norms else float(np.mean(self.applied_norms))
+        waypoint_switch_count = (
+            self.assignment_switch_count + self.tracking_subgoal_switch_count
+        )
         result: dict[str, Any] = {
             "pre_found_step_count": int(steps),
             "found": bool(found),
@@ -182,7 +226,9 @@ class SearchContinuityDiagnostics:
             "searcher_hold_rate_pre_found": nullable_rate(total_hold, agent_steps),
             "searcher_assignment_missing_step_count_pre_found": int(self.assignment_missing),
             "searcher_assignment_unreachable_step_count_pre_found": int(self.assignment_unreachable),
-            "searcher_waypoint_switch_count_pre_found": int(self.waypoint_switch_count),
+            "searcher_assignment_switch_count_pre_found": int(self.assignment_switch_count),
+            "searcher_tracking_subgoal_switch_count_pre_found": int(self.tracking_subgoal_switch_count),
+            "searcher_waypoint_switch_count_pre_found": int(waypoint_switch_count),
             "searcher_distance_travelled_pre_found": float(sum(self.distance)),
             "map_known_fraction_initial": float(initial[0]),
             "map_known_fraction_at_found_or_end": float(latest[0]),
@@ -193,11 +239,18 @@ class SearchContinuityDiagnostics:
             "target_belief_peak_initial": float(initial[2]),
             "target_belief_peak_at_found_or_end": float(latest[2]),
             "target_belief_peak_delta_pre_found": float(latest[2] - initial[2]),
-            "searcher_raw_residual_norm_mean_pre_found": None if not self.raw_norms else float(np.mean(self.raw_norms)),
-            "searcher_applied_residual_norm_mean_pre_found": None if not self.applied_norms else float(np.mean(self.applied_norms)),
-            "searcher_residual_suppressed_step_count_pre_found": int(self.suppressed_count),
+            "searcher_residual_off_enabled": bool(searcher_residual_off_enabled),
+            "searcher_raw_residual_norm_mean_pre_found": raw_norm_mean,
+            "searcher_applied_residual_norm_mean_pre_found": applied_norm_mean,
+            "searcher_raw_action_norm_pre_found": raw_norm_mean,
+            "searcher_applied_action_norm_pre_found": applied_norm_mean,
+            "searcher_residual_suppressed_env_step_count_pre_found": int(self.suppressed_env_step_count),
+            "searcher_residual_suppressed_agent_step_count_pre_found": int(self.suppressed_agent_step_count),
+            "searcher_residual_suppressed_step_count_pre_found": int(self.suppressed_env_step_count),
             "searcher_residual_negative_alignment_count_pre_found": int(self.negative_alignment_count),
             "searcher_residual_alignment_valid_count_pre_found": int(self.alignment_valid_count),
+            "searcher_residual_alignment_zero_navigation_count_pre_found": int(self.alignment_zero_navigation_count),
+            "searcher_residual_alignment_zero_residual_count_pre_found": int(self.alignment_zero_residual_count),
             "searcher_residual_negative_alignment_rate_pre_found": nullable_rate(self.negative_alignment_count, self.alignment_valid_count),
             "searcher_residual_contribution_ratio_mean_pre_found": None if not self.contribution_ratios else float(np.mean(self.contribution_ratios)),
         }
@@ -207,6 +260,7 @@ class SearchContinuityDiagnostics:
             result[f"searcher_route_active_step_count_pre_found_agent_{agent_id}"] = int(self.route_active[agent_id])
             result[f"searcher_route_active_rate_pre_found_agent_{agent_id}"] = nullable_rate(self.route_active[agent_id], steps)
             result[f"searcher_hold_step_count_pre_found_agent_{agent_id}"] = int(self.hold[agent_id])
+            result[f"searcher_hold_rate_pre_found_agent_{agent_id}"] = nullable_rate(self.hold[agent_id], steps)
             result[f"searcher_distance_travelled_pre_found_agent_{agent_id}"] = float(self.distance[agent_id])
         return result
 

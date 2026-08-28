@@ -6,14 +6,23 @@ import numpy as np
 
 
 class Guidance:
-    def __init__(self, *, reachable=True, hold=False, suffix="a"):
+    def __init__(
+        self,
+        *,
+        reachable=True,
+        hold=False,
+        suffix="a",
+        assignment_kind="SEARCH_REGION",
+        tracking_shift=0.0,
+        final_shift=0.0,
+    ):
         self.assignments = tuple(
             SimpleNamespace(
                 agent_id=index,
-                assignment_kind="SEARCH_REGION",
+                assignment_kind=assignment_kind,
                 assignment_id=f"{index}-{suffix}",
-                tracking_waypoint=(float(index), 0.0, 0.0),
-                final_waypoint=(float(index) + 1.0, 0.0, 0.0),
+                tracking_waypoint=(float(index) + 1.0 + tracking_shift, 0.0, 0.0),
+                final_waypoint=(float(index) + 2.0 + final_shift, 0.0, 0.0),
                 reachable=reachable,
                 hold_state=hold,
             )
@@ -36,8 +45,11 @@ def state(step=0, offset=0.0, known=(True, False), entropy=1.0, peak=0.5):
     )
 
 
-def outputs(alignment=0.25):
+def outputs(alignment=0.25, residual=(1.0, 0.0, 0.0)):
     return tuple(
-        SimpleNamespace(alignment_cosine=np.asarray([alignment], dtype=np.float32))
+        SimpleNamespace(
+            alignment_cosine=np.asarray([alignment], dtype=np.float32),
+            residual_mix=np.asarray([residual], dtype=np.float32),
+        )
         for _ in range(4)
     )

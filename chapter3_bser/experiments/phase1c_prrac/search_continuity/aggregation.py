@@ -81,6 +81,14 @@ def aggregate_search_continuity(
         ("mean_searcher_raw_residual_norm_pre_found", "searcher_raw_residual_norm_mean_pre_found"),
         ("mean_searcher_applied_residual_norm_pre_found", "searcher_applied_residual_norm_mean_pre_found"),
         ("mean_searcher_residual_negative_alignment_rate_pre_found", "searcher_residual_negative_alignment_rate_pre_found"),
+        ("mean_searcher_assignment_switch_count_pre_found", "searcher_assignment_switch_count_pre_found"),
+        ("mean_searcher_tracking_subgoal_switch_count_pre_found", "searcher_tracking_subgoal_switch_count_pre_found"),
+        ("mean_searcher_residual_suppressed_env_step_count_pre_found", "searcher_residual_suppressed_env_step_count_pre_found"),
+        ("mean_searcher_residual_suppressed_agent_step_count_pre_found", "searcher_residual_suppressed_agent_step_count_pre_found"),
+        ("mean_searcher_raw_action_norm_pre_found", "searcher_raw_action_norm_pre_found"),
+        ("mean_searcher_applied_action_norm_pre_found", "searcher_applied_action_norm_pre_found"),
+        ("mean_searcher_residual_alignment_zero_navigation_count_pre_found", "searcher_residual_alignment_zero_navigation_count_pre_found"),
+        ("mean_searcher_residual_alignment_zero_residual_count_pre_found", "searcher_residual_alignment_zero_residual_count_pre_found"),
     ):
         result[output] = _mean(rows, source)
     return result
@@ -127,6 +135,9 @@ def paired_searcher_residual_comparisons(rows: list[dict[str, Any]]) -> list[dic
             ("searcher_route_active_rate_difference", "mean_searcher_route_active_rate_pre_found"),
             ("map_known_fraction_gain_difference", "mean_map_known_fraction_gain_pre_found"),
             ("searcher_distance_travelled_difference", "mean_searcher_distance_travelled_pre_found"),
+            ("searcher_applied_action_norm_difference", "mean_searcher_applied_action_norm_pre_found"),
+            ("searcher_assignment_switch_count_difference", "mean_searcher_assignment_switch_count_pre_found"),
+            ("searcher_tracking_subgoal_switch_count_difference", "mean_searcher_tracking_subgoal_switch_count_pre_found"),
         ):
             left, right = full_summary.get(source), off_summary.get(source)
             result[output_name] = None if left is None or right is None else float(right) - float(left)
@@ -159,6 +170,14 @@ def search_failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 ("mean_map_known_gain", "map_known_fraction_gain_pre_found"),
                 ("mean_belief_entropy_delta", "target_belief_entropy_delta_pre_found"),
                 ("mean_residual_norm", "searcher_applied_residual_norm_mean_pre_found"),
+                ("mean_searcher_assignment_switch_count_pre_found", "searcher_assignment_switch_count_pre_found"),
+                ("mean_searcher_tracking_subgoal_switch_count_pre_found", "searcher_tracking_subgoal_switch_count_pre_found"),
+                ("mean_searcher_residual_suppressed_env_step_count_pre_found", "searcher_residual_suppressed_env_step_count_pre_found"),
+                ("mean_searcher_residual_suppressed_agent_step_count_pre_found", "searcher_residual_suppressed_agent_step_count_pre_found"),
+                ("mean_searcher_raw_action_norm_pre_found", "searcher_raw_action_norm_pre_found"),
+                ("mean_searcher_applied_action_norm_pre_found", "searcher_applied_action_norm_pre_found"),
+                ("mean_searcher_residual_alignment_zero_navigation_count_pre_found", "searcher_residual_alignment_zero_navigation_count_pre_found"),
+                ("mean_searcher_residual_alignment_zero_residual_count_pre_found", "searcher_residual_alignment_zero_residual_count_pre_found"),
             ):
                 row[output_name] = _mean(selected, source)
             output.append(row)

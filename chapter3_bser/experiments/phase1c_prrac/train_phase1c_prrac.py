@@ -173,6 +173,14 @@ def _parameter_counts(learner: PRRACMADDPG) -> dict[str, int]:
     }
 
 
+def _build_episode_controller(
+    phase1b_config: Mapping[str, Any], experiment_config: Mapping[str, Any]
+):
+    """Thin training entry point into the shared PRRAC controller factory."""
+
+    return build_prrac_online_controller(phase1b_config, experiment_config)
+
+
 def _checkpoint_metadata(
     config: Mapping[str, Any], completed_episode: int, learner: PRRACMADDPG
 ) -> dict[str, Any]:
@@ -273,12 +281,20 @@ def _load_checkpoint(
     actual_revision = str(metadata.get("execution_runtime_revision", ""))
     if actual_revision != expected_runtime.checkpoint_runtime_revision:
         raise ValueError("checkpoint execution runtime revision mismatch")
-    actual_variant = str(
-        metadata.get("execution_variant", "B0_LEGACY_V2_1")
+    native_runtime = (
+        expected_runtime.checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
     )
-    actual_integration = str(metadata.get("runtime_integration_mode", "legacy"))
+    actual_variant = str(
+        metadata.get("execution_variant", "" if native_runtime else "B0_LEGACY_V2_1")
+    )
+    actual_integration = str(
+        metadata.get("runtime_integration_mode", "" if native_runtime else "legacy")
+    )
     actual_factory = str(
-        metadata.get("controller_factory_version", CONTROLLER_FACTORY_VERSION)
+        metadata.get(
+            "controller_factory_version",
+            "" if native_runtime else CONTROLLER_FACTORY_VERSION,
+        )
     )
     if actual_variant != expected_runtime.execution_variant.value:
         raise ValueError("checkpoint execution variant mismatch")
@@ -596,7 +612,7 @@ def _collect_episode(job: dict[str, Any]):
         )
         state = provider.initialize()
         context = _public_context(env, state)
-        controller = build_prrac_online_controller(phase1b_config, job)
+        controller = _build_episode_controller(phase1b_config, job)
         initialized = controller.initialize(state, context)
         bridge = RMADDPGGuidanceBridge()
         guidance = bridge.compile_guidance(
@@ -718,7 +734,9 @@ def _collect_episode(job: dict[str, Any]):
         if search_diagnostics_enabled:
             metrics.update(
                 search_diagnostics.summary(
-                    found=bool(task.target_found), max_steps=int(job["max_steps"])
+                    found=bool(task.target_found),
+                    max_steps=int(job["max_steps"]),
+                    searcher_residual_off_enabled=False,
                 )
             )
         payload = (
