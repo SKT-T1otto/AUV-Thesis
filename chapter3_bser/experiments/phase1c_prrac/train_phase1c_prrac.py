@@ -48,6 +48,15 @@ from chapter3_bser.experiments.phase1c_prrac import (
 )
 from chapter3_bser.experiments.phase1c_prrac.diagnostics import PRRACDiagnostics
 from chapter3_bser.experiments.phase1c_prrac.replay_adapter import PRRACReplayAdapter
+from chapter3_bser.experiments.phase1c_prrac.runtime_factory import (
+    CONTROLLER_FACTORY_VERSION,
+    NATIVE_B1_RUNTIME_REVISION,
+    build_prrac_online_controller,
+    runtime_contract,
+)
+from chapter3_bser.experiments.phase1c_prrac.search_continuity import (
+    SearchContinuityDiagnostics,
+)
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
 from chapter3_bser.experiments.phase1c_prrac.transition_protocol import (
     PRRACTransitionMetadata,
@@ -57,7 +66,6 @@ from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
 from chapter3_bser.models.prrac.stage_mapping import STAGE_MAPPING
 from chapter3_bser.online.config import execution_runtime_config, load_phase1b2_config
-from chapter3_bser.online.controller import OnlineBSERController
 from core.registry.experiment_registry import assert_registered_ch3_method
 from core.scenarios.ch3_generator_impl import build_scenario_manifests
 
@@ -131,6 +139,12 @@ def _load_config(path: Path) -> dict[str, Any]:
         raise ValueError("PRRAC requires BSER guidance and real training updates")
     if config.get("profile") != "M20_MOVING_UNKNOWN_MULTI":
         raise ValueError("PRRAC formal profile changed")
+    contract = runtime_contract(config)
+    if contract.checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION:
+        if config.get("execution_variant") != "B1_ATOMIC_LAST_VALID":
+            raise ValueError("native PRRAC training requires B1_ATOMIC_LAST_VALID")
+        if config.get("runtime_integration_mode") != "native":
+            raise ValueError("native PRRAC training requires runtime_integration_mode=native")
     config["execution_runtime"] = execution_runtime_config(config)
     return config
 
@@ -162,6 +176,7 @@ def _parameter_counts(learner: PRRACMADDPG) -> dict[str, int]:
 def _checkpoint_metadata(
     config: Mapping[str, Any], completed_episode: int, learner: PRRACMADDPG
 ) -> dict[str, Any]:
+    contract = runtime_contract(config)
     return {
         "schema": CHECKPOINT_SCHEMA,
         "method": METHOD,
@@ -179,7 +194,10 @@ def _checkpoint_metadata(
         "loss": copy.deepcopy(config["loss"]),
         "reward": copy.deepcopy(config["reward"]),
         "replay": copy.deepcopy(config["replay"]),
-        "execution_runtime_revision": str(config["execution_runtime_revision"]),
+        "execution_runtime_revision": contract.checkpoint_runtime_revision,
+        "execution_variant": contract.execution_variant.value,
+        "runtime_integration_mode": contract.runtime_integration_mode,
+        "controller_factory_version": CONTROLLER_FACTORY_VERSION,
         **_parameter_counts(learner),
     }
 
@@ -251,6 +269,23 @@ def _load_checkpoint(
     metadata = dict(payload.get("metadata", {}))
     if metadata.get("architecture_version") != ARCHITECTURE_VERSION:
         raise ValueError("PRRAC checkpoint architecture mismatch")
+    expected_runtime = runtime_contract(config)
+    actual_revision = str(metadata.get("execution_runtime_revision", ""))
+    if actual_revision != expected_runtime.checkpoint_runtime_revision:
+        raise ValueError("checkpoint execution runtime revision mismatch")
+    actual_variant = str(
+        metadata.get("execution_variant", "B0_LEGACY_V2_1")
+    )
+    actual_integration = str(metadata.get("runtime_integration_mode", "legacy"))
+    actual_factory = str(
+        metadata.get("controller_factory_version", CONTROLLER_FACTORY_VERSION)
+    )
+    if actual_variant != expected_runtime.execution_variant.value:
+        raise ValueError("checkpoint execution variant mismatch")
+    if actual_integration != expected_runtime.runtime_integration_mode:
+        raise ValueError("checkpoint runtime integration mode mismatch")
+    if actual_factory != CONTROLLER_FACTORY_VERSION:
+        raise ValueError("checkpoint controller factory version mismatch")
     if metadata.get("architecture") != dict(config["architecture"]):
         raise ValueError("PRRAC checkpoint architecture config mismatch")
     if metadata.get("config_hash") != _config_hash(config):
@@ -561,7 +596,7 @@ def _collect_episode(job: dict[str, Any]):
         )
         state = provider.initialize()
         context = _public_context(env, state)
-        controller = OnlineBSERController(phase1b_config)
+        controller = build_prrac_online_controller(phase1b_config, job)
         initialized = controller.initialize(state, context)
         bridge = RMADDPGGuidanceBridge()
         guidance = bridge.compile_guidance(
@@ -582,6 +617,12 @@ def _collect_episode(job: dict[str, Any]):
         actor.reset_noise()
         transitions = []
         rollout_diagnostics = PRRACDiagnostics()
+        search_diagnostics = SearchContinuityDiagnostics()
+        search_diagnostics_enabled = bool(
+            dict(job.get("search_continuity_diagnostics", {})).get("enabled", False)
+        )
+        if search_diagnostics_enabled:
+            search_diagnostics.begin_episode(state)
         reward_total = 0.0
         collision_count = 0
         event_count = 0
@@ -589,20 +630,39 @@ def _collect_episode(job: dict[str, Any]):
         action_norms: list[float] = []
         final_step = 0
         for _ in range(int(job["max_steps"])):
+            state_before = state
+            installed_guidance = guidance
             with torch.no_grad():
                 action_parts = actor.step(observations, explore=True)
                 actions = torch.stack([item.squeeze(0) for item in action_parts])
+                actor_outputs = [
+                    actor.agents[agent_i].actor(
+                        torch.as_tensor(observation).reshape(1, 28)
+                    )
+                    for agent_i, observation in enumerate(observations)
+                ]
             _, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
                 raise RuntimeError("PRRAC training wrapper did not emit stage metadata")
-            for agent_i, observation in enumerate(observations):
-                with torch.no_grad():
-                    output = actor.agents[agent_i].actor(
-                        torch.as_tensor(observation).reshape(1, 28)
-                    )
+            for output in actor_outputs:
                 rollout_diagnostics.observe_actor(output, [int(metadata.stage_before)])
             state = provider.snapshot(force=False)
+            if search_diagnostics_enabled:
+                search_diagnostics.observe_transition(
+                    stage_before=metadata.stage_before,
+                    stage_after=metadata.stage_after,
+                    installed_guidance=installed_guidance,
+                    planning_state_before=state_before,
+                    planning_state_after=state,
+                    collision_flags=env.unwrapped.collision_flags,
+                    raw_actions=actions,
+                    applied_actions=actions,
+                    actor_outputs=actor_outputs,
+                    residual_contribution_ratios=(
+                        env.unwrapped.last_residual_contribution_ratio_search
+                    ),
+                )
             context = _public_context(env, state)
             result = controller.step(state, context)
             env.observe_controller_result(result, controller=controller, state_provider=provider)
@@ -655,6 +715,12 @@ def _collect_episode(job: dict[str, Any]):
             "action_norm": 0.0 if not action_norms else float(statistics.fmean(action_norms)),
             "wall_seconds": float(time.perf_counter() - started),
         }
+        if search_diagnostics_enabled:
+            metrics.update(
+                search_diagnostics.summary(
+                    found=bool(task.target_found), max_steps=int(job["max_steps"])
+                )
+            )
         payload = (
             metrics,
             transitions,
@@ -925,6 +991,19 @@ def run_training(
                     "architecture": config["architecture"],
                     "loss": config["loss"],
                     "execution_runtime": config["execution_runtime"],
+                    "execution_runtime_revision": config["execution_runtime_revision"],
+                    "execution_variant": config.get(
+                        "execution_variant", "B0_LEGACY_V2_1"
+                    ),
+                    "runtime_integration_mode": config.get(
+                        "runtime_integration_mode", "legacy"
+                    ),
+                    "controller_factory_version": config.get(
+                        "controller_factory_version", CONTROLLER_FACTORY_VERSION
+                    ),
+                    "search_continuity_diagnostics": config.get(
+                        "search_continuity_diagnostics", {"enabled": False}
+                    ),
                     "policy_snapshot": snapshot,
                 }
                 for index in indices

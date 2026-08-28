@@ -35,10 +35,21 @@ def overlay_config(config: Mapping[str, Any]) -> dict[str, Any]:
     )
     if state_refresh_interval <= 0:
         raise ValueError("execution-continuity state_refresh_interval must be positive")
+    checkpoint_revision = str(
+        config.get("checkpoint_runtime_revision")
+        or config.get("execution_runtime_revision")
+        or CHECKPOINT_RUNTIME_REVISION
+    )
+    evaluation_revision = str(
+        config.get("evaluation_runtime_revision")
+        or checkpoint_revision
+        if config.get("runtime_integration_mode") == "native"
+        else config.get("evaluation_runtime_revision", OVERLAY_RUNTIME_REVISION)
+    )
     value = {
         "schema": OVERLAY_SCHEMA,
-        "checkpoint_runtime_revision": CHECKPOINT_RUNTIME_REVISION,
-        "evaluation_runtime_revision": OVERLAY_RUNTIME_REVISION,
+        "checkpoint_runtime_revision": checkpoint_revision,
+        "evaluation_runtime_revision": evaluation_revision,
         "state_refresh_interval": state_refresh_interval,
         "public_target_update_distance": float(runtime.get("public_target_update_distance", 0.75)),
         "public_target_update_min_steps": int(runtime.get("public_target_update_min_steps", 20)),

@@ -63,6 +63,21 @@ from chapter3_bser.experiments.phase1c_prrac.execution_continuity import (
     paired_execution_variant_comparisons,
     parse_execution_variant,
 )
+from chapter3_bser.experiments.phase1c_prrac.runtime_factory import (
+    CONTROLLER_FACTORY_VERSION,
+    NATIVE_B1_RUNTIME_REVISION,
+    build_prrac_online_controller,
+)
+from chapter3_bser.experiments.phase1c_prrac.search_continuity import (
+    SEARCH_CONTINUITY_SCHEMA,
+    SearchContinuityDiagnostics,
+    aggregate_search_continuity,
+    apply_residual_mode,
+    paired_searcher_residual_comparisons,
+    search_continuity_config,
+    search_continuity_config_hash,
+    search_failure_funnel,
+)
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
 from chapter3_bser.integration.control_context import (
     AgentAssignmentContextV1,
@@ -74,7 +89,6 @@ from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
 from chapter3_bser.models.prrac.stage_mapping import PRRACStage
 from chapter3_bser.online.config import execution_runtime_config, load_phase1b2_config
-from chapter3_bser.online.controller import OnlineBSERController
 from chapter3_bser.online.mission_context import OnlineMissionContext
 from core.config.ch3_config import build_ch3_config
 from core.env.mission_env import MissionCoreEnv, environment_kwargs_from_config
@@ -95,6 +109,7 @@ OLD_CHECKPOINT_MESSAGE = (
 )
 SUPPORTED_MODES = (
     "full_prrac",
+    "searcher_residual_off",
     "executor_residual_off",
     "all_residual_off",
     "oracle_current_target_diagnostic",
@@ -116,6 +131,11 @@ OUTPUT_FILES = (
     "paired_execution_variant_comparison.csv",
     "execution_variant_failure_funnel.csv",
     "execution_variant_summary.json",
+    "search_continuity_episode.csv",
+    "search_continuity_summary.csv",
+    "paired_searcher_residual_comparison.csv",
+    "search_failure_funnel.csv",
+    "search_continuity_summary.json",
 )
 
 
@@ -243,7 +263,10 @@ def _load_config(path: Path) -> dict[str, Any]:
             config.get("execution_runtime_revision", ""),
         )
     )
-    if checkpoint_revision != CHECKPOINT_RUNTIME_REVISION:
+    if checkpoint_revision not in {
+        CHECKPOINT_RUNTIME_REVISION,
+        NATIVE_B1_RUNTIME_REVISION,
+    }:
         raise ValueError(
             f"unsupported checkpoint runtime revision: {checkpoint_revision!r}"
         )
@@ -253,11 +276,25 @@ def _load_config(path: Path) -> dict[str, Any]:
             "execution_variants", (ExecutionVariant.B0_LEGACY_V2_1.value,)
         )
     )
-    expected_evaluation_revision = (
-        OVERLAY_RUNTIME_REVISION
-        if any(overlay_enabled(value) for value in configured_variants)
-        else CHECKPOINT_RUNTIME_REVISION
-    )
+    if checkpoint_revision == NATIVE_B1_RUNTIME_REVISION:
+        if configured_variants != (ExecutionVariant.B1_ATOMIC_LAST_VALID,):
+            raise ValueError("native checkpoint evaluation requires exactly B1_ATOMIC_LAST_VALID")
+        expected_integration = "native"
+        expected_evaluation_revision = NATIVE_B1_RUNTIME_REVISION
+    else:
+        expected_integration = (
+            "overlay" if any(overlay_enabled(value) for value in configured_variants) else "legacy"
+        )
+        expected_evaluation_revision = (
+            OVERLAY_RUNTIME_REVISION
+            if any(overlay_enabled(value) for value in configured_variants)
+            else CHECKPOINT_RUNTIME_REVISION
+        )
+    integration = str(config.get("runtime_integration_mode", expected_integration))
+    if integration != expected_integration:
+        raise ValueError(
+            f"checkpoint runtime integration mismatch: {integration!r}"
+        )
     evaluation_revision = str(
         config.get("evaluation_runtime_revision", expected_evaluation_revision)
     )
@@ -265,10 +302,16 @@ def _load_config(path: Path) -> dict[str, Any]:
         raise ValueError(
             f"unregistered evaluation runtime overlay mismatch: {evaluation_revision!r}"
         )
-    config["checkpoint_runtime_revision"] = CHECKPOINT_RUNTIME_REVISION
+    config["checkpoint_runtime_revision"] = checkpoint_revision
     config["evaluation_runtime_revision"] = expected_evaluation_revision
+    config["runtime_integration_mode"] = integration
+    if str(config.get("controller_factory_version", CONTROLLER_FACTORY_VERSION)) != CONTROLLER_FACTORY_VERSION:
+        raise ValueError("unsupported controller factory version")
+    config["controller_factory_version"] = CONTROLLER_FACTORY_VERSION
     config["execution_runtime"] = execution_runtime_config(config)
     config["execution_continuity"] = overlay_config(config)
+    config["search_continuity_diagnostics"] = search_continuity_config(config)
+    config["search_continuity_diagnostics_hash"] = search_continuity_config_hash(config)
     return config
 
 
@@ -310,8 +353,16 @@ def _validate_checkpoint_payload(
         expected_checkpoint_revision = str(
             config.get("checkpoint_runtime_revision", config["execution_runtime_revision"])
         )
-        if str(metadata.get("execution_runtime_revision", "")) != expected_checkpoint_revision:
-            raise ValueError("checkpoint execution_runtime_revision mismatch")
+        actual_revision = str(metadata.get("execution_runtime_revision", ""))
+        if actual_revision != expected_checkpoint_revision:
+            raise ValueError("checkpoint execution runtime revision mismatch")
+        if expected_checkpoint_revision == NATIVE_B1_RUNTIME_REVISION:
+            if str(metadata.get("execution_variant", "")) != ExecutionVariant.B1_ATOMIC_LAST_VALID.value:
+                raise ValueError("native checkpoint execution variant mismatch")
+            if str(metadata.get("runtime_integration_mode", "")) != "native":
+                raise ValueError("native checkpoint runtime integration mismatch")
+            if str(metadata.get("controller_factory_version", "")) != CONTROLLER_FACTORY_VERSION:
+                raise ValueError("native checkpoint controller factory mismatch")
     return dict(payload)
 
 
@@ -347,29 +398,42 @@ def _checkpoint_info(
     *,
     manifest_sha256: str = "",
     execution_overlay_config_hash: str = "",
+    evaluation_runtime_revision: str | None = None,
+    runtime_integration_mode: str | None = None,
+    search_diagnostics_hash: str = "",
 ) -> dict[str, Any]:
     metadata = dict(payload["metadata"])
     oracle = mode == "oracle_current_target_diagnostic"
+    diagnostic_only = oracle or mode == "searcher_residual_off"
     variant = parse_execution_variant(execution_variant)
     enabled = overlay_enabled(variant)
+    checkpoint_revision = str(
+        metadata.get("execution_runtime_revision", CHECKPOINT_RUNTIME_REVISION)
+    )
+    integration = str(
+        runtime_integration_mode
+        or ("legacy" if not enabled else "native" if checkpoint_revision == NATIVE_B1_RUNTIME_REVISION else "overlay")
+    )
     return {
         "checkpoint": str(Path(path).resolve()),
         "checkpoint_episode": int(payload.get("completed_episode", metadata.get("completed_episode", 0))),
         "checkpoint_config_hash": str(metadata.get("config_hash", "")),
         "checkpoint_schema": str(payload["schema"]),
         "evaluation_mode": str(mode),
-        "diagnostic_only": oracle,
+        "diagnostic_only": diagnostic_only,
         "privileged_oracle": oracle,
         "execution_variant": variant.value,
-        "checkpoint_runtime_revision": str(
-            metadata.get("execution_runtime_revision", CHECKPOINT_RUNTIME_REVISION)
+        "checkpoint_runtime_revision": checkpoint_revision,
+        "evaluation_runtime_revision": str(
+            evaluation_runtime_revision
+            or (OVERLAY_RUNTIME_REVISION if enabled else CHECKPOINT_RUNTIME_REVISION)
         ),
-        "evaluation_runtime_revision": (
-            OVERLAY_RUNTIME_REVISION if enabled else CHECKPOINT_RUNTIME_REVISION
-        ),
-        "runtime_overlay_enabled": enabled,
+        "runtime_integration_mode": integration,
+        "runtime_overlay_enabled": integration == "overlay",
         "manifest_sha256": str(manifest_sha256),
         "execution_overlay_config_hash": str(execution_overlay_config_hash),
+        "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
+        "search_continuity_diagnostics_hash": str(search_diagnostics_hash),
     }
 
 
@@ -506,17 +570,12 @@ def _install_next_guidance(
     return policy_observations, installed
 
 
-def _apply_residual_mode(actions: torch.Tensor, mode: str) -> torch.Tensor:
-    result = actions.clone()
-    if mode in {"full_prrac", "oracle_current_target_diagnostic"}:
-        return result
-    if mode == "executor_residual_off":
-        result[3].zero_()
-        return result
-    if mode == "all_residual_off":
-        result.zero_()
-        return result
-    raise ValueError(f"unsupported PRRAC evaluation mode: {mode!r}")
+def _apply_residual_mode(
+    actions: torch.Tensor,
+    mode: str,
+    stage_before: int | PRRACStage = PRRACStage.SEARCH,
+) -> torch.Tensor:
+    return apply_residual_mode(actions, mode, stage_before)
 
 
 def _policy_outputs(
@@ -655,6 +714,17 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
     execution_variant = parse_execution_variant(
         info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
     )
+    checkpoint_revision = str(
+        info.get("checkpoint_runtime_revision", CHECKPOINT_RUNTIME_REVISION)
+    )
+    effective_integration = (
+        "native"
+        if checkpoint_revision == NATIVE_B1_RUNTIME_REVISION
+        else "overlay"
+        if overlay_enabled(execution_variant)
+        else "legacy"
+    )
+    info["runtime_integration_mode"] = effective_integration
     device = torch.device(str(job["device"]))
     actor = PRRACMADDPG(
         architecture=job["architecture"],
@@ -683,15 +753,12 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         )
         state = provider.initialize()
         context = _public_context(env, state)
-        legacy_controller = OnlineBSERController(phase1b_config)
-        controller = (
-            legacy_controller
-            if execution_variant is ExecutionVariant.B0_LEGACY_V2_1
-            else ExecutionContinuityController(
-                legacy_controller,
-                variant=execution_variant,
-                config=config,
-            )
+        controller = build_prrac_online_controller(
+            phase1b_config,
+            config,
+            execution_variant=execution_variant,
+            runtime_integration_mode=effective_integration,
+            checkpoint_runtime_revision=checkpoint_revision,
         )
         initialized = controller.initialize(state, context)
         bridge = RMADDPGGuidanceBridge()
@@ -699,8 +766,11 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             initialized.allocation, state, context, decision_reason="INITIALIZE"
         )
         env.install_guidance(guidance)
+        installed_guidance = guidance
         observations = env.refresh_observation_after_guidance()
         diagnostics = PRRACDiagnostics()
+        search_diagnostics = SearchContinuityDiagnostics()
+        search_diagnostics.begin_episode(state)
         current_stage = PRRACStage.SEARCH
         reward_total = 0.0
         episode_length = 0
@@ -713,6 +783,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         continuity_action_adapter = ExecutionContinuityActionAdapter()
 
         for _ in range(int(config["max_steps"])):
+            state_before = state
+            transition_guidance = installed_guidance
             with torch.no_grad():
                 outputs = _policy_outputs(actor, observations, device)
                 for output in outputs:
@@ -720,7 +792,9 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 residual_actions = torch.stack(
                     [output.gated_residual_action.squeeze(0) for output in outputs]
                 )
-                mode_actions = _apply_residual_mode(residual_actions, mode)
+                mode_actions = _apply_residual_mode(
+                    residual_actions, mode, current_stage
+                )
                 actions, suppression = continuity_action_adapter.apply(
                     mode_actions,
                     plan=getattr(controller, "current_plan", None),
@@ -745,6 +819,20 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             )
 
             state = provider.snapshot(force=False)
+            search_diagnostics.observe_transition(
+                stage_before=metadata.stage_before,
+                stage_after=metadata.stage_after,
+                installed_guidance=transition_guidance,
+                planning_state_before=state_before,
+                planning_state_after=state,
+                collision_flags=env.unwrapped.collision_flags,
+                raw_actions=residual_actions,
+                applied_actions=actions,
+                actor_outputs=outputs,
+                residual_contribution_ratios=(
+                    env.unwrapped.last_residual_contribution_ratio_search
+                ),
+            )
             context = _public_context(env, state)
             result = controller.step(state, context)
             env.observe_controller_result(
@@ -803,6 +891,11 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         row.update(info)
         row.update(diagnostics.summary())
         row.update(continuity_diagnostics.summary())
+        row.update(
+            search_diagnostics.summary(
+                found=bool(task.target_found), max_steps=int(config["max_steps"])
+            )
+        )
         row.update(router_class_metrics(row["router_confusion_matrix"]))
         row.update(
             {
@@ -819,6 +912,14 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 ),
                 "success": bool(task.mission_complete),
                 "collision_episode": bool(collision_episode),
+                "max_steps": int(config["max_steps"]),
+                "searcher_residual_off_enabled": mode == "searcher_residual_off",
+                "searcher_raw_action_norm_pre_found": row.get(
+                    "searcher_raw_residual_norm_mean_pre_found"
+                ),
+                "searcher_applied_action_norm_pre_found": row.get(
+                    "searcher_applied_residual_norm_mean_pre_found"
+                ),
                 "explore": False,
                 "training_update": False,
                 "optimizer_update_count": 0,
@@ -832,6 +933,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     info["evaluation_runtime_revision"]
                 ),
                 "runtime_overlay_enabled": bool(info["runtime_overlay_enabled"]),
+                "runtime_integration_mode": str(info["runtime_integration_mode"]),
                 "manifest_sha256": str(info.get("manifest_sha256", "")),
                 "execution_overlay_config_hash": str(
                     info.get("execution_overlay_config_hash", "")
@@ -861,6 +963,8 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "checkpoint": str(Path(info["checkpoint"]).resolve()),
         "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
         "checkpoint_episode": int(info["checkpoint_episode"]),
+        "checkpoint_runtime_revision": str(info["checkpoint_runtime_revision"]),
+        "runtime_integration_mode": str(info["runtime_integration_mode"]),
         "evaluation_mode": str(info["evaluation_mode"]),
         "execution_variant": str(
             info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
@@ -868,6 +972,12 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "manifest_sha256": str(manifest_hash),
         "execution_overlay_config_hash": str(
             info.get("execution_overlay_config_hash", "")
+        ),
+        "search_continuity_diagnostics_schema": str(
+            info.get("search_continuity_diagnostics_schema", "")
+        ),
+        "search_continuity_diagnostics_hash": str(
+            info.get("search_continuity_diagnostics_hash", "")
         ),
     }
 
@@ -1154,6 +1264,52 @@ def _write_outputs(
             output=output,
         ),
     )
+    search_group_keys = (
+        "checkpoint",
+        "checkpoint_config_hash",
+        "checkpoint_episode",
+        "checkpoint_runtime_revision",
+        "evaluation_runtime_revision",
+        "runtime_integration_mode",
+        "execution_variant",
+        "evaluation_mode",
+        "manifest_sha256",
+        "search_continuity_diagnostics_schema",
+        "search_continuity_diagnostics_hash",
+    )
+    search_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
+    for row in episode_rows:
+        search_groups.setdefault(
+            tuple(row.get(key) for key in search_group_keys), []
+        ).append(row)
+    search_summary_rows = [
+        aggregate_search_continuity(values, dict(zip(search_group_keys, key)))
+        for key, values in sorted(search_groups.items(), key=lambda item: str(item[0]))
+    ]
+    paired_search_rows = paired_searcher_residual_comparisons(episode_rows)
+    search_funnel_rows = search_failure_funnel(episode_rows)
+    _write_csv(output / "search_continuity_episode.csv", episode_rows)
+    _write_csv(output / "search_continuity_summary.csv", search_summary_rows)
+    _write_csv(output / "paired_searcher_residual_comparison.csv", paired_search_rows)
+    _write_csv(output / "search_failure_funnel.csv", search_funnel_rows)
+    _write_json(
+        output / "search_continuity_summary.json",
+        {
+            "schema": SEARCH_CONTINUITY_SCHEMA,
+            "search_continuity_diagnostics_hashes": sorted(
+                {
+                    str(row.get("search_continuity_diagnostics_hash", ""))
+                    for row in episode_rows
+                }
+            ),
+            "scenario_count": len(scenarios),
+            "evaluation_modes": list(modes),
+            "execution_variants": [item.value for item in execution_variants],
+            "summary": search_summary_rows,
+            "paired_searcher_residual_comparison": paired_search_rows,
+            "failure_funnel": search_funnel_rows,
+        },
+    )
     _write_csv(output / "failure_trace_index.csv", trace_index)
     _atomic_text(
         output / "failure_trace.jsonl",
@@ -1217,14 +1373,14 @@ def run_evaluation(
     )
     if not execution_variants or len(set(execution_variants)) != len(execution_variants):
         raise ValueError("execution variants must be a non-empty unique registered list")
+    checkpoint_runtime_revision = str(config["checkpoint_runtime_revision"])
+    if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION and execution_variants != (
+        ExecutionVariant.B1_ATOMIC_LAST_VALID,
+    ):
+        raise ValueError("native checkpoint evaluation permits only B1_ATOMIC_LAST_VALID")
     config["execution_variants"] = [item.value for item in execution_variants]
-    config["checkpoint_runtime_revision"] = CHECKPOINT_RUNTIME_REVISION
-    config["evaluation_runtime_revision"] = (
-        OVERLAY_RUNTIME_REVISION
-        if any(overlay_enabled(item) for item in execution_variants)
-        else CHECKPOINT_RUNTIME_REVISION
-    )
     execution_overlay_config_hash = _hash(config["execution_continuity"])
+    search_diagnostics_hash = str(config["search_continuity_diagnostics_hash"])
     if disable_failure_trace:
         config["failure_trace"]["enabled"] = False
     device = torch.device(str(config["device"]))
@@ -1304,6 +1460,21 @@ def run_evaluation(
                     execution_variant,
                     manifest_sha256=manifest_hash,
                     execution_overlay_config_hash=execution_overlay_config_hash,
+                    evaluation_runtime_revision=(
+                        NATIVE_B1_RUNTIME_REVISION
+                        if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+                        else OVERLAY_RUNTIME_REVISION
+                        if overlay_enabled(execution_variant)
+                        else CHECKPOINT_RUNTIME_REVISION
+                    ),
+                    runtime_integration_mode=(
+                        "native"
+                        if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+                        else "overlay"
+                        if overlay_enabled(execution_variant)
+                        else "legacy"
+                    ),
+                    search_diagnostics_hash=search_diagnostics_hash,
                 )
                 combo = _combo_key(info, manifest_hash)
                 if _canonical_json(combo) in completed:
