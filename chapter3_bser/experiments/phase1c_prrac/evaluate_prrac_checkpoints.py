@@ -37,11 +37,23 @@ from chapter3_bser.experiments.phase1c_prrac import (
 )
 from chapter3_bser.experiments.phase1c_prrac.diagnostics import PRRACDiagnostics
 from chapter3_bser.experiments.phase1c_prrac.evaluation_metrics import (
+    EvaluationTransitionDiagnostics,
     aggregate_checkpoint,
     failure_stage,
     paired_checkpoint_comparison,
     recommend_checkpoint,
     router_class_metrics,
+)
+from chapter3_bser.experiments.phase1c_prrac.evaluation_provenance import (
+    EVALUATION_REPORT_SCHEMA,
+    EVALUATION_SUMMARY_SCHEMA,
+    EXECUTION_SUMMARY_SCHEMA,
+    PROGRESS_SCHEMA,
+    SEARCH_SUMMARY_SCHEMA,
+    derive_unique_provenance,
+    validate_evaluation_provenance,
+    validate_resume_config,
+    validate_summary_provenance,
 )
 from chapter3_bser.experiments.phase1c_prrac.evaluation_trace import (
     FailureTraceRecorder,
@@ -78,6 +90,21 @@ from chapter3_bser.experiments.phase1c_prrac.search_continuity import (
     search_continuity_config_hash,
     search_failure_funnel,
 )
+from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery import (
+    SEARCH_COLLISION_RECOVERY_SCHEMA,
+    VARIANT_ORDER as SEARCH_RECOVERY_VARIANT_ORDER,
+    SearchRecoveryVariant,
+    aggregate_search_collision_recovery,
+    apply_search_recovery_guidance,
+    baseline_recovery_summary,
+    build_search_recovery_controller,
+    paired_search_collision_recovery_baseline_strata,
+    paired_search_collision_recovery_comparisons,
+    parse_search_recovery_variant,
+    search_collision_recovery_config,
+    search_collision_recovery_config_hash,
+    search_collision_recovery_failure_funnel,
+)
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
 from chapter3_bser.integration.control_context import (
     AgentAssignmentContextV1,
@@ -99,11 +126,10 @@ from core.scenarios.ch3_generator_impl import build_scenario_manifests
 ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = ROOT / "configs" / "chapter3" / "bser_phase1c_prrac_eval.json"
 DEFAULT_OUTPUT = ROOT / "outputs" / "chapter3" / "phase1c_prrac" / "evaluation_v1"
-EVALUATION_SCHEMA = "bser.phase1c.prrac.evaluation.v1"
-SUMMARY_SCHEMA = "bser.phase1c.prrac.evaluation.summary.v1"
-EXECUTION_VARIANT_SUMMARY_SCHEMA = (
-    "bser.phase1c.prrac.execution_ablation.summary.v1"
-)
+EVALUATION_SCHEMA = EVALUATION_REPORT_SCHEMA
+LEGACY_EVALUATION_SCHEMA = "bser.phase1c.prrac.evaluation.v1"
+SUMMARY_SCHEMA = EVALUATION_SUMMARY_SCHEMA
+EXECUTION_VARIANT_SUMMARY_SCHEMA = EXECUTION_SUMMARY_SCHEMA
 OLD_CHECKPOINT_MESSAGE = (
     "Phase 1C-v1/v2 checkpoints are incompatible with PRRAC deterministic evaluation."
 )
@@ -136,6 +162,12 @@ OUTPUT_FILES = (
     "paired_searcher_residual_comparison.csv",
     "search_failure_funnel.csv",
     "search_continuity_summary.json",
+    "search_collision_recovery_episode.csv",
+    "search_collision_recovery_summary.csv",
+    "paired_search_collision_recovery_comparison.csv",
+    "paired_search_collision_recovery_baseline_strata.csv",
+    "search_collision_recovery_failure_funnel.csv",
+    "search_collision_recovery_summary.json",
 )
 
 
@@ -248,7 +280,9 @@ def _load_config(path: Path) -> dict[str, Any]:
         "action_dim": 3,
         "critic_dim": 124,
     }
-    if config.get("schema") not in {EVALUATION_SCHEMA, EXECUTION_ABLATION_SCHEMA}:
+    if config.get("schema") not in {
+        EVALUATION_SCHEMA, LEGACY_EVALUATION_SCHEMA, EXECUTION_ABLATION_SCHEMA
+    }:
         raise ValueError(f"invalid PRRAC evaluation config schema: {config.get('schema')!r}")
     for key, value in expected.items():
         if config.get(key) != value:
@@ -308,10 +342,15 @@ def _load_config(path: Path) -> dict[str, Any]:
     if str(config.get("controller_factory_version", CONTROLLER_FACTORY_VERSION)) != CONTROLLER_FACTORY_VERSION:
         raise ValueError("unsupported controller factory version")
     config["controller_factory_version"] = CONTROLLER_FACTORY_VERSION
+    config["schema"] = EVALUATION_SCHEMA
     config["execution_runtime"] = execution_runtime_config(config)
     config["execution_continuity"] = overlay_config(config)
     config["search_continuity_diagnostics"] = search_continuity_config(config)
     config["search_continuity_diagnostics_hash"] = search_continuity_config_hash(config)
+    config["search_collision_recovery"] = search_collision_recovery_config(config)
+    config["search_collision_recovery_config_hash"] = (
+        search_collision_recovery_config_hash(config["search_collision_recovery"])
+    )
     return config
 
 
@@ -401,6 +440,8 @@ def _checkpoint_info(
     evaluation_runtime_revision: str | None = None,
     runtime_integration_mode: str | None = None,
     search_diagnostics_hash: str = "",
+    search_recovery_variant: str | SearchRecoveryVariant = SearchRecoveryVariant.S2A_C0_BASELINE,
+    search_recovery_config_hash: str = "",
 ) -> dict[str, Any]:
     metadata = dict(payload["metadata"])
     oracle = mode == "oracle_current_target_diagnostic"
@@ -434,6 +475,10 @@ def _checkpoint_info(
         "execution_overlay_config_hash": str(execution_overlay_config_hash),
         "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
         "search_continuity_diagnostics_hash": str(search_diagnostics_hash),
+        "search_recovery_variant": parse_search_recovery_variant(search_recovery_variant).value,
+        "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+        "search_collision_recovery_config_hash": str(search_recovery_config_hash),
+        "report_schema": EVALUATION_SCHEMA,
     }
 
 
@@ -633,8 +678,10 @@ def _trace_step(
     public_guidance: BSERControlContextV1,
     installed_guidance: BSERControlContextV1,
     env: Any,
-    actor_output: Any,
-    residual_action: torch.Tensor,
+    actor_outputs: Any,
+    raw_actions: torch.Tensor,
+    applied_actions: torch.Tensor,
+    recovery_snapshot: Any | None = None,
 ) -> dict[str, Any]:
     runtime = env.unwrapped
     executor = public_guidance.executor_assignment
@@ -660,9 +707,19 @@ def _trace_step(
     prior = getattr(runtime, "_last_prior_acc", None)
     residual = getattr(runtime, "_last_residual_acc", None)
     final = None if prior is None or residual is None else prior[3] + residual[3]
+    actor_output = actor_outputs[3]
     probabilities = actor_output.router_probabilities.detach().cpu().reshape(-1, 3)[0]
+    empty = {agent_id: None for agent_id in range(3)}
+    modes = empty if recovery_snapshot is None else recovery_snapshot.mode_by_agent
     return failure_trace_row(
         checkpoint_episode=int(info["checkpoint_episode"]),
+        execution_variant=str(info.get("execution_variant", "")),
+        search_recovery_variant=str(info.get("search_recovery_variant", "")),
+        checkpoint_runtime_revision=str(info.get("checkpoint_runtime_revision", "")),
+        evaluation_runtime_revision=str(info.get("evaluation_runtime_revision", "")),
+        runtime_integration_mode=str(info.get("runtime_integration_mode", "")),
+        search_collision_recovery_schema=str(info.get("search_collision_recovery_schema", "")),
+        search_collision_recovery_config_hash=str(info.get("search_collision_recovery_config_hash", "")),
         scenario_id=str(scenario.get("scenario_id", "")),
         scenario_seed=int(scenario["scenario_seed"]),
         step=int(step),
@@ -703,7 +760,7 @@ def _trace_step(
         executor_target_distance=distance(executor_position, target_position),
         executor_intercept_distance=distance(executor_position, intercept_position),
         navigation_prior_norm=(None if prior is None else float(torch.linalg.vector_norm(prior[3]).item())),
-        residual_action_norm=float(torch.linalg.vector_norm(residual_action).item()),
+        residual_action_norm=float(torch.linalg.vector_norm(applied_actions[3]).item()),
         final_action_norm=(None if final is None else float(torch.linalg.vector_norm(final).item())),
         trust_gate=float(actor_output.trust_gate.detach().cpu().reshape(-1)[0].item()),
         alignment_cosine=float(actor_output.alignment_cosine.detach().cpu().reshape(-1)[0].item()),
@@ -716,6 +773,20 @@ def _trace_step(
             installed_guidance.decision_reason
             == "PRIVILEGED_ORACLE_CURRENT_TARGET_DIAGNOSTIC_ONLY"
         ),
+        recovery_active_agent_ids=[] if recovery_snapshot is None else recovery_snapshot.active_agent_ids,
+        recovery_mode_by_agent=modes,
+        recovery_attempt_id_by_agent=empty if recovery_snapshot is None else recovery_snapshot.attempt_id_by_agent,
+        collision_streak_by_agent=empty if recovery_snapshot is None else recovery_snapshot.collision_streak_by_agent,
+        semantic_search_candidate_id_by_agent=empty if recovery_snapshot is None else recovery_snapshot.semantic_candidate_id_by_agent,
+        semantic_search_waypoint_by_agent=empty if recovery_snapshot is None else recovery_snapshot.semantic_waypoint_by_agent,
+        recovery_navigation_endpoint_by_agent=empty if recovery_snapshot is None else recovery_snapshot.navigation_endpoint_by_agent,
+        recovery_endpoint_cell_index_by_agent=empty if recovery_snapshot is None else recovery_snapshot.endpoint_cell_index_by_agent,
+        recovery_trigger_reason_by_agent=empty if recovery_snapshot is None else recovery_snapshot.trigger_reason_by_agent,
+        recovery_failure_reason_by_agent=empty if recovery_snapshot is None else recovery_snapshot.failure_reason_by_agent,
+        recovery_route_refresh_attempted_by_agent=empty if recovery_snapshot is None else recovery_snapshot.route_refresh_attempted_by_agent,
+        recovery_egress_attempted_by_agent=empty if recovery_snapshot is None else recovery_snapshot.egress_attempted_by_agent,
+        raw_searcher_action_by_agent={agent_id: raw_actions[agent_id] for agent_id in range(3)},
+        applied_searcher_action_by_agent={agent_id: applied_actions[agent_id] for agent_id in range(3)},
     )
 
 
@@ -732,6 +803,9 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
     mode = str(info["evaluation_mode"])
     execution_variant = parse_execution_variant(
         info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
+    )
+    search_recovery_variant = parse_search_recovery_variant(
+        info.get("search_recovery_variant", SearchRecoveryVariant.S2A_C0_BASELINE.value)
     )
     checkpoint_revision = str(
         info.get("checkpoint_runtime_revision", CHECKPOINT_RUNTIME_REVISION)
@@ -790,6 +864,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         diagnostics = PRRACDiagnostics()
         search_diagnostics = SearchContinuityDiagnostics()
         search_diagnostics.begin_episode(state)
+        transition_diagnostics = EvaluationTransitionDiagnostics()
+        recovery_controller = build_search_recovery_controller(search_recovery_variant)
         current_stage = PRRACStage.SEARCH
         reward_total = 0.0
         episode_length = 0
@@ -832,6 +908,14 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             reward_total += float(torch.as_tensor(rewards).sum().item())
             task = env.get_task_state()
             episode_length = int(task.step)
+            transition_diagnostics.observe(
+                step=episode_length,
+                stage_before=int(metadata.stage_before),
+                stage_after=int(metadata.stage_after),
+                contact_step_count=int(getattr(env.unwrapped, "capture_contact_step_count", 0)),
+                full_hold_step_count=int(getattr(env.unwrapped, "capture_full_hold_step_count", 0)),
+                mission_complete=bool(task.mission_complete),
+            )
             collision_episode = bool(
                 collision_episode
                 or torch.as_tensor(env.unwrapped._collision_flags).any().item()
@@ -852,6 +936,16 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     env.unwrapped.last_residual_contribution_ratio_search
                 ),
             )
+            if recovery_controller is not None:
+                recovery_controller.observe_transition(
+                    stage_before=metadata.stage_before,
+                    planning_state_after=state,
+                    collision_flags=env.unwrapped.collision_flags,
+                    planning_state_before=state_before,
+                    installed_guidance_before=transition_guidance,
+                )
+                for agent_id in recovery_controller.rejoined_agent_ids:
+                    bridge.path_tracker.reset(agent_id)
             context = _public_context(env, state)
             result = controller.step(state, context)
             env.observe_controller_result(
@@ -863,10 +957,21 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 context,
                 decision_reason=result.decision_reason,
             )
+            if recovery_controller is not None:
+                recovery_controller.prepare_next_guidance(state, public_guidance)
+            recovery_snapshot = (
+                None if recovery_controller is None else recovery_controller.snapshot()
+            )
+            next_public_guidance = apply_search_recovery_guidance(
+                public_guidance, state, recovery_controller
+            )
             detection = getattr(controller, "last_detection", None)
             legacy_detection = getattr(result, "event_detection", None)
             continuity_diagnostics.observe_step(
-                post_found=bool(task.target_found),
+                post_found=bool(
+                    state_before.target_found
+                    and int(metadata.stage_before) != int(PRRACStage.SEARCH)
+                ),
                 plan=getattr(controller, "current_plan", None),
                 detection=detection,
                 suppression=suppression,
@@ -874,6 +979,11 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 legacy_invalid_reason=str(
                     getattr(legacy_detection, "executor_invalid_reason", "")
                 ),
+                executor_collision=bool(
+                    len(env.unwrapped.collision_flags) > 3
+                    and env.unwrapped.collision_flags[3]
+                ),
+                transition_step=episode_length,
             )
             use_oracle = bool(
                 mode == "oracle_current_target_diagnostic"
@@ -882,7 +992,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             )
             target = env.get_target_state().position if use_oracle else None
             next_observations, installed_guidance = _install_next_guidance(
-                env, public_guidance, mode=mode, true_target=target
+                env, next_public_guidance, mode=mode, true_target=target
             )
             recorder.record(
                 _trace_step(
@@ -896,8 +1006,10 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     public_guidance=public_guidance,
                     installed_guidance=installed_guidance,
                     env=env,
-                    actor_output=outputs[3],
-                    residual_action=actions[3],
+                    actor_outputs=outputs,
+                    raw_actions=residual_actions,
+                    applied_actions=actions,
+                    recovery_snapshot=recovery_snapshot,
                 )
             )
             guidance = public_guidance
@@ -910,6 +1022,12 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         row.update(info)
         row.update(diagnostics.summary())
         row.update(continuity_diagnostics.summary())
+        row.update(transition_diagnostics.summary())
+        row.update(
+            baseline_recovery_summary()
+            if recovery_controller is None
+            else recovery_controller.summary()
+        )
         row.update(
             search_diagnostics.summary(
                 found=bool(task.target_found),
@@ -940,6 +1058,12 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 "replay_sample_count": 0,
                 "parameter_update_count": 0,
                 "execution_variant": execution_variant.value,
+                "search_recovery_variant": search_recovery_variant.value,
+                "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+                "search_collision_recovery_config_hash": str(
+                    info.get("search_collision_recovery_config_hash", "")
+                ),
+                "search_recovery_enabled": bool(recovery_controller is not None),
                 "checkpoint_runtime_revision": str(
                     info["checkpoint_runtime_revision"]
                 ),
@@ -963,8 +1087,19 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             evaluation_mode=mode,
             scenario_id=str(row["scenario_id"]),
             scenario_seed=int(row["scenario_seed"]),
+            execution_variant=execution_variant.value,
+            search_recovery_variant=search_recovery_variant.value,
+            checkpoint_runtime_revision=str(info["checkpoint_runtime_revision"]),
+            evaluation_runtime_revision=str(info["evaluation_runtime_revision"]),
+            runtime_integration_mode=str(info["runtime_integration_mode"]),
+            search_collision_recovery_schema=SEARCH_COLLISION_RECOVERY_SCHEMA,
+            search_collision_recovery_config_hash=str(info.get("search_collision_recovery_config_hash", "")),
+            recovery_triggered=int(row.get("search_recovery_entry_count") or 0) > 0,
+            pre_found_collision=bool(row.get("searcher_collision_episode_pre_found")),
         )
-        payload = {"episode": row, "failure_trace": traces, "trace_index": trace_index}
+        payload = _json_safe(
+            {"episode": row, "failure_trace": traces, "trace_index": trace_index}
+        )
         if _contains_tensor(payload):
             raise RuntimeError("PRRAC evaluation worker output contains torch.Tensor")
         return payload
@@ -978,6 +1113,7 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
         "checkpoint_episode": int(info["checkpoint_episode"]),
         "checkpoint_runtime_revision": str(info["checkpoint_runtime_revision"]),
+        "evaluation_runtime_revision": str(info.get("evaluation_runtime_revision", "")),
         "runtime_integration_mode": str(info["runtime_integration_mode"]),
         "evaluation_mode": str(info["evaluation_mode"]),
         "execution_variant": str(
@@ -993,6 +1129,10 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "search_continuity_diagnostics_hash": str(
             info.get("search_continuity_diagnostics_hash", "")
         ),
+        "search_recovery_variant": str(info.get("search_recovery_variant", "")),
+        "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
+        "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
+        "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
     }
 
 
@@ -1150,6 +1290,57 @@ def _plot_execution_variants(
     bars("execution_variant_residual_suppression.png", "Executor residual suppression", ("mean_executor_residual_suppressed_steps_if_found",))
 
 
+def _plot_search_recovery(
+    episode_rows: list[dict[str, Any]],
+    summary_rows: list[dict[str, Any]],
+    strata_rows: list[dict[str, Any]],
+    output: Path,
+) -> None:
+    plots = output / "plots"
+    plots.mkdir(parents=True, exist_ok=True)
+    order = [item.value for item in SEARCH_RECOVERY_VARIANT_ORDER]
+    labels = ["C0", "C1", "C2"]
+
+    def summary_value(variant: str, field: str) -> float:
+        values = [float(row[field]) for row in summary_rows if row.get("search_recovery_variant") == variant and row.get(field) not in {None, ""}]
+        return float(statistics.fmean(values)) if values else float("nan")
+
+    def bars(filename: str, title: str, fields: tuple[str, ...]) -> None:
+        figure, axis = plt.subplots(figsize=(8, 4.8)); x = np.arange(3); width = .8/max(1,len(fields))
+        for index, field in enumerate(fields):
+            axis.bar(x+(index-(len(fields)-1)/2)*width, [summary_value(variant, field) for variant in order], width=width, label=field)
+        axis.set_xticks(x, labels); axis.set_title(title)
+        if len(fields)>1: axis.legend()
+        figure.tight_layout(); figure.savefig(plots/filename,dpi=180); plt.close(figure)
+
+    bars("s2a_found_rate.png", "Found rate by recovery variant", ("found_rate",))
+    bars("s2a_success_rate.png", "Success rate by recovery variant", ("success_rate",))
+    bars("s2a_pre_found_collision_episode_rate.png", "Pre-found collision episode rate", ("pre_found_collision_episode_rate",))
+    for filename, title, field in (
+        ("s2a_collision_count_distribution.png", "Total collision count distribution", "searcher_collision_count_pre_found_total"),
+        ("s2a_max_collision_streak_distribution.png", "Max collision streak distribution", "searcher_collision_max_streak_pre_found"),
+        ("s2a_found_step_distribution.png", "Found-step distribution", "found_step"),
+    ):
+        figure, axis = plt.subplots(figsize=(8,4.8))
+        for variant,label in zip(order,labels):
+            values=[float(row[field]) for row in episode_rows if row.get("search_recovery_variant")==variant and row.get(field) is not None]
+            if values: axis.hist(values,bins=min(20,max(1,len(set(values)))),alpha=.4,label=label)
+        axis.set_title(title)
+        if axis.get_legend_handles_labels()[0]: axis.legend()
+        figure.tight_layout(); figure.savefig(plots/filename,dpi=180); plt.close(figure)
+    bars("s2a_recovery_attempts_successes.png", "Recovery attempts and successes", ("route_refresh_attempt_count","route_refresh_success_count","egress_attempt_count","egress_success_count"))
+
+    def strata_plot(filename: str, stratum: str, title: str) -> None:
+        figure,axis=plt.subplots(figsize=(8,4.8)); selected=[row for row in strata_rows if row.get("stratum")==stratum]
+        names=[]; base=[]; candidate=[]
+        for row in selected:
+            names.append("C1" if str(row.get("candidate_search_recovery_variant","")).endswith("C1_ROUTE_REFRESH") else "C2")
+            base.append(float(row.get("baseline_found_rate") or 0)); candidate.append(float(row.get("candidate_found_rate") or 0))
+        x=np.arange(len(names)); axis.bar(x-.2,base,.4,label="C0"); axis.bar(x+.2,candidate,.4,label="candidate"); axis.set_xticks(x,names); axis.set_title(title); axis.legend(); figure.tight_layout(); figure.savefig(plots/filename,dpi=180); plt.close(figure)
+    strata_plot("s2a_baseline_collision_stratum.png","BASELINE_COLLISION","C0 baseline-collision stratum outcomes")
+    strata_plot("s2a_baseline_no_collision_preservation.png","BASELINE_NO_COLLISION","C0 baseline-no-collision preservation")
+
+
 def _execution_variant_summary(
     *,
     scenarios: list[dict[str, Any]],
@@ -1157,11 +1348,11 @@ def _execution_variant_summary(
     summary_rows: list[dict[str, Any]],
     output: Path,
 ) -> dict[str, Any]:
+    provenance = derive_unique_provenance(summary_rows)
     return {
         "schema": EXECUTION_VARIANT_SUMMARY_SCHEMA,
-        "checkpoint_runtime_revision": CHECKPOINT_RUNTIME_REVISION,
-        "evaluation_runtime_revision": OVERLAY_RUNTIME_REVISION,
-        "execution_variants": [item.value for item in variants],
+        **provenance,
+        "execution_variants": provenance["execution_variant_values"],
         "scenario_count": len(scenarios),
         "same_scenarios_for_all_execution_variants": True,
         "explore": False,
@@ -1178,19 +1369,25 @@ def _evaluation_summary(
     scenarios: list[dict[str, Any]],
     modes: tuple[str, ...],
     execution_variants: tuple[ExecutionVariant, ...],
+    search_recovery_variants: tuple[SearchRecoveryVariant, ...] = (
+        SearchRecoveryVariant.S2A_C0_BASELINE,
+    ),
     summary_rows: list[dict[str, Any]],
     output: Path,
 ) -> dict[str, Any]:
+    provenance = derive_unique_provenance(summary_rows)
     return {
         "schema": SUMMARY_SCHEMA,
+        **provenance,
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
         "architecture_version": ARCHITECTURE_VERSION,
         "checkpoint_schema": CHECKPOINT_SCHEMA,
         "checkpoint_count": len(checkpoint_paths),
         "scenario_count": len(scenarios),
-        "evaluation_modes": list(modes),
-        "execution_variants": [item.value for item in execution_variants],
+        "evaluation_modes": provenance["evaluation_mode_values"],
+        "execution_variants": provenance["execution_variant_values"],
+        "search_recovery_variants": provenance["search_recovery_variant_values"],
         "same_scenarios_for_all_checkpoints": True,
         "explore": False,
         "training_update": False,
@@ -1216,6 +1413,9 @@ def _write_outputs(
     scenarios: list[dict[str, Any]],
     modes: tuple[str, ...],
     execution_variants: tuple[ExecutionVariant, ...],
+    search_recovery_variants: tuple[SearchRecoveryVariant, ...] = (
+        SearchRecoveryVariant.S2A_C0_BASELINE,
+    ),
     episode_rows: list[dict[str, Any]],
     summary_rows: list[dict[str, Any]],
     trace_rows: list[dict[str, Any]],
@@ -1237,11 +1437,16 @@ def _write_outputs(
                     "checkpoint_episode",
                     "evaluation_mode",
                     "execution_variant",
+                    "search_recovery_variant",
                     "checkpoint_runtime_revision",
                     "evaluation_runtime_revision",
+                    "runtime_integration_mode",
                     "runtime_overlay_enabled",
                     "manifest_sha256",
                     "execution_overlay_config_hash",
+                    "search_collision_recovery_config_hash",
+                    "search_collision_recovery_schema",
+                    "search_continuity_diagnostics_hash",
                 )
             },
         )
@@ -1251,6 +1456,7 @@ def _write_outputs(
                     str(row["checkpoint"]),
                     str(row["evaluation_mode"]),
                     str(row["execution_variant"]),
+                    str(row.get("search_recovery_variant", "")),
                     str(row["manifest_sha256"]),
                 ): [
                     item
@@ -1259,12 +1465,14 @@ def _write_outputs(
                         str(item["checkpoint"]),
                         str(item["evaluation_mode"]),
                         str(item["execution_variant"]),
+                        str(item.get("search_recovery_variant", "")),
                         str(item["manifest_sha256"]),
                     )
                     == (
                         str(row["checkpoint"]),
                         str(row["evaluation_mode"]),
                         str(row["execution_variant"]),
+                        str(row.get("search_recovery_variant", "")),
                         str(row["manifest_sha256"]),
                     )
                 ]
@@ -1272,6 +1480,7 @@ def _write_outputs(
             }.items()
         )
     ]
+    validate_summary_provenance(episode_rows, execution_summary_rows, scenarios)
     _write_csv(output / "execution_variant_episode.csv", episode_rows)
     _write_csv(output / "execution_variant_summary.csv", execution_summary_rows)
     _write_csv(
@@ -1281,6 +1490,7 @@ def _write_outputs(
     _write_csv(
         output / "execution_variant_failure_funnel.csv", _failure_funnel(episode_rows)
     )
+    search_provenance = derive_unique_provenance(episode_rows)
     _write_json(
         output / "execution_variant_summary.json",
         _execution_variant_summary(
@@ -1302,6 +1512,8 @@ def _write_outputs(
         "manifest_sha256",
         "search_continuity_diagnostics_schema",
         "search_continuity_diagnostics_hash",
+        "search_recovery_variant",
+        "search_collision_recovery_config_hash",
     )
     search_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for row in episode_rows:
@@ -1312,6 +1524,7 @@ def _write_outputs(
         aggregate_search_continuity(values, dict(zip(search_group_keys, key)))
         for key, values in sorted(search_groups.items(), key=lambda item: str(item[0]))
     ]
+    validate_summary_provenance(episode_rows, search_summary_rows, scenarios)
     paired_search_rows = paired_searcher_residual_comparisons(episode_rows)
     search_funnel_rows = search_failure_funnel(episode_rows)
     _write_csv(output / "search_continuity_episode.csv", episode_rows)
@@ -1321,7 +1534,8 @@ def _write_outputs(
     _write_json(
         output / "search_continuity_summary.json",
         {
-            "schema": SEARCH_CONTINUITY_SCHEMA,
+            "schema": SEARCH_SUMMARY_SCHEMA,
+            **search_provenance,
             "search_continuity_diagnostics_hashes": sorted(
                 {
                     str(row.get("search_continuity_diagnostics_hash", ""))
@@ -1329,11 +1543,64 @@ def _write_outputs(
                 }
             ),
             "scenario_count": len(scenarios),
-            "evaluation_modes": list(modes),
-            "execution_variants": [item.value for item in execution_variants],
+            "evaluation_modes": search_provenance["evaluation_mode_values"],
+            "execution_variants": search_provenance["execution_variant_values"],
+            "search_recovery_variants": search_provenance["search_recovery_variant_values"],
             "summary": search_summary_rows,
             "paired_searcher_residual_comparison": paired_search_rows,
             "failure_funnel": search_funnel_rows,
+        },
+    )
+    recovery_episode_rows = [
+        {
+            **row,
+            "search_recovery_variant": row.get("search_recovery_variant")
+            or SearchRecoveryVariant.S2A_C0_BASELINE.value,
+            "search_collision_recovery_schema": row.get(
+                "search_collision_recovery_schema", SEARCH_COLLISION_RECOVERY_SCHEMA
+            ),
+            "search_collision_recovery_config_hash": row.get(
+                "search_collision_recovery_config_hash", ""
+            ),
+        }
+        for row in episode_rows
+    ]
+    recovery_group_keys = (
+        "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
+        "checkpoint_runtime_revision", "evaluation_runtime_revision",
+        "runtime_integration_mode", "execution_variant", "evaluation_mode",
+        "search_recovery_variant", "manifest_sha256",
+        "search_continuity_diagnostics_hash", "search_collision_recovery_schema",
+        "search_collision_recovery_config_hash",
+    )
+    recovery_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
+    for row in recovery_episode_rows:
+        recovery_groups.setdefault(tuple(row.get(key) for key in recovery_group_keys), []).append(row)
+    recovery_summary_rows = [
+        aggregate_search_collision_recovery(values, dict(zip(recovery_group_keys, key)))
+        for key, values in sorted(recovery_groups.items(), key=lambda item: str(item[0]))
+    ]
+    validate_summary_provenance(recovery_episode_rows, recovery_summary_rows, scenarios)
+    paired_recovery_rows = paired_search_collision_recovery_comparisons(recovery_episode_rows)
+    strata_rows = paired_search_collision_recovery_baseline_strata(recovery_episode_rows)
+    recovery_funnel_rows = search_collision_recovery_failure_funnel(recovery_episode_rows)
+    _write_csv(output / "search_collision_recovery_episode.csv", recovery_episode_rows)
+    _write_csv(output / "search_collision_recovery_summary.csv", recovery_summary_rows)
+    _write_csv(output / "paired_search_collision_recovery_comparison.csv", paired_recovery_rows)
+    _write_csv(output / "paired_search_collision_recovery_baseline_strata.csv", strata_rows)
+    _write_csv(output / "search_collision_recovery_failure_funnel.csv", recovery_funnel_rows)
+    recovery_provenance = derive_unique_provenance(recovery_episode_rows)
+    _write_json(
+        output / "search_collision_recovery_summary.json",
+        {
+            "schema": SEARCH_SUMMARY_SCHEMA,
+            **recovery_provenance,
+            "scenario_count": len(scenarios),
+            "search_recovery_variants": recovery_provenance["search_recovery_variant_values"],
+            "summary": recovery_summary_rows,
+            "paired_comparison": paired_recovery_rows,
+            "baseline_strata": strata_rows,
+            "failure_funnel": recovery_funnel_rows,
         },
     )
     _write_csv(output / "failure_trace_index.csv", trace_index)
@@ -1349,12 +1616,14 @@ def _write_outputs(
             scenarios=scenarios,
             modes=modes,
             execution_variants=execution_variants,
+            search_recovery_variants=search_recovery_variants,
             summary_rows=summary_rows,
             output=output,
         ),
     )
     _plot(summary_rows, output)
     _plot_execution_variants(execution_summary_rows, output)
+    _plot_search_recovery(recovery_episode_rows, recovery_summary_rows, strata_rows, output)
 
 
 def run_evaluation(
@@ -1370,10 +1639,12 @@ def run_evaluation(
     device_override: str | None = None,
     modes_override: Iterable[str] | None = None,
     execution_variants_override: Iterable[str] | None = None,
+    search_recovery_variants_override: Iterable[str] | None = None,
     resume_evaluation: bool = False,
     disable_failure_trace: bool = False,
 ) -> dict[str, Any]:
     assert_registered_ch3_method(METHOD)
+    requested_checkpoints = tuple(checkpoints or ())
     config = copy.deepcopy(_load_config(config_path))
     for key, value in (
         ("evaluation_episodes", episodes_override),
@@ -1405,8 +1676,50 @@ def run_evaluation(
     ):
         raise ValueError("native checkpoint evaluation permits only B1_ATOMIC_LAST_VALID")
     config["execution_variants"] = [item.value for item in execution_variants]
+    resolved_evaluation_runtime_revisions = sorted(
+        {
+            NATIVE_B1_RUNTIME_REVISION
+            if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+            else OVERLAY_RUNTIME_REVISION
+            if overlay_enabled(item)
+            else CHECKPOINT_RUNTIME_REVISION
+            for item in execution_variants
+        }
+    )
+    resolved_runtime_integration_modes = sorted(
+        {
+            "native"
+            if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+            else "overlay"
+            if overlay_enabled(item)
+            else "legacy"
+            for item in execution_variants
+        }
+    )
+    search_recovery_variants = tuple(
+        parse_search_recovery_variant(value)
+        for value in (
+            search_recovery_variants_override
+            or config.get(
+                "search_recovery_variants",
+                config["search_collision_recovery"].get(
+                    "variants", (SearchRecoveryVariant.S2A_C0_BASELINE.value,)
+                ),
+            )
+        )
+    )
+    if not search_recovery_variants or len(set(search_recovery_variants)) != len(search_recovery_variants):
+        raise ValueError("search recovery variants must be a non-empty unique registered list")
+    config["search_recovery_variants"] = [item.value for item in search_recovery_variants]
+    config["search_collision_recovery"]["variants"] = list(config["search_recovery_variants"])
+    if any(item is not SearchRecoveryVariant.S2A_C0_BASELINE for item in search_recovery_variants):
+        config["search_collision_recovery"]["enabled"] = True
+    config["search_collision_recovery_config_hash"] = search_collision_recovery_config_hash(
+        config["search_collision_recovery"]
+    )
     execution_overlay_config_hash = _hash(config["execution_continuity"])
     search_diagnostics_hash = str(config["search_continuity_diagnostics_hash"])
+    search_recovery_hash = str(config["search_collision_recovery_config_hash"])
     if disable_failure_trace:
         config["failure_trace"]["enabled"] = False
     device = torch.device(str(config["device"]))
@@ -1425,15 +1738,45 @@ def run_evaluation(
     output.mkdir(parents=True, exist_ok=True)
 
     checkpoint_paths = _resolve_checkpoints(
-        config, checkpoints, checkpoint_dir, checkpoint_pattern
+        config, requested_checkpoints, checkpoint_dir, checkpoint_pattern
     )
     scenarios, manifest = _build_evaluation_manifest(config)
     manifest_hash = str(manifest["manifest_sha256"])
+    config.update(
+        {
+            "requested_config_path": str(Path(config_path)),
+            "resolved_config_path": str(Path(config_path).resolve()),
+            "resolved_config_output_path": str((output / "resolved_evaluation_config.json").resolve()),
+            "requested_checkpoint_arguments": [str(Path(value)) for value in requested_checkpoints],
+            "resolved_checkpoint_paths": [str(path.resolve()) for path in checkpoint_paths],
+            "resolved_output_dir": str(output.resolve()),
+            "resolved_evaluation_modes": list(modes),
+            "resolved_execution_variants": [item.value for item in execution_variants],
+            "resolved_evaluation_runtime_revisions": resolved_evaluation_runtime_revisions,
+            "resolved_runtime_integration_modes": resolved_runtime_integration_modes,
+            "resolved_search_recovery_variants": [item.value for item in search_recovery_variants],
+            "resolved_workers": workers,
+            "resolved_evaluation_episodes": int(config["evaluation_episodes"]),
+            "resolved_scenario_seed": int(config["scenario_seed"]),
+            "resolved_device": str(device),
+            "manifest_sha256": manifest_hash,
+            "resolved_scenario_ids": [str(value["scenario_id"]) for value in scenarios],
+            "checkpoints": [str(path.resolve()) for path in checkpoint_paths],
+            "output_dir": str(output.resolve()),
+            "execution_overlay_config_hash": execution_overlay_config_hash,
+            "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
+            "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+        }
+    )
+    config["resolved_config_hash"] = _hash(
+        {key: value for key, value in config.items() if key != "resolved_config_hash"}
+    )
     if resume_evaluation:
         saved_config = json.loads(
             (output / "resolved_evaluation_config.json").read_text(encoding="utf-8")
         )
         _validate_resume_search_diagnostics(saved_config, search_diagnostics_hash)
+        validate_resume_config(saved_config, config)
         saved_manifest = json.loads((output / "evaluation_manifest.json").read_text(encoding="utf-8"))
         if saved_manifest.get("manifest_sha256") != manifest_hash:
             raise ValueError("resume evaluation manifest hash mismatch")
@@ -1455,13 +1798,24 @@ def run_evaluation(
         json.loads((output / "evaluation_progress.json").read_text(encoding="utf-8"))
         if resume_evaluation
         else {
-            "schema": "bser.phase1c.prrac.evaluation_progress.v1",
+            "schema": PROGRESS_SCHEMA,
             "manifest_sha256": manifest_hash,
+            "resolved_config_hash": config["resolved_config_hash"],
+            "search_collision_recovery_config_hash": search_recovery_hash,
+            "report_schema": EVALUATION_SCHEMA,
             "completed": [],
         }
     )
     if progress.get("manifest_sha256") != manifest_hash:
         raise ValueError("resume evaluation progress manifest hash mismatch")
+    if progress.get("schema") != PROGRESS_SCHEMA:
+        raise ValueError("resume evaluation progress schema mismatch")
+    if progress.get("resolved_config_hash") != config["resolved_config_hash"]:
+        raise ValueError("resume evaluation progress resolved config hash mismatch")
+    if progress.get("search_collision_recovery_config_hash") != search_recovery_hash:
+        raise ValueError("resume evaluation progress search recovery hash mismatch")
+    if progress.get("report_schema") != EVALUATION_SCHEMA:
+        raise ValueError("resume evaluation progress report schema mismatch")
     completed = {_canonical_json(value) for value in progress.get("completed", ())}
     checkpoint_metadata = []
     context = mp.get_context("spawn")
@@ -1483,93 +1837,96 @@ def run_evaluation(
             raise RuntimeError("PRRAC evaluation snapshot contains torch.Tensor")
         for mode in modes:
             for execution_variant in execution_variants:
-                info = _checkpoint_info(
-                    checkpoint,
-                    payload,
-                    mode,
-                    execution_variant,
-                    manifest_sha256=manifest_hash,
-                    execution_overlay_config_hash=execution_overlay_config_hash,
-                    evaluation_runtime_revision=(
-                        NATIVE_B1_RUNTIME_REVISION
-                        if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
-                        else OVERLAY_RUNTIME_REVISION
-                        if overlay_enabled(execution_variant)
-                        else CHECKPOINT_RUNTIME_REVISION
-                    ),
-                    runtime_integration_mode=(
-                        "native"
-                        if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
-                        else "overlay"
-                        if overlay_enabled(execution_variant)
-                        else "legacy"
-                    ),
-                    search_diagnostics_hash=search_diagnostics_hash,
-                )
-                combo = _combo_key(info, manifest_hash)
-                if _canonical_json(combo) in completed:
-                    continue
-                trace_config = {
-                    "enabled": bool(config["failure_trace"]["enabled"]),
-                    "only_found_failures": bool(config["failure_trace"]["only_found_failures"]),
-                    "max_traces": int(config["failure_trace"]["max_traces_per_checkpoint_mode"]),
-                }
-                jobs = [
-                    {
-                        "episode_index": index,
-                        "scenario": scenario,
-                        "config": config,
-                        "checkpoint_info": info,
-                        "architecture": metadata["architecture"],
-                        "loss": metadata["loss"],
-                        "gamma": state["gamma"],
-                        "tau": state["tau"],
-                        "reward": metadata["reward"],
-                        "policy_snapshot": snapshot,
-                        "failure_trace": trace_config,
-                        "device": str(device),
+                for search_recovery_variant in search_recovery_variants:
+                    info = _checkpoint_info(
+                        checkpoint,
+                        payload,
+                        mode,
+                        execution_variant,
+                        manifest_sha256=manifest_hash,
+                        execution_overlay_config_hash=execution_overlay_config_hash,
+                        evaluation_runtime_revision=(
+                            NATIVE_B1_RUNTIME_REVISION
+                            if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+                            else OVERLAY_RUNTIME_REVISION
+                            if overlay_enabled(execution_variant)
+                            else CHECKPOINT_RUNTIME_REVISION
+                        ),
+                        runtime_integration_mode=(
+                            "native"
+                            if checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION
+                            else "overlay"
+                            if overlay_enabled(execution_variant)
+                            else "legacy"
+                        ),
+                        search_diagnostics_hash=search_diagnostics_hash,
+                        search_recovery_variant=search_recovery_variant,
+                        search_recovery_config_hash=search_recovery_hash,
+                    )
+                    combo = _combo_key(info, manifest_hash)
+                    if _canonical_json(combo) in completed:
+                        continue
+                    trace_config = {
+                        "enabled": bool(config["failure_trace"]["enabled"]),
+                        "only_found_failures": bool(config["failure_trace"]["only_found_failures"]),
+                        "max_traces": int(config["failure_trace"]["max_traces_per_checkpoint_mode"]),
+                        "selector": str(config["failure_trace"].get("selector", "found_failures")),
                     }
-                    for index, scenario in enumerate(scenarios)
-                ]
-                if any(_contains_tensor(job) for job in jobs):
-                    raise RuntimeError("PRRAC evaluation worker job contains torch.Tensor")
-                with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
-                    results = list(executor.map(_evaluate_episode_job, jobs))
-                rows = [dict(result["episode"]) for result in results]
-                episode_rows.extend(rows)
-                summary_rows.append(aggregate_checkpoint(rows, info))
-                accepted_trace_count = 0
-                trace_limit = int(
-                    config["failure_trace"]["max_traces_per_checkpoint_mode"]
-                )
-                for result in results:
-                    if result["trace_index"] is not None and accepted_trace_count < trace_limit:
-                        trace_rows.extend(dict(row) for row in result["failure_trace"])
-                        trace_index.append(dict(result["trace_index"]))
-                        accepted_trace_count += 1
-                progress["completed"].append(combo)
-                completed.add(_canonical_json(combo))
-                _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
-                _write_outputs(
-                    output,
-                    checkpoint_paths=checkpoint_paths,
-                    scenarios=scenarios,
-                    modes=modes,
-                    execution_variants=execution_variants,
-                    episode_rows=episode_rows,
-                    summary_rows=summary_rows,
-                    trace_rows=trace_rows,
-                    trace_index=trace_index,
-                    progress=progress,
-                )
+                    jobs = [
+                        {
+                            "episode_index": index,
+                            "scenario": scenario,
+                            "config": config,
+                            "checkpoint_info": info,
+                            "architecture": metadata["architecture"],
+                            "loss": metadata["loss"],
+                            "gamma": state["gamma"],
+                            "tau": state["tau"],
+                            "reward": metadata["reward"],
+                            "policy_snapshot": snapshot,
+                            "failure_trace": trace_config,
+                            "device": str(device),
+                        }
+                        for index, scenario in enumerate(scenarios)
+                    ]
+                    if any(_contains_tensor(job) for job in jobs):
+                        raise RuntimeError("PRRAC evaluation worker job contains torch.Tensor")
+                    with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
+                        results = list(executor.map(_evaluate_episode_job, jobs))
+                    rows = [dict(result["episode"]) for result in results]
+                    episode_rows.extend(rows)
+                    summary_rows.append(aggregate_checkpoint(rows, info))
+                    accepted_trace_count = 0
+                    trace_limit = int(config["failure_trace"]["max_traces_per_checkpoint_mode"])
+                    for result in results:
+                        if result["trace_index"] is not None and accepted_trace_count < trace_limit:
+                            trace_rows.extend(dict(row) for row in result["failure_trace"])
+                            trace_index.append(dict(result["trace_index"]))
+                            accepted_trace_count += 1
+                    progress["completed"].append(combo)
+                    completed.add(_canonical_json(combo))
+                    _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
+                    _write_csv(output / "episode_evaluation.csv", episode_rows)
+                    _write_csv(output / "failure_trace_index.csv", trace_index)
+                    _atomic_text(output / "failure_trace.jsonl", "".join(_canonical_json(row) + "\n" for row in trace_rows))
+                    _write_json(output / "evaluation_progress.json", progress)
 
     _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
+    validate_evaluation_provenance(
+        rows=episode_rows,
+        resolved_config=config,
+        progress=progress,
+        checkpoint_metadata=checkpoint_metadata,
+        summary_groups=summary_rows,
+        expected_scenarios=scenarios,
+    )
     _write_outputs(
         output,
         checkpoint_paths=checkpoint_paths,
         scenarios=scenarios,
         modes=modes,
         execution_variants=execution_variants,
+        search_recovery_variants=search_recovery_variants,
         episode_rows=episode_rows,
         summary_rows=summary_rows,
         trace_rows=trace_rows,
@@ -1581,6 +1938,7 @@ def run_evaluation(
         scenarios=scenarios,
         modes=modes,
         execution_variants=execution_variants,
+        search_recovery_variants=search_recovery_variants,
         summary_rows=summary_rows,
         output=output,
     )
@@ -1603,6 +1961,11 @@ def main(argv: list[str] | None = None) -> int:
         nargs="+",
         choices=[item.value for item in VARIANT_ORDER],
     )
+    parser.add_argument(
+        "--search-recovery-variants",
+        nargs="+",
+        choices=[item.value for item in SEARCH_RECOVERY_VARIANT_ORDER],
+    )
     parser.add_argument("--resume-evaluation", action="store_true")
     parser.add_argument("--disable-failure-trace", action="store_true")
     args = parser.parse_args(argv)
@@ -1618,6 +1981,7 @@ def main(argv: list[str] | None = None) -> int:
         device_override=args.device,
         modes_override=args.modes,
         execution_variants_override=args.execution_variants,
+        search_recovery_variants_override=args.search_recovery_variants,
         resume_evaluation=args.resume_evaluation,
         disable_failure_trace=args.disable_failure_trace,
     )

@@ -9,6 +9,51 @@ from typing import Any, Iterable, Mapping
 import numpy as np
 
 
+class EvaluationTransitionDiagnostics:
+    """Event timing from cumulative public environment counters and task state."""
+
+    def __init__(self) -> None:
+        self.found_step: int | None = None
+        self.first_contact_step: int | None = None
+        self.first_full_hold_step: int | None = None
+        self.success_step: int | None = None
+        self._previous_contact_count = 0
+        self._previous_hold_count = 0
+
+    def observe(
+        self,
+        *,
+        step: int,
+        stage_before: int,
+        stage_after: int,
+        contact_step_count: int,
+        full_hold_step_count: int,
+        mission_complete: bool,
+    ) -> None:
+        if self.found_step is None and int(stage_before) == 0 and int(stage_after) != 0:
+            self.found_step = int(step)
+        if self.first_contact_step is None and self._previous_contact_count <= 0 < int(contact_step_count):
+            self.first_contact_step = int(step)
+        if self.first_full_hold_step is None and self._previous_hold_count <= 0 < int(full_hold_step_count):
+            self.first_full_hold_step = int(step)
+        if self.success_step is None and bool(mission_complete):
+            self.success_step = int(step)
+        self._previous_contact_count = int(contact_step_count)
+        self._previous_hold_count = int(full_hold_step_count)
+
+    def summary(self) -> dict[str, Any]:
+        def delta(right: int | None, left: int | None):
+            return None if right is None or left is None else int(right) - int(left)
+        return {
+            "first_contact_step": self.first_contact_step,
+            "first_full_hold_step": self.first_full_hold_step,
+            "success_step": self.success_step,
+            "found_to_first_contact_steps": delta(self.first_contact_step, self.found_step),
+            "first_contact_to_success_steps": delta(self.success_step, self.first_contact_step),
+            "found_to_success_steps": delta(self.success_step, self.found_step),
+        }
+
+
 STAGES = ("search", "intercept", "hold")
 SELECTION_RULE = (
     "success_rate desc; success_if_found_rate desc; contact_if_found_rate desc; "
@@ -124,7 +169,15 @@ def aggregate_checkpoint(
     success_count = len(success_rows)
     collision_count = sum(bool(row.get("collision_episode")) for row in rows)
     post_collision_count = sum(
-        int(row.get("post_found_collision_count") or 0) > 0 for row in rows
+        int(
+            row.get(
+                "executor_collision_count_post_found",
+                row.get("post_found_collision_count", 0),
+            )
+            or 0
+        )
+        > 0
+        for row in rows
     )
     result = dict(checkpoint_info)
     result.update(
@@ -287,6 +340,7 @@ def recommend_checkpoint(summary_rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 __all__ = (
+    "EvaluationTransitionDiagnostics",
     "SELECTION_RULE",
     "STAGES",
     "aggregate_checkpoint",

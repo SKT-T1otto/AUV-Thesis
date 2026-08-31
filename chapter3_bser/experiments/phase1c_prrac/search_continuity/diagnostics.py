@@ -33,6 +33,8 @@ class SearchContinuityDiagnostics:
         self.collision_counts = [0, 0, 0]
         self.collision_streak = [0, 0, 0]
         self.collision_max_streak = [0, 0, 0]
+        self.first_collision_step: int | None = None
+        self.last_collision_step: int | None = None
         self.route_active = [0, 0, 0]
         self.hold = [0, 0, 0]
         self.assignment_missing = 0
@@ -145,6 +147,10 @@ class SearchContinuityDiagnostics:
             )
             collision = bool(agent_id < collisions.size and collisions[agent_id])
             if collision:
+                collision_step = int(planning_state_after.step)
+                if self.first_collision_step is None:
+                    self.first_collision_step = collision_step
+                self.last_collision_step = collision_step
                 self.collision_counts[agent_id] += 1
                 self.collision_streak[agent_id] += 1
                 self.collision_max_streak[agent_id] = max(
@@ -219,6 +225,11 @@ class SearchContinuityDiagnostics:
             "remaining_steps_after_found": None if found_step is None else max(0, int(max_steps) - found_step),
             "searcher_collision_episode_pre_found": bool(total_collisions),
             "searcher_collision_count_pre_found": int(total_collisions),
+            "searcher_collision_count_pre_found_total": int(total_collisions),
+            "searcher_collision_max_streak_pre_found": int(max(self.collision_max_streak, default=0)),
+            "searcher_first_collision_step_pre_found": self.first_collision_step,
+            "searcher_last_collision_step_pre_found": self.last_collision_step,
+            "searcher_collision_agent_count_pre_found": int(sum(value > 0 for value in self.collision_counts)),
             "searcher_route_active_step_count_pre_found": int(total_active),
             "searcher_route_inactive_step_count_pre_found": int(agent_steps - total_active),
             "searcher_route_active_rate_pre_found": nullable_rate(total_active, agent_steps),
@@ -257,6 +268,7 @@ class SearchContinuityDiagnostics:
         for agent_id in range(3):
             result[f"searcher_collision_count_pre_found_agent_{agent_id}"] = int(self.collision_counts[agent_id])
             result[f"searcher_collision_max_streak_pre_found_agent_{agent_id}"] = int(self.collision_max_streak[agent_id])
+            result[f"searcher_collision_streak_pre_found_agent_{agent_id}"] = int(self.collision_max_streak[agent_id])
             result[f"searcher_route_active_step_count_pre_found_agent_{agent_id}"] = int(self.route_active[agent_id])
             result[f"searcher_route_active_rate_pre_found_agent_{agent_id}"] = nullable_rate(self.route_active[agent_id], steps)
             result[f"searcher_hold_step_count_pre_found_agent_{agent_id}"] = int(self.hold[agent_id])

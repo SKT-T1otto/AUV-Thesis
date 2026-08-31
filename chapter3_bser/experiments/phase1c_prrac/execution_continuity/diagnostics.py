@@ -57,6 +57,17 @@ class ExecutionContinuityDiagnostics:
     navigation_endpoint_switch_count: int = 0
     semantic_target_update_count: int = 0
     executor_residual_suppressed_step_count: int = 0
+    executor_collision_count_post_found: int = 0
+    executor_collision_max_streak_post_found: int = 0
+    executor_first_collision_step_post_found: int | None = None
+    executor_last_collision_step_post_found: int | None = None
+    post_found_safe_hold_max_streak: int = 0
+    post_found_safe_hold_terminal_streak: int = 0
+    post_found_route_inactive_max_streak: int = 0
+    post_found_route_inactive_terminal_streak: int = 0
+    _executor_collision_streak: int = 0
+    _safe_hold_streak: int = 0
+    _route_inactive_streak: int = 0
     proxy_distances: list[float] = field(default_factory=list)
     suppressed_raw_norms: list[float] = field(default_factory=list)
     suppressed_applied_norms: list[float] = field(default_factory=list)
@@ -92,6 +103,8 @@ class ExecutionContinuityDiagnostics:
         suppression: ResidualSuppressionDiagnostics,
         legacy_route_active: bool | None = None,
         legacy_invalid_reason: str = "",
+        executor_collision: bool = False,
+        transition_step: int | None = None,
     ) -> None:
         if not post_found:
             return
@@ -103,6 +116,22 @@ class ExecutionContinuityDiagnostics:
         )
         self.executor_route_active_post_found_steps += int(active)
         self.executor_route_inactive_post_found_steps += int(not active)
+        self._route_inactive_streak = 0 if active else self._route_inactive_streak + 1
+        self.post_found_route_inactive_max_streak = max(
+            self.post_found_route_inactive_max_streak, self._route_inactive_streak
+        )
+        self.post_found_route_inactive_terminal_streak = self._route_inactive_streak
+        if executor_collision:
+            self.executor_collision_count_post_found += 1
+            self._executor_collision_streak += 1
+            self.executor_collision_max_streak_post_found = max(
+                self.executor_collision_max_streak_post_found, self._executor_collision_streak
+            )
+            if self.executor_first_collision_step_post_found is None:
+                self.executor_first_collision_step_post_found = transition_step
+            self.executor_last_collision_step_post_found = transition_step
+        else:
+            self._executor_collision_streak = 0
         if plan is not None:
             if plan.navigation_mode is NavigationMode.REACHABLE_PUBLIC_PROXY:
                 self.reachable_proxy_active_step_count += 1
@@ -112,6 +141,12 @@ class ExecutionContinuityDiagnostics:
                 self.last_valid_route_active_step_count += 1
             elif plan.navigation_mode is NavigationMode.SAFE_HOLD:
                 self.safe_hold_active_step_count += 1
+        safe_hold = bool(plan is not None and plan.navigation_mode is NavigationMode.SAFE_HOLD)
+        self._safe_hold_streak = self._safe_hold_streak + 1 if safe_hold else 0
+        self.post_found_safe_hold_max_streak = max(
+            self.post_found_safe_hold_max_streak, self._safe_hold_streak
+        )
+        self.post_found_safe_hold_terminal_streak = self._safe_hold_streak
         if detection is not None:
             for name in detection.events:
                 self.event_counts[str(name)] = self.event_counts.get(str(name), 0) + 1
@@ -144,8 +179,19 @@ class ExecutionContinuityDiagnostics:
             "last_valid_route_active_step_count": self.last_valid_route_active_step_count,
             "safe_hold_entry_count": self.safe_hold_entry_count,
             "safe_hold_active_step_count": self.safe_hold_active_step_count,
+            "post_found_safe_hold_step_count": self.safe_hold_active_step_count,
+            "post_found_safe_hold_max_streak": self.post_found_safe_hold_max_streak,
+            "post_found_safe_hold_terminal_streak": self.post_found_safe_hold_terminal_streak,
             "executor_route_active_post_found_steps": self.executor_route_active_post_found_steps,
             "executor_route_inactive_post_found_steps": self.executor_route_inactive_post_found_steps,
+            "post_found_route_inactive_step_count": self.executor_route_inactive_post_found_steps,
+            "post_found_route_inactive_max_streak": self.post_found_route_inactive_max_streak,
+            "post_found_route_inactive_terminal_streak": self.post_found_route_inactive_terminal_streak,
+            "executor_collision_episode_post_found": bool(self.executor_collision_count_post_found),
+            "executor_collision_count_post_found": self.executor_collision_count_post_found,
+            "executor_collision_max_streak_post_found": self.executor_collision_max_streak_post_found,
+            "executor_first_collision_step_post_found": self.executor_first_collision_step_post_found,
+            "executor_last_collision_step_post_found": self.executor_last_collision_step_post_found,
             "executor_route_active_rate_post_found": _rate(self.executor_route_active_post_found_steps, denominator),
             "executor_invalid_count_post_found": self.executor_invalid_count_post_found,
             "assignment_unreachable_count_post_found": self.assignment_unreachable_count_post_found,
@@ -165,6 +211,7 @@ class ExecutionContinuityDiagnostics:
 def aggregate_execution_variant(rows: list[dict[str, Any]], info: Mapping[str, Any]) -> dict[str, Any]:
     result = aggregate_checkpoint(rows, info)
     found = [row for row in rows if bool(row.get("found"))]
+    contact = [row for row in rows if bool(row.get("contact_episode"))]
     weighted_steps = sum(int(row.get("post_found_step_count") or 0) for row in rows)
 
     def weighted_rate(count_key: str) -> float | None:
@@ -187,6 +234,14 @@ def aggregate_execution_variant(rows: list[dict[str, Any]], info: Mapping[str, A
             "mean_executor_residual_suppressed_steps_if_found": _mean(
                 row.get("executor_residual_suppressed_step_count") for row in found
             ),
+            "executor_collision_episode_post_found_count": sum(bool(row.get("executor_collision_episode_post_found")) for row in rows),
+            "executor_collision_episode_post_found_rate": _rate(sum(bool(row.get("executor_collision_episode_post_found")) for row in rows), len(rows)),
+            "executor_collision_count_post_found_sum": sum(int(row.get("executor_collision_count_post_found") or 0) for row in rows),
+            "executor_collision_max_streak_post_found_mean": _mean(row.get("executor_collision_max_streak_post_found") for row in rows),
+            "first_contact_step_mean_if_contact": _mean(row.get("first_contact_step") for row in contact),
+            "found_to_first_contact_steps_mean_if_contact": _mean(row.get("found_to_first_contact_steps") for row in contact),
+            "post_found_safe_hold_terminal_streak_mean": _mean(row.get("post_found_safe_hold_terminal_streak") for row in rows),
+            "post_found_route_inactive_terminal_streak_mean": _mean(row.get("post_found_route_inactive_terminal_streak") for row in rows),
         }
     )
     found_count = sum(bool(row.get("found")) for row in rows)

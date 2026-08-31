@@ -51,6 +51,7 @@ class FailureTraceRecorder:
     enabled: bool = True
     only_found_failures: bool = True
     max_traces: int = 20
+    selector: str = "found_failures"
     accepted_trace_count: int = 0
     _episode_rows: list[dict[str, Any]] = field(default_factory=list)
 
@@ -71,13 +72,25 @@ class FailureTraceRecorder:
         evaluation_mode: str,
         scenario_id: str,
         scenario_seed: int,
+        execution_variant: str = "",
+        search_recovery_variant: str = "",
+        checkpoint_runtime_revision: str = "",
+        evaluation_runtime_revision: str = "",
+        runtime_integration_mode: str = "",
+        search_collision_recovery_schema: str = "",
+        search_collision_recovery_config_hash: str = "",
+        recovery_triggered: bool = False,
+        pre_found_collision: bool = False,
     ) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
-        accepted = bool(
-            self.enabled
-            and self.accepted_trace_count < int(self.max_traces)
-            and not success
-            and (found or not self.only_found_failures)
-        )
+        if self.selector == "recovery_or_collision_failure":
+            selected = bool(
+                recovery_triggered
+                or (not found and pre_found_collision)
+                or (found and not success)
+            )
+        else:
+            selected = bool(not success and (found or not self.only_found_failures))
+        accepted = bool(self.enabled and self.accepted_trace_count < int(self.max_traces) and selected)
         if not accepted:
             self._episode_rows = []
             return [], None
@@ -88,6 +101,13 @@ class FailureTraceRecorder:
             "checkpoint": str(checkpoint),
             "checkpoint_episode": int(checkpoint_episode),
             "evaluation_mode": str(evaluation_mode),
+            "execution_variant": str(execution_variant),
+            "search_recovery_variant": str(search_recovery_variant),
+            "checkpoint_runtime_revision": str(checkpoint_runtime_revision),
+            "evaluation_runtime_revision": str(evaluation_runtime_revision),
+            "runtime_integration_mode": str(runtime_integration_mode),
+            "search_collision_recovery_schema": str(search_collision_recovery_schema),
+            "search_collision_recovery_config_hash": str(search_collision_recovery_config_hash),
             "scenario_id": str(scenario_id),
             "scenario_seed": int(scenario_seed),
             "trace_row_count": len(rows),

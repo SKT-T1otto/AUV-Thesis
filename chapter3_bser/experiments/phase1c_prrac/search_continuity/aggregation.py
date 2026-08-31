@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import statistics
+import math
 from typing import Any, Iterable, Mapping
 
 from chapter3_bser.experiments.phase1c_prrac.evaluation_metrics import (
@@ -24,6 +25,15 @@ def _mean(rows: Iterable[Mapping[str, Any]], key: str):
 def _median(rows: Iterable[Mapping[str, Any]], key: str):
     values = _values(rows, key)
     return None if not values else float(statistics.median(values))
+
+
+def _percentile(rows: Iterable[Mapping[str, Any]], key: str, fraction: float):
+    values = sorted(_values(rows, key))
+    if not values:
+        return None
+    position = (len(values) - 1) * fraction
+    lower, upper = int(math.floor(position)), int(math.ceil(position))
+    return float(values[lower] if lower == upper else values[lower] + (values[upper] - values[lower]) * (position - lower))
 
 
 def aggregate_search_continuity(
@@ -71,6 +81,20 @@ def aggregate_search_continuity(
         "found_rate_if_pre_found_collision": nullable_rate(sum(bool(r.get("found")) for r in collision), len(collision)),
         "found_rate_if_no_pre_found_collision": nullable_rate(sum(bool(r.get("found")) for r in no_collision), len(no_collision)),
     })
+    for prefix, source in (
+        ("pre_found_collision_count", "searcher_collision_count_pre_found_total"),
+        ("pre_found_collision_max_streak", "searcher_collision_max_streak_pre_found"),
+    ):
+        for suffix, selected in (("all", rows), ("if_collision", collision)):
+            values = _values(selected, source)
+            result[f"{prefix}_sum_{suffix}"] = float(sum(values))
+            result[f"{prefix}_mean_{suffix}"] = _mean(selected, source)
+            result[f"{prefix}_median_{suffix}"] = _median(selected, source)
+            result[f"{prefix}_p50_{suffix}"] = result[f"{prefix}_median_{suffix}"]
+            result[f"{prefix}_p90_{suffix}"] = _percentile(selected, source, .90)
+            result[f"{prefix}_p95_{suffix}"] = _percentile(selected, source, .95)
+        for statistic_name in ("sum", "mean", "median", "p50", "p90", "p95"):
+            result[f"{prefix}_{statistic_name}"] = result[f"{prefix}_{statistic_name}_all"]
     for output, source in (
         ("mean_searcher_route_active_rate_pre_found", "searcher_route_active_rate_pre_found"),
         ("mean_searcher_hold_rate_pre_found", "searcher_hold_rate_pre_found"),
