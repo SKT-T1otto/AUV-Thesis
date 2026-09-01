@@ -265,7 +265,18 @@ class SearchCollisionRecoveryController:
 
 
 def build_search_recovery_controller(variant: SearchRecoveryVariant):
-    return None if variant is SearchRecoveryVariant.S2A_C0_BASELINE else SearchCollisionRecoveryController(variant)
+    from .types_v2 import SearchRecoveryVariantV2
+
+    if variant in {SearchRecoveryVariant.S2A_C0_BASELINE, SearchRecoveryVariantV2.S2A1_C0_BASELINE}:
+        return None
+    if variant in {
+        SearchRecoveryVariantV2.S2A1_C1_FORCED_REFRESH,
+        SearchRecoveryVariantV2.S2A1_C2_LOCAL_CONNECTOR,
+    }:
+        from .controller_v2 import SearchCollisionRecoveryControllerV2
+
+        return SearchCollisionRecoveryControllerV2(variant)
+    return SearchCollisionRecoveryController(variant)
 
 
 __all__ = ("SearchCollisionRecoveryController", "build_search_recovery_controller")

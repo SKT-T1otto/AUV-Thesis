@@ -30,6 +30,21 @@ def apply_search_recovery_guidance(base_guidance: Any, planning_state: Any, cont
         assignments.append(
             replace(
                 assignment,
+                assignment_kind=(
+                    state.semantic_assignment_kind
+                    if hasattr(state, "semantic_assignment_kind") and state.semantic_assignment_kind is not None
+                    else assignment.assignment_kind
+                ),
+                assignment_id=(
+                    plan.semantic_search_candidate_id
+                    if str(getattr(getattr(controller, "variant", None), "value", "")).startswith("S2A1_")
+                    else assignment.assignment_id
+                ),
+                final_waypoint=(
+                    plan.semantic_search_waypoint
+                    if str(getattr(getattr(controller, "variant", None), "value", "")).startswith("S2A1_")
+                    else assignment.final_waypoint
+                ),
                 planned_path=plan.path,
                 tracking_waypoint=tuple(float(v) for v in tracking),
                 hold_state=False,
@@ -37,7 +52,18 @@ def apply_search_recovery_guidance(base_guidance: Any, planning_state: Any, cont
             )
         )
         changed = True
-    return base_guidance if not changed else replace(base_guidance, agent_assignments=tuple(assignments))
+    if not changed:
+        return base_guidance
+    active_v2 = [
+        state for state in controller.agents.values()
+        if state.plan is not None and getattr(state, "base_allocation_hash", None) is not None
+    ]
+    return replace(
+        base_guidance,
+        agent_assignments=tuple(assignments),
+        allocation_version=(active_v2[0].base_allocation_version if active_v2 else base_guidance.allocation_version),
+        allocation_hash=(active_v2[0].base_allocation_hash if active_v2 else base_guidance.allocation_hash),
+    )
 
 
 __all__ = ("apply_search_recovery_guidance",)

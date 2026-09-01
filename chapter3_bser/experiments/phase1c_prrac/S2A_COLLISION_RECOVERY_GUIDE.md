@@ -1,5 +1,9 @@
 # Phase S2-A Search Collision Recovery
 
+> This document freezes the v1 experiment. The independent v2 recovery is
+> documented in `S2A1_LOCAL_CONNECTOR_RECOVERY_GUIDE.md`; v1 semantics and
+> output provenance remain unchanged.
+
 ## Scientific hypothesis
 
 S2-A tests whether a public-information-only, post-collision navigation overlay reduces pre-found Searcher collision stalls and improves Found without changing the learned residual policy. The existing collision/failure association is not itself causal; causal interpretation requires the paired C0/C1/C2 runs on one checkpoint and one frozen scenario manifest.

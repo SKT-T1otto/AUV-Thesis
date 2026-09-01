@@ -17,6 +17,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             "run_phase1c_prrac_s1_search_diag.sh",
             "run_phase1c_prrac_s1_train.sh",
             "run_phase1c_prrac_s2a_collision_ablation.sh",
+            "run_phase1c_prrac_s2a1_local_connector_ablation.sh",
             "run_phase1c_prrac_train.sh",
             "run_phase1c_v2_1_train.sh",
             "run_phase1c_v2_train.sh",

@@ -92,8 +92,11 @@ from chapter3_bser.experiments.phase1c_prrac.search_continuity import (
 )
 from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery import (
     SEARCH_COLLISION_RECOVERY_SCHEMA,
-    VARIANT_ORDER as SEARCH_RECOVERY_VARIANT_ORDER,
+    SEARCH_COLLISION_RECOVERY_SCHEMA_V2,
+    SEARCH_RECOVERY_VARIANT_ORDER,
+    ACTIVATION_DIAGNOSTICS_SCHEMA,
     SearchRecoveryVariant,
+    SearchRecoveryVariantV2,
     aggregate_search_collision_recovery,
     apply_search_recovery_guidance,
     baseline_recovery_summary,
@@ -167,6 +170,8 @@ OUTPUT_FILES = (
     "paired_search_collision_recovery_comparison.csv",
     "paired_search_collision_recovery_baseline_strata.csv",
     "search_collision_recovery_failure_funnel.csv",
+    "search_collision_recovery_planning_failures.csv",
+    "search_collision_recovery_activation_summary.csv",
     "search_collision_recovery_summary.json",
 )
 
@@ -442,6 +447,7 @@ def _checkpoint_info(
     search_diagnostics_hash: str = "",
     search_recovery_variant: str | SearchRecoveryVariant = SearchRecoveryVariant.S2A_C0_BASELINE,
     search_recovery_config_hash: str = "",
+    search_recovery_schema: str = SEARCH_COLLISION_RECOVERY_SCHEMA,
 ) -> dict[str, Any]:
     metadata = dict(payload["metadata"])
     oracle = mode == "oracle_current_target_diagnostic"
@@ -476,7 +482,12 @@ def _checkpoint_info(
         "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
         "search_continuity_diagnostics_hash": str(search_diagnostics_hash),
         "search_recovery_variant": parse_search_recovery_variant(search_recovery_variant).value,
-        "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+        "search_collision_recovery_schema": str(search_recovery_schema),
+        "activation_diagnostics_schema": (
+            ACTIVATION_DIAGNOSTICS_SCHEMA
+            if str(search_recovery_schema) == SEARCH_COLLISION_RECOVERY_SCHEMA_V2
+            else ""
+        ),
         "search_collision_recovery_config_hash": str(search_recovery_config_hash),
         "report_schema": EVALUATION_SCHEMA,
     }
@@ -520,6 +531,13 @@ def _build_evaluation_manifest(config: Mapping[str, Any]) -> tuple[list[dict[str
         profiles=(profile,),
     )[profile]
     scenarios = [copy.deepcopy(dict(value)) for value in generated["scenarios"]]
+    selected_ids = tuple(str(value) for value in config.get("scenario_ids", ()))
+    if selected_ids:
+        by_id = {str(value.get("scenario_id", "")): value for value in scenarios}
+        missing = [value for value in selected_ids if value not in by_id]
+        if missing:
+            raise ValueError(f"scenario-id-file contains IDs outside the generated manifest: {missing[:3]}")
+        scenarios = [copy.deepcopy(by_id[value]) for value in selected_ids]
     body = {
         "schema": "bser.phase1c.prrac.evaluation_manifest.v1",
         "profile": profile,
@@ -528,6 +546,10 @@ def _build_evaluation_manifest(config: Mapping[str, Any]) -> tuple[list[dict[str
         "evaluation_episodes": len(scenarios),
         "scenarios": scenarios,
         "source_manifest": generated,
+        "diagnostic_only": bool(selected_ids),
+        "scenario_selection_mode": (
+            "baseline_collision_targeted_smoke" if selected_ids else "generated_manifest_order"
+        ),
     }
     body["manifest_sha256"] = _hash(body)
     return scenarios, body
@@ -922,6 +944,18 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             )
 
             state = provider.snapshot(force=False)
+            if recovery_controller is not None:
+                recovery_controller.observe_transition(
+                    stage_before=metadata.stage_before,
+                    planning_state_after=state,
+                    collision_flags=env.unwrapped.collision_flags,
+                    planning_state_before=state_before,
+                    installed_guidance_before=transition_guidance,
+                )
+                if bool(getattr(recovery_controller, "force_refresh_requested", False)):
+                    state = provider.snapshot(force=True)
+                for agent_id in recovery_controller.rejoined_agent_ids:
+                    bridge.path_tracker.reset(agent_id)
             search_diagnostics.observe_transition(
                 stage_before=metadata.stage_before,
                 stage_after=metadata.stage_after,
@@ -936,16 +970,6 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     env.unwrapped.last_residual_contribution_ratio_search
                 ),
             )
-            if recovery_controller is not None:
-                recovery_controller.observe_transition(
-                    stage_before=metadata.stage_before,
-                    planning_state_after=state,
-                    collision_flags=env.unwrapped.collision_flags,
-                    planning_state_before=state_before,
-                    installed_guidance_before=transition_guidance,
-                )
-                for agent_id in recovery_controller.rejoined_agent_ids:
-                    bridge.path_tracker.reset(agent_id)
             context = _public_context(env, state)
             result = controller.step(state, context)
             env.observe_controller_result(
@@ -965,6 +989,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             next_public_guidance = apply_search_recovery_guidance(
                 public_guidance, state, recovery_controller
             )
+            if recovery_controller is not None and hasattr(recovery_controller, "observe_activation"):
+                recovery_controller.observe_activation(public_guidance, next_public_guidance)
             detection = getattr(controller, "last_detection", None)
             legacy_detection = getattr(result, "event_detection", None)
             continuity_diagnostics.observe_step(
@@ -1059,7 +1085,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 "parameter_update_count": 0,
                 "execution_variant": execution_variant.value,
                 "search_recovery_variant": search_recovery_variant.value,
-                "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+                "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", SEARCH_COLLISION_RECOVERY_SCHEMA)),
                 "search_collision_recovery_config_hash": str(
                     info.get("search_collision_recovery_config_hash", "")
                 ),
@@ -1092,13 +1118,26 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             checkpoint_runtime_revision=str(info["checkpoint_runtime_revision"]),
             evaluation_runtime_revision=str(info["evaluation_runtime_revision"]),
             runtime_integration_mode=str(info["runtime_integration_mode"]),
-            search_collision_recovery_schema=SEARCH_COLLISION_RECOVERY_SCHEMA,
+            search_collision_recovery_schema=str(info.get("search_collision_recovery_schema", SEARCH_COLLISION_RECOVERY_SCHEMA)),
             search_collision_recovery_config_hash=str(info.get("search_collision_recovery_config_hash", "")),
             recovery_triggered=int(row.get("search_recovery_entry_count") or 0) > 0,
             pre_found_collision=bool(row.get("searcher_collision_episode_pre_found")),
         )
+        planning_failures = [] if recovery_controller is None or not hasattr(recovery_controller, "planning_failure_rows") else recovery_controller.planning_failure_rows()
+        for planning_row in planning_failures:
+            planning_row.update({
+                "checkpoint": str(info["checkpoint"]), "scenario_id": str(row["scenario_id"]),
+                "scenario_seed": int(row["scenario_seed"]), "variant": search_recovery_variant.value,
+                "manifest_sha256": str(info.get("manifest_sha256", "")),
+                "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
+                "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
+                "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
+            })
+            planning_row["step"] = int(planning_row.get("planning_state_step", 0))
+            planning_row["forced_refresh"] = bool(planning_row.get("forced_public_refresh", False))
         payload = _json_safe(
-            {"episode": row, "failure_trace": traces, "trace_index": trace_index}
+            {"episode": row, "failure_trace": traces, "trace_index": trace_index,
+             "recovery_planning_failures": planning_failures}
         )
         if _contains_tensor(payload):
             raise RuntimeError("PRRAC evaluation worker output contains torch.Tensor")
@@ -1132,6 +1171,7 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "search_recovery_variant": str(info.get("search_recovery_variant", "")),
         "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
         "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
+        "activation_diagnostics_schema": str(info.get("activation_diagnostics_schema", "")),
         "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
     }
 
@@ -1298,15 +1338,19 @@ def _plot_search_recovery(
 ) -> None:
     plots = output / "plots"
     plots.mkdir(parents=True, exist_ok=True)
-    order = [item.value for item in SEARCH_RECOVERY_VARIANT_ORDER]
-    labels = ["C0", "C1", "C2"]
+    present = {str(row.get("search_recovery_variant", "")) for row in summary_rows}
+    order = [item.value for item in SEARCH_RECOVERY_VARIANT_ORDER if item.value in present]
+    labels = [
+        "C0" if "C0_" in value else "C1" if "C1_" in value else "C2"
+        for value in order
+    ]
 
     def summary_value(variant: str, field: str) -> float:
         values = [float(row[field]) for row in summary_rows if row.get("search_recovery_variant") == variant and row.get(field) not in {None, ""}]
         return float(statistics.fmean(values)) if values else float("nan")
 
     def bars(filename: str, title: str, fields: tuple[str, ...]) -> None:
-        figure, axis = plt.subplots(figsize=(8, 4.8)); x = np.arange(3); width = .8/max(1,len(fields))
+        figure, axis = plt.subplots(figsize=(8, 4.8)); x = np.arange(len(order)); width = .8/max(1,len(fields))
         for index, field in enumerate(fields):
             axis.bar(x+(index-(len(fields)-1)/2)*width, [summary_value(variant, field) for variant in order], width=width, label=field)
         axis.set_xticks(x, labels); axis.set_title(title)
@@ -1334,7 +1378,7 @@ def _plot_search_recovery(
         figure,axis=plt.subplots(figsize=(8,4.8)); selected=[row for row in strata_rows if row.get("stratum")==stratum]
         names=[]; base=[]; candidate=[]
         for row in selected:
-            names.append("C1" if str(row.get("candidate_search_recovery_variant","")).endswith("C1_ROUTE_REFRESH") else "C2")
+            names.append("C1" if "C1_" in str(row.get("candidate_search_recovery_variant", "")) else "C2")
             base.append(float(row.get("baseline_found_rate") or 0)); candidate.append(float(row.get("candidate_found_rate") or 0))
         x=np.arange(len(names)); axis.bar(x-.2,base,.4,label="C0"); axis.bar(x+.2,candidate,.4,label="candidate"); axis.set_xticks(x,names); axis.set_title(title); axis.legend(); figure.tight_layout(); figure.savefig(plots/filename,dpi=180); plt.close(figure)
     strata_plot("s2a_baseline_collision_stratum.png","BASELINE_COLLISION","C0 baseline-collision stratum outcomes")
@@ -1421,6 +1465,7 @@ def _write_outputs(
     trace_rows: list[dict[str, Any]],
     trace_index: list[dict[str, Any]],
     progress: dict[str, Any],
+    recovery_planning_failures: list[dict[str, Any]] | None = None,
 ) -> None:
     _write_csv(output / "episode_evaluation.csv", episode_rows)
     _write_csv(output / "checkpoint_summary.csv", summary_rows)
@@ -1571,7 +1616,7 @@ def _write_outputs(
         "runtime_integration_mode", "execution_variant", "evaluation_mode",
         "search_recovery_variant", "manifest_sha256",
         "search_continuity_diagnostics_hash", "search_collision_recovery_schema",
-        "search_collision_recovery_config_hash",
+        "search_collision_recovery_config_hash", "activation_diagnostics_schema", "report_schema",
     )
     recovery_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for row in recovery_episode_rows:
@@ -1589,6 +1634,28 @@ def _write_outputs(
     _write_csv(output / "paired_search_collision_recovery_comparison.csv", paired_recovery_rows)
     _write_csv(output / "paired_search_collision_recovery_baseline_strata.csv", strata_rows)
     _write_csv(output / "search_collision_recovery_failure_funnel.csv", recovery_funnel_rows)
+    _write_csv(
+        output / "search_collision_recovery_planning_failures.csv",
+        list(recovery_planning_failures or ()),
+    )
+    activation_summary_rows = [
+        {
+            key: row.get(key)
+            for key in (
+                "checkpoint", "execution_variant", "evaluation_mode", "search_recovery_variant",
+                "search_collision_recovery_schema", "search_collision_recovery_config_hash",
+                "activation_diagnostics_schema", "report_schema",
+                "manifest_sha256", "evaluation_episodes", "search_recovery_entry_count",
+                "forced_public_refresh_count", "recovery_plan_active_step_count",
+                "recovery_guidance_changed_step_count", "recovery_effective_intervention_count",
+                "local_connector_attempt_count", "local_connector_plan_count",
+                "tracking_waypoint_delta_norm_sum", "tracking_waypoint_delta_norm_mean",
+                "tracking_waypoint_delta_norm_max", "path_changed_step_count",
+            )
+        }
+        for row in recovery_summary_rows
+    ]
+    _write_csv(output / "search_collision_recovery_activation_summary.csv", activation_summary_rows)
     recovery_provenance = derive_unique_provenance(recovery_episode_rows)
     _write_json(
         output / "search_collision_recovery_summary.json",
@@ -1601,6 +1668,7 @@ def _write_outputs(
             "paired_comparison": paired_recovery_rows,
             "baseline_strata": strata_rows,
             "failure_funnel": recovery_funnel_rows,
+            "activation_summary": activation_summary_rows,
         },
     )
     _write_csv(output / "failure_trace_index.csv", trace_index)
@@ -1642,10 +1710,32 @@ def run_evaluation(
     search_recovery_variants_override: Iterable[str] | None = None,
     resume_evaluation: bool = False,
     disable_failure_trace: bool = False,
+    scenario_id_file: Path | None = None,
+    formal: bool = False,
 ) -> dict[str, Any]:
     assert_registered_ch3_method(METHOD)
     requested_checkpoints = tuple(checkpoints or ())
     config = copy.deepcopy(_load_config(config_path))
+    if formal and scenario_id_file is not None:
+        raise ValueError("--formal cannot be combined with --scenario-id-file")
+    if formal and episodes_override not in {None, 100}:
+        raise ValueError("--formal requires exactly 100 episodes")
+    if formal:
+        config["evaluation_episodes"] = 100
+    if scenario_id_file is not None:
+        scenario_path = Path(scenario_id_file)
+        raw = scenario_path.read_text(encoding="utf-8")
+        try:
+            parsed = json.loads(raw)
+            scenario_ids = parsed.get("scenario_ids", ()) if isinstance(parsed, Mapping) else parsed
+        except json.JSONDecodeError:
+            scenario_ids = [line.strip() for line in raw.splitlines() if line.strip()]
+        scenario_ids = [str(value) for value in scenario_ids]
+        if not scenario_ids or len(set(scenario_ids)) != len(scenario_ids):
+            raise ValueError("scenario-id-file must contain a non-empty unique scenario ID list")
+        config["scenario_ids"] = scenario_ids
+        config["diagnostic_only"] = True
+        config["scenario_selection_mode"] = "baseline_collision_targeted_smoke"
     for key, value in (
         ("evaluation_episodes", episodes_override),
         ("scenario_seed", scenario_seed_override),
@@ -1712,7 +1802,8 @@ def run_evaluation(
         raise ValueError("search recovery variants must be a non-empty unique registered list")
     config["search_recovery_variants"] = [item.value for item in search_recovery_variants]
     config["search_collision_recovery"]["variants"] = list(config["search_recovery_variants"])
-    if any(item is not SearchRecoveryVariant.S2A_C0_BASELINE for item in search_recovery_variants):
+    baseline_variants = {SearchRecoveryVariant.S2A_C0_BASELINE, SearchRecoveryVariantV2.S2A1_C0_BASELINE}
+    if any(item not in baseline_variants for item in search_recovery_variants):
         config["search_collision_recovery"]["enabled"] = True
     config["search_collision_recovery_config_hash"] = search_collision_recovery_config_hash(
         config["search_collision_recovery"]
@@ -1720,6 +1811,7 @@ def run_evaluation(
     execution_overlay_config_hash = _hash(config["execution_continuity"])
     search_diagnostics_hash = str(config["search_continuity_diagnostics_hash"])
     search_recovery_hash = str(config["search_collision_recovery_config_hash"])
+    search_recovery_schema = str(config["search_collision_recovery"]["schema"])
     if disable_failure_trace:
         config["failure_trace"]["enabled"] = False
     device = torch.device(str(config["device"]))
@@ -1765,7 +1857,7 @@ def run_evaluation(
             "output_dir": str(output.resolve()),
             "execution_overlay_config_hash": execution_overlay_config_hash,
             "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
-            "search_collision_recovery_schema": SEARCH_COLLISION_RECOVERY_SCHEMA,
+            "search_collision_recovery_schema": search_recovery_schema,
         }
     )
     config["resolved_config_hash"] = _hash(
@@ -1788,6 +1880,10 @@ def run_evaluation(
     summary_rows = _read_csv(output / "checkpoint_summary.csv") if resume_evaluation else []
     trace_index = _read_csv(output / "failure_trace_index.csv") if resume_evaluation else []
     trace_rows = []
+    recovery_planning_failures = (
+        _read_csv(output / "search_collision_recovery_planning_failures.csv")
+        if resume_evaluation else []
+    )
     if resume_evaluation and (output / "failure_trace.jsonl").is_file():
         trace_rows = [
             json.loads(line)
@@ -1862,7 +1958,10 @@ def run_evaluation(
                         search_diagnostics_hash=search_diagnostics_hash,
                         search_recovery_variant=search_recovery_variant,
                         search_recovery_config_hash=search_recovery_hash,
+                        search_recovery_schema=search_recovery_schema,
                     )
+                    if bool(config.get("diagnostic_only", False)):
+                        info["diagnostic_only"] = True
                     combo = _combo_key(info, manifest_hash)
                     if _canonical_json(combo) in completed:
                         continue
@@ -1894,6 +1993,10 @@ def run_evaluation(
                     with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
                         results = list(executor.map(_evaluate_episode_job, jobs))
                     rows = [dict(result["episode"]) for result in results]
+                    for result in results:
+                        recovery_planning_failures.extend(
+                            dict(value) for value in result.get("recovery_planning_failures", ())
+                        )
                     episode_rows.extend(rows)
                     summary_rows.append(aggregate_checkpoint(rows, info))
                     accepted_trace_count = 0
@@ -1908,6 +2011,7 @@ def run_evaluation(
                     _write_json(output / "checkpoint_metadata.json", checkpoint_metadata)
                     _write_csv(output / "episode_evaluation.csv", episode_rows)
                     _write_csv(output / "failure_trace_index.csv", trace_index)
+                    _write_csv(output / "search_collision_recovery_planning_failures.csv", recovery_planning_failures)
                     _atomic_text(output / "failure_trace.jsonl", "".join(_canonical_json(row) + "\n" for row in trace_rows))
                     _write_json(output / "evaluation_progress.json", progress)
 
@@ -1932,6 +2036,7 @@ def run_evaluation(
         trace_rows=trace_rows,
         trace_index=trace_index,
         progress=progress,
+        recovery_planning_failures=recovery_planning_failures,
     )
     return _evaluation_summary(
         checkpoint_paths=checkpoint_paths,
@@ -1968,6 +2073,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--resume-evaluation", action="store_true")
     parser.add_argument("--disable-failure-trace", action="store_true")
+    parser.add_argument("--scenario-id-file", type=Path)
+    parser.add_argument("--formal", action="store_true")
     args = parser.parse_args(argv)
     summary = run_evaluation(
         config_path=args.config,
@@ -1984,6 +2091,8 @@ def main(argv: list[str] | None = None) -> int:
         search_recovery_variants_override=args.search_recovery_variants,
         resume_evaluation=args.resume_evaluation,
         disable_failure_trace=args.disable_failure_trace,
+        scenario_id_file=args.scenario_id_file,
+        formal=args.formal,
     )
     print(json.dumps(_json_safe(summary), sort_keys=True, allow_nan=False))
     return 0
