@@ -24,13 +24,18 @@ PROVENANCE_FIELDS = (
     "manifest_sha256",
     "search_continuity_diagnostics_hash",
     "search_recovery_variant",
+    "search_collision_recovery_schema",
     "search_collision_recovery_config_hash",
+    "activation_diagnostics_schema",
+    "report_schema",
 )
 
 
 def _normal(value: Any) -> Any:
     if isinstance(value, Path):
         return str(value.resolve())
+    if value is None:
+        return ""
     return value
 
 
@@ -67,6 +72,12 @@ def validate_evaluation_provenance(
     if str(progress.get("schema")) != PROGRESS_SCHEMA:
         raise ValueError("evaluation progress schema mismatch")
     _require_equal("progress manifest_sha256", progress.get("manifest_sha256"), resolved_config.get("manifest_sha256"))
+    for field in (
+        "search_collision_recovery_schema", "activation_diagnostics_schema",
+        "activation_artifact_revision", "report_schema",
+        "s2a1_activation_artifact_revision",
+    ):
+        _require_equal(f"progress {field}", progress.get(field), resolved_config.get(field))
     expected_values = list(expected_scenarios)
     expected_ids = {str(row["scenario_id"]) for row in expected_values}
     expected_seeds = {int(row["scenario_seed"]) for row in expected_values}
@@ -75,6 +86,16 @@ def validate_evaluation_provenance(
         (str(row["scenario_id"]), int(row["scenario_seed"]))
         for row in expected_values if row.get("scenario_seed") is not None
     }
+    _require_equal(
+        "resolved evaluation episode count",
+        resolved_config.get("resolved_evaluation_episodes"),
+        len(expected_values),
+    )
+    _require_equal(
+        "progress evaluation episode count",
+        progress.get("resolved_evaluation_episodes"),
+        len(expected_values),
+    )
     if rows:
         row_ids = {str(row["scenario_id"]) for row in rows}
         row_seeds = {int(row["scenario_seed"]) for row in rows}
@@ -90,6 +111,9 @@ def validate_evaluation_provenance(
         "manifest_sha256": resolved_config.get("manifest_sha256"),
         "search_continuity_diagnostics_hash": resolved_config.get("search_continuity_diagnostics_hash"),
         "search_collision_recovery_config_hash": resolved_config.get("search_collision_recovery_config_hash"),
+        "search_collision_recovery_schema": resolved_config.get("search_collision_recovery_schema"),
+        "activation_diagnostics_schema": resolved_config.get("activation_diagnostics_schema"),
+        "report_schema": resolved_config.get("schema"),
         "checkpoint_runtime_revision": resolved_config.get("checkpoint_runtime_revision"),
     }
     allowed = {
@@ -109,6 +133,42 @@ def validate_evaluation_provenance(
             )
         ),
     }
+    combo_fields = (
+        "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
+        "checkpoint_runtime_revision", "evaluation_runtime_revision",
+        "runtime_integration_mode", "execution_variant", "evaluation_mode",
+        "search_recovery_variant", "manifest_sha256",
+        "execution_overlay_config_hash", "search_continuity_diagnostics_hash",
+        "search_collision_recovery_schema", "search_collision_recovery_config_hash",
+        "activation_diagnostics_schema", "activation_artifact_revision", "report_schema",
+        "s2a1_activation_artifact_revision",
+    )
+    row_combo_keys = {
+        tuple(_normal(row.get(field)) for field in combo_fields) for row in rows
+    }
+    progress_values = list(progress.get("completed", ()))
+    progress_combo_keys = {
+        tuple(_normal(combo.get(field)) for field in combo_fields)
+        for combo in progress_values
+    }
+    if len(progress_combo_keys) != len(progress_values):
+        raise ValueError("evaluation progress contains duplicate completed combinations")
+    if progress_combo_keys != row_combo_keys:
+        raise ValueError("evaluation progress completed combinations do not exactly match episode rows")
+    expected_combo_count = (
+        len(resolved_checkpoints)
+        * len(allowed["evaluation_mode"])
+        * len(allowed["execution_variant"])
+        * len(allowed["search_recovery_variant"])
+    )
+    if len(row_combo_keys) != expected_combo_count:
+        raise ValueError("evaluation completed combination count mismatch")
+    episode_identity = {
+        (*tuple(_normal(row.get(field)) for field in combo_fields), str(row.get("scenario_id")))
+        for row in rows
+    }
+    if len(episode_identity) != len(rows):
+        raise ValueError("evaluation episode rows contain duplicate combination/scenario identities")
     for index, row in enumerate(rows):
         checkpoint = str(Path(row["checkpoint"]).resolve())
         if checkpoint not in metadata_by_path:
@@ -143,19 +203,14 @@ def validate_evaluation_provenance(
         for field in PROVENANCE_FIELDS:
             if summary.get(field) is not None:
                 _require_equal(f"summary {field}", summary.get(field), derived.get(field))
-    for combo in progress.get("completed", ()):
+    for combo in progress_values:
         matching = [
             row
             for row in rows
             if all(
-                row.get(field) == combo.get(field)
+                _normal(row.get(field)) == _normal(combo.get(field))
                 for field in (
-                    "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
-                    "checkpoint_runtime_revision", "evaluation_runtime_revision",
-                    "runtime_integration_mode", "execution_variant", "evaluation_mode",
-                    "search_recovery_variant", "manifest_sha256",
-                    "execution_overlay_config_hash", "search_continuity_diagnostics_hash",
-                    "search_collision_recovery_config_hash",
+                    *combo_fields,
                 )
             )
         ]
@@ -182,8 +237,9 @@ def validate_summary_provenance(
         "checkpoint_runtime_revision", "evaluation_runtime_revision",
         "runtime_integration_mode", "execution_variant", "evaluation_mode",
         "search_recovery_variant", "manifest_sha256",
-        "search_continuity_diagnostics_hash",
-        "search_collision_recovery_config_hash",
+        "search_continuity_diagnostics_hash", "search_collision_recovery_schema",
+        "search_collision_recovery_config_hash", "activation_diagnostics_schema",
+        "report_schema",
     )
     for summary in summaries:
         matching = [
@@ -201,7 +257,13 @@ def validate_summary_provenance(
 
 
 def validate_resume_config(saved: Mapping[str, Any], expected: Mapping[str, Any]) -> None:
-    for field in ("schema", "resolved_config_hash", "manifest_sha256", "search_collision_recovery_config_hash", "search_continuity_diagnostics_hash"):
+    for field in (
+        "schema", "resolved_config_hash", "manifest_sha256",
+        "search_collision_recovery_schema", "search_collision_recovery_config_hash",
+        "activation_diagnostics_schema", "activation_artifact_revision",
+        "s2a1_activation_artifact_revision",
+        "search_continuity_diagnostics_hash", "report_schema",
+    ):
         _require_equal(f"resume {field}", saved.get(field), expected.get(field))
     _require_equal("resume resolved scenario ids", saved.get("resolved_scenario_ids"), expected.get("resolved_scenario_ids"))
 

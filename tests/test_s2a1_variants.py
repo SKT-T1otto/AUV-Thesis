@@ -22,7 +22,10 @@ class S2A1VariantTests(unittest.TestCase):
         source = json.loads((root / "configs/chapter3/bser_phase1c_prrac_s2a_collision_ablation.json").read_text(encoding="utf-8"))
         resolved = search_collision_recovery_config(source)
         self.assertEqual(resolved["schema"], SEARCH_COLLISION_RECOVERY_SCHEMA)
-        self.assertEqual(len(search_collision_recovery_config_hash(resolved)), 64)
+        self.assertEqual(
+            search_collision_recovery_config_hash(resolved),
+            "afc96b3cd601a05d0707d7256a4033fb1dae59afe740222d1e66a7d83127516b",
+        )
         self.assertEqual(tuple(SearchRecoveryVariant), (
             SearchRecoveryVariant.S2A_C0_BASELINE,
             SearchRecoveryVariant.S2A_C1_ROUTE_REFRESH,
@@ -44,6 +47,18 @@ class S2A1VariantTests(unittest.TestCase):
             config = json.loads((root / "configs/chapter3" / name).read_text(encoding="utf-8"))
             values.append(search_collision_recovery_config_hash(search_collision_recovery_config(config)))
         self.assertNotEqual(*values)
+
+    def test_schema_variant_isolation_rejects_mixed_empty_and_duplicate_lists(self):
+        cases = (
+            {"schema": SEARCH_COLLISION_RECOVERY_SCHEMA, "variants": ["S2A1_C0_BASELINE"]},
+            {"schema": SEARCH_COLLISION_RECOVERY_SCHEMA_V2, "variants": ["S2A_C0_BASELINE"]},
+            {"schema": SEARCH_COLLISION_RECOVERY_SCHEMA, "variants": ["S2A_C0_BASELINE", "S2A1_C0_BASELINE"]},
+            {"schema": SEARCH_COLLISION_RECOVERY_SCHEMA_V2, "variants": []},
+            {"schema": SEARCH_COLLISION_RECOVERY_SCHEMA_V2, "variants": ["S2A1_C0_BASELINE", "S2A1_C0_BASELINE"]},
+        )
+        for recovery in cases:
+            with self.subTest(recovery=recovery), self.assertRaises(ValueError):
+                search_collision_recovery_config({"search_collision_recovery": recovery})
 
 
 if __name__ == "__main__":

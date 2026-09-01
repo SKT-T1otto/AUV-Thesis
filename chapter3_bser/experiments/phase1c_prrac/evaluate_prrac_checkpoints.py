@@ -133,6 +133,7 @@ EVALUATION_SCHEMA = EVALUATION_REPORT_SCHEMA
 LEGACY_EVALUATION_SCHEMA = "bser.phase1c.prrac.evaluation.v1"
 SUMMARY_SCHEMA = EVALUATION_SUMMARY_SCHEMA
 EXECUTION_VARIANT_SUMMARY_SCHEMA = EXECUTION_SUMMARY_SCHEMA
+ACTIVATION_ARTIFACT_REVISION = "s2a1.activation_artifact.v1"
 OLD_CHECKPOINT_MESSAGE = (
     "Phase 1C-v1/v2 checkpoints are incompatible with PRRAC deterministic evaluation."
 )
@@ -172,6 +173,7 @@ OUTPUT_FILES = (
     "search_collision_recovery_failure_funnel.csv",
     "search_collision_recovery_planning_failures.csv",
     "search_collision_recovery_activation_summary.csv",
+    "search_collision_recovery_activation_steps.csv",
     "search_collision_recovery_summary.json",
 )
 
@@ -259,6 +261,24 @@ def _read_csv(path: Path) -> list[dict[str, Any]]:
                 except ValueError:
                     pass
     return rows
+
+
+def _dedupe_activation_rows(rows: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Preserve first-seen order while enforcing the activation artifact identity."""
+
+    output: list[dict[str, Any]] = []
+    seen: set[tuple[Any, ...]] = set()
+    for row in rows:
+        key = (
+            str(row.get("checkpoint", "")), str(row.get("search_recovery_variant", "")),
+            str(row.get("scenario_id", "")), int(row.get("step") or 0),
+            int(row.get("agent_id") or 0), int(row.get("attempt_id") or 0),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        output.append(dict(row))
+    return output
 
 
 def _contains_tensor(payload: Any) -> bool:
@@ -488,6 +508,8 @@ def _checkpoint_info(
             if str(search_recovery_schema) == SEARCH_COLLISION_RECOVERY_SCHEMA_V2
             else ""
         ),
+        "activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
+        "s2a1_activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
         "search_collision_recovery_config_hash": str(search_recovery_config_hash),
         "report_schema": EVALUATION_SCHEMA,
     }
@@ -525,7 +547,7 @@ def _resolve_checkpoints(
 def _build_evaluation_manifest(config: Mapping[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     profile = str(config["profile"])
     generated = build_scenario_manifests(
-        count=int(config["evaluation_episodes"]),
+        count=int(config.get("requested_evaluation_episodes", config["evaluation_episodes"])),
         generator_seed=int(config["scenario_seed"]),
         split=str(config["split"]),
         profiles=(profile,),
@@ -544,6 +566,12 @@ def _build_evaluation_manifest(config: Mapping[str, Any]) -> tuple[list[dict[str
         "split": str(config["split"]),
         "scenario_seed": int(config["scenario_seed"]),
         "evaluation_episodes": len(scenarios),
+        "requested_evaluation_episodes": int(
+            config.get("requested_evaluation_episodes", config["evaluation_episodes"])
+        ),
+        "generated_scenario_count": len(generated["scenarios"]),
+        "selected_scenario_count": len(scenarios),
+        "resolved_evaluation_episodes": len(scenarios),
         "scenarios": scenarios,
         "source_manifest": generated,
         "diagnostic_only": bool(selected_ids),
@@ -553,6 +581,21 @@ def _build_evaluation_manifest(config: Mapping[str, Any]) -> tuple[list[dict[str
     }
     body["manifest_sha256"] = _hash(body)
     return scenarios, body
+
+
+def _load_scenario_id_file(path: Path) -> list[str]:
+    raw = Path(path).read_text(encoding="utf-8")
+    try:
+        parsed = json.loads(raw)
+        values = parsed.get("scenario_ids", ()) if isinstance(parsed, Mapping) else parsed
+    except json.JSONDecodeError:
+        values = [line.strip() for line in raw.splitlines() if line.strip()]
+    if isinstance(values, (str, bytes)) or not isinstance(values, Iterable):
+        raise ValueError("scenario-id-file must contain a list of scenario IDs")
+    scenario_ids = [str(value) for value in values]
+    if not scenario_ids or len(set(scenario_ids)) != len(scenario_ids):
+        raise ValueError("scenario-id-file must contain a non-empty unique scenario ID list")
+    return scenario_ids
 
 
 def _make_env(config: Mapping[str, Any], reward: Mapping[str, Any]) -> PRRACTrainingEnv:
@@ -1128,16 +1171,52 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             planning_row.update({
                 "checkpoint": str(info["checkpoint"]), "scenario_id": str(row["scenario_id"]),
                 "scenario_seed": int(row["scenario_seed"]), "variant": search_recovery_variant.value,
+                "checkpoint_episode": int(info["checkpoint_episode"]),
+                "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
+                "checkpoint_runtime_revision": str(info["checkpoint_runtime_revision"]),
+                "evaluation_runtime_revision": str(info["evaluation_runtime_revision"]),
+                "runtime_integration_mode": str(info["runtime_integration_mode"]),
+                "execution_variant": execution_variant.value,
+                "evaluation_mode": mode,
+                "search_recovery_variant": search_recovery_variant.value,
                 "manifest_sha256": str(info.get("manifest_sha256", "")),
+                "search_continuity_diagnostics_hash": str(info.get("search_continuity_diagnostics_hash", "")),
                 "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
                 "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
+                "activation_diagnostics_schema": str(info.get("activation_diagnostics_schema", "")),
+                "activation_artifact_revision": str(info.get("activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
+                "s2a1_activation_artifact_revision": str(info.get("s2a1_activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
                 "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
             })
             planning_row["step"] = int(planning_row.get("planning_state_step", 0))
             planning_row["forced_refresh"] = bool(planning_row.get("forced_public_refresh", False))
+        activation_steps = [] if recovery_controller is None or not hasattr(recovery_controller, "activation_rows") else recovery_controller.activation_rows()
+        for activation_row in activation_steps:
+            activation_row.update({
+                "checkpoint": str(info["checkpoint"]),
+                "checkpoint_episode": int(info["checkpoint_episode"]),
+                "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
+                "checkpoint_runtime_revision": str(info["checkpoint_runtime_revision"]),
+                "evaluation_runtime_revision": str(info["evaluation_runtime_revision"]),
+                "runtime_integration_mode": str(info["runtime_integration_mode"]),
+                "execution_variant": execution_variant.value,
+                "evaluation_mode": mode,
+                "search_recovery_variant": search_recovery_variant.value,
+                "scenario_id": str(row["scenario_id"]),
+                "scenario_seed": int(row["scenario_seed"]),
+                "manifest_sha256": str(info.get("manifest_sha256", "")),
+                "search_continuity_diagnostics_hash": str(info.get("search_continuity_diagnostics_hash", "")),
+                "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
+                "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
+                "activation_diagnostics_schema": str(info.get("activation_diagnostics_schema", "")),
+                "activation_artifact_revision": str(info.get("activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
+                "s2a1_activation_artifact_revision": str(info.get("s2a1_activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
+                "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
+            })
         payload = _json_safe(
             {"episode": row, "failure_trace": traces, "trace_index": trace_index,
-             "recovery_planning_failures": planning_failures}
+             "recovery_planning_failures": planning_failures,
+             "recovery_activation_steps": activation_steps}
         )
         if _contains_tensor(payload):
             raise RuntimeError("PRRAC evaluation worker output contains torch.Tensor")
@@ -1172,6 +1251,8 @@ def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
         "search_collision_recovery_schema": str(info.get("search_collision_recovery_schema", "")),
         "search_collision_recovery_config_hash": str(info.get("search_collision_recovery_config_hash", "")),
         "activation_diagnostics_schema": str(info.get("activation_diagnostics_schema", "")),
+        "activation_artifact_revision": str(info.get("activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
+        "s2a1_activation_artifact_revision": str(info.get("s2a1_activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
         "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
     }
 
@@ -1429,6 +1510,7 @@ def _evaluation_summary(
         "checkpoint_schema": CHECKPOINT_SCHEMA,
         "checkpoint_count": len(checkpoint_paths),
         "scenario_count": len(scenarios),
+        "resolved_evaluation_episodes": len(scenarios),
         "evaluation_modes": provenance["evaluation_mode_values"],
         "execution_variants": provenance["execution_variant_values"],
         "search_recovery_variants": provenance["search_recovery_variant_values"],
@@ -1439,6 +1521,10 @@ def _evaluation_summary(
         "replay_sample_count": 0,
         "parameter_update_count": 0,
         "output_dir": str(output.resolve()),
+        "activation_steps_output": str(
+            (output / "search_collision_recovery_activation_steps.csv").resolve()
+        ),
+        "s2a1_activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
         **recommend_checkpoint(
             [
                 row
@@ -1466,6 +1552,7 @@ def _write_outputs(
     trace_index: list[dict[str, Any]],
     progress: dict[str, Any],
     recovery_planning_failures: list[dict[str, Any]] | None = None,
+    recovery_activation_steps: list[dict[str, Any]] | None = None,
 ) -> None:
     _write_csv(output / "episode_evaluation.csv", episode_rows)
     _write_csv(output / "checkpoint_summary.csv", summary_rows)
@@ -1491,6 +1578,10 @@ def _write_outputs(
                     "execution_overlay_config_hash",
                     "search_collision_recovery_config_hash",
                     "search_collision_recovery_schema",
+                    "activation_diagnostics_schema",
+                    "activation_artifact_revision",
+                    "s2a1_activation_artifact_revision",
+                    "report_schema",
                     "search_continuity_diagnostics_hash",
                 )
             },
@@ -1558,7 +1649,12 @@ def _write_outputs(
         "search_continuity_diagnostics_schema",
         "search_continuity_diagnostics_hash",
         "search_recovery_variant",
+        "search_collision_recovery_schema",
         "search_collision_recovery_config_hash",
+        "activation_diagnostics_schema",
+        "activation_artifact_revision",
+        "s2a1_activation_artifact_revision",
+        "report_schema",
     )
     search_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for row in episode_rows:
@@ -1617,6 +1713,8 @@ def _write_outputs(
         "search_recovery_variant", "manifest_sha256",
         "search_continuity_diagnostics_hash", "search_collision_recovery_schema",
         "search_collision_recovery_config_hash", "activation_diagnostics_schema", "report_schema",
+        "activation_artifact_revision",
+        "s2a1_activation_artifact_revision",
     )
     recovery_groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for row in recovery_episode_rows:
@@ -1645,6 +1743,8 @@ def _write_outputs(
                 "checkpoint", "execution_variant", "evaluation_mode", "search_recovery_variant",
                 "search_collision_recovery_schema", "search_collision_recovery_config_hash",
                 "activation_diagnostics_schema", "report_schema",
+                "activation_artifact_revision",
+                "s2a1_activation_artifact_revision",
                 "manifest_sha256", "evaluation_episodes", "search_recovery_entry_count",
                 "forced_public_refresh_count", "recovery_plan_active_step_count",
                 "recovery_guidance_changed_step_count", "recovery_effective_intervention_count",
@@ -1656,6 +1756,10 @@ def _write_outputs(
         for row in recovery_summary_rows
     ]
     _write_csv(output / "search_collision_recovery_activation_summary.csv", activation_summary_rows)
+    _write_csv(
+        output / "search_collision_recovery_activation_steps.csv",
+        _dedupe_activation_rows(recovery_activation_steps or ()),
+    )
     recovery_provenance = derive_unique_provenance(recovery_episode_rows)
     _write_json(
         output / "search_collision_recovery_summary.json",
@@ -1723,17 +1827,7 @@ def run_evaluation(
     if formal:
         config["evaluation_episodes"] = 100
     if scenario_id_file is not None:
-        scenario_path = Path(scenario_id_file)
-        raw = scenario_path.read_text(encoding="utf-8")
-        try:
-            parsed = json.loads(raw)
-            scenario_ids = parsed.get("scenario_ids", ()) if isinstance(parsed, Mapping) else parsed
-        except json.JSONDecodeError:
-            scenario_ids = [line.strip() for line in raw.splitlines() if line.strip()]
-        scenario_ids = [str(value) for value in scenario_ids]
-        if not scenario_ids or len(set(scenario_ids)) != len(scenario_ids):
-            raise ValueError("scenario-id-file must contain a non-empty unique scenario ID list")
-        config["scenario_ids"] = scenario_ids
+        config["scenario_ids"] = _load_scenario_id_file(Path(scenario_id_file))
         config["diagnostic_only"] = True
         config["scenario_selection_mode"] = "baseline_collision_targeted_smoke"
     for key, value in (
@@ -1743,6 +1837,7 @@ def run_evaluation(
     ):
         if value is not None:
             config[key] = int(value)
+    config["requested_evaluation_episodes"] = int(config["evaluation_episodes"])
     if device_override is not None:
         config["device"] = str(device_override)
     modes = tuple(modes_override or config.get("modes", ("full_prrac",)))
@@ -1833,6 +1928,7 @@ def run_evaluation(
         config, requested_checkpoints, checkpoint_dir, checkpoint_pattern
     )
     scenarios, manifest = _build_evaluation_manifest(config)
+    config["evaluation_episodes"] = len(scenarios)
     manifest_hash = str(manifest["manifest_sha256"])
     config.update(
         {
@@ -1848,7 +1944,9 @@ def run_evaluation(
             "resolved_runtime_integration_modes": resolved_runtime_integration_modes,
             "resolved_search_recovery_variants": [item.value for item in search_recovery_variants],
             "resolved_workers": workers,
-            "resolved_evaluation_episodes": int(config["evaluation_episodes"]),
+            "generated_scenario_count": int(manifest["generated_scenario_count"]),
+            "selected_scenario_count": int(manifest["selected_scenario_count"]),
+            "resolved_evaluation_episodes": len(scenarios),
             "resolved_scenario_seed": int(config["scenario_seed"]),
             "resolved_device": str(device),
             "manifest_sha256": manifest_hash,
@@ -1858,12 +1956,21 @@ def run_evaluation(
             "execution_overlay_config_hash": execution_overlay_config_hash,
             "search_continuity_diagnostics_schema": SEARCH_CONTINUITY_SCHEMA,
             "search_collision_recovery_schema": search_recovery_schema,
+            "activation_diagnostics_schema": (
+                ACTIVATION_DIAGNOSTICS_SCHEMA
+                if search_recovery_schema == SEARCH_COLLISION_RECOVERY_SCHEMA_V2 else ""
+            ),
+            "activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
+            "s2a1_activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
+            "report_schema": EVALUATION_SCHEMA,
         }
     )
     config["resolved_config_hash"] = _hash(
         {key: value for key, value in config.items() if key != "resolved_config_hash"}
     )
     if resume_evaluation:
+        if not (output / "search_collision_recovery_activation_steps.csv").is_file():
+            raise ValueError("resume evaluation activation artifact is missing")
         saved_config = json.loads(
             (output / "resolved_evaluation_config.json").read_text(encoding="utf-8")
         )
@@ -1884,6 +1991,12 @@ def run_evaluation(
         _read_csv(output / "search_collision_recovery_planning_failures.csv")
         if resume_evaluation else []
     )
+    recovery_activation_steps = (
+        _dedupe_activation_rows(
+            _read_csv(output / "search_collision_recovery_activation_steps.csv")
+        )
+        if resume_evaluation else []
+    )
     if resume_evaluation and (output / "failure_trace.jsonl").is_file():
         trace_rows = [
             json.loads(line)
@@ -1898,7 +2011,19 @@ def run_evaluation(
             "manifest_sha256": manifest_hash,
             "resolved_config_hash": config["resolved_config_hash"],
             "search_collision_recovery_config_hash": search_recovery_hash,
+            "search_collision_recovery_schema": search_recovery_schema,
+            "activation_diagnostics_schema": config["activation_diagnostics_schema"],
+            "activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
+            "s2a1_activation_artifact_revision": ACTIVATION_ARTIFACT_REVISION,
             "report_schema": EVALUATION_SCHEMA,
+            "requested_evaluation_episodes": int(config["requested_evaluation_episodes"]),
+            "generated_scenario_count": int(config["generated_scenario_count"]),
+            "selected_scenario_count": int(config["selected_scenario_count"]),
+            "resolved_evaluation_episodes": int(config["resolved_evaluation_episodes"]),
+            "diagnostic_only": bool(config.get("diagnostic_only", False)),
+            "scenario_selection_mode": str(
+                config.get("scenario_selection_mode", "generated_manifest_order")
+            ),
             "completed": [],
         }
     )
@@ -1912,6 +2037,13 @@ def run_evaluation(
         raise ValueError("resume evaluation progress search recovery hash mismatch")
     if progress.get("report_schema") != EVALUATION_SCHEMA:
         raise ValueError("resume evaluation progress report schema mismatch")
+    for field in (
+        "search_collision_recovery_schema", "activation_diagnostics_schema",
+        "activation_artifact_revision",
+        "s2a1_activation_artifact_revision",
+    ):
+        if progress.get(field) != config.get(field):
+            raise ValueError(f"resume evaluation progress {field} mismatch")
     completed = {_canonical_json(value) for value in progress.get("completed", ())}
     checkpoint_metadata = []
     context = mp.get_context("spawn")
@@ -1997,6 +2129,10 @@ def run_evaluation(
                         recovery_planning_failures.extend(
                             dict(value) for value in result.get("recovery_planning_failures", ())
                         )
+                        recovery_activation_steps.extend(
+                            dict(value) for value in result.get("recovery_activation_steps", ())
+                        )
+                    recovery_activation_steps = _dedupe_activation_rows(recovery_activation_steps)
                     episode_rows.extend(rows)
                     summary_rows.append(aggregate_checkpoint(rows, info))
                     accepted_trace_count = 0
@@ -2012,6 +2148,7 @@ def run_evaluation(
                     _write_csv(output / "episode_evaluation.csv", episode_rows)
                     _write_csv(output / "failure_trace_index.csv", trace_index)
                     _write_csv(output / "search_collision_recovery_planning_failures.csv", recovery_planning_failures)
+                    _write_csv(output / "search_collision_recovery_activation_steps.csv", recovery_activation_steps)
                     _atomic_text(output / "failure_trace.jsonl", "".join(_canonical_json(row) + "\n" for row in trace_rows))
                     _write_json(output / "evaluation_progress.json", progress)
 
@@ -2037,6 +2174,7 @@ def run_evaluation(
         trace_index=trace_index,
         progress=progress,
         recovery_planning_failures=recovery_planning_failures,
+        recovery_activation_steps=recovery_activation_steps,
     )
     return _evaluation_summary(
         checkpoint_paths=checkpoint_paths,

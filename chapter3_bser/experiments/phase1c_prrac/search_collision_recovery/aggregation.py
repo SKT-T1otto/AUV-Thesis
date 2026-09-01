@@ -129,7 +129,7 @@ def aggregate_search_collision_recovery(rows: list[dict[str, Any]], info: Mappin
 
 
 def _paired_groups(rows: list[dict[str, Any]]):
-    keys = ("checkpoint", "checkpoint_config_hash", "checkpoint_runtime_revision", "evaluation_runtime_revision", "runtime_integration_mode", "execution_variant", "evaluation_mode", "manifest_sha256", "search_collision_recovery_schema", "search_collision_recovery_config_hash", "activation_diagnostics_schema", "report_schema")
+    keys = ("checkpoint", "checkpoint_config_hash", "checkpoint_runtime_revision", "evaluation_runtime_revision", "runtime_integration_mode", "execution_variant", "evaluation_mode", "manifest_sha256", "search_collision_recovery_schema", "search_collision_recovery_config_hash", "activation_diagnostics_schema", "activation_artifact_revision", "s2a1_activation_artifact_revision", "report_schema")
     groups: dict[tuple[Any, ...], dict[str, list[dict[str, Any]]]] = {}
     for row in rows:
         groups.setdefault(tuple(row.get(key) for key in keys), {}).setdefault(str(row["search_recovery_variant"]), []).append(row)
@@ -191,6 +191,9 @@ def paired_search_collision_recovery_baseline_strata(rows: list[dict[str, Any]])
             if candidate_name not in variants: continue
             candidate = {str(row["scenario_id"]): row for row in variants[candidate_name]}
             if set(baseline) != set(candidate): raise ValueError("baseline strata require identical scenario_id sets")
+            for identity in sorted(baseline):
+                if int(baseline[identity]["scenario_seed"]) != int(candidate[identity]["scenario_seed"]):
+                    raise ValueError(f"baseline strata scenario_seed mismatch for scenario_id={identity}")
             for stratum, collision in (("BASELINE_COLLISION", True), ("BASELINE_NO_COLLISION", False)):
                 ids = [key for key,row in baseline.items() if bool(row.get("searcher_collision_episode_pre_found")) is collision]
                 base_rows=[baseline[key] for key in ids]; candidate_rows=[candidate[key] for key in ids]

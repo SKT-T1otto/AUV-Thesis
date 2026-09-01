@@ -45,8 +45,12 @@ def search_collision_recovery_config(config: Mapping[str, Any] | None = None) ->
         "modify_executor": bool(source.get("modify_executor", False)),
     }
     variants = tuple(parse_search_recovery_variant(value) for value in result["variants"])
-    if not variants or len(set(variants)) != len(variants):
-        raise ValueError("search recovery variants must be a non-empty unique registered list")
+    if (
+        not variants
+        or len(set(variants)) != len(variants)
+        or any(not isinstance(item, SearchRecoveryVariant) for item in variants)
+    ):
+        raise ValueError("v1 search recovery variants must be a non-empty unique S2-A list")
     result["variants"] = [item.value for item in variants]
     expected = {
         "trigger": "collision_edge",

@@ -1,15 +1,52 @@
 from __future__ import annotations
 
 import csv
+import json
 import tempfile
 import unittest
 from pathlib import Path
 
 from scripts.select_phase1c_prrac_s2a1_activation_scenarios import select_scenarios
 from scripts.validate_phase1c_prrac_s2a1_activation import validate_activation
+from chapter3_bser.experiments.phase1c_prrac import evaluate_prrac_checkpoints as evaluator
+from tests.prrac_evaluation_support import evaluation_config
 
 
 class ActivationInfrastructureTests(unittest.TestCase):
+    def test_targeted_manifest_resolves_final_count_and_preserves_file_order(self):
+        config = evaluation_config(scenario_count=5)
+        config["requested_evaluation_episodes"] = 5
+        generated, _ = evaluator._build_evaluation_manifest(config)
+        selected = [generated[3]["scenario_id"], generated[1]["scenario_id"]]
+        config["scenario_ids"] = selected
+        scenarios, manifest = evaluator._build_evaluation_manifest(config)
+        self.assertEqual([row["scenario_id"] for row in scenarios], selected)
+        self.assertEqual(manifest["requested_evaluation_episodes"], 5)
+        self.assertEqual(manifest["generated_scenario_count"], 5)
+        self.assertEqual(manifest["selected_scenario_count"], 2)
+        self.assertEqual(manifest["resolved_evaluation_episodes"], 2)
+        self.assertEqual(manifest["evaluation_episodes"], 2)
+
+    def test_scenario_id_file_rejects_empty_duplicate_and_unknown(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "ids.json"
+            for payload in ([], ["same", "same"], "not-a-list"):
+                path.write_text(json.dumps(payload), encoding="utf-8")
+                with self.subTest(payload=payload), self.assertRaises(ValueError):
+                    evaluator._load_scenario_id_file(path)
+            config = evaluation_config(scenario_count=2)
+            config["requested_evaluation_episodes"] = 2
+            config["scenario_ids"] = ["unknown"]
+            with self.assertRaisesRegex(ValueError, "outside the generated manifest"):
+                evaluator._build_evaluation_manifest(config)
+            path.write_text(json.dumps(["scenario"]), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "--formal cannot be combined"):
+                evaluator.run_evaluation(formal=True, scenario_id_file=path)
+
+    def test_activation_dedupe_uses_stable_identity(self):
+        row = {"checkpoint":"c", "search_recovery_variant":"S2A1_C1_FORCED_REFRESH", "scenario_id":"s", "step":1, "agent_id":0, "attempt_id":1}
+        self.assertEqual(evaluator._dedupe_activation_rows([row, dict(row)]), [row])
+
     def test_targeted_selector_uses_only_baseline_prefound_collision_order(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "episodes.csv"

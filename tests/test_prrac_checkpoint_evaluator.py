@@ -141,6 +141,15 @@ class PRRACCheckpointEvaluatorTests(unittest.TestCase):
                     episodes_override=1,
                     workers_override=1,
                 )
+                activation_path = output / "search_collision_recovery_activation_steps.csv"
+                activation_bytes = activation_path.read_bytes()
+                activation_path.unlink()
+                with self.assertRaisesRegex(ValueError, "activation artifact is missing"):
+                    evaluator.run_evaluation(
+                        checkpoints=[path], output_dir=output, episodes_override=1,
+                        workers_override=1, resume_evaluation=True,
+                    )
+                activation_path.write_bytes(activation_bytes)
                 resumed = evaluator.run_evaluation(
                     checkpoints=[path],
                     output_dir=output,

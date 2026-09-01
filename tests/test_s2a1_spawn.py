@@ -45,6 +45,7 @@ class S2A1SpawnTests(unittest.TestCase):
             self.assertEqual([item["episode"]["scenario_id"] for item in two[offset:offset+2]], expected)
         self.assertEqual({item["episode"]["manifest_sha256"] for item in two}, {"shared-s2a1-manifest"})
         self.assertTrue(all(isinstance(item.get("recovery_planning_failures"), list) for item in two))
+        self.assertTrue(all(isinstance(item.get("recovery_activation_steps"), list) for item in two))
 
 
 if __name__ == "__main__":

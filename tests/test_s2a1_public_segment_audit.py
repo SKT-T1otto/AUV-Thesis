@@ -26,6 +26,16 @@ class PublicSegmentAuditTests(unittest.TestCase):
         self.assertFalse(audit_public_segment(state, (0.5, 0.5, 1.0), (1.5, 0.5, 1.0)).accepted)
         self.assertFalse(audit_public_segment(state, (0.5, 0.5, 1.0), (-1.0, 0.5, 1.0)).accepted)
 
+    def test_only_the_first_collision_sample_is_exempt(self):
+        state = synthetic_state()
+        occupied = np.asarray(state.occupancy.occupied_mask).copy()
+        occupied[0] = True
+        occupancy = replace(state.occupancy, occupied_mask=locked(occupied, np.bool_))
+        audit = audit_public_segment(replace(state, occupancy=occupancy), (0.5, 0.5, 1.0), (2.5, 0.5, 1.0))
+        self.assertGreater(audit.sample_count, 2)
+        self.assertLess(audit.occupied_sample_count, audit.sample_count)
+        self.assertEqual(audit.rejection_reason, "LOCAL_CONNECTOR_NO_PUBLIC_SEGMENT")
+
 
 if __name__ == "__main__":
     unittest.main()

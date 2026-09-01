@@ -50,7 +50,16 @@ def baseline_recovery_summary() -> dict[str, Any]:
         "candidate_tier_distribution": {f"tier{tier}": 0 for tier in range(4)},
     }
     for agent_id in range(3):
-        for name in ("search_recovery_entry_count", "route_refresh_attempt_count", "route_refresh_success_count", "egress_attempt_count", "egress_success_count"):
+        for name in (
+            "search_recovery_entry_count", "route_refresh_attempt_count",
+            "route_refresh_success_count", "route_refresh_failure_count",
+            "local_connector_attempt_count", "local_connector_plan_count",
+            "local_connector_reached_count", "local_connector_collision_count",
+            "graph_reconnect_attempt_count", "graph_reconnect_success_count",
+            "graph_reconnect_failure_count", "recovery_effective_intervention_count",
+            "egress_attempt_count", "egress_success_count", "egress_failure_count",
+            "egress_rejoin_count",
+        ):
             result[f"{name}_agent_{agent_id}"] = 0
         result[f"last_recovery_mode_agent_{agent_id}"] = SearchRecoveryMode.NORMAL_SEARCH.value
         result[f"last_recovery_failure_reason_agent_{agent_id}"] = None

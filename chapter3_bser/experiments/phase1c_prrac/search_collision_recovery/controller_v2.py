@@ -57,7 +57,10 @@ class SearchCollisionRecoveryControllerV2:
         self.agents = {agent_id: _AgentRecoveryV2() for agent_id in range(3)}
         self.last_collision_free = {agent_id: None for agent_id in range(3)}
         self._counts: dict[str, int] = {}
+        self._agent_counts = {agent_id: {} for agent_id in range(3)}
         self._durations: list[int] = []
+        self._recovery_collision_count = 0
+        self._recovery_max_collision_streak = 0
         self._observed_search_steps = 0
         self._last_step = 0
         self._tracking_deltas: list[float] = []
@@ -68,8 +71,11 @@ class SearchCollisionRecoveryControllerV2:
         self.force_refresh_requested = False
         self.rejoined_agent_ids: tuple[int, ...] = ()
 
-    def _increment(self, name: str, amount: int = 1) -> None:
+    def _increment(self, name: str, amount: int = 1, agent_id: int | None = None) -> None:
         self._counts[name] = self._counts.get(name, 0) + int(amount)
+        if agent_id is not None:
+            bucket = self._agent_counts[int(agent_id)]
+            bucket[name] = bucket.get(name, 0) + int(amount)
 
     @staticmethod
     def _assignment(guidance: Any, agent_id: int):
@@ -112,7 +118,7 @@ class SearchCollisionRecoveryControllerV2:
         state.last_terminal_mode = (
             f"COLLISION_EDGE before={tuple(before_agent.position)} after={tuple(after_agent.position)}"
         )
-        self._increment("search_recovery_entry_count")
+        self._increment("search_recovery_entry_count", agent_id=agent_id)
         self._request_force_refresh()
 
     def _end(self, agent_id: int, step: int, terminal: RecoveryModeV2 = RecoveryModeV2.NORMAL_SEARCH) -> None:
@@ -195,6 +201,11 @@ class SearchCollisionRecoveryControllerV2:
             collision = bool(agent_id < collisions.size and collisions[agent_id])
             edge = self.detector.observe(agent_id, collision, search_active=True)
             state = self.agents[agent_id]
+            if state.mode is not RecoveryModeV2.NORMAL_SEARCH and collision:
+                self._recovery_collision_count += 1
+                self._recovery_max_collision_streak = max(
+                    self._recovery_max_collision_streak, self.detector.streak(agent_id)
+                )
             if state.mode is RecoveryModeV2.NORMAL_SEARCH and edge:
                 self._begin(agent_id, step, planning_state_before, planning_state_after, installed_guidance_before)
                 continue
@@ -211,19 +222,20 @@ class SearchCollisionRecoveryControllerV2:
                 continue
             if state.mode is RecoveryModeV2.LOCAL_CONNECTOR_EGRESS:
                 if collision:
+                    self._record_local_egress_collision(state, planning_state_after, agent_id)
                     if state.plan is not None and state.plan.endpoint_cell_index is not None:
                         state.failed_endpoint_cells.add(int(state.plan.endpoint_cell_index))
                     state.failure_reason = "LOCAL_EGRESS_COLLISION"
                     state.plan = None
                     self.path_tracker.reset(agent_id)
-                    self._increment("local_connector_collision_count")
+                    self._increment("local_connector_collision_count", agent_id=agent_id)
                     state.pending_local_connector = True
                     self._request_force_refresh()
                 elif state.plan is not None:
                     endpoint = np.asarray(state.plan.navigation_endpoint, dtype=np.float64)
                     position = np.asarray(agents_after[agent_id].position, dtype=np.float64)
                     if float(np.linalg.norm(position - endpoint)) < self.path_tracker.threshold:
-                        self._increment("local_connector_reached_count")
+                        self._increment("local_connector_reached_count", agent_id=agent_id)
                         state.plan = None
                         state.pending_graph_reconnect = True
                         state.mode = RecoveryModeV2.GRAPH_RECONNECT
@@ -246,6 +258,36 @@ class SearchCollisionRecoveryControllerV2:
         row.update({"variant": self.variant.value, "attempt_id": state.attempt_id})
         self._planning_audits.append(row)
 
+    def _record_local_egress_collision(
+        self, state: _AgentRecoveryV2, planning_state: Any, agent_id: int
+    ) -> None:
+        """Capture the failed installed connector before its state is cleared."""
+
+        plan = state.plan
+        if not isinstance(plan, LocalConnectorPlan):
+            return
+        self._planning_audits.append(
+            {
+                "planning_state_step": int(planning_state.step),
+                "step": int(planning_state.step),
+                "planning_state_revision": int(planning_state.map_revision),
+                "planning_stage": "LOCAL_CONNECTOR_EGRESS",
+                "final_failure_stage": "LOCAL_CONNECTOR_EGRESS",
+                "final_failure_reason": "LOCAL_EGRESS_COLLISION",
+                "variant": self.variant.value,
+                "agent_id": int(agent_id),
+                "attempt_id": int(state.attempt_id),
+                "plan_source": str(plan.source),
+                "selected_endpoint": tuple(plan.local_endpoint),
+                "endpoint_cell_index": plan.endpoint_cell_index,
+                "selected_tier": int(plan.endpoint_tier),
+                "segment_audit": dict(plan.public_segment_audit.__dict__),
+                "base_path_hash": str(plan.base_path_hash),
+                "overlay_path_hash": str(plan.overlay_path_hash),
+                "guidance_changed": bool(plan.base_path_hash != plan.overlay_path_hash),
+            }
+        )
+
     def _semantic_values(self, state: _AgentRecoveryV2):
         if state.semantic_candidate_id is None or state.semantic_waypoint is None or state.base_tracking_waypoint is None:
             raise RuntimeError("recovery semantic identity was not captured at collision edge")
@@ -267,7 +309,7 @@ class SearchCollisionRecoveryControllerV2:
                 state.pending_route_refresh = False
                 state.mode = RecoveryModeV2.ROUTE_REFRESH
                 self._step_route_attempted[agent_id] = True
-                self._increment("route_refresh_attempt_count")
+                self._increment("route_refresh_attempt_count", agent_id=agent_id)
                 candidate_id, semantic, base_tracking = self._semantic_values(state)
                 plan, audit, failure = plan_forced_route_refresh(
                     planning_state, agent_id, candidate_id, semantic, base_tracking,
@@ -275,14 +317,14 @@ class SearchCollisionRecoveryControllerV2:
                 )
                 if plan is None:
                     state.failure_reason = failure
-                    self._increment("route_refresh_failure_count")
+                    self._increment("route_refresh_failure_count", agent_id=agent_id)
                     self._record_audit(state, audit)
                     if self.variant is SearchRecoveryVariantV2.S2A1_C2_LOCAL_CONNECTOR:
                         state.pending_local_connector = True
                     else:
                         self._pass_through(agent_id, int(planning_state.step), failure or "RECOVERY_FAILED_PASS_THROUGH")
                 else:
-                    self._increment("route_refresh_success_count")
+                    self._increment("route_refresh_success_count", agent_id=agent_id)
                     agent = {int(item.agent_id): item for item in planning_state.agents}[agent_id]
                     probe = PathTracker(threshold=self.path_tracker.threshold)
                     tracking = probe.tracking_target(agent_id, agent.position, plan.path, plan.navigation_endpoint)
@@ -308,7 +350,7 @@ class SearchCollisionRecoveryControllerV2:
             if state.pending_local_connector:
                 state.pending_local_connector = False
                 self._step_local_attempted[agent_id] = True
-                self._increment("local_connector_attempt_count")
+                self._increment("local_connector_attempt_count", agent_id=agent_id)
                 candidate_id, semantic, base_tracking = self._semantic_values(state)
                 plan, audit, failure = plan_local_connector(
                     planning_state, agent_id, candidate_id, semantic, base_tracking,
@@ -321,12 +363,12 @@ class SearchCollisionRecoveryControllerV2:
                     state.failure_reason = failure
                     self._pass_through(agent_id, int(planning_state.step), failure or "RECOVERY_FAILED_PASS_THROUGH")
                 else:
-                    self._increment("local_connector_plan_count")
+                    self._increment("local_connector_plan_count", agent_id=agent_id)
                     self._increment(f"tier{plan.endpoint_tier}_count")
                     self._install_plan(agent_id, plan, RecoveryModeV2.LOCAL_CONNECTOR_EGRESS)
             if state.pending_graph_reconnect:
                 state.pending_graph_reconnect = False
-                self._increment("graph_reconnect_attempt_count")
+                self._increment("graph_reconnect_attempt_count", agent_id=agent_id)
                 candidate_id, semantic, base_tracking = self._semantic_values(state)
                 plan, audit, failure = plan_forced_route_refresh(
                     planning_state, agent_id, candidate_id, semantic, base_tracking,
@@ -334,7 +376,7 @@ class SearchCollisionRecoveryControllerV2:
                 )
                 audit = replace(audit, planning_stage="GRAPH_RECONNECT")
                 if plan is None:
-                    self._increment("graph_reconnect_failure_count")
+                    self._increment("graph_reconnect_failure_count", agent_id=agent_id)
                     endpoint = public_cell_index(planning_state, {int(item.agent_id): item for item in planning_state.agents}[agent_id].position)
                     if endpoint is not None:
                         state.failed_endpoint_cells.add(endpoint)
@@ -345,7 +387,7 @@ class SearchCollisionRecoveryControllerV2:
                     # Resolve the next deterministic endpoint in this same refreshed view.
                     self.prepare_next_guidance(planning_state, base_guidance)
                 else:
-                    self._increment("graph_reconnect_success_count")
+                    self._increment("graph_reconnect_success_count", agent_id=agent_id)
                     self._record_audit(state, audit)
                     self._install_plan(agent_id, replace(plan, source="SEARCH_COLLISION_GRAPH_RECONNECT_V2"), RecoveryModeV2.REJOIN_SEARCH)
 
@@ -365,7 +407,7 @@ class SearchCollisionRecoveryControllerV2:
             plan = state.plan
             effective = bool(state.plan_install_pending and plan is not None and changed)
             if effective:
-                self._increment("recovery_effective_intervention_count")
+                self._increment("recovery_effective_intervention_count", agent_id=agent_id)
                 state.plan_install_pending = False
             any_changed = any_changed or changed
             if plan is not None or changed or state.mode is not RecoveryModeV2.NORMAL_SEARCH:
@@ -381,7 +423,15 @@ class SearchCollisionRecoveryControllerV2:
                     recovery_effective_intervention=effective,
                     route_refresh_identical_to_base=state.route_refresh_identical,
                 )
-                step_rows.append({"agent_id": agent_id, **row.__dict__})
+                step_rows.append(
+                    {
+                        "step": int(self._last_step),
+                        "agent_id": agent_id,
+                        "attempt_id": int(state.attempt_id),
+                        "recovery_mode": state.mode.value,
+                        **row.__dict__,
+                    }
+                )
                 for planning_row in reversed(self._planning_audits):
                     if int(planning_row.get("agent_id", -1)) == agent_id and int(planning_row.get("attempt_id", -1)) == state.attempt_id:
                         planning_row["base_path_hash"] = base_hash
@@ -460,8 +510,8 @@ class SearchCollisionRecoveryControllerV2:
             "egress_success_count": self._counts.get("local_connector_reached_count", 0),
             "egress_failure_count": self._counts.get("local_connector_collision_count", 0),
             "egress_rejoin_count": self._counts.get("graph_reconnect_success_count", 0),
-            "recovery_collision_count": self._counts.get("local_connector_collision_count", 0),
-            "recovery_max_collision_streak": max((self.detector.streak(i) for i in range(3)), default=0),
+            "recovery_collision_count": self._recovery_collision_count,
+            "recovery_max_collision_streak": self._recovery_max_collision_streak,
             "recovery_no_egress_count": 0,
             "recovery_failed_endpoint_count": len(set().union(*(state.failed_endpoint_cells for state in self.agents.values()))),
         }
@@ -477,10 +527,22 @@ class SearchCollisionRecoveryControllerV2:
         for tier in range(4):
             result[f"tier{tier}_count"] = self._counts.get(f"tier{tier}_count", 0)
         for agent_id, state in self.agents.items():
+            counts = self._agent_counts[agent_id]
             result[f"last_recovery_mode_agent_{agent_id}"] = state.last_terminal_mode
             result[f"last_recovery_failure_reason_agent_{agent_id}"] = state.failure_reason
-            for name in ("search_recovery_entry_count", "route_refresh_attempt_count", "route_refresh_success_count", "egress_attempt_count", "egress_success_count"):
-                result[f"{name}_agent_{agent_id}"] = 0
+            for name in (
+                "search_recovery_entry_count", "route_refresh_attempt_count",
+                "route_refresh_success_count", "route_refresh_failure_count",
+                "local_connector_attempt_count", "local_connector_plan_count",
+                "local_connector_reached_count", "local_connector_collision_count",
+                "graph_reconnect_attempt_count", "graph_reconnect_success_count",
+                "graph_reconnect_failure_count", "recovery_effective_intervention_count",
+            ):
+                result[f"{name}_agent_{agent_id}"] = counts.get(name, 0)
+            result[f"egress_attempt_count_agent_{agent_id}"] = counts.get("local_connector_attempt_count", 0)
+            result[f"egress_success_count_agent_{agent_id}"] = counts.get("local_connector_reached_count", 0)
+            result[f"egress_failure_count_agent_{agent_id}"] = counts.get("local_connector_collision_count", 0)
+            result[f"egress_rejoin_count_agent_{agent_id}"] = counts.get("graph_reconnect_success_count", 0)
         return result
 
 

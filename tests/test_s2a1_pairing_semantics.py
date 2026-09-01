@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery import paired_search_collision_recovery_comparisons
+from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery import paired_search_collision_recovery_baseline_strata, paired_search_collision_recovery_comparisons
 
 
 def row(variant, scenario_id, seed, collision, gain, distance):
@@ -18,6 +18,11 @@ class PairingSemanticsTests(unittest.TestCase):
         self.assertEqual(result["searcher_distance_travelled_better_direction"], "report_only")
         rows[1]["scenario_seed"] = 2
         with self.assertRaises(ValueError): paired_search_collision_recovery_comparisons(rows)
+
+    def test_baseline_strata_rejects_per_id_seed_mismatch(self):
+        rows = [row("S2A1_C0_BASELINE", "s0", 1, 3, .1, 2), row("S2A1_C1_FORCED_REFRESH", "s0", 2, 2, .2, 3)]
+        with self.assertRaisesRegex(ValueError, "scenario_seed mismatch"):
+            paired_search_collision_recovery_baseline_strata(rows)
 
 
 if __name__ == "__main__":

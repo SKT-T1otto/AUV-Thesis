@@ -30,8 +30,18 @@ immediately clears all Search recovery state.
 Activation diagnostics compare base and overlay path hashes, tracking targets,
 and final waypoints on each recovery step. The output separates event entry,
 planning attempt, generated plan, active plan, changed guidance, endpoint reach,
-and graph reconnect. Targeted scenario lists selected from historical C0
-collision rows are diagnostic-only and are rejected in formal mode.
+and graph reconnect. Detailed rows are written to
+`search_collision_recovery_activation_steps.csv` under artifact revision
+`s2a1.activation_artifact.v1`; resume requires that artifact and deduplicates it
+by checkpoint, variant, scenario, step, agent, and attempt. Targeted scenario
+lists selected from historical C0 collision rows are diagnostic-only and are
+rejected in formal mode. Their requested/generated counts remain visible while
+the manifest, progress, summaries, and resolved episode count use the final
+selected count.
+
+Use `python scripts/validate_phase1c_prrac_s2a1_activation.py --output-dir
+<evaluation-output>` for the strict cross-artifact protocol check. The older
+`--summary-csv` mode remains a deliberately weaker activation-summary check.
 
 No checkpoint evaluation is launched by repository tests or launchers unless a
 user explicitly invokes a launcher with a checkpoint path.
