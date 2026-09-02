@@ -80,6 +80,7 @@ class SearchValueHeadTests(unittest.TestCase):
         self.assertEqual(enabled["search_value"]["horizon"], 50)
         self.assertEqual(enabled["search_value"]["loss_weight"], 0.05)
         self.assertEqual(enabled["search_value"]["threshold"], 0.5)
+        self.assertTrue(enabled["search_value_decision"]["enabled"])
 
     def test_shape(self):
         head = SearchValueHead(feature_dim=SEARCH_FEATURE_DIM, hidden_dim=32)
@@ -287,6 +288,12 @@ class SearchValueHeadTests(unittest.TestCase):
             "loss_weight": 0.05,
             "threshold": 0.5,
         }
+        head_owner = PRRACMADDPG(
+            architecture=job["architecture"],
+            loss=job["loss"],
+            search_value=job["search_value"],
+        )
+        job["search_value_snapshot"] = head_owner.search_value_snapshot()
         _, transitions, _, _ = _collect_episode(job)
         self.assertEqual(len(transitions), 1)
         self.assertEqual(len(transitions[0]), 9)

@@ -210,8 +210,14 @@ class SearchStateFeatureExtractor:
             raise ValueError("collision flags must include all searchers")
         for agent_i in range(SEARCHER_COUNT):
             self._collisions[agent_i].append(int(collisions[agent_i]))
-        known_ratio = self._known_ratio(planning_state_after)
-        map_revision = int(planning_state_after.map_revision)
+        self.synchronize_state(planning_state_after)
+
+    def synchronize_state(self, planning_state: Any) -> None:
+        """Synchronize a forced public refresh without adding motion/collisions."""
+
+        current_positions = self._positions(planning_state)
+        known_ratio = self._known_ratio(planning_state)
+        map_revision = int(planning_state.map_revision)
         if (
             known_ratio > self._last_known_ratio + 1e-12
             or map_revision > self._last_map_revision

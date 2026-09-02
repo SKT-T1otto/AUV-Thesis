@@ -57,6 +57,10 @@ from chapter3_bser.experiments.phase1c_prrac.runtime_factory import (
 from chapter3_bser.experiments.phase1c_prrac.search_continuity import (
     SearchContinuityDiagnostics,
 )
+from chapter3_bser.experiments.phase1c_prrac.search_value_decision import (
+    SearchValueDecisionController,
+    resolve_search_value_decision_config,
+)
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
 from chapter3_bser.experiments.phase1c_prrac.transition_protocol import (
     PRRACTransitionMetadata,
@@ -64,7 +68,7 @@ from chapter3_bser.experiments.phase1c_prrac.transition_protocol import (
 from chapter3_bser.integration.guided_env import GuidedEnv
 from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
-from chapter3_bser.models.prrac.stage_mapping import STAGE_MAPPING
+from chapter3_bser.models.prrac.stage_mapping import PRRACStage, STAGE_MAPPING
 from chapter3_bser.models.search_value_head import (
     SEARCHER_COUNT,
     SearchStateFeatureExtractor,
@@ -126,6 +130,19 @@ def _config_hash_without_search_value(config: Mapping[str, Any]) -> str:
     return _config_hash(legacy)
 
 
+def _config_hash_without_search_value_decision(config: Mapping[str, Any]) -> str:
+    legacy = copy.deepcopy(dict(config))
+    legacy.pop("search_value_decision", None)
+    return _config_hash(legacy)
+
+
+def _config_hash_without_search_modules(config: Mapping[str, Any]) -> str:
+    legacy = copy.deepcopy(dict(config))
+    legacy.pop("search_value", None)
+    legacy.pop("search_value_decision", None)
+    return _config_hash(legacy)
+
+
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
     expected = {
@@ -152,6 +169,16 @@ def _load_config(path: Path) -> dict[str, Any]:
     if config.get("profile") != "M20_MOVING_UNKNOWN_MULTI":
         raise ValueError("PRRAC formal profile changed")
     config["search_value"] = resolve_search_value_config(config.get("search_value"))
+    config["search_value_decision"] = resolve_search_value_decision_config(
+        config.get("search_value_decision")
+    )
+    if (
+        config["search_value_decision"]["enabled"]
+        and not config["search_value"]["enabled"]
+    ):
+        raise ValueError(
+            "search_value_decision requires search_value.enabled=true"
+        )
     contract = runtime_contract(config)
     if contract.checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION:
         if config.get("execution_variant") != "B1_ATOMIC_LAST_VALID":
@@ -224,6 +251,9 @@ def _checkpoint_metadata(
         "reward": copy.deepcopy(config["reward"]),
         "replay": copy.deepcopy(config["replay"]),
         "search_value": resolve_search_value_config(config.get("search_value")),
+        "search_value_decision": resolve_search_value_decision_config(
+            config.get("search_value_decision")
+        ),
         "execution_runtime_revision": contract.checkpoint_runtime_revision,
         "execution_variant": contract.execution_variant.value,
         "runtime_integration_mode": contract.runtime_integration_mode,
@@ -246,6 +276,7 @@ def _save_checkpoint(
     episode_rows: list[dict[str, Any]],
     execution_rows: list[dict[str, Any]],
     prrac_rows: list[dict[str, Any]],
+    search_value_decision_state: Mapping[str, Any] | None = None,
 ) -> Path:
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"phase1c_prrac_episode_{int(completed_episode):04d}.pt"
@@ -264,6 +295,13 @@ def _save_checkpoint(
         "episode_metrics": [dict(row) for row in episode_rows],
         "execution_diagnostics": [dict(row) for row in execution_rows],
         "prrac_diagnostics": [dict(row) for row in prrac_rows],
+        "search_value_decision_state": copy.deepcopy(
+            search_value_decision_state
+            if search_value_decision_state is not None
+            else SearchValueDecisionController(
+                config.get("search_value_decision")
+            ).state_dict()
+        ),
     }
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
     if temporary.exists():
@@ -330,14 +368,30 @@ def _load_checkpoint(
     actual_hash = metadata.get("config_hash")
     legacy_search_value_checkpoint = bool(
         "search_value" not in metadata
-        and actual_hash == _config_hash_without_search_value(config)
+        and actual_hash
+        in {
+            _config_hash_without_search_value(config),
+            _config_hash_without_search_modules(config),
+        }
     )
-    if actual_hash != expected_hash and not legacy_search_value_checkpoint:
+    legacy_decision_checkpoint = bool(
+        "search_value_decision" not in metadata
+        and actual_hash == _config_hash_without_search_value_decision(config)
+    )
+    if (
+        actual_hash != expected_hash
+        and not legacy_search_value_checkpoint
+        and not legacy_decision_checkpoint
+    ):
         raise ValueError("PRRAC checkpoint config hash mismatch")
     if "search_value" in metadata and resolve_search_value_config(
         metadata["search_value"]
     ) != resolve_search_value_config(config.get("search_value")):
         raise ValueError("PRRAC checkpoint search-value config mismatch")
+    if "search_value_decision" in metadata and resolve_search_value_decision_config(
+        metadata["search_value_decision"]
+    ) != resolve_search_value_decision_config(config.get("search_value_decision")):
+        raise ValueError("PRRAC checkpoint search-value decision config mismatch")
     for key, expected in (("observation_dim", 28), ("action_dim", 3), ("critic_dim", 124)):
         if int(metadata.get(key, -1)) != expected:
             raise ValueError(f"PRRAC checkpoint {key} mismatch")
@@ -346,6 +400,15 @@ def _load_checkpoint(
     payload["search_value_head_initialized"] = bool(
         learner.search_value_head_initialized
     )
+    decision_controller = SearchValueDecisionController(
+        config.get("search_value_decision")
+    )
+    payload["search_value_decision_controller_initialized"] = bool(
+        decision_controller.load_state_dict(
+            payload.get("search_value_decision_state"), strict=False
+        )
+    )
+    payload["search_value_decision_state"] = decision_controller.state_dict()
     return payload
 
 
@@ -381,6 +444,12 @@ def _verify_checkpoint_roundtrip(
         raise RuntimeError("PRRAC checkpoint episode metadata mismatch after restore")
     if len(replay) != int(replay_state["filled_i"]):
         raise RuntimeError("PRRAC checkpoint replay length mismatch after restore")
+    if restored["search_value_decision_state"] != payload.get(
+        "search_value_decision_state"
+    ):
+        raise RuntimeError(
+            "PRRAC checkpoint search-value decision state mismatch after restore"
+        )
     replay_roundtrip = replay.state_dict()
     for name in ("stage_before", "stage_after"):
         if not torch.equal(
@@ -744,20 +813,32 @@ def _collect_episode(job: dict[str, Any]):
         )
         env.install_guidance(guidance)
         observations = env.refresh_observation_after_guidance()
+        search_value_config = resolve_search_value_config(job.get("search_value"))
+        search_value_decision_config = resolve_search_value_decision_config(
+            job.get("search_value_decision")
+        )
+        if (
+            search_value_decision_config["enabled"]
+            and not search_value_config["enabled"]
+        ):
+            raise ValueError(
+                "search_value_decision requires an enabled SearchValueHead"
+            )
         actor = PRRACMADDPG(
             architecture=job["architecture"],
             loss=job["loss"],
+            search_value=search_value_config,
             gamma=float(job["rl"]["gamma"]),
             tau=float(job["rl"]["tau"]),
             lr_actor=float(job["rl"]["lr_actor"]),
             lr_critic=float(job["rl"]["lr_critic"]),
         )
         actor.load_policy_snapshot(job["policy_snapshot"])
+        actor.load_search_value_snapshot(job.get("search_value_snapshot"))
         actor.prep_rollouts("cpu")
         actor.reset_noise()
         transitions = []
         search_feature_rows: list[np.ndarray] = []
-        search_value_config = resolve_search_value_config(job.get("search_value"))
         search_feature_extractor = (
             SearchStateFeatureExtractor(max_steps=int(job["max_steps"]))
             if search_value_config["enabled"]
@@ -765,6 +846,9 @@ def _collect_episode(job: dict[str, Any]):
         )
         if search_feature_extractor is not None:
             search_feature_extractor.reset(state)
+        search_value_decision = SearchValueDecisionController(
+            search_value_decision_config
+        )
         rollout_diagnostics = PRRACDiagnostics()
         search_diagnostics = SearchContinuityDiagnostics()
         search_diagnostics_enabled = bool(
@@ -794,7 +878,7 @@ def _collect_episode(job: dict[str, Any]):
                     )
                     for agent_i, observation in enumerate(observations)
                 ]
-            _, rewards, dones = env.step(actions)
+            step_observations, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
                 raise RuntimeError("PRRAC training wrapper did not emit stage metadata")
@@ -805,6 +889,23 @@ def _collect_episode(job: dict[str, Any]):
                 search_feature_extractor.observe_transition(
                     state, env.unwrapped.collision_flags
                 )
+            decision = None
+            if search_value_decision.enabled:
+                decision_features = search_feature_extractor.extract(
+                    step_observations[:SEARCHER_COUNT], state
+                )
+                with torch.no_grad():
+                    decision_values = actor.search_value_head(
+                        torch.as_tensor(decision_features, dtype=torch.float32)
+                    )
+                decision = search_value_decision.observe(
+                    float(decision_values.mean().item()),
+                    step=int(state.step),
+                    search_active=bool(metadata.stage_after == PRRACStage.SEARCH),
+                )
+                if decision.trigger_replan:
+                    state = provider.snapshot(force=True)
+                    search_feature_extractor.synchronize_state(state)
             if search_diagnostics_enabled:
                 search_diagnostics.observe_transition(
                     stage_before=metadata.stage_before,
@@ -822,6 +923,10 @@ def _collect_episode(job: dict[str, Any]):
                 )
             context = _public_context(env, state)
             result = controller.step(state, context)
+            if decision is not None:
+                search_value_decision.observe_replan_result(
+                    decision, replanned=bool(result.replanned)
+                )
             env.observe_controller_result(result, controller=controller, state_provider=provider)
             guidance = bridge.compile_guidance(
                 result.allocation, state, context, decision_reason=result.decision_reason
@@ -866,6 +971,7 @@ def _collect_episode(job: dict[str, Any]):
                 for index, row in enumerate(transitions)
             ]
         task = env.get_task_state()
+        decision_summary = search_value_decision.summary()
         metrics = {
             "method": METHOD,
             "implementation_version": IMPLEMENTATION_VERSION,
@@ -885,6 +991,21 @@ def _collect_episode(job: dict[str, Any]):
             "accepted_replans": int(accepted_replans),
             "reward": float(reward_total),
             "action_norm": 0.0 if not action_norms else float(statistics.fmean(action_norms)),
+            "search_value_mean": decision_summary["search_value_mean"],
+            "search_value_trigger_count": int(decision_summary["trigger_count"]),
+            "search_value_forced_replan": bool(
+                decision_summary["trigger_count"] > 0
+            ),
+            "search_value_low_value_steps": int(
+                decision_summary["low_value_steps"]
+            ),
+            "search_value_mean_trigger_value": decision_summary[
+                "mean_trigger_value"
+            ],
+            "search_value_replan_after_trigger": int(
+                decision_summary["replan_after_trigger"]
+            ),
+            "_search_value_decision_state": search_value_decision.state_dict(),
             "wall_seconds": float(time.perf_counter() - started),
         }
         if search_diagnostics_enabled:
@@ -1123,6 +1244,9 @@ def run_training(
     execution_rows: list[dict[str, Any]] = []
     prrac_rows: list[dict[str, Any]] = []
     checkpoints: list[str] = []
+    latest_search_value_decision_state = SearchValueDecisionController(
+        config["search_value_decision"]
+    ).state_dict()
     global_step = update_step = replay_sample_count = optimizer_update_count = 0
     start_episode = 0
     if resume is not None:
@@ -1135,6 +1259,9 @@ def run_training(
         rows = [dict(row) for row in payload.get("episode_metrics", ())]
         execution_rows = [dict(row) for row in payload.get("execution_diagnostics", ())]
         prrac_rows = [dict(row) for row in payload.get("prrac_diagnostics", ())]
+        latest_search_value_decision_state = copy.deepcopy(
+            payload["search_value_decision_state"]
+        )
         checkpoints.append(str(Path(resume).resolve()))
     if start_episode >= int(config["episodes"]):
         raise ValueError("resume checkpoint already reached configured episode count")
@@ -1153,6 +1280,7 @@ def run_training(
         for batch_start in range(start_episode, int(config["episodes"]), workers):
             indices = range(batch_start, min(batch_start + workers, int(config["episodes"])))
             snapshot = learner.policy_snapshot()
+            search_value_snapshot = learner.search_value_snapshot()
             jobs = [
                 {
                     "episode_index": index,
@@ -1179,7 +1307,9 @@ def run_training(
                         "search_continuity_diagnostics", {"enabled": False}
                     ),
                     "search_value": config["search_value"],
+                    "search_value_decision": config["search_value_decision"],
                     "policy_snapshot": snapshot,
+                    "search_value_snapshot": search_value_snapshot,
                 }
                 for index in indices
             ]
@@ -1200,6 +1330,9 @@ def run_training(
             for metrics, transitions, execution, rollout_diag in sorted(
                 results, key=lambda item: int(item[0]["episode_index"])
             ):
+                latest_search_value_decision_state = copy.deepcopy(
+                    metrics.pop("_search_value_decision_state")
+                )
                 update = _apply_transitions(
                     learner,
                     replay,
@@ -1220,7 +1353,7 @@ def run_training(
                     search_value_enabled=update["search_value_enabled"],
                     search_value_loss=update["search_value_loss"],
                     search_value_accuracy=update["search_value_accuracy"],
-                    search_value_mean=update["search_value_mean"],
+                    search_value_training_mean=update["search_value_mean"],
                     search_value_std=update["search_value_std"],
                     high_value_search_ratio=update["high_value_search_ratio"],
                     search_value_sample_count=update["search_value_sample_count"],
@@ -1231,6 +1364,8 @@ def run_training(
                     replay_sample_count=update["replay_sample_count"],
                     optimizer_update_count=update["optimizer_update_count"],
                 )
+                if metrics.get("search_value_mean") is None:
+                    metrics["search_value_mean"] = update["search_value_mean"]
                 for name, count in replay.phase_counts().items():
                     metrics[f"replay_count_{name}"] = int(count)
                 combined_diag = _combine_episode_diagnostics(
@@ -1255,6 +1390,9 @@ def run_training(
                         episode_rows=rows,
                         execution_rows=execution_rows,
                         prrac_rows=prrac_rows,
+                        search_value_decision_state=(
+                            latest_search_value_decision_state
+                        ),
                     )
                     checkpoints.append(str(checkpoint.resolve()))
             _write_csv(directories["metrics"] / "episode_metrics.csv", rows)
@@ -1314,6 +1452,15 @@ def run_training(
             checkpoint_load_verified=checkpoint_load_verified,
         )
     )
+    decision_trigger_count = sum(
+        int(row.get("search_value_trigger_count", 0)) for row in rows
+    )
+    decision_trigger_value_sum = sum(
+        float(row["search_value_mean_trigger_value"])
+        * int(row.get("search_value_trigger_count", 0))
+        for row in rows
+        if row.get("search_value_mean_trigger_value") is not None
+    )
     summary = {
         "schema": "bser.phase1c.prrac.training.summary.v1",
         "method": METHOD,
@@ -1337,6 +1484,9 @@ def run_training(
         "search_value_loss": episode_scalar_mean("search_value_loss"),
         "search_value_accuracy": episode_scalar_mean("search_value_accuracy"),
         "search_value_mean": episode_scalar_mean("search_value_mean"),
+        "search_value_training_mean": episode_scalar_mean(
+            "search_value_training_mean"
+        ),
         "search_value_std": episode_scalar_mean("search_value_std"),
         "high_value_search_ratio": episode_scalar_mean(
             "high_value_search_ratio"
@@ -1347,6 +1497,22 @@ def run_training(
         "search_value_optimizer_update_count": sum(
             int(row.get("search_value_optimizer_update_count", 0)) for row in rows
         ),
+        "search_value_decision": {
+            "enabled": bool(config["search_value_decision"]["enabled"]),
+            "trigger_count": int(decision_trigger_count),
+            "low_value_steps": sum(
+                int(row.get("search_value_low_value_steps", 0)) for row in rows
+            ),
+            "mean_trigger_value": (
+                None
+                if decision_trigger_count == 0
+                else float(decision_trigger_value_sum / decision_trigger_count)
+            ),
+            "replan_after_trigger": sum(
+                int(row.get("search_value_replan_after_trigger", 0))
+                for row in rows
+            ),
+        },
         "gate_mean": scalar_mean("gate_mean"),
         "gate_p10": scalar_mean("gate_p10"),
         "gate_p90": scalar_mean("gate_p90"),

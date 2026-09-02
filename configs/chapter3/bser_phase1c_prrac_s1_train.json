@@ -58,6 +58,12 @@
     "loss_weight": 0.05,
     "threshold": 0.5
   },
+  "search_value_decision": {
+    "enabled": false,
+    "threshold": 0.35,
+    "patience": 20,
+    "cooldown": 50
+  },
   "rl": {
     "batch_size": 128,
     "replay_size": 500000,

@@ -474,6 +474,36 @@ class PRRACMADDPG:
             for agent in self.agents
         )
 
+    def search_value_snapshot(self):
+        """Return a spawn-safe immutable rollout snapshot of the auxiliary head."""
+
+        if self.search_value_head is None:
+            return None
+        return {
+            key: value.detach().cpu().numpy().copy()
+            for key, value in self.search_value_head.state_dict().items()
+        }
+
+    def load_search_value_snapshot(self, snapshot) -> None:
+        if self.search_value_head is None:
+            if snapshot is not None:
+                raise ValueError("search-value snapshot requires an enabled head")
+            return
+        if snapshot is None:
+            raise ValueError("enabled SearchValueHead requires a rollout snapshot")
+        model_state = self.search_value_head.state_dict()
+        if set(snapshot) != set(model_state):
+            raise ValueError("search-value snapshot parameter keys mismatch")
+        converted = {
+            key: torch.as_tensor(
+                value,
+                dtype=model_state[key].dtype,
+                device=model_state[key].device,
+            )
+            for key, value in snapshot.items()
+        }
+        self.search_value_head.load_state_dict(converted, strict=True)
+
     def load_policy_snapshot(self, snapshot) -> None:
         states = tuple(snapshot)
         if len(states) != 4:
