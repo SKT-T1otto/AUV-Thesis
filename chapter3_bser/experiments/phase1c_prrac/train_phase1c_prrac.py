@@ -65,6 +65,12 @@ from chapter3_bser.integration.guided_env import GuidedEnv
 from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.models.prrac.prrac_maddpg import PRRACMADDPG
 from chapter3_bser.models.prrac.stage_mapping import STAGE_MAPPING
+from chapter3_bser.models.search_value_head import (
+    SEARCHER_COUNT,
+    SearchStateFeatureExtractor,
+    future_found_labels,
+    resolve_search_value_config,
+)
 from chapter3_bser.online.config import execution_runtime_config, load_phase1b2_config
 from core.registry.experiment_registry import assert_registered_ch3_method
 from core.scenarios.ch3_generator_impl import build_scenario_manifests
@@ -114,6 +120,12 @@ def _config_hash(config: Mapping[str, Any]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _config_hash_without_search_value(config: Mapping[str, Any]) -> str:
+    legacy = copy.deepcopy(dict(config))
+    legacy.pop("search_value", None)
+    return _config_hash(legacy)
+
+
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
     expected = {
@@ -139,6 +151,7 @@ def _load_config(path: Path) -> dict[str, Any]:
         raise ValueError("PRRAC requires BSER guidance and real training updates")
     if config.get("profile") != "M20_MOVING_UNKNOWN_MULTI":
         raise ValueError("PRRAC formal profile changed")
+    config["search_value"] = resolve_search_value_config(config.get("search_value"))
     contract = runtime_contract(config)
     if contract.checkpoint_runtime_revision == NATIVE_B1_RUNTIME_REVISION:
         if config.get("execution_variant") != "B1_ATOMIC_LAST_VALID":
@@ -151,6 +164,9 @@ def _load_config(path: Path) -> dict[str, Any]:
 
 def _parameter_counts(learner: PRRACMADDPG) -> dict[str, int]:
     return {
+        "actor_parameter_count": sum(
+            p.numel() for agent in learner.agents for p in agent.actor.parameters()
+        ),
         "router_parameter_count": sum(
             p.numel() for agent in learner.agents for p in agent.actor.router.parameters()
         ),
@@ -169,6 +185,11 @@ def _parameter_counts(learner: PRRACMADDPG) -> dict[str, int]:
             for agent in learner.agents
             for module in (agent.critic1, agent.critic2)
             for p in module.parameters()
+        ),
+        "search_value_parameter_count": (
+            0
+            if learner.search_value_head is None
+            else sum(p.numel() for p in learner.search_value_head.parameters())
         ),
     }
 
@@ -202,6 +223,7 @@ def _checkpoint_metadata(
         "loss": copy.deepcopy(config["loss"]),
         "reward": copy.deepcopy(config["reward"]),
         "replay": copy.deepcopy(config["replay"]),
+        "search_value": resolve_search_value_config(config.get("search_value")),
         "execution_runtime_revision": contract.checkpoint_runtime_revision,
         "execution_variant": contract.execution_variant.value,
         "runtime_integration_mode": contract.runtime_integration_mode,
@@ -304,13 +326,26 @@ def _load_checkpoint(
         raise ValueError("checkpoint controller factory version mismatch")
     if metadata.get("architecture") != dict(config["architecture"]):
         raise ValueError("PRRAC checkpoint architecture config mismatch")
-    if metadata.get("config_hash") != _config_hash(config):
+    expected_hash = _config_hash(config)
+    actual_hash = metadata.get("config_hash")
+    legacy_search_value_checkpoint = bool(
+        "search_value" not in metadata
+        and actual_hash == _config_hash_without_search_value(config)
+    )
+    if actual_hash != expected_hash and not legacy_search_value_checkpoint:
         raise ValueError("PRRAC checkpoint config hash mismatch")
+    if "search_value" in metadata and resolve_search_value_config(
+        metadata["search_value"]
+    ) != resolve_search_value_config(config.get("search_value")):
+        raise ValueError("PRRAC checkpoint search-value config mismatch")
     for key, expected in (("observation_dim", 28), ("action_dim", 3), ("critic_dim", 124)):
         if int(metadata.get(key, -1)) != expected:
             raise ValueError(f"PRRAC checkpoint {key} mismatch")
     learner.load_training_state_dict(payload["prrac_training_state"])
     replay.load_state_dict(payload["prrac_replay_state"])
+    payload["search_value_head_initialized"] = bool(
+        learner.search_value_head_initialized
+    )
     return payload
 
 
@@ -327,6 +362,7 @@ def _verify_checkpoint_roundtrip(
     learner = PRRACMADDPG(
         architecture=config["architecture"],
         loss=config["loss"],
+        search_value=config.get("search_value"),
         gamma=float(rl.get("gamma", 0.95)),
         tau=float(rl.get("tau", 0.01)),
         lr_actor=float(rl.get("lr_actor", 0.001)),
@@ -336,6 +372,7 @@ def _verify_checkpoint_roundtrip(
         max_steps=int(replay_state["max_steps"]),
         config=config.get("replay", {}),
         generator_seed=int(config["seed"]) + 31,
+        search_value_config=config.get("search_value"),
     )
     restored = _load_checkpoint(checkpoint, learner, replay, config)
     if int(restored["completed_episode"]) != int(
@@ -350,6 +387,14 @@ def _verify_checkpoint_roundtrip(
             replay_roundtrip[name], payload["prrac_replay_state"][name]
         ):
             raise RuntimeError(f"PRRAC checkpoint {name} mismatch after restore")
+    if config.get("search_value", {}).get("enabled", False):
+        for name in ("search_features", "future_found", "search_value_valid"):
+            if not torch.equal(
+                replay_roundtrip[name], payload["prrac_replay_state"][name]
+            ):
+                raise RuntimeError(
+                    f"PRRAC checkpoint {name} mismatch after restore"
+                )
     return True
 
 
@@ -357,6 +402,7 @@ def _build_learner(config: Mapping[str, Any]):
     learner = PRRACMADDPG(
         architecture=config["architecture"],
         loss=config["loss"],
+        search_value=config.get("search_value"),
         gamma=float(config["rl"]["gamma"]),
         tau=float(config["rl"]["tau"]),
         lr_actor=float(config["rl"]["lr_actor"]),
@@ -366,6 +412,7 @@ def _build_learner(config: Mapping[str, Any]):
         max_steps=int(config["rl"]["replay_size"]),
         config=config["replay"],
         generator_seed=int(config["seed"]) + 31,
+        search_value_config=config.get("search_value"),
     )
     return learner, replay
 
@@ -512,10 +559,42 @@ def _apply_transitions(
     diagnostics = PRRACDiagnostics()
     actor_losses: list[float] = []
     critic_losses: list[float] = []
+    search_value_losses: list[float] = []
+    search_value_accuracies: list[float] = []
+    search_value_means: list[float] = []
+    search_value_stds: list[float] = []
+    high_value_search_ratios: list[float] = []
+    search_value_sample_count = 0
+    search_value_optimizer_update_count = 0
     replay_sample_count = 0
     optimizer_update_count = 0
     actor_update_count = 0
-    for obs, actions, rewards, next_obs, dones, success_flags, metadata in transitions:
+    for transition in transitions:
+        if len(transition) == 7:
+            (
+                obs,
+                actions,
+                rewards,
+                next_obs,
+                dones,
+                success_flags,
+                metadata,
+            ) = transition
+            search_features = future_found = None
+        elif len(transition) == 9:
+            (
+                obs,
+                actions,
+                rewards,
+                next_obs,
+                dones,
+                success_flags,
+                metadata,
+                search_features,
+                future_found,
+            ) = transition
+        else:
+            raise ValueError("PRRAC transition must contain 7 or 9 fields")
         replay.push(
             tuple(torch.as_tensor(value, dtype=torch.float32) for value in obs),
             torch.as_tensor(actions, dtype=torch.float32),
@@ -526,6 +605,8 @@ def _apply_transitions(
             PRRACTransitionMetadata.from_dict(metadata)
             if isinstance(metadata, Mapping)
             else metadata,
+            search_features=search_features,
+            future_found=future_found,
         )
         global_step += 1
         if (
@@ -556,6 +637,19 @@ def _apply_transitions(
                         torch.as_tensor(batch.obs[agent_i], device=learner.device)
                     )
                     diagnostics.observe_actor(output, batch.stage_before)
+            search_result = learner.update_search_value(batch)
+            if search_result["search_value_optimizer_updated"]:
+                search_value_losses.append(search_result["search_value_loss"])
+                search_value_accuracies.append(search_result["search_value_accuracy"])
+                search_value_means.append(search_result["search_value_mean"])
+                search_value_stds.append(search_result["search_value_std"])
+                high_value_search_ratios.append(
+                    search_result["high_value_search_ratio"]
+                )
+                search_value_sample_count += int(
+                    search_result["search_value_sample_count"]
+                )
+                search_value_optimizer_update_count += 1
             replay.update_priorities(
                 batch.indices,
                 torch.stack([torch.as_tensor(value) for value in errors]).mean(dim=0),
@@ -576,6 +670,36 @@ def _apply_transitions(
         "actor_update_count": int(actor_update_count),
         "actor_loss": None if not actor_losses else float(statistics.fmean(actor_losses)),
         "critic_loss": None if not critic_losses else float(statistics.fmean(critic_losses)),
+        "search_value_enabled": bool(learner.search_value_enabled),
+        "search_value_loss": (
+            None
+            if not search_value_losses
+            else float(statistics.fmean(search_value_losses))
+        ),
+        "search_value_accuracy": (
+            None
+            if not search_value_accuracies
+            else float(statistics.fmean(search_value_accuracies))
+        ),
+        "search_value_mean": (
+            None
+            if not search_value_means
+            else float(statistics.fmean(search_value_means))
+        ),
+        "search_value_std": (
+            None
+            if not search_value_stds
+            else float(statistics.fmean(search_value_stds))
+        ),
+        "high_value_search_ratio": (
+            None
+            if not high_value_search_ratios
+            else float(statistics.fmean(high_value_search_ratios))
+        ),
+        "search_value_sample_count": int(search_value_sample_count),
+        "search_value_optimizer_update_count": int(
+            search_value_optimizer_update_count
+        ),
         "success_tail_marked": int(marked),
         "diagnostics": diagnostics.summary(),
     }
@@ -632,6 +756,15 @@ def _collect_episode(job: dict[str, Any]):
         actor.prep_rollouts("cpu")
         actor.reset_noise()
         transitions = []
+        search_feature_rows: list[np.ndarray] = []
+        search_value_config = resolve_search_value_config(job.get("search_value"))
+        search_feature_extractor = (
+            SearchStateFeatureExtractor(max_steps=int(job["max_steps"]))
+            if search_value_config["enabled"]
+            else None
+        )
+        if search_feature_extractor is not None:
+            search_feature_extractor.reset(state)
         rollout_diagnostics = PRRACDiagnostics()
         search_diagnostics = SearchContinuityDiagnostics()
         search_diagnostics_enabled = bool(
@@ -648,6 +781,10 @@ def _collect_episode(job: dict[str, Any]):
         for _ in range(int(job["max_steps"])):
             state_before = state
             installed_guidance = guidance
+            if search_feature_extractor is not None:
+                search_feature_rows.append(
+                    search_feature_extractor.extract(observations[:SEARCHER_COUNT], state_before)
+                )
             with torch.no_grad():
                 action_parts = actor.step(observations, explore=True)
                 actions = torch.stack([item.squeeze(0) for item in action_parts])
@@ -664,6 +801,10 @@ def _collect_episode(job: dict[str, Any]):
             for output in actor_outputs:
                 rollout_diagnostics.observe_actor(output, [int(metadata.stage_before)])
             state = provider.snapshot(force=False)
+            if search_feature_extractor is not None:
+                search_feature_extractor.observe_transition(
+                    state, env.unwrapped.collision_flags
+                )
             if search_diagnostics_enabled:
                 search_diagnostics.observe_transition(
                     stage_before=metadata.stage_before,
@@ -709,6 +850,21 @@ def _collect_episode(job: dict[str, Any]):
             observations = next_observations
             if all(bool(value) for value in dones):
                 break
+        if search_feature_extractor is not None:
+            labels = future_found_labels(
+                [bool(row[6]["base"]["task_found"]) for row in transitions],
+                int(search_value_config["horizon"]),
+            )
+            if len(search_feature_rows) != len(transitions):
+                raise RuntimeError("search feature and transition counts differ")
+            transitions = [
+                row
+                + (
+                    search_feature_rows[index],
+                    np.full((SEARCHER_COUNT, 1), labels[index], dtype=np.float32),
+                )
+                for index, row in enumerate(transitions)
+            ]
         task = env.get_task_state()
         metrics = {
             "method": METHOD,
@@ -1022,6 +1178,7 @@ def run_training(
                     "search_continuity_diagnostics": config.get(
                         "search_continuity_diagnostics", {"enabled": False}
                     ),
+                    "search_value": config["search_value"],
                     "policy_snapshot": snapshot,
                 }
                 for index in indices
@@ -1060,6 +1217,16 @@ def run_training(
                 metrics.update(
                     actor_loss=update["actor_loss"],
                     critic_loss=update["critic_loss"],
+                    search_value_enabled=update["search_value_enabled"],
+                    search_value_loss=update["search_value_loss"],
+                    search_value_accuracy=update["search_value_accuracy"],
+                    search_value_mean=update["search_value_mean"],
+                    search_value_std=update["search_value_std"],
+                    high_value_search_ratio=update["high_value_search_ratio"],
+                    search_value_sample_count=update["search_value_sample_count"],
+                    search_value_optimizer_update_count=update[
+                        "search_value_optimizer_update_count"
+                    ],
                     replay_size=len(replay),
                     replay_sample_count=update["replay_sample_count"],
                     optimizer_update_count=update["optimizer_update_count"],
@@ -1111,6 +1278,9 @@ def run_training(
     def scalar_mean(name):
         values = [float(row[name]) for row in prrac_rows if row.get(name) is not None]
         return None if not values else float(statistics.fmean(values))
+    def episode_scalar_mean(name):
+        values = [float(row[name]) for row in rows if row.get(name) is not None]
+        return None if not values else float(statistics.fmean(values))
     def nested_mean(field, name):
         values = [
             float(row[field][name])
@@ -1160,6 +1330,23 @@ def run_training(
         **update_counts,
         **router_summary,
         "router_stage_counts": replay.stage_counts(),
+        "search_value_enabled": bool(config["search_value"]["enabled"]),
+        "search_value_head_initialized": bool(
+            learner.search_value_head_initialized
+        ),
+        "search_value_loss": episode_scalar_mean("search_value_loss"),
+        "search_value_accuracy": episode_scalar_mean("search_value_accuracy"),
+        "search_value_mean": episode_scalar_mean("search_value_mean"),
+        "search_value_std": episode_scalar_mean("search_value_std"),
+        "high_value_search_ratio": episode_scalar_mean(
+            "high_value_search_ratio"
+        ),
+        "search_value_sample_count": sum(
+            int(row.get("search_value_sample_count", 0)) for row in rows
+        ),
+        "search_value_optimizer_update_count": sum(
+            int(row.get("search_value_optimizer_update_count", 0)) for row in rows
+        ),
         "gate_mean": scalar_mean("gate_mean"),
         "gate_p10": scalar_mean("gate_p10"),
         "gate_p90": scalar_mean("gate_p90"),

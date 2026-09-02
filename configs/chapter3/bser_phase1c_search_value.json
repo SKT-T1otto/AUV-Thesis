@@ -23,7 +23,7 @@
   "max_steps": 400,
   "workers": 4,
   "device": "cpu",
-  "output_dir": "outputs/chapter3/phase1c_prrac/s1_b1_native_training",
+  "output_dir": "outputs/chapter3/phase1c_prrac/search_value_training",
   "resume_from_v1_allowed": false,
   "resume_from_v2_allowed": false,
   "checkpoint_interval": 100,
@@ -52,7 +52,7 @@
     "residual_action_reg": 0.01
   },
   "search_value": {
-    "enabled": false,
+    "enabled": true,
     "hidden_dim": 128,
     "horizon": 50,
     "loss_weight": 0.05,

@@ -446,6 +446,7 @@ def load_prrac_checkpoint(
     learner = PRRACMADDPG(
         architecture=metadata["architecture"],
         loss=metadata["loss"],
+        search_value=metadata.get("search_value", state.get("search_value")),
         gamma=float(state["gamma"]),
         tau=float(state["tau"]),
     )

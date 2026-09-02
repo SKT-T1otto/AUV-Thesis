@@ -7,8 +7,15 @@ from typing import Any, Mapping
 
 import torch
 from torch.nn import functional as F
+from torch.optim import Adam
 
 from core.algorithms.misc import soft_update
+
+from chapter3_bser.models.search_value_head import (
+    SEARCH_FEATURE_DIM,
+    SearchValueHead,
+    resolve_search_value_config,
+)
 
 from .phase_twin_critic import gather_stage_values
 from .prrac_agent import PRRACAgent
@@ -25,6 +32,7 @@ class PRRACMADDPG:
         *,
         architecture: Mapping[str, Any] | None = None,
         loss: Mapping[str, Any] | None = None,
+        search_value: Mapping[str, Any] | None = None,
         gamma: float = 0.95,
         tau: float = 0.005,
         lr_actor: float = 1e-3,
@@ -57,6 +65,22 @@ class PRRACMADDPG:
         ]
         self.architecture = copy.deepcopy(architecture)
         self.loss_config = copy.deepcopy(loss)
+        self.search_value_config = resolve_search_value_config(search_value)
+        self.search_value_enabled = bool(self.search_value_config["enabled"])
+        self.search_value_head = (
+            SearchValueHead(
+                feature_dim=SEARCH_FEATURE_DIM,
+                hidden_dim=int(self.search_value_config["hidden_dim"]),
+            )
+            if self.search_value_enabled
+            else None
+        )
+        self.search_value_optimizer = (
+            Adam(self.search_value_head.parameters(), lr=float(lr_actor))
+            if self.search_value_head is not None
+            else None
+        )
+        self.search_value_head_initialized = bool(self.search_value_enabled)
         self.gamma = float(gamma)
         self.tau = float(tau)
         self.router_ce_coef = float(loss.get("router_ce_coef", 0.05))
@@ -107,6 +131,9 @@ class PRRACMADDPG:
             ):
                 self._move_optimizer(optimizer, device)
             agent.sync_noise_device()
+        if self.search_value_head is not None:
+            self.search_value_head.to(device)
+            self._move_optimizer(self.search_value_optimizer, device)
         self.device = device
 
     def prep_training(self, device: str | torch.device = "cpu") -> None:
@@ -121,6 +148,8 @@ class PRRACMADDPG:
                 agent.target_critic2,
             ):
                 module.train()
+        if self.search_value_head is not None:
+            self.search_value_head.train()
 
     def prep_rollouts(self, device: str | torch.device | None = None) -> None:
         if device is not None:
@@ -128,6 +157,8 @@ class PRRACMADDPG:
         for agent in self.agents:
             agent.actor.eval()
             agent.target_actor.eval()
+        if self.search_value_head is not None:
+            self.search_value_head.eval()
 
     def reset_noise(self) -> None:
         for agent in self.agents:
@@ -307,6 +338,64 @@ class PRRACMADDPG:
         self.last_update = result
         return result
 
+    def update_search_value(self, batch) -> dict[str, Any]:
+        """Train only the auxiliary head on valid PRE_FOUND replay rows."""
+
+        empty = {
+            "search_value_enabled": bool(self.search_value_enabled),
+            "search_value_loss": None,
+            "search_value_weighted_loss": None,
+            "search_value_accuracy": None,
+            "search_value_mean": None,
+            "search_value_std": None,
+            "high_value_search_ratio": None,
+            "search_value_sample_count": 0,
+            "search_value_optimizer_updated": False,
+        }
+        if self.search_value_head is None or self.search_value_optimizer is None:
+            return empty
+        features = getattr(batch, "search_features", None)
+        labels = getattr(batch, "future_found", None)
+        valid = getattr(batch, "search_value_valid", None)
+        if features is None or labels is None or valid is None:
+            return empty
+        features = torch.as_tensor(features, dtype=torch.float32, device=self.device)
+        labels = torch.as_tensor(labels, dtype=torch.float32, device=self.device)
+        valid = torch.as_tensor(valid, dtype=torch.bool, device=self.device).reshape(-1)
+        stages = torch.as_tensor(
+            batch.stage_before, dtype=torch.long, device=self.device
+        ).reshape(-1)
+        selected = valid & (stages == 0)
+        if not bool(selected.any()):
+            return empty
+        selected_features = features[selected].reshape(-1, SEARCH_FEATURE_DIM)
+        selected_labels = labels[selected].reshape(-1, 1)
+        probabilities = self.search_value_head(selected_features)
+        search_loss = F.binary_cross_entropy(probabilities, selected_labels)
+        # The design's maximization notation is J_total = J_original - lambda*BCE.
+        # PRRAC stores minimization losses, so the disjoint auxiliary optimizer
+        # minimizes lambda*BCE while leaving every original RL loss unchanged.
+        weighted_loss = float(self.search_value_config["loss_weight"]) * search_loss
+        self.search_value_optimizer.zero_grad(set_to_none=True)
+        weighted_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.search_value_head.parameters(), 0.5)
+        self.search_value_optimizer.step()
+        detached = probabilities.detach()
+        threshold = float(self.search_value_config["threshold"])
+        predictions = detached > threshold
+        accuracy = (predictions == (selected_labels > 0.5)).float().mean()
+        return {
+            "search_value_enabled": True,
+            "search_value_loss": float(search_loss.detach().item()),
+            "search_value_weighted_loss": float(weighted_loss.detach().item()),
+            "search_value_accuracy": float(accuracy.detach().item()),
+            "search_value_mean": float(detached.mean().item()),
+            "search_value_std": float(detached.std(unbiased=False).item()),
+            "high_value_search_ratio": float(predictions.float().mean().item()),
+            "search_value_sample_count": int(detached.numel()),
+            "search_value_optimizer_updated": True,
+        }
+
     def update_all_targets(self, compute_diff: bool = False):
         differences = []
         for agent in self.agents:
@@ -322,15 +411,24 @@ class PRRACMADDPG:
         return differences if compute_diff else None
 
     def training_state_dict(self) -> dict[str, Any]:
-        return {
+        state = {
             "schema": self.SCHEMA,
             "architecture": copy.deepcopy(self.architecture),
             "loss": copy.deepcopy(self.loss_config),
+            "search_value": copy.deepcopy(self.search_value_config),
             "gamma": self.gamma,
             "tau": self.tau,
             "niter": int(self.niter),
             "agents": [agent.training_state_dict() for agent in self.agents],
         }
+        if self.search_value_head is not None:
+            state["search_value_head"] = PRRACAgent._cpu(
+                self.search_value_head.state_dict()
+            )
+            state["search_value_optimizer"] = PRRACAgent._cpu(
+                self.search_value_optimizer.state_dict()
+            )
+        return state
 
     def load_training_state_dict(self, state: Mapping[str, Any]) -> None:
         if state.get("schema") != self.SCHEMA:
@@ -339,11 +437,32 @@ class PRRACMADDPG:
             raise ValueError("PRRAC architecture mismatch during resume")
         if dict(state.get("loss", {})) != self.loss_config:
             raise ValueError("PRRAC loss configuration mismatch during resume")
+        stored_search_value = state.get("search_value")
+        if stored_search_value is not None:
+            stored_search_value = resolve_search_value_config(stored_search_value)
+            if stored_search_value != self.search_value_config:
+                raise ValueError("PRRAC search-value configuration mismatch during resume")
         states = list(state.get("agents", ()))
         if len(states) != 4:
             raise ValueError("PRRAC checkpoint must contain four agents")
         for agent, agent_state in zip(self.agents, states):
             agent.load_training_state_dict(agent_state)
+        if self.search_value_head is not None:
+            head_state = state.get("search_value_head")
+            if head_state is None:
+                self.search_value_head_initialized = True
+            else:
+                incompatible = self.search_value_head.load_state_dict(
+                    head_state, strict=False
+                )
+                if incompatible.missing_keys or incompatible.unexpected_keys:
+                    raise ValueError(
+                        "PRRAC search-value checkpoint parameters are incompatible"
+                    )
+                optimizer_state = state.get("search_value_optimizer")
+                if optimizer_state is not None:
+                    self.search_value_optimizer.load_state_dict(optimizer_state)
+                self.search_value_head_initialized = False
         self.niter = int(state.get("niter", 0))
 
     def policy_snapshot(self):
