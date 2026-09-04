@@ -109,6 +109,11 @@ from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery import (
     search_collision_recovery_failure_funnel,
 )
 from chapter3_bser.experiments.phase1c_prrac.training_env import PRRACTrainingEnv
+from chapter3_bser.experiments.phase1c_prrac.search_value_guidance import (
+    SearchValueGuidedCandidateScore,
+    aggregate_search_value_guidance,
+    resolve_search_value_guidance,
+)
 from chapter3_bser.integration.control_context import (
     AgentAssignmentContextV1,
     BSERControlContextV1,
@@ -176,6 +181,7 @@ OUTPUT_FILES = (
     "search_collision_recovery_activation_steps.csv",
     "search_collision_recovery_summary.json",
 )
+SEARCH_VALUE_GUIDANCE_OUTPUT = "search_value_guidance_metrics.json"
 
 
 def _json_safe(value: Any) -> Any:
@@ -376,6 +382,9 @@ def _load_config(path: Path) -> dict[str, Any]:
     config["search_collision_recovery_config_hash"] = (
         search_collision_recovery_config_hash(config["search_collision_recovery"])
     )
+    # Do not add defaults to old resolved configs: preserve their resume hashes.
+    if "search_value_guidance" in config:
+        config["search_value_guidance"] = resolve_search_value_guidance(config["search_value_guidance"])
     return config
 
 
@@ -443,6 +452,10 @@ def load_prrac_checkpoint(
     payload = _validate_checkpoint_payload(payload, config)
     metadata = dict(payload["metadata"])
     state = dict(payload["prrac_training_state"])
+    guidance = resolve_search_value_guidance((config or {}).get("search_value_guidance"))
+    if guidance["enabled"] and guidance["weight"] > 0.0:
+        if not state.get("search_value_head") or not state.get("search_value", {}).get("enabled"):
+            raise ValueError("active search value guidance requires a checkpoint search_value_head")
     learner = PRRACMADDPG(
         architecture=metadata["architecture"],
         loss=metadata["loss"],
@@ -627,6 +640,7 @@ def _build_episode_controller(
     execution_variant: str | ExecutionVariant,
     runtime_integration_mode: str,
     checkpoint_runtime_revision: str,
+    search_value_scorer=None,
 ):
     """Thin evaluation entry point into the shared PRRAC controller factory."""
 
@@ -636,6 +650,7 @@ def _build_episode_controller(
         execution_variant=execution_variant,
         runtime_integration_mode=runtime_integration_mode,
         checkpoint_runtime_revision=checkpoint_runtime_revision,
+        search_value_scorer=search_value_scorer,
     )
 
 
@@ -893,12 +908,18 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
     )
     actor.load_policy_snapshot(job["policy_snapshot"])
     actor.prep_rollouts(device)
+    search_value_scorer = SearchValueGuidedCandidateScore.from_snapshot(
+        config.get("search_value_guidance"),
+        snapshot=job.get("search_value_snapshot"),
+        head_config=job.get("search_value_config"),
+        max_steps=int(config["max_steps"]),
+    )
     env = _make_env(config, job["reward"])
     recorder = FailureTraceRecorder(**dict(job["failure_trace"]))
     recorder.begin_episode()
     try:
         episode_index = int(job["episode_index"])
-        env.reset(scenario=scenario, episode_id=episode_index, episode_index=episode_index)
+        reset_observations = env.reset(scenario=scenario, episode_id=episode_index, episode_index=episode_index)
         phase1b_config = load_phase1b2_config()
         runtime_config = execution_runtime_config(config)
         phase1b_config["execution_runtime"] = copy.deepcopy(runtime_config)
@@ -911,6 +932,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             public_target_update_min_steps=int(runtime_config["public_target_update_min_steps"]),
         )
         state = provider.initialize()
+        search_value_scorer.observe_state(reset_observations, state)
         context = _public_context(env, state)
         controller = _build_episode_controller(
             phase1b_config,
@@ -918,8 +940,10 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             execution_variant=execution_variant,
             runtime_integration_mode=effective_integration,
             checkpoint_runtime_revision=checkpoint_revision,
+            search_value_scorer=search_value_scorer,
         )
         initialized = controller.initialize(state, context)
+        search_value_scorer.record_installed(initialized.allocation)
         bridge = RMADDPGGuidanceBridge()
         guidance = bridge.compile_guidance(
             initialized.allocation, state, context, decision_reason="INITIALIZE"
@@ -964,7 +988,7 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     executor_id=3,
                 )
                 actions = actions.to(env.unwrapped.device)
-            _, rewards, dones = env.step(actions)
+            step_observations, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
                 raise RuntimeError("PRRAC evaluation environment emitted no stage metadata")
@@ -1015,7 +1039,11 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 ),
             )
             context = _public_context(env, state)
+            search_value_scorer.observe_state(
+                step_observations, state, collision_flags=env.unwrapped.collision_flags,
+            )
             result = controller.step(state, context)
+            search_value_scorer.record_installed(result.allocation, accepted=bool(result.replanned))
             env.observe_controller_result(
                 result, controller=controller, state_provider=provider
             )
@@ -1214,6 +1242,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                 "s2a1_activation_artifact_revision": str(info.get("s2a1_activation_artifact_revision", ACTIVATION_ARTIFACT_REVISION)),
                 "report_schema": str(info.get("report_schema", EVALUATION_SCHEMA)),
             })
+        if "search_value_guidance" in config:
+            row["search_value_guidance"] = search_value_scorer.metrics()
         payload = _json_safe(
             {"episode": row, "failure_trace": traces, "trace_index": trace_index,
              "recovery_planning_failures": planning_failures,
@@ -1556,6 +1586,16 @@ def _write_outputs(
     recovery_activation_steps: list[dict[str, Any]] | None = None,
 ) -> None:
     _write_csv(output / "episode_evaluation.csv", episode_rows)
+    if any("search_value_guidance" in row for row in episode_rows):
+        guidance_metrics = aggregate_search_value_guidance(episode_rows)
+        guidance_metrics["episodes"] = [
+            {key: row.get(key) for key in (
+                "checkpoint", "scenario_id", "evaluation_mode", "execution_variant",
+                "search_recovery_variant", "search_value_guidance",
+            )}
+            for row in episode_rows
+        ]
+        _write_json(output / SEARCH_VALUE_GUIDANCE_OUTPUT, guidance_metrics)
     _write_csv(output / "checkpoint_summary.csv", summary_rows)
     _write_csv(output / "paired_checkpoint_comparison.csv", _paired_rows(episode_rows))
     _write_csv(output / "failure_funnel.csv", _failure_funnel(episode_rows))
@@ -1920,7 +1960,7 @@ def run_evaluation(
     output = Path(output_dir) if output_dir is not None else Path(config["output_dir"])
     if not output.is_absolute():
         output = ROOT / output
-    existing = [output / name for name in OUTPUT_FILES if (output / name).exists()]
+    existing = [output / name for name in (*OUTPUT_FILES, SEARCH_VALUE_GUIDANCE_OUTPUT) if (output / name).exists()]
     if existing and not resume_evaluation:
         raise FileExistsError(f"PRRAC evaluation output exists: {existing[0]}")
     output.mkdir(parents=True, exist_ok=True)
@@ -2116,6 +2156,13 @@ def run_evaluation(
                             "tau": state["tau"],
                             "reward": metadata["reward"],
                             "policy_snapshot": snapshot,
+                            "search_value_snapshot": (
+                                learner.search_value_snapshot()
+                                if config.get("search_value_guidance", {}).get("enabled")
+                                and config["search_value_guidance"].get("weight", 0.1) > 0.0
+                                else None
+                            ),
+                            "search_value_config": learner.search_value_config,
                             "failure_trace": trace_config,
                             "device": str(device),
                         }

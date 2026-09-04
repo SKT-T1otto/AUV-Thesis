@@ -82,6 +82,7 @@ def build_prrac_online_controller(
     execution_variant: str | ExecutionVariant | None = None,
     runtime_integration_mode: str | None = None,
     checkpoint_runtime_revision: str | None = None,
+    search_value_scorer=None,
 ):
     """Build legacy, diagnostic-overlay, or native-B1 from one strict contract."""
 
@@ -91,7 +92,20 @@ def build_prrac_online_controller(
         runtime_integration_mode=runtime_integration_mode,
         checkpoint_runtime_revision=checkpoint_runtime_revision,
     )
-    legacy = OnlineBSERController(dict(phase1b_config))
+    from chapter3_bser.experiments.phase1c_prrac.search_value_guidance import (
+        SearchValueGuidedBSERAllocator, resolve_search_value_guidance,
+    )
+    guidance_config = resolve_search_value_guidance(experiment_config.get("search_value_guidance"))
+    allocator = None
+    if guidance_config["enabled"] and guidance_config["weight"] > 0.0:
+        if search_value_scorer is None or search_value_scorer.config != guidance_config:
+            raise ValueError("active candidate ranking requires a matching frozen SearchValue scorer")
+        allocator = SearchValueGuidedBSERAllocator(search_value_scorer)
+    legacy = (
+        OnlineBSERController(dict(phase1b_config))
+        if allocator is None
+        else OnlineBSERController(dict(phase1b_config), allocator=allocator)
+    )
     controller = (
         legacy
         if contract.execution_variant is ExecutionVariant.B0_LEGACY_V2_1

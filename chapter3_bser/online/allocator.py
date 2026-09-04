@@ -38,13 +38,17 @@ class BSEROnlineAllocator:
         self.config = dict(phase1a1_config or load_bser_phase1a1_config())
         self.execution = ExecutionManager()
 
+    def _solve_candidates(self, candidates, standby_candidates, context):
+        """Default frozen solver; chapter experiments may override ranking only."""
+        return solve_joint_greedy(candidates, standby_candidates, context)
+
     def allocate(self, state: PlanningStateView, *, trigger_reason: str = "online") -> OnlineAllocation:
         generated = generate_candidates(state, self.config)
         if not generated.search_candidates or not generated.standby_candidates:
             executor = self.execution.assign_belief_peak(state, source="no_feasible_candidate_fallback")
             return OnlineAllocation((), executor, 0.0, 0.0, math.inf, trigger_reason, "NO_FEASIBLE_CANDIDATES")
         context = build_objective_context(state, generated.search_candidates, generated.standby_candidates, self.config)
-        solved = solve_joint_greedy(generated.search_candidates, generated.standby_candidates, context)
+        solved = self._solve_candidates(generated.search_candidates, generated.standby_candidates, context)
         if solved.standby is None:
             executor = self.execution.assign_belief_peak(state, source="no_standby_fallback")
             return OnlineAllocation((), executor, 0.0, 0.0, math.inf, trigger_reason, solved.status)
@@ -270,7 +274,7 @@ class BSEROnlineAllocator:
             standby_candidates,
             self.config,
         )
-        solved = solve_joint_greedy(search_candidates, standby_candidates, context)
+        solved = self._solve_candidates(search_candidates, standby_candidates, context)
         if solved.standby is None:
             return current, False, "ATOMIC_REJECT_MISSING_STANDBY_ROUTE"
         selected_by_agent = {candidate.agent_id: candidate for candidate in solved.selected}

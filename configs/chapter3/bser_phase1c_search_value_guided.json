@@ -1,0 +1,74 @@
+{
+  "schema": "bser.phase1c.prrac.evaluation_report.v2",
+  "method": "ch3_bser_rmaddpg_phase1c",
+  "implementation_version": "bser.phase1c.prrac_v1",
+  "architecture_version": "prrac.phase_routed_residual.v1",
+  "checkpoint_schema": "bser.phase1c.prrac.training_state.v1",
+  "checkpoint_runtime_revision": "dynamic_public_intercept_v3_atomic_continuity",
+  "evaluation_runtime_revision": "dynamic_public_intercept_v3_atomic_continuity",
+  "execution_runtime_revision": "dynamic_public_intercept_v3_atomic_continuity",
+  "execution_variant": "B1_ATOMIC_LAST_VALID",
+  "execution_variants": ["B1_ATOMIC_LAST_VALID"],
+  "runtime_integration_mode": "native",
+  "controller_factory_version": "prrac.controller_factory.v1",
+  "base_candidate": "ch3_v3_full_reference",
+  "profile": "M20_MOVING_UNKNOWN_MULTI",
+  "observation_dim": 28,
+  "action_dim": 3,
+  "critic_dim": 124,
+  "split": "validation",
+  "scenario_seed": 1729,
+  "evaluation_episodes": 10,
+  "max_steps": 400,
+  "explore": false,
+  "training_update": false,
+  "device": "cpu",
+  "workers": 1,
+  "modes": ["full_prrac"],
+  "search_recovery_variants": ["S2A1_C2_LOCAL_CONNECTOR"],
+  "checkpoints": [],
+  "checkpoint_globs": [],
+  "search_value_guidance": {
+    "enabled": true,
+    "weight": 0.1,
+    "clip_min": 0.0,
+    "clip_max": 1.0
+  },
+  "execution_runtime": {
+    "defer_stale_endpoint_invalid": true,
+    "dynamic_public_target_enabled": true,
+    "public_target_update_distance": 0.75,
+    "public_target_update_min_steps": 20,
+    "refresh_on_executor_handoff": true,
+    "refresh_on_public_target_shift": true
+  },
+  "execution_continuity": {
+    "state_refresh_interval": 20,
+    "executor_cost_increase_threshold": 0.15
+  },
+  "search_continuity_diagnostics": {
+    "schema": "bser.phase1c.prrac.search_continuity.v2",
+    "enabled": true
+  },
+  "search_collision_recovery": {
+    "schema": "bser.phase1c.prrac.search_collision_recovery.v2",
+    "enabled": true,
+    "variants": ["S2A1_C2_LOCAL_CONNECTOR"],
+    "trigger": "collision_edge",
+    "collision_rearm": "one_collision_free_search_transition",
+    "public_refresh": "force_on_recovery_edge",
+    "local_connector_policy": "public_tiered_deterministic_v2",
+    "segment_sample_spacing_fraction": 0.5,
+    "activation_diagnostics_schema": "bser.phase1c.prrac.search_collision_recovery.activation.v2",
+    "reuse_project_path_tracker_threshold": true,
+    "modify_actions": false,
+    "modify_executor": false
+  },
+  "failure_trace": {
+    "enabled": true,
+    "only_found_failures": false,
+    "selector": "recovery_or_collision_failure",
+    "max_traces_per_checkpoint_mode": 10
+  },
+  "output_dir": "outputs/chapter3/phase1c_prrac/s2b_search_value_guided_pilot"
+}
