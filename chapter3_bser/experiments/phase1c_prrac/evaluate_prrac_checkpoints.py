@@ -871,7 +871,7 @@ def _trace_step(
     )
 
 
-def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
+def _evaluate_episode_job(job: dict[str, Any], *, audit=None) -> dict[str, Any]:
     """Spawn-safe deterministic episode worker with no replay or optimizer calls."""
 
     if _contains_tensor(job):
@@ -942,8 +942,14 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             checkpoint_runtime_revision=checkpoint_revision,
             search_value_scorer=search_value_scorer,
         )
+        if audit is not None:
+            audit.bind(actor=actor, env=env, provider=provider, controller=controller,
+                       scorer=search_value_scorer)
+            audit.before_decision(state, reset_observations, context, initialize=True)
         initialized = controller.initialize(state, context)
         search_value_scorer.record_installed(initialized.allocation)
+        if audit is not None:
+            audit.after_decision(initialized, initialize=True)
         bridge = RMADDPGGuidanceBridge()
         guidance = bridge.compile_guidance(
             initialized.allocation, state, context, decision_reason="INITIALIZE"
@@ -966,10 +972,15 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             else ExecutionContinuityDiagnostics(execution_variant)
         )
         continuity_action_adapter = ExecutionContinuityActionAdapter()
+        if audit is not None:
+            audit.attach_guidance_runtime(bridge, recovery_controller, continuity_action_adapter)
+            audit.after_install(state, observations, guidance, installed_guidance)
 
         for _ in range(int(config["max_steps"])):
             state_before = state
             transition_guidance = installed_guidance
+            if audit is not None:
+                audit.before_action(state, observations, installed_guidance)
             with torch.no_grad():
                 outputs = _policy_outputs(actor, observations, device)
                 for output in outputs:
@@ -988,6 +999,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
                     executor_id=3,
                 )
                 actions = actions.to(env.unwrapped.device)
+            if audit is not None:
+                audit.action(state, actions)
             step_observations, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
@@ -1042,8 +1055,13 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             search_value_scorer.observe_state(
                 step_observations, state, collision_flags=env.unwrapped.collision_flags,
             )
+            if audit is not None:
+                audit.transition(state, step_observations, dones)
+                audit.before_decision(state, step_observations, context, initialize=False)
             result = controller.step(state, context)
             search_value_scorer.record_installed(result.allocation, accepted=bool(result.replanned))
+            if audit is not None:
+                audit.after_decision(result, initialize=False)
             env.observe_controller_result(
                 result, controller=controller, state_provider=provider
             )
@@ -1092,6 +1110,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
             next_observations, installed_guidance = _install_next_guidance(
                 env, next_public_guidance, mode=mode, true_target=target
             )
+            if audit is not None:
+                audit.after_install(state, next_observations, public_guidance, installed_guidance)
             recorder.record(
                 _trace_step(
                     info=info,
@@ -1251,6 +1271,8 @@ def _evaluate_episode_job(job: dict[str, Any]) -> dict[str, Any]:
         )
         if _contains_tensor(payload):
             raise RuntimeError("PRRAC evaluation worker output contains torch.Tensor")
+        if audit is not None:
+            audit.finish(payload)
         return payload
     finally:
         env.close()

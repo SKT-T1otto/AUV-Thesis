@@ -44,6 +44,10 @@ class BSEROnlineAllocator:
 
     def allocate(self, state: PlanningStateView, *, trigger_reason: str = "online") -> OnlineAllocation:
         generated = generate_candidates(state, self.config)
+        observer = getattr(self, "_audit_candidate_generation_observer", None)
+        if observer is not None:
+            observer(state, generated.search_candidates, generated.standby_candidates,
+                     scope="full", agent_ids=state.searcher_ids)
         if not generated.search_candidates or not generated.standby_candidates:
             executor = self.execution.assign_belief_peak(state, source="no_feasible_candidate_fallback")
             return OnlineAllocation((), executor, 0.0, 0.0, math.inf, trigger_reason, "NO_FEASIBLE_CANDIDATES")
@@ -241,6 +245,9 @@ class BSEROnlineAllocator:
         affected_candidates = ()
         if affected:
             affected_candidates = self._partial_search_candidates(state, affected)
+            observer = getattr(self, "_audit_candidate_generation_observer", None)
+            if observer is not None:
+                observer(state, affected_candidates, None, scope="partial_search", agent_ids=tuple(sorted(affected)))
             for agent_id in sorted(affected):
                 pool = [
                     candidate
@@ -263,6 +270,9 @@ class BSEROnlineAllocator:
                 TravelCostService(state),
                 k_standby=int(generation["k_standby_exact"]),
             )
+            observer = getattr(self, "_audit_candidate_generation_observer", None)
+            if observer is not None:
+                observer(state, (), standby_candidates, scope="partial_standby", agent_ids=())
         else:
             standby_candidates = (self._frozen_standby_candidate(current),)
         if not search_candidates or not standby_candidates:
