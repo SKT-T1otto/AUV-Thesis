@@ -83,6 +83,7 @@ class SearchContinuityDiagnostics:
         applied_actions: Any,
         actor_outputs: Iterable[Any],
         residual_contribution_ratios: Any = None,
+        trace_rows: list[dict[str, Any]] | None = None,
     ) -> None:
         if int(stage_before) != int(PRRACStage.SEARCH):
             return
@@ -106,6 +107,7 @@ class SearchContinuityDiagnostics:
 
         suppressed_this_transition = False
         for agent_id in range(3):
+            trace_switch = None
             try:
                 assignment = installed_guidance.assignment_for(agent_id)
             except KeyError:
@@ -132,6 +134,8 @@ class SearchContinuityDiagnostics:
                 tracking = tuple(float(v) for v in assignment.tracking_waypoint)
                 previous_identity = self._previous_assignment_identity[agent_id]
                 previous_tracking = self._previous_tracking_waypoint[agent_id]
+                if trace_rows is not None:
+                    trace_switch = bool(previous_identity is not None and (identity != previous_identity or tracking != previous_tracking))
                 if previous_identity is not None:
                     if identity != previous_identity:
                         self.assignment_switch_count += 1
@@ -166,6 +170,7 @@ class SearchContinuityDiagnostics:
                 self.suppressed_agent_step_count += 1
                 suppressed_this_transition = True
             route_active = bool(not missing and reachable and not hold)
+            trace_alignment = None
             if route_active and agent_id < len(outputs):
                 navigation_norm = float(
                     np.linalg.norm(
@@ -188,10 +193,21 @@ class SearchContinuityDiagnostics:
                 ):
                     self.alignment_valid_count += 1
                     self.negative_alignment_count += int(alignment < 0.0)
+                    trace_alignment = alignment
+            trace_ratio = None
             if agent_id < len(ratios):
                 ratio = _scalar(ratios[agent_id])
                 if math.isfinite(ratio):
                     self.contribution_ratios.append(ratio)
+                    trace_ratio = ratio
+            if trace_rows is not None:
+                trace_rows.append(dict(agent_id=agent_id, raw_residual=raw[agent_id].tolist(),
+                    applied_residual=applied[agent_id].tolist(), raw_residual_norm=raw_norm,
+                    applied_residual_norm=applied_norm, residual_contribution_ratio=trace_ratio,
+                    residual_prior_cosine=trace_alignment,
+                    negative_alignment=None if trace_alignment is None else trace_alignment < 0,
+                    route_active=route_active, waypoint_switch_event=trace_switch,
+                    collision_event=collision, collision_streak=self.collision_streak[agent_id]))
         if suppressed_this_transition:
             self.suppressed_env_step_count += 1
         if scalar_ratio is not None and math.isfinite(scalar_ratio):

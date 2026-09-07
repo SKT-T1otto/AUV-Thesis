@@ -871,7 +871,7 @@ def _trace_step(
     )
 
 
-def _evaluate_episode_job(job: dict[str, Any], *, audit=None) -> dict[str, Any]:
+def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=None) -> dict[str, Any]:
     """Spawn-safe deterministic episode worker with no replay or optimizer calls."""
 
     if _contains_tensor(job):
@@ -1001,6 +1001,9 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None) -> dict[str, Any]:
                 actions = actions.to(env.unwrapped.device)
             if audit is not None:
                 audit.action(state, actions)
+            if searcher_trace is not None:
+                searcher_trace.before_step(state=state, env=env, bridge=bridge, recovery=recovery_controller,
+                                           guidance=guidance)
             step_observations, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
@@ -1050,6 +1053,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None) -> dict[str, Any]:
                 residual_contribution_ratios=(
                     env.unwrapped.last_residual_contribution_ratio_search
                 ),
+                **({"trace_rows": searcher_trace.diagnostic_rows} if searcher_trace is not None else {}),
             )
             context = _public_context(env, state)
             search_value_scorer.observe_state(
@@ -1112,6 +1116,10 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None) -> dict[str, Any]:
             )
             if audit is not None:
                 audit.after_install(state, next_observations, public_guidance, installed_guidance)
+            if searcher_trace is not None:
+                searcher_trace.after_step(state=state, env=env, task=task, metadata=metadata,
+                                          result=result, guidance=public_guidance,
+                                          recovery_snapshot=recovery_snapshot)
             recorder.record(
                 _trace_step(
                     info=info,
