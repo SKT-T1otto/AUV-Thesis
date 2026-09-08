@@ -871,7 +871,7 @@ def _trace_step(
     )
 
 
-def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=None) -> dict[str, Any]:
+def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=None, branch_diagnostic=None) -> dict[str, Any]:
     """Spawn-safe deterministic episode worker with no replay or optimizer calls."""
 
     if _contains_tensor(job):
@@ -1004,6 +1004,13 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             if searcher_trace is not None:
                 searcher_trace.before_step(state=state, env=env, bridge=bridge, recovery=recovery_controller,
                                            guidance=guidance)
+            if branch_diagnostic is not None:
+                actions = branch_diagnostic.before_action(
+                    state=state, env=env, bridge=bridge, recovery=recovery_controller,
+                    guidance=guidance, observations=observations, raw_actions=residual_actions,
+                    actions=actions, provider=provider, controller=controller, scorer=search_value_scorer,
+                    context=context, action_adapter=continuity_action_adapter,
+                )
             step_observations, rewards, dones = env.step(actions)
             metadata = env.last_prrac_transition_metadata
             if metadata is None:
@@ -1120,6 +1127,11 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 searcher_trace.after_step(state=state, env=env, task=task, metadata=metadata,
                                           result=result, guidance=public_guidance,
                                           recovery_snapshot=recovery_snapshot)
+            if branch_diagnostic is not None:
+                branch_diagnostic.after_transition(
+                    state=state, env=env, bridge=bridge, guidance=public_guidance,
+                    recovery=recovery_controller,
+                )
             recorder.record(
                 _trace_step(
                     info=info,
@@ -1140,6 +1152,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             )
             guidance = public_guidance
             observations = next_observations
+            if branch_diagnostic is not None and branch_diagnostic.finished:
+                break
             if all(bool(value) for value in dones):
                 break
 
