@@ -1,0 +1,610 @@
+{
+  "schema_version": "ch3.found_timing_failure_attribution.v1",
+  "status": "complete",
+  "interpretation_type": "descriptive",
+  "provenance": {
+    "original_output_dir": "/home/legion/AUV-Thesis/AUV-Thesis-D1D2/outputs/chapter3/phase1c_prrac/residual_role_pair100_ep100_v2/full_prrac",
+    "scenario_manifest_identity": "6eaa35ed9a83678b7c86990247246890fab6aefc50f577d49c7c448ba4182cea",
+    "checkpoint": "/home/legion/AUV-Thesis/AUV-Thesis-SearchValue/outputs/chapter3/phase1c_prrac/s2b_search_value_pilot_seed1_ep100_v1/checkpoints/phase1c_prrac_episode_0100.pt",
+    "protocol": "OFF + B1_ATOMIC_LAST_VALID + S2A1_C2_LOCAL_CONNECTOR + full_prrac",
+    "historical_evaluation_git_commit": null,
+    "note": "Current source semantics audited; original evaluation code commit not independently attested when absent.",
+    "generator_seed": 1729,
+    "checkpoint_episode": 100,
+    "checkpoint_config_hash": "4e4739effc4e495cb78ebf8e1d0454b66b80946e5776881df0a1c47658153095",
+    "checkpoint_metadata_verified": true,
+    "checkpoint_identity_scope": "Recorded path, episode, configuration hash and runtime revision; no checkpoint bytes loaded."
+  },
+  "total_episodes": 100,
+  "found_count": 55,
+  "populations": {
+    "A_not_found": {
+      "count": 45,
+      "percentage": 45.0,
+      "denominator": 100
+    },
+    "B_found_but_failed": {
+      "count": 23,
+      "percentage": 23.0,
+      "denominator": 100
+    },
+    "C_found_and_success": {
+      "count": 32,
+      "percentage": 32.0,
+      "denominator": 100
+    }
+  },
+  "not_found_ratio": 0.45,
+  "found_failure_ratio": 0.23,
+  "ratio_denominators": {
+    "not_found_ratio": "all episodes",
+    "found_failure_ratio": "all episodes",
+    "failure_given_found_ratio": "Found episodes",
+    "not_found_share_of_all_failures": "all failed episodes"
+  },
+  "failure_given_found_ratio": 0.41818181818181815,
+  "not_found_share_of_all_failures": 0.6617647058823529,
+  "found_failure_share_of_all_failures": 0.3382352941176471,
+  "missingness": {
+    "found_step": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "executor_distance_at_found": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "contact": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "episode_length": {
+      "count": 0,
+      "scenario_ids": []
+    }
+  },
+  "found_step": {
+    "status": "complete",
+    "success": {
+      "n": 32,
+      "mean": 79.15625,
+      "std": 95.2359072209298,
+      "median": 44.5,
+      "Q1": 22.0,
+      "Q3": 84.5,
+      "min": 1.0,
+      "max": 338.0
+    },
+    "failure": {
+      "n": 23,
+      "mean": 196.56521739130434,
+      "std": 136.11052530504108,
+      "median": 219.0,
+      "Q1": 58.5,
+      "Q3": 309.0,
+      "min": 1.0,
+      "max": 398.0
+    },
+    "success_mean": 79.15625,
+    "failure_mean": 196.56521739130434,
+    "mean_difference": {
+      "estimate": 117.40896739130434,
+      "ci95": [
+        50.52840392913923,
+        181.5742918719211
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "median_difference": {
+      "estimate": 174.5,
+      "ci95": [
+        42.487500000000004,
+        243.5
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "difference": 117.40896739130434
+  },
+  "distance": {
+    "status": "complete",
+    "success": {
+      "n": 32,
+      "mean": 6.585242597946138,
+      "std": 4.0151438910151,
+      "median": 5.735094858157453,
+      "Q1": 3.643371592696207,
+      "Q3": 8.203730706086283,
+      "min": 0.666798523428683,
+      "max": 18.5988903523373
+    },
+    "failure": {
+      "n": 23,
+      "mean": 7.462414544298875,
+      "std": 2.885227109346884,
+      "median": 7.048460594354138,
+      "Q1": 5.744250412549485,
+      "Q3": 9.800527092590396,
+      "min": 2.6891074785494116,
+      "max": 13.641818900019384
+    },
+    "success_mean": 6.585242597946138,
+    "failure_mean": 7.462414544298875,
+    "mean_difference": {
+      "estimate": 0.8771719463527372,
+      "ci95": [
+        -0.9716702024634654,
+        2.66570710600956
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "median_difference": {
+      "estimate": 1.313365736196685,
+      "ci95": [
+        -0.8223402676115157,
+        3.9137760610176455
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "difference": 0.8771719463527372
+  },
+  "logistic": {
+    "found_step_model": {
+      "status": "ok",
+      "beta": [
+        -0.008186129733275111
+      ],
+      "standardized_beta": [
+        -1.0314679603799954
+      ],
+      "intercept": 1.40862281332749,
+      "standard_error": [
+        0.002597261749373744
+      ],
+      "predictor_mean": [
+        128.25454545454545
+      ],
+      "predictor_sd": [
+        126.001907371107
+      ],
+      "iterations": 5,
+      "information_condition_number": 1.1306975686511729,
+      "bootstrap_fit_status_counts": {
+        "ok": 5000
+      },
+      "terms": {
+        "found_step": {
+          "beta": -0.008186129733275111,
+          "beta_bootstrap": {
+            "ci95": [
+              -0.015548631615687553,
+              -0.0035247431565626677
+            ],
+            "valid_repetitions": 5000,
+            "invalid_repetitions": 0,
+            "method": "scenario pairs percentile bootstrap",
+            "stability": "adequate_valid_replicates"
+          },
+          "beta_wald_ci95": [
+            -0.013276762762047648,
+            -0.003095496704502573
+          ],
+          "odds_ratio_per_10steps": {
+            "estimate": 0.9213997504366042,
+            "bootstrap_ci95": [
+              0.8559987902019476,
+              0.9653665245535372
+            ],
+            "wald_ci95": [
+              0.8756685496534556,
+              0.9695192324089039
+            ]
+          }
+        }
+      },
+      "n": 55,
+      "predictor_order": [
+        "found_step"
+      ],
+      "formula": "Success ~ found_step"
+    },
+    "distance_model": {
+      "status": "ok",
+      "beta": [
+        -0.0697511921726494
+      ],
+      "standardized_beta": [
+        -0.24762770917005517
+      ],
+      "intercept": 0.819102645609149,
+      "standard_error": [
+        0.07792798357847386
+      ],
+      "predictor_mean": [
+        6.952059957330011
+      ],
+      "predictor_sd": [
+        3.5501573730399136
+      ],
+      "iterations": 4,
+      "information_condition_number": 1.0573280816014339,
+      "bootstrap_fit_status_counts": {
+        "ok": 5000
+      },
+      "terms": {
+        "distance": {
+          "beta": -0.0697511921726494,
+          "beta_bootstrap": {
+            "ci95": [
+              -0.30077936924948023,
+              0.07192608636623896
+            ],
+            "valid_repetitions": 5000,
+            "invalid_repetitions": 0,
+            "method": "scenario pairs percentile bootstrap",
+            "stability": "adequate_valid_replicates"
+          },
+          "beta_wald_ci95": [
+            -0.22249003998645817,
+            0.08298765564115936
+          ],
+          "odds_ratio_per_1m": {
+            "estimate": 0.9326258356489837,
+            "bootstrap_ci95": [
+              0.7402410746752028,
+              1.074575915317763
+            ],
+            "wald_ci95": [
+              0.8005229799302428,
+              1.086528395969043
+            ]
+          },
+          "odds_ratio_per_5m": {
+            "estimate": 0.705565294807125,
+            "bootstrap_ci95": [
+              0.2222623481842446,
+              1.4327997995037678
+            ],
+            "wald_ci95": [
+              0.32875246417388554,
+              1.5142772738973427
+            ]
+          }
+        }
+      },
+      "n": 55,
+      "predictor_order": [
+        "distance"
+      ],
+      "formula": "Success ~ distance"
+    },
+    "combined_model": {
+      "status": "ok",
+      "beta": [
+        -0.008711136749240064,
+        -0.11847542093683748
+      ],
+      "standardized_beta": [
+        -1.0976198457747928,
+        -0.42060638916292087
+      ],
+      "intercept": 2.3138296414885686,
+      "standard_error": [
+        0.0026819901458517733,
+        0.08790972315539425
+      ],
+      "predictor_mean": [
+        128.25454545454545,
+        6.95205995733001
+      ],
+      "predictor_sd": [
+        126.00190737110701,
+        3.550157373039913
+      ],
+      "iterations": 5,
+      "information_condition_number": 1.6780223258616447,
+      "bootstrap_fit_status_counts": {
+        "ok": 5000
+      },
+      "terms": {
+        "found_step": {
+          "beta": -0.008711136749240064,
+          "beta_bootstrap": {
+            "ci95": [
+              -0.01672358356438756,
+              -0.0042792461400463925
+            ],
+            "valid_repetitions": 5000,
+            "invalid_repetitions": 0,
+            "method": "scenario pairs percentile bootstrap",
+            "stability": "adequate_valid_replicates"
+          },
+          "beta_wald_ci95": [
+            -0.013967837435109539,
+            -0.0034544360633705883
+          ],
+          "odds_ratio_per_10steps": {
+            "estimate": 0.9165750132881034,
+            "bootstrap_ci95": [
+              0.8460000708373072,
+              0.9581102142865412
+            ],
+            "wald_ci95": [
+              0.8696378882747547,
+              0.9660454843460793
+            ]
+          }
+        },
+        "distance": {
+          "beta": -0.11847542093683748,
+          "beta_bootstrap": {
+            "ci95": [
+              -0.4043888355714309,
+              0.05806269677203151
+            ],
+            "valid_repetitions": 5000,
+            "invalid_repetitions": 0,
+            "method": "scenario pairs percentile bootstrap",
+            "stability": "adequate_valid_replicates"
+          },
+          "beta_wald_ci95": [
+            -0.2907784783214102,
+            0.053827636447735236
+          ],
+          "odds_ratio_per_1m": {
+            "estimate": 0.8882736483225978,
+            "bootstrap_ci95": [
+              0.6673845679505744,
+              1.0597814385026445
+            ],
+            "wald_ci95": [
+              0.7476812872882023,
+              1.0553026907575895
+            ]
+          },
+          "odds_ratio_per_5m": {
+            "estimate": 0.553011155657435,
+            "bootstrap_ci95": [
+              0.13239780980727828,
+              1.3368465021468896
+            ],
+            "wald_ci95": [
+              0.23365902332335556,
+              1.3088359864380343
+            ]
+          }
+        }
+      },
+      "n": 55,
+      "predictor_order": [
+        "found_step",
+        "distance"
+      ],
+      "formula": "Success ~ found_step + distance"
+    },
+    "found_step_OR": {
+      "estimate": 0.9213997504366042,
+      "bootstrap_ci95": [
+        0.8559987902019476,
+        0.9653665245535372
+      ],
+      "wald_ci95": [
+        0.8756685496534556,
+        0.9695192324089039
+      ]
+    },
+    "distance_OR": {
+      "estimate": 0.9326258356489837,
+      "bootstrap_ci95": [
+        0.7402410746752028,
+        1.074575915317763
+      ],
+      "wald_ci95": [
+        0.8005229799302428,
+        1.086528395969043
+      ]
+    }
+  },
+  "dominant_failure_factor": {
+    "interpretation_type": "descriptive",
+    "conclusion": "Evidence favors early discovery limitation",
+    "associated_factor": "discovery_timing",
+    "population": "Found episodes only",
+    "timing_supported": true,
+    "geometry_supported": false,
+    "comparison_assessable": true,
+    "rule": "Descriptive comparison within all Found episodes. A factor is supported only if both its single-variable and combined-model beta bootstrap and Wald 95% intervals lie strictly below zero, all required models converge, and at least 90% of bootstrap fits are valid. Fewer than 5000 repetitions, incomplete data, or unavailable fits prevent a dominant-factor selection. Unsupported does not establish absence of association."
+  },
+  "model_units": {
+    "found_step": "beta per 1 completed step; OR per 10 steps",
+    "distance": "beta and OR per 1 metre",
+    "standardization": "center and population SD inside MLE, coefficients converted to raw units"
+  },
+  "timing_bins": [
+    {
+      "bin": "0-100",
+      "found_count": 32,
+      "success_count": 25,
+      "success_rate": 0.78125
+    },
+    {
+      "bin": "101-200",
+      "found_count": 5,
+      "success_count": 3,
+      "success_rate": 0.6
+    },
+    {
+      "bin": "201-300",
+      "found_count": 10,
+      "success_count": 2,
+      "success_rate": 0.2
+    },
+    {
+      "bin": "301-400",
+      "found_count": 8,
+      "success_count": 2,
+      "success_rate": 0.25
+    }
+  ],
+  "geometry_quartiles": [
+    {
+      "bin": "Q1",
+      "distance_min": 0.666798523428683,
+      "distance_max": 4.4661933464479215,
+      "n": 14,
+      "success_count": 11,
+      "success_rate": 0.7857142857142857
+    },
+    {
+      "bin": "Q2",
+      "distance_min": 4.80877176556799,
+      "distance_max": 6.507116383548367,
+      "n": 14,
+      "success_count": 7,
+      "success_rate": 0.5
+    },
+    {
+      "bin": "Q3",
+      "distance_min": 6.7876215744296235,
+      "distance_max": 9.173139941336656,
+      "n": 13,
+      "success_count": 8,
+      "success_rate": 0.6153846153846154
+    },
+    {
+      "bin": "Q4",
+      "distance_min": 9.301583944813641,
+      "distance_max": 18.5988903523373,
+      "n": 14,
+      "success_count": 6,
+      "success_rate": 0.42857142857142855
+    }
+  ],
+  "geometry_quartile_method": {
+    "method": "linear value quantiles; right-closed intervals; duplicate edges and empty bins collapsed",
+    "edges": [
+      0.666798523428683,
+      4.637482556007956,
+      6.507116383548367,
+      9.237361943075149,
+      18.5988903523373
+    ],
+    "observed_bins": 4
+  },
+  "probability_definition": "Empirical P(Success | Found, bin), no Not Found episodes in conditional denominators; empty bins are NA.",
+  "contact_budget": {
+    "contact_success_equality": {
+      "equal_on_all_found": true,
+      "missing_scenario_ids": [],
+      "discordant_scenario_ids": [],
+      "contact_count": 32
+    },
+    "observed_found_to_contact_steps": {
+      "n": 32,
+      "mean": 117.03125,
+      "std": 92.87920854008317,
+      "median": 92.5,
+      "Q1": 38.0,
+      "Q3": 201.5,
+      "min": 1.0,
+      "max": 295.0
+    },
+    "contact_with_missing_duration_scenario_ids": [],
+    "remaining_steps_by_outcome": {
+      "success": {
+        "n": 32,
+        "mean": 320.84375,
+        "std": 95.2359072209298,
+        "median": 355.5,
+        "Q1": 315.5,
+        "Q3": 378.0,
+        "min": 62.0,
+        "max": 399.0
+      },
+      "found_but_failed": {
+        "n": 23,
+        "mean": 203.43478260869566,
+        "std": 136.11052530504108,
+        "median": 181.0,
+        "Q1": 91.0,
+        "Q3": 341.5,
+        "min": 2.0,
+        "max": 399.0
+      }
+    },
+    "found_without_contact_count": 23,
+    "no_contact_at_horizon_count": 23,
+    "no_contact_at_horizon_scenario_ids": [
+      "unknown_validation_m20_0004",
+      "unknown_validation_m20_0005",
+      "unknown_validation_m20_0008",
+      "unknown_validation_m20_0016",
+      "unknown_validation_m20_0021",
+      "unknown_validation_m20_0022",
+      "unknown_validation_m20_0034",
+      "unknown_validation_m20_0035",
+      "unknown_validation_m20_0040",
+      "unknown_validation_m20_0049",
+      "unknown_validation_m20_0051",
+      "unknown_validation_m20_0054",
+      "unknown_validation_m20_0063",
+      "unknown_validation_m20_0069",
+      "unknown_validation_m20_0073",
+      "unknown_validation_m20_0078",
+      "unknown_validation_m20_0081",
+      "unknown_validation_m20_0086",
+      "unknown_validation_m20_0089",
+      "unknown_validation_m20_0090",
+      "unknown_validation_m20_0097",
+      "unknown_validation_m20_0098",
+      "unknown_validation_m20_0100"
+    ],
+    "no_contact_observed_exposure_steps": {
+      "n": 23,
+      "mean": 203.43478260869566,
+      "std": 136.11052530504108,
+      "median": 181.0,
+      "Q1": 91.0,
+      "Q3": 341.5,
+      "min": 2.0,
+      "max": 399.0
+    },
+    "no_contact_missing_exposure_scenario_ids": [],
+    "no_contact_ended_before_horizon_scenario_ids": [],
+    "interpretation": "No-contact episodes at the horizon have right-censored contact times. Their required completion time is unknown; observed successful contact times cannot establish an individual failed episode's sufficient time budget."
+  },
+  "found_state_semantics": {
+    "state": "post_env_step",
+    "step": "one-based completed physical step, first task_after.target_found == true",
+    "event": "swept detection publishes Found after agent dynamics and target advance",
+    "distance": "norm(float64(runtime._agent_pos[3]) - runtime.target_state.position)",
+    "within_step": "end-of-step state at publication; not interpolated swept closest-approach tau",
+    "latching": "ExecutionEpisodeDiagnostics.observe_step writes once when found_step is None"
+  },
+  "bootstrap": {
+    "seed": 1729,
+    "repetitions": 5000,
+    "unit": "episode/scenario",
+    "formal_repetition_requirement_met": true,
+    "method": "unstratified paired scenario percentile 95% intervals; identical resamples across all models and statistics"
+  },
+  "limitations": [
+    "A/B/C are disjoint observed outcomes. Timing and geometry are overlapping associations within Found; they do not partition failed episodes into separate mechanisms.",
+    "Remaining steps = 400 - found_step is an exact re-expression of discovery timing, not an independent predictor.",
+    "No additional time-to-contact required for a noncontact episode is observed. Horizon censoring cannot establish that more time would produce Contact or Success.",
+    "Single checkpoint and canonical scenario population; intervals describe within-sample uncertainty, not replication across checkpoints or seeds.",
+    "Original evaluation code commit is unavailable in resolved config. Reviewed runtime revision and local source hashes are recorded.",
+    "No step-level samples, trace backtracking, artificial missing-value zeros, or final-distance substitutes."
+  ]
+}

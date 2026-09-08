@@ -101,6 +101,13 @@ def build_prrac_online_controller(
         if search_value_scorer is None or search_value_scorer.config != guidance_config:
             raise ValueError("active candidate ranking requires a matching frozen SearchValue scorer")
         allocator = SearchValueGuidedBSERAllocator(search_value_scorer)
+    early_allocator = None
+    if experiment_config.get("early_discovery", {}).get("enabled", False):
+        from chapter3_bser.online.early_discovery import EarlyDiscoveryAllocator
+        if allocator is not None:
+            raise ValueError("BEDS early discovery requires SearchValue guidance OFF")
+        early_allocator = EarlyDiscoveryAllocator(experiment_config["early_discovery"])
+        allocator = early_allocator
     legacy = (
         OnlineBSERController(dict(phase1b_config))
         if allocator is None
@@ -116,6 +123,8 @@ def build_prrac_online_controller(
         )
     )
     controller.prrac_runtime_contract = contract
+    if early_allocator is not None:
+        controller.beds_early_discovery = early_allocator
     return controller
 
 

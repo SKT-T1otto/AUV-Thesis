@@ -1,0 +1,1065 @@
+{
+  "schema_version": "ch3.found_executor_distance.v1",
+  "provenance": {
+    "original_output_dir": "/home/legion/AUV-Thesis/AUV-Thesis-D1D2/outputs/chapter3/phase1c_prrac/residual_role_pair100_ep100_v2/full_prrac",
+    "scenario_manifest_identity": "6eaa35ed9a83678b7c86990247246890fab6aefc50f577d49c7c448ba4182cea",
+    "checkpoint": "/home/legion/AUV-Thesis/AUV-Thesis-SearchValue/outputs/chapter3/phase1c_prrac/s2b_search_value_pilot_seed1_ep100_v1/checkpoints/phase1c_prrac_episode_0100.pt",
+    "protocol": "OFF + B1_ATOMIC_LAST_VALID + S2A1_C2_LOCAL_CONNECTOR + full_prrac",
+    "historical_evaluation_git_commit": null,
+    "note": "Current source semantics audited; original evaluation code commit not independently attested when absent."
+  },
+  "episode_counts": {
+    "total_episodes": 100,
+    "found_count": 55,
+    "success_count_total": 32,
+    "success_count_among_found": 32,
+    "found_but_failed_count": 23
+  },
+  "missingness": {
+    "episode_index": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "scenario_seed": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "contact": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "found_step": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "remaining_steps": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "executor_x_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "executor_y_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "executor_z_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "target_x_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "target_y_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "target_z_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "executor_target_distance_3d_at_found": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "executor_target_distance_xy_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "executor_target_abs_dz_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "target_speed_at_found": {
+      "count": 55,
+      "scenario_ids": [
+        "unknown_validation_m20_0002",
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0010",
+        "unknown_validation_m20_0012",
+        "unknown_validation_m20_0013",
+        "unknown_validation_m20_0015",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0019",
+        "unknown_validation_m20_0020",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0024",
+        "unknown_validation_m20_0025",
+        "unknown_validation_m20_0030",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0036",
+        "unknown_validation_m20_0037",
+        "unknown_validation_m20_0038",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0041",
+        "unknown_validation_m20_0043",
+        "unknown_validation_m20_0045",
+        "unknown_validation_m20_0048",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0050",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0053",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0055",
+        "unknown_validation_m20_0058",
+        "unknown_validation_m20_0059",
+        "unknown_validation_m20_0061",
+        "unknown_validation_m20_0062",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0064",
+        "unknown_validation_m20_0065",
+        "unknown_validation_m20_0066",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0082",
+        "unknown_validation_m20_0083",
+        "unknown_validation_m20_0084",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0087",
+        "unknown_validation_m20_0088",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "handoff_step": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "executor_received_target_step": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "handoff_delay_steps": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "executor_receive_delay": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "first_contact_step": {
+      "count": 23,
+      "scenario_ids": [
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "found_to_contact_steps": {
+      "count": 23,
+      "scenario_ids": [
+        "unknown_validation_m20_0004",
+        "unknown_validation_m20_0005",
+        "unknown_validation_m20_0008",
+        "unknown_validation_m20_0016",
+        "unknown_validation_m20_0021",
+        "unknown_validation_m20_0022",
+        "unknown_validation_m20_0034",
+        "unknown_validation_m20_0035",
+        "unknown_validation_m20_0040",
+        "unknown_validation_m20_0049",
+        "unknown_validation_m20_0051",
+        "unknown_validation_m20_0054",
+        "unknown_validation_m20_0063",
+        "unknown_validation_m20_0069",
+        "unknown_validation_m20_0073",
+        "unknown_validation_m20_0078",
+        "unknown_validation_m20_0081",
+        "unknown_validation_m20_0086",
+        "unknown_validation_m20_0089",
+        "unknown_validation_m20_0090",
+        "unknown_validation_m20_0097",
+        "unknown_validation_m20_0098",
+        "unknown_validation_m20_0100"
+      ]
+    },
+    "source_handoff_delay": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "distance_source": {
+      "count": 0,
+      "scenario_ids": []
+    },
+    "handoff_step_source": {
+      "count": 0,
+      "scenario_ids": []
+    }
+  },
+  "found_state_semantics": {
+    "state": "post_env_step",
+    "step": "one-based completed physical step, first task_after.target_found == true",
+    "event": "swept detection publishes Found after agent dynamics and target advance",
+    "distance": "norm(float64(runtime._agent_pos[3]) - runtime.target_state.position)",
+    "within_step": "end-of-step state at publication; not interpolated swept closest-approach tau",
+    "latching": "ExecutionEpisodeDiagnostics.observe_step writes once when found_step is None"
+  },
+  "contact_success_equality": {
+    "equal_on_all_found": true,
+    "missing_scenario_ids": [],
+    "discordant_scenario_ids": [],
+    "contact_count": 32
+  },
+  "primary_distance_complete": true,
+  "optional_extended_logistic": {
+    "status": "not_fitted",
+    "reason": "No audited Found-time velocity or speed stored; all Found speeds NA."
+  },
+  "limitations": [
+    "Observational association conditional on Found in one fixed canonical 100-scenario evaluation; no causal or external stability claim.",
+    "Scalar physical 3D distances are complete only if missingness gate passes; coordinates, XY/dz and speed were not serialized.",
+    "No initial/final state substitution, no trace interpolation, no rerun, no post-hoc 15-case sample.",
+    "Bootstrap uses whole scenarios with replacement; invalid/single-class/separating replicates are counted explicitly.",
+    "Original evaluation code commit is not recorded in the supplied resolved config; source revision labels agree, audited local source hashes are recorded."
+  ],
+  "handoff_timing_summary": {
+    "semantics": {
+      "handoff_step": "derived from found_step: _publish_detection assigns both to step_count (publication)",
+      "executor_received_target_step": "episode.executor_target_received_step from runtime.executor_received_target_step",
+      "receive": "_advance_fixed_handoff executes before dynamics of entering delivery_step",
+      "source_handoff_delay": "legacy CSV handoff_delay is delivery_step - found_step, NOT publication delay",
+      "handoff_delay_steps": "publication handoff_step - found_step",
+      "executor_receive_delay": "delivery step label - found_step; not elapsed complete physical steps",
+      "executor_distance_at_handoff": "legacy alias of post-step distance on first observed receipt; NOT pre-dynamics delivery geometry"
+    },
+    "handoff_delay_steps": {
+      "n": 55,
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0,
+      "Q1": 0.0,
+      "Q3": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "missing_count": 0,
+      "interpretation": "not explanatory because no episode-level variance"
+    },
+    "executor_receive_delay": {
+      "n": 55,
+      "mean": 1.0,
+      "std": 0.0,
+      "median": 1.0,
+      "Q1": 1.0,
+      "Q3": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "missing_count": 0,
+      "interpretation": "not explanatory because no episode-level variance"
+    },
+    "source_handoff_delay": {
+      "n": 55,
+      "mean": 1.0,
+      "std": 0.0,
+      "median": 1.0,
+      "Q1": 1.0,
+      "Q3": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "missing_count": 0,
+      "interpretation": "not explanatory because no episode-level variance"
+    }
+  },
+  "status": "complete",
+  "distance_statistics": {
+    "success": {
+      "n": 32,
+      "mean": 6.585242597946138,
+      "std": 4.0151438910151,
+      "median": 5.735094858157453,
+      "Q1": 3.643371592696207,
+      "Q3": 8.203730706086283,
+      "min": 0.666798523428683,
+      "max": 18.5988903523373
+    },
+    "found_but_failed": {
+      "n": 23,
+      "mean": 7.462414544298875,
+      "std": 2.885227109346884,
+      "median": 7.048460594354138,
+      "Q1": 5.744250412549485,
+      "Q3": 9.800527092590396,
+      "min": 2.6891074785494116,
+      "max": 13.641818900019384
+    }
+  },
+  "mean_difference_failed_minus_success": {
+    "estimate": 0.8771719463527372,
+    "ci95": [
+      -0.9716702024634654,
+      2.66570710600956
+    ],
+    "valid_repetitions": 5000,
+    "invalid_repetitions": 0,
+    "method": "scenario pairs percentile bootstrap",
+    "stability": "adequate_valid_replicates"
+  },
+  "median_difference_failed_minus_success": 1.313365736196685,
+  "point_biserial": {
+    "r": -0.12187464010435345,
+    "ci95": [
+      -0.3940895158678404,
+      0.12651616768172674
+    ],
+    "valid_repetitions": 5000,
+    "invalid_repetitions": 0,
+    "method": "scenario pairs percentile bootstrap",
+    "stability": "adequate_valid_replicates"
+  },
+  "spearman": {
+    "r": -0.18343741163938698,
+    "ci95": [
+      -0.4290242314161784,
+      0.07942775645765467
+    ],
+    "valid_repetitions": 5000,
+    "invalid_repetitions": 0,
+    "method": "scenario pairs percentile bootstrap",
+    "stability": "adequate_valid_replicates"
+  },
+  "distance_found_step_correlation": -0.09760898133656519,
+  "auc": {
+    "estimate": 0.6073369565217391,
+    "score": "-distance_3d_at_found",
+    "ci95": [
+      0.4519479189933735,
+      0.7535130718954246
+    ],
+    "valid_repetitions": 5000,
+    "invalid_repetitions": 0,
+    "method": "scenario pairs percentile bootstrap",
+    "stability": "adequate_valid_replicates"
+  },
+  "quartile_success_rates": [
+    {
+      "bin": "Q1",
+      "distance_min": 0.666798523428683,
+      "distance_max": 4.4661933464479215,
+      "n": 14,
+      "success_count": 11,
+      "success_rate": 0.7857142857142857
+    },
+    {
+      "bin": "Q2",
+      "distance_min": 4.80877176556799,
+      "distance_max": 6.507116383548367,
+      "n": 14,
+      "success_count": 7,
+      "success_rate": 0.5
+    },
+    {
+      "bin": "Q3",
+      "distance_min": 6.7876215744296235,
+      "distance_max": 9.173139941336656,
+      "n": 13,
+      "success_count": 8,
+      "success_rate": 0.6153846153846154
+    },
+    {
+      "bin": "Q4",
+      "distance_min": 9.301583944813641,
+      "distance_max": 18.5988903523373,
+      "n": 14,
+      "success_count": 6,
+      "success_rate": 0.42857142857142855
+    }
+  ],
+  "quartile_method": {
+    "method": "linear value quantiles; right-closed intervals; duplicate edges and empty bins collapsed",
+    "edges": [
+      0.666798523428683,
+      4.637482556007956,
+      6.507116383548367,
+      9.237361943075149,
+      18.5988903523373
+    ],
+    "observed_bins": 4
+  },
+  "bootstrap_intervals": {
+    "mean_difference_failed_minus_success": {
+      "ci95": [
+        -0.9716702024634654,
+        2.66570710600956
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "point_biserial": {
+      "ci95": [
+        -0.3940895158678404,
+        0.12651616768172674
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "spearman": {
+      "ci95": [
+        -0.4290242314161784,
+        0.07942775645765467
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    },
+    "auc": {
+      "ci95": [
+        0.4519479189933735,
+        0.7535130718954246
+      ],
+      "valid_repetitions": 5000,
+      "invalid_repetitions": 0,
+      "method": "scenario pairs percentile bootstrap",
+      "stability": "adequate_valid_replicates"
+    }
+  },
+  "unadjusted_logistic": {
+    "status": "ok",
+    "beta": [
+      -0.0697511921726494
+    ],
+    "standardized_beta": [
+      -0.24762770917005517
+    ],
+    "intercept": 0.819102645609149,
+    "standard_error": [
+      0.07792798357847386
+    ],
+    "predictor_mean": [
+      6.952059957330011
+    ],
+    "predictor_sd": [
+      3.5501573730399136
+    ],
+    "iterations": 4,
+    "information_condition_number": 1.0573280816014339,
+    "bootstrap_fit_status_counts": {
+      "ok": 5000
+    },
+    "terms": {
+      "distance": {
+        "beta": -0.0697511921726494,
+        "beta_bootstrap": {
+          "ci95": [
+            -0.30077936924948023,
+            0.07192608636623896
+          ],
+          "valid_repetitions": 5000,
+          "invalid_repetitions": 0,
+          "method": "scenario pairs percentile bootstrap",
+          "stability": "adequate_valid_replicates"
+        },
+        "beta_wald_ci95": [
+          -0.22249003998645817,
+          0.08298765564115936
+        ],
+        "odds_ratio_per_1m": {
+          "estimate": 0.9326258356489837,
+          "bootstrap_ci95": [
+            0.7402410746752028,
+            1.074575915317763
+          ],
+          "wald_ci95": [
+            0.8005229799302428,
+            1.086528395969043
+          ]
+        },
+        "odds_ratio_per_5m": {
+          "estimate": 0.705565294807125,
+          "bootstrap_ci95": [
+            0.2222623481842446,
+            1.4327997995037678
+          ],
+          "wald_ci95": [
+            0.32875246417388554,
+            1.5142772738973427
+          ]
+        }
+      }
+    }
+  },
+  "adjusted_logistic": {
+    "status": "ok",
+    "beta": [
+      -0.11847542093683748,
+      -0.008711136749240064
+    ],
+    "standardized_beta": [
+      -0.42060638916292087,
+      -1.0976198457747928
+    ],
+    "intercept": 2.3138296414885686,
+    "standard_error": [
+      0.08790972315539426,
+      0.0026819901458517733
+    ],
+    "predictor_mean": [
+      6.95205995733001,
+      128.25454545454545
+    ],
+    "predictor_sd": [
+      3.550157373039913,
+      126.00190737110701
+    ],
+    "iterations": 5,
+    "information_condition_number": 1.6780223258616456,
+    "bootstrap_fit_status_counts": {
+      "ok": 5000
+    },
+    "terms": {
+      "distance": {
+        "beta": -0.11847542093683748,
+        "beta_bootstrap": {
+          "ci95": [
+            -0.40438883557143096,
+            0.058062696772031505
+          ],
+          "valid_repetitions": 5000,
+          "invalid_repetitions": 0,
+          "method": "scenario pairs percentile bootstrap",
+          "stability": "adequate_valid_replicates"
+        },
+        "beta_wald_ci95": [
+          -0.29077847832141024,
+          0.053827636447735264
+        ],
+        "odds_ratio_per_1m": {
+          "estimate": 0.8882736483225978,
+          "bootstrap_ci95": [
+            0.6673845679505744,
+            1.0597814385026445
+          ],
+          "wald_ci95": [
+            0.7476812872882023,
+            1.0553026907575895
+          ]
+        },
+        "odds_ratio_per_5m": {
+          "estimate": 0.553011155657435,
+          "bootstrap_ci95": [
+            0.1323978098072782,
+            1.3368465021468896
+          ],
+          "wald_ci95": [
+            0.2336590233233555,
+            1.3088359864380346
+          ]
+        }
+      },
+      "found_step": {
+        "beta": -0.008711136749240064,
+        "beta_bootstrap": {
+          "ci95": [
+            -0.01672358356438756,
+            -0.0042792461400463925
+          ],
+          "valid_repetitions": 5000,
+          "invalid_repetitions": 0,
+          "method": "scenario pairs percentile bootstrap",
+          "stability": "adequate_valid_replicates"
+        },
+        "beta_wald_ci95": [
+          -0.013967837435109539,
+          -0.0034544360633705883
+        ],
+        "odds_ratio_per_10steps": {
+          "estimate": 0.9165750132881034,
+          "bootstrap_ci95": [
+            0.8460000708373072,
+            0.9581102142865412
+          ],
+          "wald_ci95": [
+            0.8696378882747547,
+            0.9660454843460793
+          ]
+        }
+      }
+    }
+  },
+  "contact_auxiliary": {
+    "status": "not_refitted",
+    "reason": "Contact == Success for every Found episode."
+  }
+}

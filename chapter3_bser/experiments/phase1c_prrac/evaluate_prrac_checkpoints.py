@@ -385,6 +385,9 @@ def _load_config(path: Path) -> dict[str, Any]:
     # Do not add defaults to old resolved configs: preserve their resume hashes.
     if "search_value_guidance" in config:
         config["search_value_guidance"] = resolve_search_value_guidance(config["search_value_guidance"])
+    if "early_discovery" in config or "executor_standby" in config:
+        from chapter3_bser.experiments.phase1c_prrac.beds import validate_beds
+        config.update(validate_beds(config))
     return config
 
 
@@ -899,6 +902,14 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
         else "legacy"
     )
     info["runtime_integration_mode"] = effective_integration
+    beds = None
+    if "early_discovery" in config or "executor_standby" in config:
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, validate_beds
+        validate_beds(config)
+        if beds_enabled(config) and (mode != "full_prrac" or effective_integration != "native"
+                or execution_variant.value != "B1_ATOMIC_LAST_VALID"
+                or search_recovery_variant.value != "S2A1_C2_LOCAL_CONNECTOR"):
+            raise ValueError("BEDS worker requires OFF + native B1 + C2 + full_prrac")
     device = torch.device(str(job["device"]))
     actor = PRRACMADDPG(
         architecture=job["architecture"],
@@ -947,6 +958,10 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                        scorer=search_value_scorer)
             audit.before_decision(state, reset_observations, context, initialize=True)
         initialized = controller.initialize(state, context)
+        if ("early_discovery" in config or "executor_standby" in config) and beds_enabled(config):
+            from chapter3_bser.experiments.phase1c_prrac.beds import BEDSEpisodeAdapter
+            beds = BEDSEpisodeAdapter(config, scenario["scenario_id"], episode_index,
+                                      getattr(controller, "beds_early_discovery", None))
         search_value_scorer.record_installed(initialized.allocation)
         if audit is not None:
             audit.after_decision(initialized, initialize=True)
@@ -954,6 +969,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
         guidance = bridge.compile_guidance(
             initialized.allocation, state, context, decision_reason="INITIALIZE"
         )
+        if beds is not None:
+            guidance = beds.prepare_guidance(guidance, state)
         env.install_guidance(guidance)
         installed_guidance = guidance
         observations = env.refresh_observation_after_guidance()
@@ -999,6 +1016,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                     executor_id=3,
                 )
                 actions = actions.to(env.unwrapped.device)
+            if beds is not None:
+                actions = beds.before_action(actions, state)
             if audit is not None:
                 audit.action(state, actions)
             if searcher_trace is not None:
@@ -1118,6 +1137,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 and not context.mission_complete
             )
             target = env.get_target_state().position if use_oracle else None
+            if beds is not None:
+                next_public_guidance = beds.prepare_guidance(next_public_guidance, state)
             next_observations, installed_guidance = _install_next_guidance(
                 env, next_public_guidance, mode=mode, true_target=target
             )
@@ -1293,6 +1314,14 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
         )
         if _contains_tensor(payload):
             raise RuntimeError("PRRAC evaluation worker output contains torch.Tensor")
+        if beds is not None:
+            payload["beds_diagnostics"] = _json_safe(beds.payload())
+            from chapter3_bser.experiments.phase1c_prrac.beds import IDENTITY_FIELDS
+            for values in payload["beds_diagnostics"].values():
+                for record in values:
+                    record.update({key: info.get(key, "") for key in IDENTITY_FIELDS})
+            row["beds"] = {"method": "BEDS-PRRAC", **beds.settings}
+            payload["episode"]["beds"] = _json_safe(row["beds"])
         if audit is not None:
             audit.finish(payload)
         return payload
@@ -1901,10 +1930,20 @@ def run_evaluation(
     disable_failure_trace: bool = False,
     scenario_id_file: Path | None = None,
     formal: bool = False,
+    beds_variant_override: str | None = None,
 ) -> dict[str, Any]:
     assert_registered_ch3_method(METHOD)
     requested_checkpoints = tuple(checkpoints or ())
     config = copy.deepcopy(_load_config(config_path))
+    if beds_variant_override is not None:
+        from chapter3_bser.experiments.phase1c_prrac.beds import resolve_beds, validate_beds
+        switches = {"baseline": (False, False), "early_only": (True, False),
+                    "standby_only": (False, True), "full": (True, True)}
+        if beds_variant_override not in switches:
+            raise ValueError("unknown BEDS variant")
+        config.update(resolve_beds(config))
+        config["early_discovery"]["enabled"], config["executor_standby"]["enabled"] = switches[beds_variant_override]
+        validate_beds(config)
     if formal and scenario_id_file is not None:
         raise ValueError("--formal cannot be combined with --scenario-id-file")
     if formal and episodes_override not in {None, 100}:
@@ -2005,6 +2044,10 @@ def run_evaluation(
     if not output.is_absolute():
         output = ROOT / output
     existing = [output / name for name in (*OUTPUT_FILES, SEARCH_VALUE_GUIDANCE_OUTPUT) if (output / name).exists()]
+    if "early_discovery" in config or "executor_standby" in config:
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, DIAGNOSTIC_FILES
+        if beds_enabled(config):
+            existing.extend(output / name for name in DIAGNOSTIC_FILES if (output / name).exists())
     if existing and not resume_evaluation:
         raise FileExistsError(f"PRRAC evaluation output exists: {existing[0]}")
     output.mkdir(parents=True, exist_ok=True)
@@ -2059,6 +2102,9 @@ def run_evaluation(
         saved_config = json.loads(
             (output / "resolved_evaluation_config.json").read_text(encoding="utf-8")
         )
+        for option in ("early_discovery", "executor_standby"):
+            if saved_config.get(option) != config.get(option):
+                raise ValueError(f"resume BEDS configuration mismatch: {option}")
         _validate_resume_search_diagnostics(saved_config, search_diagnostics_hash)
         validate_resume_config(saved_config, config)
         saved_manifest = json.loads((output / "evaluation_manifest.json").read_text(encoding="utf-8"))
@@ -2069,6 +2115,15 @@ def run_evaluation(
         _write_json(output / "evaluation_manifest.json", manifest)
 
     episode_rows = _read_csv(output / "episode_evaluation.csv") if resume_evaluation else []
+    beds_rows = None
+    if "early_discovery" in config or "executor_standby" in config:
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, DIAGNOSTIC_FILES, write_diagnostics
+        if beds_enabled(config):
+            beds_rows = {}
+            for name in DIAGNOSTIC_FILES:
+                if resume_evaluation and not (output / name).is_file():
+                    raise ValueError(f"resume BEDS diagnostic artifact missing: {name}")
+                beds_rows[name] = _read_csv(output / name) if resume_evaluation else []
     summary_rows = _read_csv(output / "checkpoint_summary.csv") if resume_evaluation else []
     trace_index = _read_csv(output / "failure_trace_index.csv") if resume_evaluation else []
     trace_rows = []
@@ -2217,6 +2272,12 @@ def run_evaluation(
                     with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
                         results = list(executor.map(_evaluate_episode_job, jobs))
                     rows = [dict(result["episode"]) for result in results]
+                    if beds_rows is not None:
+                        for result in results:
+                            for name, values in result["beds_diagnostics"].items():
+                                beds_rows[name].extend(values)
+                        for name, values in beds_rows.items():
+                            write_diagnostics(output, name, values)
                     for result in results:
                         recovery_planning_failures.extend(
                             dict(value) for value in result.get("recovery_planning_failures", ())
@@ -2305,6 +2366,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--disable-failure-trace", action="store_true")
     parser.add_argument("--scenario-id-file", type=Path)
     parser.add_argument("--formal", action="store_true")
+    parser.add_argument("--beds-variant", choices=("baseline", "early_only", "standby_only", "full"))
     args = parser.parse_args(argv)
     summary = run_evaluation(
         config_path=args.config,
@@ -2323,6 +2385,7 @@ def main(argv: list[str] | None = None) -> int:
         disable_failure_trace=args.disable_failure_trace,
         scenario_id_file=args.scenario_id_file,
         formal=args.formal,
+        beds_variant_override=args.beds_variant,
     )
     print(json.dumps(_json_safe(summary), sort_keys=True, allow_nan=False))
     return 0

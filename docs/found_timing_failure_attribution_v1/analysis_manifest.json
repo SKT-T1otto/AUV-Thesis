@@ -1,0 +1,117 @@
+{
+  "schema_version": "ch3.found_timing_failure_attribution.v1",
+  "created_utc": "2026-09-08T13:49:08.062769+00:00",
+  "git": {
+    "commit": "4f38028689b4594db7ff9cdab4c741de71df4ffd",
+    "status": "?? docs/found_executor_distance/found_executor_distance_bins.csv\n?? docs/found_executor_distance/found_executor_distance_episode.csv\n?? docs/found_executor_distance/found_executor_distance_manifest.json\n?? docs/found_executor_distance/found_executor_distance_summary.json\n?? docs/found_executor_distance_analysis.md\n?? scripts/analyze_found_executor_distance.py\n?? scripts/analyze_found_timing_failure_attribution.py\n?? tests/test_found_executor_distance_analysis.py\n?? tests/test_found_timing_failure_attribution.py"
+  },
+  "inputs": [
+    {
+      "path": "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\episode_evaluation.csv",
+      "sha256": "f5007510014da25bd983fd905e4060384ce8ce1332061869ff7f56b6fbbe1f03"
+    },
+    {
+      "path": "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\evaluation_manifest.json",
+      "sha256": "1bd50384171ad3976deb79b4046c823808b7c9a3513b8f0a82e18ffc7489bd90"
+    },
+    {
+      "path": "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\resolved_evaluation_config.json",
+      "sha256": "89434cced4257198a824884514410ad95d88913a3fe2eb61aa5a9f96d6d65b61"
+    },
+    {
+      "path": "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\checkpoint_metadata.json",
+      "sha256": "e0ae023038f6ef68bae04c8db2477193a1feb08bb8b9d39db0a80d7969879392"
+    }
+  ],
+  "input_bundle_sha256": {
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\checkpoint_metadata.json": "e0ae023038f6ef68bae04c8db2477193a1feb08bb8b9d39db0a80d7969879392",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\checkpoint_summary.csv": "5ca644af377ac81f74c81ee013ba591c53d835b0e529cf6ba4699412c0b58d8c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\episode_evaluation.csv": "f5007510014da25bd983fd905e4060384ce8ce1332061869ff7f56b6fbbe1f03",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\evaluation_manifest.json": "1bd50384171ad3976deb79b4046c823808b7c9a3513b8f0a82e18ffc7489bd90",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\evaluation_progress.json": "893b44f69ca6ad67c7a6951233483bc8a5df7dba53363f2e91025f331796ae67",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\evaluation_summary.json": "46bce30744cb79b9e4a65e00dff1bcf99bd079cb018f8eebe786ee51aa3d24ec",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\execution_variant_episode.csv": "f5007510014da25bd983fd905e4060384ce8ce1332061869ff7f56b6fbbe1f03",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\execution_variant_failure_funnel.csv": "5bb3a97bcec837dd1398696a4b4747f342024f7290db4f473c677aecdc9195df",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\execution_variant_summary.csv": "44fab45a80643458bf0ecf0894bb2baec14bb3b28e0c2c15d464a3f14637de15",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\execution_variant_summary.json": "54f3a5e9bf1ffb783e7cc7f956f77e1646b7767a9f3b93d7367c9b44593fe9fe",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\failure_funnel.csv": "5bb3a97bcec837dd1398696a4b4747f342024f7290db4f473c677aecdc9195df",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\failure_trace_index.csv": "15ea768bcb4f051db2f03b87fc4bf315c7de7125e58e9d22f388dd5cc212af0d",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\paired_checkpoint_comparison.csv": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\paired_execution_variant_comparison.csv": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\paired_search_collision_recovery_baseline_strata.csv": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\paired_search_collision_recovery_comparison.csv": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\paired_searcher_residual_comparison.csv": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\resolved_evaluation_config.json": "89434cced4257198a824884514410ad95d88913a3fe2eb61aa5a9f96d6d65b61",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_activation_steps.csv": "399e3d533f9901acdfe9c10fe82ccce04c436bca23f4ed8bdbf75816b72c4f80",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_activation_summary.csv": "141da2d151cffb1dc381bc0cc77ca14d257a50f37ebf4e4207b657263d069f6d",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_episode.csv": "f5007510014da25bd983fd905e4060384ce8ce1332061869ff7f56b6fbbe1f03",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_failure_funnel.csv": "983005a2e677d5b96e9864ecff3ab55e4d3678e0bf5a502d396a0ebdf5d035e6",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_planning_failures.csv": "1ee5628e7284a1cef195ed65a017efdced354ee0bce2570d35604e7d62ccf145",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_summary.csv": "717fa82f9009f3e40f6c4972738dab166cd043826103b91b3be26490e765d35b",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_collision_recovery_summary.json": "cac150f0567bac7c2cfe51d7b97c91034fcd51d072b5e34c086e365c91f064be",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_continuity_episode.csv": "f5007510014da25bd983fd905e4060384ce8ce1332061869ff7f56b6fbbe1f03",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_continuity_summary.csv": "b45d1d07505b5cda664afca96d315f560faf4322e459f29819cc9b4cb45b9fa9",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_continuity_summary.json": "4591295fbd32f8ab82fd25cb29db02f8251a05c0c7af0a2b1523a6566f909c88",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_failure_funnel.csv": "ce50f86605908d558a2f235036d9d19648d91757d629bd0b6e6a4e768be16250",
+    "E:\\gym\\code\\WORKSPACE\\3090结果\\907\\analysis_bundle\\full_prrac\\search_value_guidance_metrics.json": "ace6061b68453947c46cf747b7945495a70c7b251b0d7bbbe95775a58abd3b4d"
+  },
+  "input_bundle_unchanged": true,
+  "source_evaluation_manifest_sha256": "1bd50384171ad3976deb79b4046c823808b7c9a3513b8f0a82e18ffc7489bd90",
+  "source_code_sha256": {
+    "chapter3_bser/experiments/phase1c_common/execution_diagnostics.py": "eae4373112e948b746872cd80185be50e06d3646839fd0cdfa813691ac6d8389",
+    "chapter3_bser/experiments/phase1c_bser_rmaddpg_v2/training_env.py": "20378574acc6b3acbcba6a9359bc74021b1ff152a728ba5b015f2f13d1544cb2",
+    "chapter3_bser/experiments/phase1c_prrac/training_env.py": "a1b3b2af6f7187fa6e133bf184d814d593b1ce5545799c7491398b373e94a955",
+    "chapter3_bser/experiments/phase1c_prrac/evaluate_prrac_checkpoints.py": "17a27b817f1d9e450fef5f1abc63ac9430dada270d861e475fde20def63b53a2",
+    "core/env/uav_env.py": "ef964149b6af3a164cd35ce3ff81636e140fd88180750b12ecac6f30e2b9f698",
+    "core/env/mission_env.py": "21d62729cb214ff0b6707fd6ce58c410ac2d6e49a7fbcdbf0e3746aa3a31ad45",
+    "scripts/analyze_searcher_residual_effect.py": "0f8e9b85a1a554febd6c5c95a7cf2ecf45c031d7ab2463976eeae1efd1bd7fdc",
+    "scripts/analyze_found_executor_distance.py": "6e1be5808df4a9b83f6d10ec968cbd84e1d3bae962edc9373c3676b4e09e1d86",
+    "scripts/analyze_found_timing_failure_attribution.py": "7cc4c372e97af88c1620a893f2d8503fe2bc372cd86f05524785bdfea0c52c7a"
+  },
+  "source_identity": {
+    "original_output_dir": "/home/legion/AUV-Thesis/AUV-Thesis-D1D2/outputs/chapter3/phase1c_prrac/residual_role_pair100_ep100_v2/full_prrac",
+    "scenario_manifest_identity": "6eaa35ed9a83678b7c86990247246890fab6aefc50f577d49c7c448ba4182cea",
+    "checkpoint": "/home/legion/AUV-Thesis/AUV-Thesis-SearchValue/outputs/chapter3/phase1c_prrac/s2b_search_value_pilot_seed1_ep100_v1/checkpoints/phase1c_prrac_episode_0100.pt",
+    "protocol": "OFF + B1_ATOMIC_LAST_VALID + S2A1_C2_LOCAL_CONNECTOR + full_prrac",
+    "historical_evaluation_git_commit": null,
+    "note": "Current source semantics audited; original evaluation code commit not independently attested when absent.",
+    "generator_seed": 1729,
+    "checkpoint_episode": 100,
+    "checkpoint_config_hash": "4e4739effc4e495cb78ebf8e1d0454b66b80946e5776881df0a1c47658153095",
+    "checkpoint_metadata_verified": true,
+    "checkpoint_identity_scope": "Recorded path, episode, configuration hash and runtime revision; no checkpoint bytes loaded."
+  },
+  "expected_episodes": 100,
+  "population_definition": "All canonical full_prrac episodes for A/B/C; all unique Found episodes for timing, distance and Logistic, with no missing-value row deletion.",
+  "found_state_semantics": {
+    "state": "post_env_step",
+    "step": "one-based completed physical step, first task_after.target_found == true",
+    "event": "swept detection publishes Found after agent dynamics and target advance",
+    "distance": "norm(float64(runtime._agent_pos[3]) - runtime.target_state.position)",
+    "within_step": "end-of-step state at publication; not interpolated swept closest-approach tau",
+    "latching": "ExecutionEpisodeDiagnostics.observe_step writes once when found_step is None"
+  },
+  "geometry_source_field": "executor_distance_to_target_at_found",
+  "horizon": 400,
+  "bootstrap": {
+    "seed": 1729,
+    "repetitions": 5000,
+    "unit": "episode/scenario",
+    "formal_repetition_requirement_met": true,
+    "method": "unstratified paired scenario percentile 95% intervals; identical resamples across all models and statistics"
+  },
+  "dominant_factor_rule": "Descriptive comparison within all Found episodes. A factor is supported only if both its single-variable and combined-model beta bootstrap and Wald 95% intervals lie strictly below zero, all required models converge, and at least 90% of bootstrap fits are valid. Fewer than 5000 repetitions, incomplete data, or unavailable fits prevent a dominant-factor selection. Unsupported does not establish absence of association.",
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "output_sha256": {
+    "found_timing_episode.csv": "5588b33143decc6245c6f3bb0b0c39bd48380354c9a5b7f5dc3ac11ae7e577ab",
+    "found_timing_bins.csv": "e0c531359c1c1566b6a4c06350944ef62a9abaeab2c34c42b212ff46cb56702e",
+    "found_geometry_episode.csv": "b03e53959485f6be35d2bab750a0957c92b77b3a3778a8352bea55b9cbf940ca",
+    "success_probability_summary.csv": "ead48553312fa25753cb660ccb9e2184c099fb24acbb398c4688af2777818196",
+    "failure_attribution_summary.json": "82c883ae7d18106a46f05a91418bf738274096190b60bc8f4bff5cfe2f67fcf1"
+  },
+  "manifest_hash_policy": "analysis_manifest.json excluded from its own hash map to avoid circular self-hash"
+}

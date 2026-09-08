@@ -1,0 +1,9 @@
+dimension,bin,distance_min,distance_max,found_count,success_count,success_probability,population
+found_step_bin,0-100,NA,NA,32,25,0.78125,Found episodes
+found_step_bin,101-200,NA,NA,5,3,0.6,Found episodes
+found_step_bin,201-300,NA,NA,10,2,0.2,Found episodes
+found_step_bin,301-400,NA,NA,8,2,0.25,Found episodes
+found_geometry_quartile,Q1,0.666798523428683,4.4661933464479215,14,11,0.7857142857142857,Found episodes
+found_geometry_quartile,Q2,4.80877176556799,6.507116383548367,14,7,0.5,Found episodes
+found_geometry_quartile,Q3,6.7876215744296235,9.173139941336656,13,8,0.6153846153846154,Found episodes
+found_geometry_quartile,Q4,9.301583944813641,18.5988903523373,14,6,0.42857142857142855,Found episodes
