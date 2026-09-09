@@ -4,18 +4,19 @@ import csv
 import json
 import os
 
-import numpy as np
-
 from chapter3_bser.online.early_discovery import resolve_early_discovery
 from chapter3_bser.online.executor_standby import (
-    resolve_executor_standby, compute_standby_target, apply_standby_action,
+    resolve_executor_standby,
 )
+from chapter3_bser.online.safe_executor_standby import SafeStandbyNavigation, StandbyNavigationParameters
+from chapter3_bser.experiments.phase1c_prrac.standby_diagnostics import StandbyDiagnostics, STANDBY_FIELDS, FOUND_FIELDS
 
 
 DIAGNOSTIC_FILES = {
     "early_discovery_diagnostics.csv": "scenario_id episode step early_discovery_enabled candidate_count mean_time_discount top_candidate_changed action_applied",
     "early_discovery_candidates.csv": "scenario_id episode step decision_index ranking_round agent_id candidate_id original_bser_score estimated_arrival_time time_discount final_score",
-    "executor_standby_diagnostics.csv": "scenario_id episode step executor_position standby_target standby_distance three_searcher_mean_distance executor_action_norm weights_source",
+    "executor_standby_diagnostics.csv": " ".join(STANDBY_FIELDS),
+    "executor_standby_found_state.csv": " ".join(FOUND_FIELDS),
 }
 IDENTITY_FIELDS = "checkpoint checkpoint_episode evaluation_mode execution_variant search_recovery_variant".split()
 
@@ -41,8 +42,22 @@ def write_diagnostics(output, name, rows):
 
 
 def resolve_beds(config):
-    return dict(early_discovery=resolve_early_discovery(config.get("early_discovery")),
-                executor_standby=resolve_executor_standby(config.get("executor_standby")))
+    standby = resolve_executor_standby(config.get("executor_standby"))
+    # Resolve new routing parameters only when opted in. Old disabled settings
+    # retain their shape and the existing early-only mathematical path.
+    if standby["enabled"]:
+        from core.config.ch3_config import build_ch3_config
+        from chapter3_bser.online.config import execution_runtime_config
+        environment = build_ch3_config(config.get("base_candidate", "ch3_v3_full_reference"),
+                                       config.get("profile", "M20_MOVING_UNKNOWN_MULTI"))
+        standby.setdefault("update_interval", int(environment["pse_standby_update_interval"]))
+        standby.setdefault("target_shift_threshold", float(execution_runtime_config(config)["public_target_update_distance"]))
+        standby = resolve_executor_standby(standby)
+    return dict(early_discovery=resolve_early_discovery(config.get("early_discovery")), executor_standby=standby)
+
+
+def beds_requested(config):
+    return beds_enabled(config) or bool(config.get("standby_diagnostics_enabled", False))
 
 
 def beds_enabled(config):
@@ -51,6 +66,8 @@ def beds_enabled(config):
 
 
 def validate_beds(config):
+    if type(config.get("standby_diagnostics_enabled", False)) is not bool:
+        raise ValueError("standby_diagnostics_enabled must be boolean")
     settings = resolve_beds(config)
     if not beds_enabled(config):
         return settings
@@ -74,6 +91,30 @@ class BEDSEpisodeAdapter:
         self.standby_target = None
         self.rows = {name: [] for name in DIAGNOSTIC_FILES}
         self.last_ranking = 0
+        self.navigation = None
+        self.standby_diagnostics = StandbyDiagnostics(scenario_id, episode,
+            config.get("standby_diagnostics_enabled", self.settings["executor_standby"]["enabled"]))
+
+    def bind_navigation(self, env, path_tracking_threshold):
+        if not self.settings["executor_standby"]["enabled"]:
+            return
+        from core.mapping.path_planner import OnlineUnknownMapTaskPlanner
+        from core.mapping.planning_state import extract_planning_state
+        runtime = env.unwrapped
+        planner = runtime.map_module
+        if not isinstance(planner, OnlineUnknownMapTaskPlanner):
+            raise ValueError("safe BEDS standby requires the live online unknown-map planner")
+        if not runtime.use_residual_prior or float(runtime._prior_strength[3]) <= 0:
+            raise ValueError("safe standby requires the existing Executor waypoint prior")
+        settings = self.settings["executor_standby"]
+        parameters = StandbyNavigationParameters(settings["update_interval"], settings["target_shift_threshold"],
+            float(path_tracking_threshold), float(runtime.safe_dist), float(runtime.prior_slow_radius_xy),
+            float(runtime.prior_slow_radius_z), float(runtime.executor_hold_radius))
+        # Both callbacks are read-only existing planner APIs. They never use
+        # env.is_inside_obstacle or the true target. Do not refresh the BSER
+        # provider: its cadence and early-only input must remain unchanged.
+        self.navigation = SafeStandbyNavigation(parameters, state_factory=lambda: extract_planning_state(env),
+            segment_clear=lambda start, end: planner._segment_is_free_np(start, end, planner.planner_obstacle_clearance))
 
     def _record_ranking(self, ranking, step, *, action_applied):
         count = sum(r["candidate_count"] for r in ranking)
@@ -86,43 +127,50 @@ class BEDSEpisodeAdapter:
     def prepare_guidance(self, guidance, state):
         self.standby_target = None
         if not self.settings["executor_standby"]["enabled"] or state.target_found or guidance.mission_phase != "SEARCH":
+            if self.navigation is not None:
+                self.navigation.clear()
             return guidance
         agents = {agent.agent_id: agent for agent in state.agents}
         executor = agents[state.executor_id].position
-        # No reliable current per-searcher value is exported by OnlineAllocation.
-        # Use explicit equal weights, never relabel gains/belief as those weights.
-        target = tuple(compute_standby_target(executor, [agents[i].position for i in state.searcher_ids]))
-        self.standby_target = target
-        assignments = tuple(replace(item, assignment_id="BEDS_STANDBY", final_waypoint=target,
-                                    planned_path=(), tracking_waypoint=target, hold_state=False, reachable=True)
+        if self.navigation is None:
+            raise RuntimeError("enabled safe standby requires navigation binding")
+        self.navigation.prepare(state)
+        target = self.navigation.safe_target or tuple(executor)
+        self.standby_target = self.navigation.safe_target
+        path, tracking, hold = self.navigation.path, self.navigation.tracking_target, self.navigation.hold
+        assignments = tuple(replace(item, assignment_id="BEDS_SAFE_STANDBY", final_waypoint=target,
+                                    planned_path=path, tracking_waypoint=tracking, hold_position=tuple(executor),
+                                    hold_state=hold, reachable=bool(path))
                             if item.agent_id == state.executor_id else item for item in guidance.agent_assignments)
-        executor_assignment = replace(guidance.executor_assignment, source="BEDS_STANDBY", target_region=target,
-                                      planned_path=(), tracking_waypoint=target, hold_state=False, reachable=True)
+        executor_assignment = replace(guidance.executor_assignment, source="BEDS_SAFE_STANDBY", target_region=target,
+                                      planned_path=path, tracking_waypoint=tracking, hold_position=tuple(executor),
+                                      hold_state=hold, reachable=bool(path))
         return replace(guidance, agent_assignments=assignments, executor_assignment=executor_assignment)
 
-    def before_action(self, actions, state):
+    def before_action(self, actions, state, c2_active=None):
         if state.target_found:
             self.standby_target = None
+            if self.navigation is not None:
+                self.navigation.clear()
+            self.standby_diagnostics.before_action(state, actions, self.navigation, c2_active)
             return actions
-        identity = dict(scenario_id=self.scenario_id, episode=self.episode, step=int(state.step))
         ranking = [] if self.allocator is None else self.allocator.ranking_diagnostics[self.last_ranking:]
         self.last_ranking += len(ranking)
         self._record_ranking(ranking, state.step, action_applied=True)
-        if self.standby_target is None:
-            return actions
-        agents = {agent.agent_id: agent for agent in state.agents}
-        position = np.asarray(agents[state.executor_id].position)
-        result = apply_standby_action(actions, position, self.standby_target, enabled=True,
-                                     gain=self.settings["executor_standby"]["gain"])
-        action = result[3].detach().cpu().numpy() if hasattr(result[3], "detach") else result[3]
-        self.rows["executor_standby_diagnostics.csv"].append(dict(identity,
-            executor_position=position.tolist(), standby_target=list(self.standby_target),
-            standby_distance=float(np.linalg.norm(position-self.standby_target)),
-            three_searcher_mean_distance=float(np.mean([np.linalg.norm(position-agents[i].position) for i in state.searcher_ids])),
-            executor_action_norm=float(np.linalg.norm(action)), weights_source="uniform_no_audited_searcher_values"))
+        result = actions if self.navigation is None else self.navigation.apply_residual_safety(actions, state)
+        self.standby_diagnostics.before_action(state, result, self.navigation, c2_active)
         return result
 
+    def observe_transition(self, before, after, actions, collision_flags, distance_at_found=None):
+        self.standby_diagnostics.observe_transition(before, after, actions, collision_flags, distance_at_found)
+        if after.target_found:
+            self.standby_target = None
+            if self.navigation is not None:
+                self.navigation.clear()
+
     def payload(self):
+        self.rows["executor_standby_diagnostics.csv"] = self.standby_diagnostics.rows
+        self.rows["executor_standby_found_state.csv"] = self.standby_diagnostics.found_rows
         if self.allocator is not None:
             pending = self.allocator.ranking_diagnostics[self.last_ranking:]
             for step in sorted({r["step"] for r in pending}):

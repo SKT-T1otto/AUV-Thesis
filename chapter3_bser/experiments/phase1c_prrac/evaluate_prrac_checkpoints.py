@@ -904,7 +904,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
     info["runtime_integration_mode"] = effective_integration
     beds = None
     if "early_discovery" in config or "executor_standby" in config:
-        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, validate_beds
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, beds_requested, validate_beds
         validate_beds(config)
         if beds_enabled(config) and (mode != "full_prrac" or effective_integration != "native"
                 or execution_variant.value != "B1_ATOMIC_LAST_VALID"
@@ -958,10 +958,11 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                        scorer=search_value_scorer)
             audit.before_decision(state, reset_observations, context, initialize=True)
         initialized = controller.initialize(state, context)
-        if ("early_discovery" in config or "executor_standby" in config) and beds_enabled(config):
+        if ("early_discovery" in config or "executor_standby" in config) and beds_requested(config):
             from chapter3_bser.experiments.phase1c_prrac.beds import BEDSEpisodeAdapter
             beds = BEDSEpisodeAdapter(config, scenario["scenario_id"], episode_index,
                                       getattr(controller, "beds_early_discovery", None))
+            beds.bind_navigation(env, phase1b_config["execution"]["path_tracking_threshold"])
         search_value_scorer.record_installed(initialized.allocation)
         if audit is not None:
             audit.after_decision(initialized, initialize=True)
@@ -1017,7 +1018,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 )
                 actions = actions.to(env.unwrapped.device)
             if beds is not None:
-                actions = beds.before_action(actions, state)
+                actions = beds.before_action(actions, state,
+                    c2_active=None if recovery_controller is None else bool(recovery_controller.snapshot().active_agent_ids))
             if audit is not None:
                 audit.action(state, actions)
             if searcher_trace is not None:
@@ -1066,6 +1068,9 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                     state = provider.snapshot(force=True)
                 for agent_id in recovery_controller.rejoined_agent_ids:
                     bridge.path_tracker.reset(agent_id)
+            if beds is not None:
+                beds.observe_transition(state_before, state, actions, env.get_agent_state().collision_flags,
+                    distance_at_found=getattr(env.diagnostics, "executor_distance_to_target_at_found", None))
             search_diagnostics.observe_transition(
                 stage_before=metadata.stage_before,
                 stage_after=metadata.stage_after,
@@ -1320,8 +1325,9 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             for values in payload["beds_diagnostics"].values():
                 for record in values:
                     record.update({key: info.get(key, "") for key in IDENTITY_FIELDS})
-            row["beds"] = {"method": "BEDS-PRRAC", **beds.settings}
-            payload["episode"]["beds"] = _json_safe(row["beds"])
+            if beds_enabled(config):
+                row["beds"] = {"method": "BEDS-PRRAC", **beds.settings}
+                payload["episode"]["beds"] = _json_safe(row["beds"])
         if audit is not None:
             audit.finish(payload)
         return payload
@@ -1943,7 +1949,7 @@ def run_evaluation(
             raise ValueError("unknown BEDS variant")
         config.update(resolve_beds(config))
         config["early_discovery"]["enabled"], config["executor_standby"]["enabled"] = switches[beds_variant_override]
-        validate_beds(config)
+        config.update(validate_beds(config))
     if formal and scenario_id_file is not None:
         raise ValueError("--formal cannot be combined with --scenario-id-file")
     if formal and episodes_override not in {None, 100}:
@@ -2045,8 +2051,8 @@ def run_evaluation(
         output = ROOT / output
     existing = [output / name for name in (*OUTPUT_FILES, SEARCH_VALUE_GUIDANCE_OUTPUT) if (output / name).exists()]
     if "early_discovery" in config or "executor_standby" in config:
-        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, DIAGNOSTIC_FILES
-        if beds_enabled(config):
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_requested, DIAGNOSTIC_FILES
+        if beds_requested(config):
             existing.extend(output / name for name in DIAGNOSTIC_FILES if (output / name).exists())
     if existing and not resume_evaluation:
         raise FileExistsError(f"PRRAC evaluation output exists: {existing[0]}")
@@ -2056,6 +2062,10 @@ def run_evaluation(
         config, requested_checkpoints, checkpoint_dir, checkpoint_pattern
     )
     scenarios, manifest = _build_evaluation_manifest(config)
+    if config.get("executor_standby", {}).get("enabled", False):
+        config["beds_standby_control_revision"] = "safe_public_path_v2"
+        manifest["beds_standby"] = {"control_revision": "safe_public_path_v2",
+                                     **config["executor_standby"]}
     config["evaluation_episodes"] = len(scenarios)
     manifest_hash = str(manifest["manifest_sha256"])
     config.update(
@@ -2117,8 +2127,8 @@ def run_evaluation(
     episode_rows = _read_csv(output / "episode_evaluation.csv") if resume_evaluation else []
     beds_rows = None
     if "early_discovery" in config or "executor_standby" in config:
-        from chapter3_bser.experiments.phase1c_prrac.beds import beds_enabled, DIAGNOSTIC_FILES, write_diagnostics
-        if beds_enabled(config):
+        from chapter3_bser.experiments.phase1c_prrac.beds import beds_requested, DIAGNOSTIC_FILES, write_diagnostics
+        if beds_requested(config):
             beds_rows = {}
             for name in DIAGNOSTIC_FILES:
                 if resume_evaluation and not (output / name).is_file():

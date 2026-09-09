@@ -1,4 +1,4 @@
-"""Deterministic weighted geometric median and opt-in normalized P action."""
+"""Geometric median and legacy P helpers (not used by safe BEDS evaluation)."""
 from __future__ import annotations
 
 import math
@@ -12,7 +12,15 @@ def resolve_executor_standby(config=None):
     result["gain"] = float(result["gain"])
     if not math.isfinite(result["gain"]) or result["gain"] < 0:
         raise ValueError("executor_standby.gain must be finite and nonnegative")
-    if set(result)-{"enabled", "gain"}:
+    for name in ("update_interval", "target_shift_threshold"):
+        if name in result:
+            value = float(result[name])
+            if not math.isfinite(value) or value <= 0:
+                raise ValueError(f"executor_standby.{name} must be positive and finite")
+            if name == "update_interval" and value != int(value):
+                raise ValueError("executor_standby.update_interval must be an integer")
+            result[name] = int(value) if name == "update_interval" else value
+    if set(result)-{"enabled", "gain", "update_interval", "target_shift_threshold"}:
         raise ValueError("unknown executor_standby option")
     return result
 

@@ -23,6 +23,7 @@ from tests.prrac_evaluation_support import worker_jobs, write_checkpoint
 def config():
     result = evaluator._load_config(evaluator.ROOT/'configs/chapter3/bser_phase1c_beds.json')
     result['max_steps'] = 4
+    result['standby_diagnostics_enabled'] = False
     return result
 
 
@@ -80,11 +81,13 @@ class BEDSEvaluationTests(unittest.TestCase):
         cfg = config()
         cfg['executor_standby']['enabled'] = True
         adapter = BEDSEpisodeAdapter(cfg, 'synthetic', 0)
+        from tests.test_beds_safe_standby import navigation
+        adapter.navigation = navigation(state)
         modified = adapter.prepare_guidance(guidance, state)
         for before, after in zip(guidance.agent_assignments[:3], modified.agent_assignments[:3]):
             self.assertIs(before, after)
         self.assertEqual(modified.schema_version, guidance.schema_version)
-        self.assertEqual(modified.executor_assignment.source, 'BEDS_STANDBY')
+        self.assertEqual(modified.executor_assignment.source, 'BEDS_SAFE_STANDBY')
         found_state = replace(state, target_found=True)
         self.assertIs(adapter.prepare_guidance(guidance, found_state), guidance)
         actions = torch.rand(4, 3)
@@ -118,14 +121,19 @@ class BEDSEvaluationTests(unittest.TestCase):
                 job = copy.deepcopy(base)
                 job['config']['early_discovery']['enabled'] = early
                 job['config']['executor_standby']['enabled'] = standby
+                job['config']['standby_diagnostics_enabled'] = standby
                 result = evaluator._evaluate_episode_job(job)
                 self.assertFalse(evaluator._contains_tensor(result))
                 self.assertEqual(set(result['beds_diagnostics']), set(DIAGNOSTIC_FILES))
                 records = result['beds_diagnostics']['executor_standby_diagnostics.csv']
                 self.assertEqual(bool(records), standby)
                 if standby:
-                    self.assertGreater(records[0]['executor_action_norm'], 0)
+                    self.assertGreaterEqual(records[0]['executor_action_norm'], 0)
                     self.assertLessEqual(records[0]['executor_action_norm'], np.sqrt(3)+1e-6)
+                    if records[0]['hold_active']:
+                        self.assertEqual(records[0]['executor_action_norm'], 0)
+                    else:
+                        self.assertTrue(records[0]['route_available'])
                 output = Path(directory)/f'{early}-{standby}'
                 output.mkdir()
                 for name, rows in result['beds_diagnostics'].items():

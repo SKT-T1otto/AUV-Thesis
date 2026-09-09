@@ -84,6 +84,9 @@
   },
   "executor_standby": {
     "enabled": false,
-    "gain": 0.5
-  }
+    "gain": 0.5,
+    "update_interval": 10,
+    "target_shift_threshold": 0.75
+  },
+  "standby_diagnostics_enabled": true
 }
