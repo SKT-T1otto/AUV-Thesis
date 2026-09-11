@@ -13,6 +13,7 @@ SEARCH_SUMMARY_SCHEMA = "bser.phase1c.prrac.search_summary.v2"
 PROGRESS_SCHEMA = "bser.phase1c.prrac.evaluation_progress.v2"
 
 PROVENANCE_FIELDS = (
+    "controller_mode",
     "checkpoint",
     "checkpoint_episode",
     "checkpoint_config_hash",
@@ -31,6 +32,31 @@ PROVENANCE_FIELDS = (
 )
 
 
+def row_controller_mode(row: Mapping[str, Any]) -> str:
+    """Only a missing legacy field defaults to full_prrac; blanks are invalid."""
+    value = row.get("controller_mode", "full_prrac")
+    if value not in ("full_prrac", "prior_only"):
+        raise ValueError(f"invalid controller_mode: {value!r}")
+    return value
+
+
+def require_single_controller(rows: Iterable[Mapping[str, Any]]) -> str:
+    modes = {row_controller_mode(row) for row in rows}
+    if len(modes) > 1:
+        raise ValueError("evaluation summary cannot mix controller modes")
+    return next(iter(modes), "full_prrac")
+
+
+def validate_controller_artifacts(config, progress, *row_groups) -> None:
+    expected = row_controller_mode({"controller_mode": config.get("controller", "full_prrac")})
+    for row in (progress, *progress.get("completed", ()), *(row for group in row_groups for row in group)):
+        _require_equal("controller_mode", row_controller_mode(row), expected)
+
+
+def _field(row: Mapping[str, Any], name: str) -> Any:
+    return row_controller_mode(row) if name == "controller_mode" else row.get(name)
+
+
 def _normal(value: Any) -> Any:
     if isinstance(value, Path):
         return str(value.resolve())
@@ -45,7 +71,7 @@ def derive_unique_provenance(rows: Iterable[Mapping[str, Any]]) -> dict[str, Any
     values = list(rows)
     result: dict[str, Any] = {}
     for field in PROVENANCE_FIELDS:
-        unique = sorted({_normal(row.get(field)) for row in values if row.get(field) is not None}, key=str)
+        unique = sorted({_normal(_field(row, field)) for row in values if _field(row, field) is not None}, key=str)
         result[field] = unique[0] if len(unique) == 1 else None
         result[f"{field}_values"] = unique
     return result
@@ -67,6 +93,8 @@ def validate_evaluation_provenance(
 ) -> None:
     """Fail closed before final report writers see inconsistent artifacts."""
 
+    summary_groups = list(summary_groups)
+    validate_controller_artifacts(resolved_config, progress, rows, summary_groups)
     if str(resolved_config.get("schema")) != EVALUATION_REPORT_SCHEMA:
         raise ValueError("evaluation report schema mismatch")
     if str(progress.get("schema")) != PROGRESS_SCHEMA:
@@ -134,6 +162,7 @@ def validate_evaluation_provenance(
         ),
     }
     combo_fields = (
+        "controller_mode",
         "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
         "checkpoint_runtime_revision", "evaluation_runtime_revision",
         "runtime_integration_mode", "execution_variant", "evaluation_mode",
@@ -144,11 +173,11 @@ def validate_evaluation_provenance(
         "s2a1_activation_artifact_revision",
     )
     row_combo_keys = {
-        tuple(_normal(row.get(field)) for field in combo_fields) for row in rows
+        tuple(_normal(_field(row, field)) for field in combo_fields) for row in rows
     }
     progress_values = list(progress.get("completed", ()))
     progress_combo_keys = {
-        tuple(_normal(combo.get(field)) for field in combo_fields)
+        tuple(_normal(_field(combo, field)) for field in combo_fields)
         for combo in progress_values
     }
     if len(progress_combo_keys) != len(progress_values):
@@ -164,7 +193,7 @@ def validate_evaluation_provenance(
     if len(row_combo_keys) != expected_combo_count:
         raise ValueError("evaluation completed combination count mismatch")
     episode_identity = {
-        (*tuple(_normal(row.get(field)) for field in combo_fields), str(row.get("scenario_id")))
+        (*tuple(_normal(_field(row, field)) for field in combo_fields), str(row.get("scenario_id")))
         for row in rows
     }
     if len(episode_identity) != len(rows):
@@ -190,7 +219,7 @@ def validate_evaluation_provenance(
     for summary in summary_groups:
         matching = [
             row for row in rows
-            if all(row.get(field) == summary.get(field) for field in ("checkpoint", "evaluation_mode", "execution_variant", "search_recovery_variant", "manifest_sha256"))
+            if all(_field(row, field) == _field(summary, field) for field in ("controller_mode", "checkpoint", "evaluation_mode", "execution_variant", "search_recovery_variant", "manifest_sha256"))
         ]
         if not matching:
             raise ValueError("summary provenance does not identify episode rows")
@@ -202,13 +231,13 @@ def validate_evaluation_provenance(
         derived = derive_unique_provenance(matching)
         for field in PROVENANCE_FIELDS:
             if summary.get(field) is not None:
-                _require_equal(f"summary {field}", summary.get(field), derived.get(field))
+                _require_equal(f"summary {field}", _field(summary, field), derived.get(field))
     for combo in progress_values:
         matching = [
             row
             for row in rows
             if all(
-                _normal(row.get(field)) == _normal(combo.get(field))
+                _normal(_field(row, field)) == _normal(_field(combo, field))
                 for field in (
                     *combo_fields,
                 )
@@ -244,7 +273,8 @@ def validate_summary_provenance(
     for summary in summaries:
         matching = [
             row for row in rows
-            if all(summary.get(field) is None or row.get(field) == summary.get(field) for field in identity)
+            if row_controller_mode(row) == row_controller_mode(summary)
+            and all(summary.get(field) is None or row.get(field) == summary.get(field) for field in identity)
         ]
         ids = {str(row["scenario_id"]) for row in matching}
         pairs = {(str(row["scenario_id"]), int(row["scenario_seed"])) for row in matching if row.get("scenario_seed") is not None}
@@ -257,6 +287,7 @@ def validate_summary_provenance(
 
 
 def validate_resume_config(saved: Mapping[str, Any], expected: Mapping[str, Any]) -> None:
+    _require_equal("resume controller_mode", saved.get("controller", "full_prrac"), expected.get("controller", "full_prrac"))
     for field in (
         "schema", "resolved_config_hash", "manifest_sha256",
         "search_collision_recovery_schema", "search_collision_recovery_config_hash",
@@ -273,4 +304,5 @@ __all__ = (
     "PROGRESS_SCHEMA", "PROVENANCE_FIELDS", "SEARCH_SUMMARY_SCHEMA",
     "derive_unique_provenance", "validate_evaluation_provenance", "validate_resume_config",
     "validate_summary_provenance",
+    "row_controller_mode", "require_single_controller", "validate_controller_artifacts",
 )

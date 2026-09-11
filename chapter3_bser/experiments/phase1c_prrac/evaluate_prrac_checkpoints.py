@@ -51,6 +51,9 @@ from chapter3_bser.experiments.phase1c_prrac.evaluation_provenance import (
     PROGRESS_SCHEMA,
     SEARCH_SUMMARY_SCHEMA,
     derive_unique_provenance,
+    row_controller_mode,
+    require_single_controller,
+    validate_controller_artifacts,
     validate_evaluation_provenance,
     validate_resume_config,
     validate_summary_provenance,
@@ -149,6 +152,7 @@ SUPPORTED_MODES = (
     "all_residual_off",
     "oracle_current_target_diagnostic",
 )
+CONTROLLER_MODES = ("full_prrac", "prior_only")
 OUTPUT_FILES = (
     "resolved_evaluation_config.json",
     "evaluation_manifest.json",
@@ -276,6 +280,7 @@ def _dedupe_activation_rows(rows: Iterable[Mapping[str, Any]]) -> list[dict[str,
     seen: set[tuple[Any, ...]] = set()
     for row in rows:
         key = (
+            row_controller_mode(row),
             str(row.get("checkpoint", "")), str(row.get("search_recovery_variant", "")),
             str(row.get("scenario_id", "")), int(row.get("step") or 0),
             int(row.get("agent_id") or 0), int(row.get("attempt_id") or 0),
@@ -302,6 +307,7 @@ def _contains_tensor(payload: Any) -> bool:
 
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
+    _controller_mode(config)
     expected = {
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -743,6 +749,27 @@ def _policy_outputs(
     return outputs
 
 
+def _controller_mode(config: Mapping[str, Any]) -> str:
+    mode = str(config.get("controller", "full_prrac"))
+    if mode not in CONTROLLER_MODES:
+        raise ValueError(f"unsupported evaluation controller: {mode!r}")
+    return mode
+
+
+def _controller_actions(actor, observations, device, controller_mode):
+    """Select residual commands; the existing environment owns the prior."""
+    mode = _controller_mode({"controller": controller_mode})
+    if mode == "prior_only":
+        if len(observations) != 4:
+            raise ValueError("PRRAC evaluation requires four public observations")
+        return [], torch.zeros((4, 3), dtype=torch.float32, device=device)
+    outputs = _policy_outputs(actor, observations, device)
+    actions = torch.stack(
+        [output.gated_residual_action.squeeze(0) for output in outputs]
+    )
+    return outputs, actions
+
+
 def _event_names(result: Any) -> list[str]:
     return [
         str(getattr(event, "value", event)).upper()
@@ -790,12 +817,18 @@ def _trace_step(
     installed_targets = getattr(runtime, "_nav_targets", None)
     prior = getattr(runtime, "_last_prior_acc", None)
     residual = getattr(runtime, "_last_residual_acc", None)
+    # Both caches are physical acceleration terms, already strength/scale adjusted.
+    # Preserve the historical pre-clipping sum; it is NOT runtime._agent_acc.
     final = None if prior is None or residual is None else prior[3] + residual[3]
-    actor_output = actor_outputs[3]
-    probabilities = actor_output.router_probabilities.detach().cpu().reshape(-1, 3)[0]
+    actor_output = actor_outputs[3] if actor_outputs else None
+    probabilities = (
+        None if actor_output is None
+        else actor_output.router_probabilities.detach().cpu().reshape(-1, 3)[0]
+    )
     empty = {agent_id: None for agent_id in range(3)}
     modes = empty if recovery_snapshot is None else recovery_snapshot.mode_by_agent
     return failure_trace_row(
+        controller_mode=str(info.get("controller_mode", "full_prrac")),
         checkpoint_episode=int(info["checkpoint_episode"]),
         execution_variant=str(info.get("execution_variant", "")),
         search_recovery_variant=str(info.get("search_recovery_variant", "")),
@@ -846,12 +879,14 @@ def _trace_step(
         navigation_prior_norm=(None if prior is None else float(torch.linalg.vector_norm(prior[3]).item())),
         residual_action_norm=float(torch.linalg.vector_norm(applied_actions[3]).item()),
         final_action_norm=(None if final is None else float(torch.linalg.vector_norm(final).item())),
-        trust_gate=float(actor_output.trust_gate.detach().cpu().reshape(-1)[0].item()),
-        alignment_cosine=float(actor_output.alignment_cosine.detach().cpu().reshape(-1)[0].item()),
-        router_probability_search=float(probabilities[0].item()),
-        router_probability_intercept=float(probabilities[1].item()),
-        router_probability_hold=float(probabilities[2].item()),
-        router_prediction=int(probabilities.argmax().item()),
+        final_action_norm_semantics="pre_clip_prior_plus_scaled_residual_acceleration",
+        residual_action_norm_semantics="normalized_command_after_adapters",
+        trust_gate=None if actor_output is None else float(actor_output.trust_gate.detach().cpu().reshape(-1)[0].item()),
+        alignment_cosine=None if actor_output is None else float(actor_output.alignment_cosine.detach().cpu().reshape(-1)[0].item()),
+        router_probability_search=None if probabilities is None else float(probabilities[0].item()),
+        router_probability_intercept=None if probabilities is None else float(probabilities[1].item()),
+        router_probability_hold=None if probabilities is None else float(probabilities[2].item()),
+        router_prediction=None if probabilities is None else int(probabilities.argmax().item()),
         collision=bool(torch.as_tensor(getattr(runtime, "_collision_flags", False)).any().item()),
         installed_guidance_privileged=bool(
             installed_guidance.decision_reason
@@ -884,6 +919,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
     _seed_all(int(scenario["scenario_seed"]))
     config = copy.deepcopy(dict(job["config"]))
     info = dict(job["checkpoint_info"])
+    info["controller_mode"] = _controller_mode(config)
     mode = str(info["evaluation_mode"])
     execution_variant = parse_execution_variant(
         info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
@@ -1000,12 +1036,11 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             if audit is not None:
                 audit.before_action(state, observations, installed_guidance)
             with torch.no_grad():
-                outputs = _policy_outputs(actor, observations, device)
+                outputs, residual_actions = _controller_actions(
+                    actor, observations, device, info["controller_mode"]
+                )
                 for output in outputs:
                     diagnostics.observe_actor(output, [int(current_stage)])
-                residual_actions = torch.stack(
-                    [output.gated_residual_action.squeeze(0) for output in outputs]
-                )
                 mode_actions = _apply_residual_mode(
                     residual_actions, mode, current_stage
                 )
@@ -1264,8 +1299,11 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             pre_found_collision=bool(row.get("searcher_collision_episode_pre_found")),
         )
         planning_failures = [] if recovery_controller is None or not hasattr(recovery_controller, "planning_failure_rows") else recovery_controller.planning_failure_rows()
+        if trace_index is not None:
+            trace_index["controller_mode"] = info["controller_mode"]
         for planning_row in planning_failures:
             planning_row.update({
+                "controller_mode": info["controller_mode"],
                 "checkpoint": str(info["checkpoint"]), "scenario_id": str(row["scenario_id"]),
                 "scenario_seed": int(row["scenario_seed"]), "variant": search_recovery_variant.value,
                 "checkpoint_episode": int(info["checkpoint_episode"]),
@@ -1290,6 +1328,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
         activation_steps = [] if recovery_controller is None or not hasattr(recovery_controller, "activation_rows") else recovery_controller.activation_rows()
         for activation_row in activation_steps:
             activation_row.update({
+                "controller_mode": info["controller_mode"],
                 "checkpoint": str(info["checkpoint"]),
                 "checkpoint_episode": int(info["checkpoint_episode"]),
                 "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
@@ -1337,6 +1376,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
 
 def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
     return {
+        "controller_mode": row_controller_mode(info),
         "checkpoint": str(Path(info["checkpoint"]).resolve()),
         "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
         "checkpoint_episode": int(info["checkpoint_episode"]),
@@ -1380,6 +1420,7 @@ def _validate_resume_search_diagnostics(
 
 
 def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    controller_mode = require_single_controller(rows)
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in rows:
         grouped.setdefault(
@@ -1394,6 +1435,7 @@ def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     stages = ("NOT_FOUND", "FOUND_NO_CONTACT", "CONTACT_NO_HOLD", "HOLD_NO_SUCCESS", "SUCCESS")
     for (checkpoint, mode, variant), values in sorted(grouped.items()):
         result = {
+            "controller_mode": controller_mode,
             "checkpoint": checkpoint,
             "evaluation_mode": mode,
             "execution_variant": variant,
@@ -1406,6 +1448,7 @@ def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def _paired_rows(episode_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    controller_mode = require_single_controller(episode_rows)
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in episode_rows:
         grouped.setdefault(
@@ -1433,6 +1476,7 @@ def _paired_rows(episode_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     evaluation_mode=mode,
                 )
             row["execution_variant"] = variant
+            row["controller_mode"] = controller_mode
             output.append(row)
     return output
 
@@ -1611,8 +1655,10 @@ def _evaluation_summary(
     output: Path,
 ) -> dict[str, Any]:
     provenance = derive_unique_provenance(summary_rows)
+    controller_mode = require_single_controller(summary_rows)
     return {
         "schema": SUMMARY_SCHEMA,
+        "controller_mode": controller_mode,
         **provenance,
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -1664,9 +1710,26 @@ def _write_outputs(
     recovery_planning_failures: list[dict[str, Any]] | None = None,
     recovery_activation_steps: list[dict[str, Any]] | None = None,
 ) -> None:
-    _write_csv(output / "episode_evaluation.csv", episode_rows)
+    # One evaluator run owns one controller. Reject mixed cached/imported rows
+    # before any writer or legacy within-controller comparison sees them.
+    controller_mode = require_single_controller([*episode_rows, *summary_rows])
+    for group in (trace_rows, trace_index, recovery_planning_failures or (), recovery_activation_steps or ()):
+        if any(row_controller_mode(row) != controller_mode for row in group):
+            raise ValueError("diagnostic controller_mode mismatch")
+    # Normalize legacy full_prrac rows on copies, so downstream grouping never
+    # turns an absent field into an explicit null controller identity.
+    episode_rows = [{**row, "controller_mode": row_controller_mode(row)} for row in episode_rows]
+    summary_rows = [{**row, "controller_mode": row_controller_mode(row)} for row in summary_rows]
+
+    def write_csv(path, rows):
+        if any("controller_mode" in row and row_controller_mode(row) != controller_mode for row in rows):
+            raise ValueError("CSV controller_mode mismatch")
+        _write_csv(path, [{**row, "controller_mode": controller_mode} for row in rows])
+
+    write_csv(output / "episode_evaluation.csv", episode_rows)
     if any("search_value_guidance" in row for row in episode_rows):
         guidance_metrics = aggregate_search_value_guidance(episode_rows)
+        guidance_metrics["controller_mode"] = controller_mode
         guidance_metrics["episodes"] = [
             {key: row.get(key) for key in (
                 "checkpoint", "scenario_id", "evaluation_mode", "execution_variant",
@@ -1675,15 +1738,16 @@ def _write_outputs(
             for row in episode_rows
         ]
         _write_json(output / SEARCH_VALUE_GUIDANCE_OUTPUT, guidance_metrics)
-    _write_csv(output / "checkpoint_summary.csv", summary_rows)
-    _write_csv(output / "paired_checkpoint_comparison.csv", _paired_rows(episode_rows))
-    _write_csv(output / "failure_funnel.csv", _failure_funnel(episode_rows))
+    write_csv(output / "checkpoint_summary.csv", summary_rows)
+    write_csv(output / "paired_checkpoint_comparison.csv", _paired_rows(episode_rows))
+    write_csv(output / "failure_funnel.csv", _failure_funnel(episode_rows))
     execution_summary_rows = [
         aggregate_execution_variant(
             values,
             {
                 key: values[0].get(key)
                 for key in (
+                    "controller_mode",
                     "checkpoint",
                     "checkpoint_config_hash",
                     "checkpoint_episode",
@@ -1737,13 +1801,13 @@ def _write_outputs(
         )
     ]
     validate_summary_provenance(episode_rows, execution_summary_rows, scenarios)
-    _write_csv(output / "execution_variant_episode.csv", episode_rows)
-    _write_csv(output / "execution_variant_summary.csv", execution_summary_rows)
-    _write_csv(
+    write_csv(output / "execution_variant_episode.csv", episode_rows)
+    write_csv(output / "execution_variant_summary.csv", execution_summary_rows)
+    write_csv(
         output / "paired_execution_variant_comparison.csv",
         paired_execution_variant_comparisons(episode_rows),
     )
-    _write_csv(
+    write_csv(
         output / "execution_variant_failure_funnel.csv", _failure_funnel(episode_rows)
     )
     search_provenance = derive_unique_provenance(episode_rows)
@@ -1757,6 +1821,7 @@ def _write_outputs(
         ),
     )
     search_group_keys = (
+        "controller_mode",
         "checkpoint",
         "checkpoint_config_hash",
         "checkpoint_episode",
@@ -1788,10 +1853,10 @@ def _write_outputs(
     validate_summary_provenance(episode_rows, search_summary_rows, scenarios)
     paired_search_rows = paired_searcher_residual_comparisons(episode_rows)
     search_funnel_rows = search_failure_funnel(episode_rows)
-    _write_csv(output / "search_continuity_episode.csv", episode_rows)
-    _write_csv(output / "search_continuity_summary.csv", search_summary_rows)
-    _write_csv(output / "paired_searcher_residual_comparison.csv", paired_search_rows)
-    _write_csv(output / "search_failure_funnel.csv", search_funnel_rows)
+    write_csv(output / "search_continuity_episode.csv", episode_rows)
+    write_csv(output / "search_continuity_summary.csv", search_summary_rows)
+    write_csv(output / "paired_searcher_residual_comparison.csv", paired_search_rows)
+    write_csv(output / "search_failure_funnel.csv", search_funnel_rows)
     _write_json(
         output / "search_continuity_summary.json",
         {
@@ -1827,6 +1892,7 @@ def _write_outputs(
         for row in episode_rows
     ]
     recovery_group_keys = (
+        "controller_mode",
         "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
         "checkpoint_runtime_revision", "evaluation_runtime_revision",
         "runtime_integration_mode", "execution_variant", "evaluation_mode",
@@ -1847,12 +1913,12 @@ def _write_outputs(
     paired_recovery_rows = paired_search_collision_recovery_comparisons(recovery_episode_rows)
     strata_rows = paired_search_collision_recovery_baseline_strata(recovery_episode_rows)
     recovery_funnel_rows = search_collision_recovery_failure_funnel(recovery_episode_rows)
-    _write_csv(output / "search_collision_recovery_episode.csv", recovery_episode_rows)
-    _write_csv(output / "search_collision_recovery_summary.csv", recovery_summary_rows)
-    _write_csv(output / "paired_search_collision_recovery_comparison.csv", paired_recovery_rows)
-    _write_csv(output / "paired_search_collision_recovery_baseline_strata.csv", strata_rows)
-    _write_csv(output / "search_collision_recovery_failure_funnel.csv", recovery_funnel_rows)
-    _write_csv(
+    write_csv(output / "search_collision_recovery_episode.csv", recovery_episode_rows)
+    write_csv(output / "search_collision_recovery_summary.csv", recovery_summary_rows)
+    write_csv(output / "paired_search_collision_recovery_comparison.csv", paired_recovery_rows)
+    write_csv(output / "paired_search_collision_recovery_baseline_strata.csv", strata_rows)
+    write_csv(output / "search_collision_recovery_failure_funnel.csv", recovery_funnel_rows)
+    write_csv(
         output / "search_collision_recovery_planning_failures.csv",
         list(recovery_planning_failures or ()),
     )
@@ -1875,8 +1941,8 @@ def _write_outputs(
         }
         for row in recovery_summary_rows
     ]
-    _write_csv(output / "search_collision_recovery_activation_summary.csv", activation_summary_rows)
-    _write_csv(
+    write_csv(output / "search_collision_recovery_activation_summary.csv", activation_summary_rows)
+    write_csv(
         output / "search_collision_recovery_activation_steps.csv",
         _dedupe_activation_rows(recovery_activation_steps or ()),
     )
@@ -1895,7 +1961,7 @@ def _write_outputs(
             "activation_summary": activation_summary_rows,
         },
     )
-    _write_csv(output / "failure_trace_index.csv", trace_index)
+    write_csv(output / "failure_trace_index.csv", trace_index)
     _atomic_text(
         output / "failure_trace.jsonl",
         "".join(_canonical_json(row) + "\n" for row in trace_rows),
@@ -1929,6 +1995,7 @@ def run_evaluation(
     scenario_seed_override: int | None = None,
     workers_override: int | None = None,
     device_override: str | None = None,
+    controller_override: str | None = None,
     modes_override: Iterable[str] | None = None,
     execution_variants_override: Iterable[str] | None = None,
     search_recovery_variants_override: Iterable[str] | None = None,
@@ -1941,6 +2008,9 @@ def run_evaluation(
     assert_registered_ch3_method(METHOD)
     requested_checkpoints = tuple(checkpoints or ())
     config = copy.deepcopy(_load_config(config_path))
+    if controller_override is not None:
+        config["controller"] = controller_override
+    controller_mode = _controller_mode(config)
     if beds_variant_override is not None:
         from chapter3_bser.experiments.phase1c_prrac.beds import resolve_beds, validate_beds
         switches = {"baseline": (False, False), "early_only": (True, False),
@@ -1974,6 +2044,8 @@ def run_evaluation(
     if not modes or any(mode not in SUPPORTED_MODES for mode in modes):
         raise ValueError(f"unsupported PRRAC evaluation modes: {modes}")
     config["modes"] = list(modes)
+    if controller_mode == "prior_only" and modes != ("full_prrac",):
+        raise ValueError("prior_only requires modes=['full_prrac']")
     execution_variants = tuple(
         parse_execution_variant(value)
         for value in (
@@ -2158,6 +2230,7 @@ def run_evaluation(
         if resume_evaluation
         else {
             "schema": PROGRESS_SCHEMA,
+            "controller_mode": controller_mode,
             "manifest_sha256": manifest_hash,
             "resolved_config_hash": config["resolved_config_hash"],
             "search_collision_recovery_config_hash": search_recovery_hash,
@@ -2194,7 +2267,16 @@ def run_evaluation(
     ):
         if progress.get(field) != config.get(field):
             raise ValueError(f"resume evaluation progress {field} mismatch")
-    completed = {_canonical_json(value) for value in progress.get("completed", ())}
+    validate_controller_artifacts(
+        config, progress, episode_rows, summary_rows, recovery_planning_failures,
+        recovery_activation_steps, trace_rows, trace_index,
+    )
+    # Normalize only the legacy missing field in memory; never rewrite evidence
+    # to pretend an old unlabelled prior_only cache had a controller identity.
+    completed = {
+        _canonical_json({**value, "controller_mode": row_controller_mode(value)})
+        for value in progress.get("completed", ())
+    }
     checkpoint_metadata = []
     context = mp.get_context("spawn")
 
@@ -2242,6 +2324,7 @@ def run_evaluation(
                         search_recovery_config_hash=search_recovery_hash,
                         search_recovery_schema=search_recovery_schema,
                     )
+                    info["controller_mode"] = controller_mode
                     if bool(config.get("diagnostic_only", False)):
                         info["diagnostic_only"] = True
                     combo = _combo_key(info, manifest_hash)
@@ -2361,6 +2444,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--scenario-seed", type=int)
     parser.add_argument("--workers", type=int)
     parser.add_argument("--device")
+    parser.add_argument("--controller", choices=CONTROLLER_MODES)
     parser.add_argument("--modes", nargs="+")
     parser.add_argument(
         "--execution-variants",
@@ -2388,6 +2472,7 @@ def main(argv: list[str] | None = None) -> int:
         scenario_seed_override=args.scenario_seed,
         workers_override=args.workers,
         device_override=args.device,
+        controller_override=args.controller,
         modes_override=args.modes,
         execution_variants_override=args.execution_variants,
         search_recovery_variants_override=args.search_recovery_variants,

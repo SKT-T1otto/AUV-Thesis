@@ -8,6 +8,8 @@ from typing import Any, Iterable, Mapping
 
 import numpy as np
 
+from .evaluation_provenance import require_single_controller, row_controller_mode
+
 
 class EvaluationTransitionDiagnostics:
     """Event timing from cumulative public environment counters and task state."""
@@ -158,6 +160,9 @@ def _sum_confusions(rows: Iterable[Mapping[str, Any]]) -> list[list[int]]:
 def aggregate_checkpoint(
     rows: list[dict[str, Any]], checkpoint_info: Mapping[str, Any]
 ) -> dict[str, Any]:
+    controller_mode = require_single_controller(rows)
+    if "controller_mode" in checkpoint_info and row_controller_mode(checkpoint_info) != controller_mode:
+        raise ValueError("checkpoint summary controller_mode mismatch")
     count = len(rows)
     found_rows = [row for row in rows if bool(row.get("found"))]
     contact_rows = [row for row in rows if bool(row.get("contact_episode"))]
@@ -180,6 +185,7 @@ def aggregate_checkpoint(
         for row in rows
     )
     result = dict(checkpoint_info)
+    result["controller_mode"] = controller_mode
     result.update(
         {
             "evaluation_episodes": count,
