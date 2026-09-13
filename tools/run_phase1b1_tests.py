@@ -1,4 +1,7 @@
-"""Run the active Phase 1B.1 suite while retaining superseded legacy tests."""
+"""Compatibility current-suite entry; historical checks use verify_collision_terminal.
+
+No source/provenance assertions are silently excluded by this entry.
+"""
 
 from __future__ import annotations
 
@@ -10,10 +13,6 @@ import unittest
 
 
 SUPERSEDED = {
-    "test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest.test_all_v1_files_match_before_manifest",
-    "test_ch3_e0_equivalence.E0DeliveryTests.test_full_e0_passed",
-    "test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
-    "test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_completed_phase0b2",
 }
 
 
@@ -30,8 +29,12 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--verbosity", type=int, default=2)
     args = parser.parse_args()
-    discovered = unittest.defaultTestLoader.discover("tests", pattern="test_*.py")
+    root = Path(__file__).resolve().parents[1]
+    names = ['.'.join(p.relative_to(root).with_suffix('').parts) for p in sorted((root/'tests').rglob('test_*.py'))]
+    discovered = unittest.defaultTestLoader.loadTestsFromNames(names)
     all_tests = list(_flatten(discovered))
+    if not all_tests or len({test.id() for test in all_tests}) != len(all_tests):
+        raise ValueError('zero or duplicate test methods discovered')
     active = [test for test in all_tests if test.id() not in SUPERSEDED]
     skipped = sorted(test.id() for test in all_tests if test.id() in SUPERSEDED)
     started = time.perf_counter()

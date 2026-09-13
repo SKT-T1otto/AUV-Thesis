@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "reference_commit": "93a9c8fb53857051390265e3035061bf05402e25",
+  "processes": {
+    "reference": {
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-E",
+        "-s",
+        "-B",
+        "-m",
+        "_legacy_probe",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\collision_terminal\\maintenance\\logs\\legacy_precheck\\legacy\\reference.json"
+      ],
+      "exit_code": 0,
+      "source_root": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-fixed-legacy-2dtzy_jw\\reference"
+    },
+    "current": {
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-E",
+        "-s",
+        "-B",
+        "-m",
+        "_legacy_probe",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\collision_terminal\\maintenance\\logs\\legacy_precheck\\legacy\\current.json"
+      ],
+      "exit_code": 0,
+      "source_root": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-fixed-legacy-2dtzy_jw\\current"
+    }
+  },
+  "comparison": "Exact full scenario, resolved config, actor arrays, initial state, every applied action, state/observation/reward/done/collision/Found/Contact/Hold/Success and planning/controller result diagnostic; float hex and array bytes retain bit identity. No numerical tolerance.",
+  "different_top_level_fields": [],
+  "legacy_identity_valid": true,
+  "dependency_isolation_valid": true,
+  "added_import_modules": [
+    "chapter3_bser.experiments.phase1c_prrac.checkpoint_transfer",
+    "core.env.task_protocol"
+  ],
+  "discovered": 1,
+  "tests_run": 1,
+  "bounded_steps_per_source": 4,
+  "reference_payload_sha256": "b578c462a05c0dcb534a583a513e0024cc641e97d4c9b33456700cba84b28fc6",
+  "current_payload_sha256": "bd4c51b3d8f3919da76c8bcfca1db715bf9a903b76dc920561afe1ab057034e7",
+  "started_utc": "2026-09-13T06:14:23.683381+00:00",
+  "ended_utc": "2026-09-13T06:15:53.227322+00:00"
+}

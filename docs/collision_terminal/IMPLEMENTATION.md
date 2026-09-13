@@ -1,5 +1,7 @@
 # 首次实体障碍碰撞即团队失败
 
+> 2026-09-13 维护索引：新协议现已提交为 `06167b5807a05b29ee0f42e21556015c17cfd5c1`。下文“本轮/未提交/验证”保留原交付时点含义；本次修复与实际验收见 [maintenance/SUMMARY.md](maintenance/SUMMARY.md)。三份过期调试日志的精确 Git blob 恢复索引见 [cleanup_manifest.json](maintenance/cleanup_manifest.json)，其余历史结果未改写。
+
 本轮实现新增 `collision_terminal_v1`，接入真实 PRRAC 训练、评价、配对评价、checkpoint 和 replay 路径。历史配置缺少字段时仍解释为 `legacy_nonterminal_v1`。
 
 仓库核对：2026-09-12 通过 GitHub 连接器读取远程默认分支 `main`，提交为 `93a9c8fb53857051390265e3035061bf05402e25`；本地 root 为 `E:/gym/code/WORKSPACE/AUV-Thesis`，origin 为 `https://github.com/SKT-T1otto/AUV-Thesis.git`，分支/HEAD 相同，开始时工作区干净。直接 Git HTTPS 连接失败，连接器核对成功。本机未发现 Python 训练进程；没有操作 Linux 训练目录。没有启动正式训练或性能评价，没有 commit/push，没有改写旧 outputs。

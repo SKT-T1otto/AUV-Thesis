@@ -1,0 +1,21 @@
+test_all_pyplot_experiment_modules_select_agg_first (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_bash_syntax_and_all_launchers_forward_arguments_and_exit_codes (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_gitattributes_forces_linux_shell_lf (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_launchers_call_shared_python_modules (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_cuda_environment_is_platform_specific_without_windows_packages (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_powershell_conda_fallback_is_environment_driven (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_preflight_writes_required_json_report (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_windows_collision_launcher_syntax_arguments_and_exit_code (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_funnel_rates_and_conditional_denominators (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_paired_comparison_and_exact_mcnemar (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_router_precision_recall_and_balanced_accuracy (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_selection_rule_is_lexicographic_and_earlier_breaks_tie (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_strict_outcomes_share_validation_across_all_consumers (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_wilson_interval (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 11.925s
+
+OK

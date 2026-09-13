@@ -1,0 +1,152 @@
+git diff --stat (tracked changes; untracked additions follow in status)
+ .gitignore                                         |   6 +-
+ README.md                                          |   5 +
+ .../phase1c_prrac/evaluate_prrac_checkpoints.py    |  11 +
+ .../phase1c_prrac/evaluation_metrics.py            |  30 +-
+ .../phase1c_prrac/evaluation_provenance.py         |   3 +-
+ .../experiments/phase1c_prrac/paired_evaluation.py |   9 +
+ .../search_collision_recovery/aggregation.py       |  16 +-
+ .../phase1c_prrac/search_continuity/aggregation.py |  14 +-
+ .../experiments/phase1c_prrac/task_metrics.py      | 102 ++-
+ docs/collision_terminal/CHANGES.md                 |   2 +
+ docs/collision_terminal/IMPLEMENTATION.md          |   2 +
+ docs/collision_terminal/VERIFICATION.md            |   2 +
+ .../verification/acceptance_02.log                 | 726 ---------------------
+ .../verification/acceptance_03.log                 |  35 -
+ .../verification/warmstart_resume_integration.log  |  20 -
+ tests/README.md                                    |  19 +-
+ tests/prrac_evaluation_support.py                  |  76 +++
+ tests/test_beds_evaluation.py                      |  20 +-
+ tests/test_beds_safe_standby.py                    |   7 +-
+ tests/test_bser_e1_smoke.py                        |  14 -
+ tests/test_bser_e1_step50_protocol.py              |   8 -
+ tests/test_bser_event_detection.py                 |  11 +-
+ tests/test_bser_exact_solver.py                    |  12 -
+ tests/test_bser_greedy_bound.py                    |  13 -
+ tests/test_bser_joint_standby_bound.py             |  12 -
+ tests/test_bser_monotonicity.py                    |  11 -
+ tests/test_bser_objective.py                       |  12 -
+ tests/test_bser_planner_connector_equivalence.py   |   7 -
+ tests/test_bser_planner_cost_equivalence.py        |   7 -
+ ...test_bser_planner_path_collision_equivalence.py |   9 -
+ .../test_bser_planner_physical_time_equivalence.py |   7 -
+ .../test_bser_planner_reachability_equivalence.py  |   8 -
+ tests/test_bser_protocol_request_count.py          |   6 -
+ tests/test_bser_submodularity.py                   |  11 -
+ tests/test_bser_v1_artifacts_frozen.py             |  10 -
+ tests/test_ch3_e0_equivalence.py                   |  27 -
+ tests/test_collision_terminal_protocol.py          |  14 +-
+ tests/test_linux_runtime_assets.py                 |  77 ++-
+ tests/test_phase1b3a_case_manifest.py              |  15 -
+ tests/test_phase1c_v2_isolation.py                 |  20 +-
+ tests/test_prior_only_reliability.py               |   2 +-
+ tests/test_prrac_checkpoint_evaluator.py           |  48 +-
+ tests/test_prrac_evaluation_metrics.py             |  76 +++
+ tests/test_prrac_training_smoke.py                 |  23 +-
+ tools/run_phase1b1_tests.py                        |  15 +-
+ tools/verify_collision_terminal.py                 | 298 +++++++--
+ 46 files changed, 711 insertions(+), 1167 deletions(-)
+
+git diff --check
+exit_code=0
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+
+git status --short --branch --untracked-files=all
+## main...origin/main
+ M .gitignore
+ M README.md
+ M chapter3_bser/experiments/phase1c_prrac/evaluate_prrac_checkpoints.py
+ M chapter3_bser/experiments/phase1c_prrac/evaluation_metrics.py
+ M chapter3_bser/experiments/phase1c_prrac/evaluation_provenance.py
+ M chapter3_bser/experiments/phase1c_prrac/paired_evaluation.py
+ M chapter3_bser/experiments/phase1c_prrac/search_collision_recovery/aggregation.py
+ M chapter3_bser/experiments/phase1c_prrac/search_continuity/aggregation.py
+ M chapter3_bser/experiments/phase1c_prrac/task_metrics.py
+ M docs/README.md
+ M docs/collision_terminal/CHANGES.md
+ M docs/collision_terminal/IMPLEMENTATION.md
+ M docs/collision_terminal/VERIFICATION.md
+ D docs/collision_terminal/verification/acceptance_02.log
+ D docs/collision_terminal/verification/acceptance_03.log
+ D docs/collision_terminal/verification/warmstart_resume_integration.log
+ M tests/README.md
+ M tests/prrac_evaluation_support.py
+ M tests/test_beds_evaluation.py
+ M tests/test_beds_safe_standby.py
+ D tests/test_bser_e1_smoke.py
+ D tests/test_bser_e1_step50_protocol.py
+ M tests/test_bser_event_detection.py
+ D tests/test_bser_exact_solver.py
+ D tests/test_bser_greedy_bound.py
+ D tests/test_bser_joint_standby_bound.py
+ D tests/test_bser_monotonicity.py
+ D tests/test_bser_objective.py
+ D tests/test_bser_planner_connector_equivalence.py
+ D tests/test_bser_planner_cost_equivalence.py
+ D tests/test_bser_planner_path_collision_equivalence.py
+ D tests/test_bser_planner_physical_time_equivalence.py
+ D tests/test_bser_planner_reachability_equivalence.py
+ D tests/test_bser_protocol_request_count.py
+ D tests/test_bser_submodularity.py
+ D tests/test_bser_v1_artifacts_frozen.py
+ D tests/test_ch3_e0_equivalence.py
+ M tests/test_collision_terminal_protocol.py
+ M tests/test_linux_runtime_assets.py
+ M tests/test_phase1b21_execution_target_lock.py
+ M tests/test_phase1b21_executor_public_replan.py
+ M tests/test_phase1b21_refresh_protocol.py
+ M tests/test_phase1b21_unreachable_executor_hold.py
+ D tests/test_phase1b3a_case_manifest.py
+ M tests/test_phase1c_v2_isolation.py
+ M tests/test_prior_only_reliability.py
+ M tests/test_prrac_checkpoint_evaluator.py
+ M tests/test_prrac_evaluation_metrics.py
+ M tests/test_prrac_training_smoke.py
+ M tools/run_phase1b1_tests.py
+ M tools/verify_collision_terminal.py
+?? docs/collision_terminal/maintenance/SUMMARY.md
+?? docs/collision_terminal/maintenance/cleanup_manifest.json
+?? docs/collision_terminal/maintenance/legacy_precheck.log
+?? docs/collision_terminal/maintenance/logs/final_01/current/discovery.json
+?? docs/collision_terminal/maintenance/logs/final_01/current/methods.json
+?? docs/collision_terminal/maintenance/logs/final_01/current/summary.json
+?? docs/collision_terminal/maintenance/logs/final_01/current/unittest.log
+?? docs/collision_terminal/maintenance/logs/final_01/golden/summary.json
+?? docs/collision_terminal/maintenance/logs/final_01/historical/methods.json
+?? docs/collision_terminal/maintenance/logs/final_01/historical/summary.json
+?? docs/collision_terminal/maintenance/logs/final_01/historical/unittest.log
+?? docs/collision_terminal/maintenance/logs/final_01/legacy/current.json
+?? docs/collision_terminal/maintenance/logs/final_01/legacy/current.log
+?? docs/collision_terminal/maintenance/logs/final_01/legacy/reference.json
+?? docs/collision_terminal/maintenance/logs/final_01/legacy/reference.log
+?? docs/collision_terminal/maintenance/logs/final_01/legacy/summary.json
+?? docs/collision_terminal/maintenance/logs/final_01/summary.json
+?? docs/collision_terminal/maintenance/logs/final_01/tree_after.json
+?? docs/collision_terminal/maintenance/logs/final_01/tree_before.json
+?? docs/collision_terminal/maintenance/logs/final_01_console.log
+?? docs/collision_terminal/maintenance/logs/git_final.log
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/legacy/current.json
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/legacy/current.log
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/legacy/reference.json
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/legacy/reference.log
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/legacy/summary.json
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/summary.json
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/tree_after.json
+?? docs/collision_terminal/maintenance/logs/legacy_precheck/tree_before.json
+?? docs/collision_terminal/maintenance/precheck.log
+?? docs/collision_terminal/maintenance/precheck_02.log
+?? docs/collision_terminal/maintenance/precheck_03.log
+?? docs/collision_terminal/maintenance/preflight.log
+?? docs/collision_terminal/maintenance/verification_summary.json
+?? historical_verification/README.md
+?? historical_verification/__init__.py
+?? historical_verification/test_bser_v1_artifacts_frozen.py
+?? historical_verification/test_ch3_e0_equivalence.py
+?? historical_verification/test_phase1b3a_case_manifest.py
+?? historical_verification/test_phase1c_v2_overlay.py
+?? tests/beds_test_support.py
+?? tests/legacy_baseline.json
+?? tests/legacy_behavior_probe.py
+?? tests/test_bser_objective_properties.py
+?? tests/test_bser_offline_protocol.py
+?? tests/test_bser_planner_equivalence.py

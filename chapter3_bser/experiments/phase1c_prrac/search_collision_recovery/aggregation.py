@@ -46,6 +46,8 @@ def _percentile(rows: Iterable[Mapping[str, Any]], key: str, percentile: float):
 
 
 def aggregate_search_collision_recovery(rows: list[dict[str, Any]], info: Mapping[str, Any]) -> dict[str, Any]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows)
     result = dict(info)
     found = [row for row in rows if bool(row.get("found"))]
     contact = [row for row in rows if bool(row.get("contact_episode"))]
@@ -125,6 +127,9 @@ def aggregate_search_collision_recovery(rows: list[dict[str, Any]], info: Mappin
         ("post_found_route_inactive_terminal_streak_mean", "post_found_route_inactive_terminal_streak"),
     ):
         result[output] = _mean(rows, key)
+    if rows and rows[0].get("task_protocol") == "collision_terminal_v1":
+        from ..task_metrics import aggregate_task_outcomes
+        result.update(aggregate_task_outcomes(rows, info.get("expected_episodes", len(rows))))
     return result
 
 
@@ -137,6 +142,8 @@ def _paired_groups(rows: list[dict[str, Any]]):
 
 
 def paired_search_collision_recovery_comparisons(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows, require_complete=True)
     keys, groups = _paired_groups(rows)
     output = []
     order = [item.value for item in SearchRecoveryVariant] + [item.value for item in SearchRecoveryVariantV2]
@@ -177,6 +184,8 @@ def paired_search_collision_recovery_comparisons(rows: list[dict[str, Any]]) -> 
 
 
 def paired_search_collision_recovery_baseline_strata(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows, require_complete=True)
     keys, groups = _paired_groups(rows); output=[]
     for root, variants in sorted(groups.items(), key=lambda item: str(item[0])):
         baseline_name = (SearchRecoveryVariantV2.S2A1_C0_BASELINE.value
@@ -207,6 +216,8 @@ def paired_search_collision_recovery_baseline_strata(rows: list[dict[str, Any]])
 
 
 def search_collision_recovery_failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows)
     group_keys=("checkpoint","execution_variant","evaluation_mode","search_recovery_variant","manifest_sha256")
     groups={}
     for row in rows: groups.setdefault(tuple(row.get(key) for key in group_keys),[]).append(row)
@@ -214,9 +225,8 @@ def search_collision_recovery_failure_funnel(rows: list[dict[str, Any]]) -> list
     for key, values in sorted(groups.items(),key=lambda item:str(item[0])):
         categories={"FOUND":lambda r:bool(r.get("found")),"NOT_FOUND_WITH_PREFIND_COLLISION":lambda r:not bool(r.get("found")) and bool(r.get("searcher_collision_episode_pre_found")),"NOT_FOUND_WITHOUT_PREFIND_COLLISION":lambda r:not bool(r.get("found")) and not bool(r.get("searcher_collision_episode_pre_found")),"RECOVERY_TRIGGERED_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)>0 and bool(r.get("found")),"RECOVERY_TRIGGERED_NOT_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)>0 and not bool(r.get("found")),"RECOVERY_NOT_TRIGGERED_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)==0 and bool(r.get("found")),"RECOVERY_NOT_TRIGGERED_NOT_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)==0 and not bool(r.get("found"))}
         if values and values[0].get("task_protocol") == "collision_terminal_v1":
-            categories = {name: (lambda r, reason=reason: r.get("termination_reason") == reason)
-                          for name, reason in (("SUCCESS", "success"), ("OBSTACLE_COLLISION", "obstacle_collision"),
-                                               ("TIMEOUT", "timeout"), ("INCOMPLETE", "running"))}
+            categories = {stage: (lambda r, stage=stage: r["failure_stage"] == stage)
+                          for stage in ("SUCCESS", "OBSTACLE_COLLISION", "TIMEOUT", "INCOMPLETE")}
         for name,predicate in categories.items():
             count=sum(predicate(row) for row in values); item=dict(zip(group_keys,key)); item.update({"category":name,"count":count,"rate":_rate(count,len(values))}); output.append(item)
     return output

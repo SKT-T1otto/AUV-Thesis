@@ -277,6 +277,12 @@ def _read_csv(path: Path) -> list[dict[str, Any]]:
                     row[key] = float(value) if any(mark in value for mark in ".eE") else int(value)
                 except ValueError:
                     pass
+    from .task_metrics import validated_rows
+    episode_rows = [row for row in rows if row.get("task_protocol") == STRICT and "scenario_id" in row]
+    if episode_rows:
+        # Parse strict booleans and validate every restored episode before cache use.
+        normalized = iter(validated_rows(episode_rows))
+        rows = [next(normalized) if row.get("task_protocol") == STRICT and "scenario_id" in row else row for row in rows]
     return rows
 
 
@@ -1483,6 +1489,8 @@ def _validate_resume_search_diagnostics(
 
 
 def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from .task_metrics import validated_rows
+    rows = validated_rows(rows)
     controller_mode = require_single_controller(rows)
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in rows:
@@ -2292,6 +2300,9 @@ def run_evaluation(
         _write_json(output / "evaluation_manifest.json", manifest)
 
     episode_rows = _read_csv(output / "episode_evaluation.csv") if resume_evaluation else []
+    if resume_evaluation and config.get("task_protocol") == STRICT:
+        from .task_metrics import validated_rows
+        episode_rows = validated_rows(episode_rows, require_complete=True)
     beds_rows = None
     if "early_discovery" in config or "executor_standby" in config:
         from chapter3_bser.experiments.phase1c_prrac.beds import beds_requested, DIAGNOSTIC_FILES, write_diagnostics

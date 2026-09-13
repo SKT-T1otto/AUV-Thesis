@@ -1,5 +1,7 @@
 # 本地验证记录
 
+> 2026-09-13 维护索引：新协议现已提交为 `06167b5807a05b29ee0f42e21556015c17cfd5c1`。下文“本轮/未提交/验证”保留原交付时点含义；本次修复与实际验收见 [maintenance/SUMMARY.md](maintenance/SUMMARY.md)。三份过期调试日志的精确 Git blob 恢复索引见 [cleanup_manifest.json](maintenance/cleanup_manifest.json)，其余历史结果未改写。
+
 这些是 2026-09-12 Windows 本地自动回归，不是 CI 或性能实验。环境为 Conda `AUV`、Python 3.10、Torch `2.11.0+cu126`，本轮测试使用 CPU，OMP/MKL 线程数为 1。命令中的实际解释器为 `D:/anaconda/anaconda/envs/AUV/python.exe`。
 
 本地与通过 GitHub 连接器核对的远程默认 `main` 均为 `93a9c8fb53857051390265e3035061bf05402e25`。初始工作区干净；交付为未提交的代码与小型验证文档。没有正式 1000ep 训练、100 场配对评价、真实旧 checkpoint 的性能评价或 commit/push。

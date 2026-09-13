@@ -1,0 +1,10 @@
+{
+  "status": "blocked_missing_historical_input",
+  "missing_input": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_core_migration\\golden_trace_manifest.json",
+  "trajectories": 0,
+  "passed_trajectories": 0,
+  "blocked": 1,
+  "passed": false,
+  "started_utc": "2026-09-13T07:18:42.382653+00:00",
+  "ended_utc": "2026-09-13T07:18:42.397170+00:00"
+}

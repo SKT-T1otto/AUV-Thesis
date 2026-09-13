@@ -111,3 +111,79 @@ def worker_jobs(path: Path, count: int = 2) -> list[dict[str, Any]]:
         }
         for index in range(count)
     ]
+
+from chapter3_bser.experiments.phase1c_common import Phase1CTransitionMetadata, TransitionPhase
+from chapter3_bser.experiments.phase1c_prrac.transition_protocol import PRRACTransitionMetadata
+from chapter3_bser.models.prrac.stage_mapping import transition_phase_to_prrac_stage
+
+def _transitions():
+    phases = [TransitionPhase.PRE_FOUND] * 4 + [TransitionPhase.POST_FOUND] * 4 + [TransitionPhase.HOLD] * 4
+    rows = []
+    previous = TransitionPhase.PRE_FOUND
+    for index, phase in enumerate(phases):
+        found = phase != TransitionPhase.PRE_FOUND
+        hold = phase == TransitionPhase.HOLD
+        base = Phase1CTransitionMetadata.build(
+            episode_id=0, episode_index=0, step=index + 1,
+            task_found=found, executor_target_assigned=found,
+            contact=hold, full_hold=hold, hold_counter=int(hold), mission_complete=False,
+        )
+        metadata = PRRACTransitionMetadata(
+            base, transition_phase_to_prrac_stage(previous), transition_phase_to_prrac_stage(phase)
+        )
+        obs = tuple(torch.randn(28) for _ in range(4))
+        actions = torch.tanh(torch.randn(4, 3))
+        rewards = torch.randn(4)
+        next_obs = tuple(value + 0.01 for value in obs)
+        rows.append((obs, actions, rewards, next_obs, (False,) * 4, (False,) * 4, metadata))
+        previous = phase
+    return rows
+
+
+class _ImmediateExecutor:
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, traceback):
+        return False
+
+    def map(self, function, jobs):
+        del function
+        results = []
+        for job in jobs:
+            info = dict(job["checkpoint_info"])
+            results.append(
+                {
+                    "episode": {
+                        **info,
+                        "scenario_id": str(job["scenario"]["scenario_id"]),
+                        "scenario_seed": int(job["scenario"]["scenario_seed"]),
+                        "found": True,
+                        "contact_episode": True,
+                        "hold_episode": False,
+                        "success": False,
+                        "collision_episode": False,
+                        "post_found_collision_count": 0,
+                        "executor_invalid_count": 0,
+                        "executor_invalid_assignment_unreachable_count": 0,
+                        "executor_min_distance_to_target": 1.0,
+                        "executor_final_distance_to_target": 2.0,
+                        "executor_replan_count": 0,
+                        "executor_residual_ratio_post_found": 0.1,
+                        "handoff_delay": 1,
+                        "found_to_success_steps": None,
+                        "failure_stage": "FOUND_NO_CONTACT",
+                        "router_confusion_matrix": [[1, 0, 0], [0, 0, 0], [0, 0, 0]],
+                        "gate_mean": 0.5,
+                        "gate_p10": 0.4,
+                        "gate_p90": 0.6,
+                        "alignment_negative_rate": 0.0,
+                    },
+                    "failure_trace": [],
+                    "trace_index": None,
+                }
+            )
+        return results

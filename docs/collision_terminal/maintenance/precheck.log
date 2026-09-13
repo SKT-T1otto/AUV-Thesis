@@ -1,0 +1,28 @@
+test_funnel_rates_and_conditional_denominators (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_paired_comparison_and_exact_mcnemar (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_router_precision_recall_and_balanced_accuracy (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_selection_rule_is_lexicographic_and_earlier_breaks_tie (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_strict_outcomes_share_validation_across_all_consumers (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_wilson_interval (tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests) ... ok
+test_event_enum_and_detection_are_deterministic (tests.test_bser_event_detection.EventDetectionTest) ... ok
+test_all_pyplot_experiment_modules_select_agg_first (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_gitattributes_forces_linux_shell_lf (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_launchers_call_shared_python_modules (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... FAIL
+test_linux_cuda_environment_is_platform_specific_without_windows_packages (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_powershell_conda_fallback_is_environment_driven (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_preflight_writes_required_json_report (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+
+======================================================================
+FAIL: test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_linux_runtime_assets.py", line 62, in test_linux_assets_activate_configured_conda_environment
+    self.assertIn("tar", source)
+AssertionError: 'tar' not found in '#!/usr/bin/env bash\nset -euo pipefail\naudit_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd -- "$audit_root"\naudit_python="${AUV_AUDIT_PYTHON:-python}"\ncommand -v "$audit_python" >/dev/null || { printf \'Python not found: %s\\n\' "$audit_python" >&2; exit 1; }\nexec "$audit_python" -m chapter3_bser.experiments.phase1c_prrac.search_value_audit.analysis_bundle "$@"\n'
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.768s
+
+FAILED (failures=1)

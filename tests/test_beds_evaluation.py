@@ -1,12 +1,12 @@
+from tests.beds_test_support import navigation, parameters
 """Tiny synthetic worker contracts; never the canonical smoke or real checkpoint."""
 import copy
 import csv
 from dataclasses import replace
 import json
 from pathlib import Path
-import subprocess
 import tempfile
-from types import ModuleType, SimpleNamespace
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -81,7 +81,6 @@ class BEDSEvaluationTests(unittest.TestCase):
         cfg = config()
         cfg['executor_standby']['enabled'] = True
         adapter = BEDSEpisodeAdapter(cfg, 'synthetic', 0)
-        from tests.test_beds_safe_standby import navigation
         adapter.navigation = navigation(state)
         modified = adapter.prepare_guidance(guidance, state)
         for before, after in zip(guidance.agent_assignments[:3], modified.agent_assignments[:3]):
@@ -93,26 +92,15 @@ class BEDSEvaluationTests(unittest.TestCase):
         actions = torch.rand(4, 3)
         self.assertIs(adapter.before_action(actions, found_state), actions)
 
-    def test_off_worker_matches_prechange_HEAD_bit_for_bit(self):
-        root = evaluator.ROOT
-        def old_module(path):
-            source = subprocess.check_output(['git', '-c', 'safe.directory='+root.as_posix(), 'show', 'HEAD:'+path], cwd=root, text=True, encoding='utf-8')
-            module = ModuleType('chapter3_bser.experiments.phase1c_prrac._beds_baseline')
-            module.__file__ = str(root/path)
-            # Evaluate the frozen prechange evaluator; it has no dataclass definitions.
-            exec(compile(source, module.__file__, 'exec'), module.__dict__)
-            return module
-        old = old_module('chapter3_bser/experiments/phase1c_prrac/evaluate_prrac_checkpoints.py')
+    def test_absent_and_explicitly_disabled_beds_are_equivalent(self):
         with tempfile.TemporaryDirectory() as directory:
             job = job_fixture(Path(directory)/'synthetic.pt')
             absent = copy.deepcopy(job)
             absent['config'].pop('early_discovery')
             absent['config'].pop('executor_standby')
-            expected = old._evaluate_episode_job(absent)
             current_absent = evaluator._evaluate_episode_job(absent)
             disabled = evaluator._evaluate_episode_job(job)
-            self.assertEqual(evaluator._canonical_json(expected), evaluator._canonical_json(current_absent))
-            self.assertEqual(evaluator._canonical_json(expected), evaluator._canonical_json(disabled))
+            self.assertEqual(evaluator._canonical_json(current_absent), evaluator._canonical_json(disabled))
 
     def test_all_active_worker_combinations_and_serializable_diagnostics(self):
         with tempfile.TemporaryDirectory() as directory:

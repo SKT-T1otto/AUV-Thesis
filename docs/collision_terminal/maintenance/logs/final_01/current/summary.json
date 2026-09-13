@@ -1,0 +1,917 @@
+{
+  "discovered": 582,
+  "tests_run": 582,
+  "passed_methods": 582,
+  "failure_records": [],
+  "error_records": [],
+  "skipped_records": [],
+  "subtest_failure_records": 0,
+  "unsuccessful_method_count": 0,
+  "blocked": 0,
+  "exact_discovery_execution_match": true,
+  "modules": [
+    {
+      "module": "tests.test_bser_candidate_generation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_belief_trigger",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_beds_safe_standby",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_detection_probability",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_detection_retention_metrics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_determinism",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_event_detection",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_executor_reassignment",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_lazy_equivalence",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_hysteresis",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_metadata_isolation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_no_layout_id_algorithm_access",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_no_overplanning",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_objective_properties",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_objective_scale_separation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_obstacle_trigger",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_no_ground_truth_leakage",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_online_allocator",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_partition_constraint",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_planner_equivalence",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_planning_graph_extraction_purity",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_planning_graph_readonly",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_planning_state_readonly",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_response_denominator",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_response_unreachable_mass",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_search_only_joint_evaluation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_sensitivity_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_single_source_equivalence",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_target_found_trigger",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_travel_cost_purity",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_unique_state_dedup",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_unknown_graph_no_truth_leakage",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_waypoint_update",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_e1_v2_smoke",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_clean_clone_standalone",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_bser_offline_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_has_no_legacy_imports",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_checkpoint_roundtrip",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_import_graph",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_source_provenance",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_scenario_generation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_standalone_env",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_without_legacy_directory",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_early_discovery_search",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_ablation_evaluator",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_atomic_last_valid",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_continuity_event_detector",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_continuity_information_boundary",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_beds_evaluation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_core_training_smoke",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_continuity_variants",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_reachable_proxy",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_residual_suppression",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_safe_hold",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_executor_standby",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_found_executor_distance_analysis",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_found_timing_failure_attribution",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_linux_runtime_assets",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_manual_prrac_pair",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_continuity_legacy_regression",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_mission_core_contract",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_execution_continuity_spawn",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_observation_28d_contract",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1a1_original_core_freeze",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1a_core_freeze",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_atomic_update",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_diagnostics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_event_specific_cooldown",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_executor_target_received",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_minimum_switch_distance",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_no_target_truth",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_obstacle_off_route",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_obstacle_route_impact",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_partial_replan",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_public_handoff_priority",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_target_found_preserves_executor_route",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_no_legacy_write",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_unaffected_agent_preserved",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b21_execution_target_lock",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b21_executor_public_replan",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b21_refresh_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b21_unreachable_executor_hold",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b2_executor_invalid",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b2_partial_bser",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b2_path_tracking",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b2_waypoint_consistency",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b3a_behavior_preservation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b3a_duplicate_event_keys",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b3a_public_information_only",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b3a_reason_partition",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_dynamic_public_target_update",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_checkpoint_evaluator",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_collision_terminal_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_execution_diagnostics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_executor_invalid_reasons",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_handoff_target_refresh",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_public_target_separation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_stale_endpoint_deferral",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_1_isolation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_execution_reward",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_isolation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_replay",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_reward_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_training_smoke",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_guidance",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prior_only_reliability",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_actor",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_b1_native_training_runtime",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_checkpoint",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1c_v2_cross_platform_runtime",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_phase1b1_pilot_smoke",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_diagnostics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_checkpoint_evaluator",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_evaluation_information_boundary",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_evaluation_metrics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_evaluation_determinism",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_information_boundary",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_cross_platform_runtime",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_isolation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_phase_critic",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_native_train_eval_runtime_equivalence",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_phase_router",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_replay",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_runtime_factory",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_stage_mapping",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_runtime_checkpoint_compatibility",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_trust_gate",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_repository_metadata",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_training_smoke",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s1_launchers",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2_0_collision_diagnostics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2_0_contact_timing",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2_0_evaluation_provenance",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2_0_resolved_config",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_activation_protocol",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_activation_audit",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_diagnostic_correctness",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_forced_refresh",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_graph_reconnect",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_information_boundary",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_last_collision_free_state",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_launchers",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_local_connector_planner",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_closed_loop_divergence",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_no_plan_accounting",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_pairing_semantics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_public_segment_audit",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prrac_evaluation_spawn",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_variants",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a_launchers",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a_outputs",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_native_b1_integration",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_detector",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_egress",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_scenario_manifest_reproducibility",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_guidance_overlay",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_information_boundary",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_pairing",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_route_refresh",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_variants",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_continuity_diagnostics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_continuity_outputs",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_prior_only_evaluation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_continuity_stage_attribution",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_audit_branches",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_audit_drivers",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_audit_metrics",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_s2a1_spawn",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_continuity_spawn",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_collision_recovery_spawn",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_decision",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_searcher_residual_analysis",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_head",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_searcher_residual_off",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_searcher_residual_paired_evaluation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_guided_ranking",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_verify_external_archive",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_searcher_residual_branch_sensitivity",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_searcher_residual_trace",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "module": "tests.test_search_value_audit_runtime",
+      "passed": true,
+      "exit_code": 0
+    }
+  ],
+  "passed": true,
+  "started_utc": "2026-09-13T06:29:25.833986+00:00",
+  "ended_utc": "2026-09-13T07:14:42.232352+00:00"
+}

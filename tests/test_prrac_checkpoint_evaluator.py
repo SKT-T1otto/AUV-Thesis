@@ -1,4 +1,5 @@
 from __future__ import annotations
+from tests.prrac_evaluation_support import _ImmediateExecutor
 
 import copy
 import inspect
@@ -14,53 +15,6 @@ from chapter3_bser.experiments.phase1c_prrac import evaluate_prrac_checkpoints a
 from tests.prrac_evaluation_support import checkpoint_payload, worker_jobs, write_checkpoint
 
 
-class _ImmediateExecutor:
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc, traceback):
-        return False
-
-    def map(self, function, jobs):
-        del function
-        results = []
-        for job in jobs:
-            info = dict(job["checkpoint_info"])
-            results.append(
-                {
-                    "episode": {
-                        **info,
-                        "scenario_id": str(job["scenario"]["scenario_id"]),
-                        "scenario_seed": int(job["scenario"]["scenario_seed"]),
-                        "found": True,
-                        "contact_episode": True,
-                        "hold_episode": False,
-                        "success": False,
-                        "collision_episode": False,
-                        "post_found_collision_count": 0,
-                        "executor_invalid_count": 0,
-                        "executor_invalid_assignment_unreachable_count": 0,
-                        "executor_min_distance_to_target": 1.0,
-                        "executor_final_distance_to_target": 2.0,
-                        "executor_replan_count": 0,
-                        "executor_residual_ratio_post_found": 0.1,
-                        "handoff_delay": 1,
-                        "found_to_success_steps": None,
-                        "failure_stage": "FOUND_NO_CONTACT",
-                        "router_confusion_matrix": [[1, 0, 0], [0, 0, 0], [0, 0, 0]],
-                        "gate_mean": 0.5,
-                        "gate_p10": 0.4,
-                        "gate_p90": 0.6,
-                        "alignment_negative_rate": 0.0,
-                    },
-                    "failure_trace": [],
-                    "trace_index": None,
-                }
-            )
-        return results
 
 
 class PRRACCheckpointEvaluatorTests(unittest.TestCase):

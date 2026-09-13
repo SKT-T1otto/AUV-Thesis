@@ -315,7 +315,7 @@ class CollisionTrainingTests(unittest.TestCase):
         self.assertIsNone(missing["safe_success_rate"])
 
     def test_critic_warmup_freezes_actors_and_updates_critics(self):
-        from tests.test_prrac_training_smoke import _transitions
+        from tests.prrac_evaluation_support import _transitions
         learner=trainer.PRRACMADDPG(architecture=ARCHITECTURE,loss=LOSS)
         before=copy.deepcopy(learner.agents[0].actor.state_dict())
         critic=copy.deepcopy(learner.agents[0].critic1.state_dict())
@@ -358,7 +358,7 @@ class CollisionTrainingTests(unittest.TestCase):
             self.assertEqual(payload["resolved_training_config"],config)
 
     def test_real_warmstart_training_summary_and_same_protocol_resume(self):
-        from tests.test_prrac_checkpoint_evaluator import _ImmediateExecutor
+        from tests.prrac_evaluation_support import _ImmediateExecutor
         class RealImmediateExecutor(_ImmediateExecutor):
             def map(self, function, jobs):
                 return [function(job) for job in jobs]
@@ -422,7 +422,7 @@ class CollisionTrainingTests(unittest.TestCase):
         self.assertEqual(float(target[0]),-2.)
 
     def test_strict_evaluation_writes_complete_report_and_resumes_cache(self):
-        from tests.test_prrac_checkpoint_evaluator import _ImmediateExecutor
+        from tests.prrac_evaluation_support import _ImmediateExecutor
         class RealImmediateExecutor(_ImmediateExecutor):
             def map(self, function, jobs):
                 return [function(job) for job in jobs]
@@ -457,6 +457,14 @@ class CollisionTrainingTests(unittest.TestCase):
             with patch.object(evaluator,"_evaluate_episode_job",side_effect=AssertionError("cached episode rerun")):
                 evaluator.run_evaluation(config_path=config_file,checkpoints=[ckpt],
                     output_dir=root/"collision_terminal"/"evaluation",resume_evaluation=True)
+            cache = root/"collision_terminal"/"evaluation"/"episode_evaluation.csv"
+            rows = evaluator._read_csv(cache)
+            for reason in (None, "unknown_cached_reason"):
+                evaluator._write_csv(cache, [dict(row, termination_reason=reason) for row in rows])
+                with patch.object(evaluator,"_evaluate_episode_job",side_effect=AssertionError("invalid cache rerun")):
+                    with self.assertRaises(ValueError):
+                        evaluator.run_evaluation(config_path=config_file,checkpoints=[ckpt],
+                            output_dir=root/"collision_terminal"/"evaluation",resume_evaluation=True)
 
     def test_existing_strict_failure_and_plot_artifacts_are_protected(self):
         for name in ("evaluation_failure.json", "incomplete_episode_evaluation.csv", "collision_terminal_outcomes.png"):

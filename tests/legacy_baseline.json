@@ -1,0 +1,21 @@
+{
+  "reference_commit": "93a9c8fb53857051390265e3035061bf05402e25",
+  "purpose": "Complete legacy behavior before collision-terminal evolution; this commit already includes BEDS.",
+  "config": "configs/chapter3/bser_phase1c_beds.json",
+  "seed": 991,
+  "test_actor": "TEST_ONLY_seed991.pt, deterministic existing tiny fixture, never a user checkpoint",
+  "budget": {"episodes_per_source": 1, "max_steps": 4},
+  "runtime": "dynamic_public_intercept_v3_atomic_continuity / native / B1_ATOMIC_LAST_VALID / S2A1_C2_LOCAL_CONNECTOR",
+  "task_protocol": "legacy_nonterminal_v1 (absent protocol fields on both sides)",
+  "comparison": "Exact full scenario, resolved config, actor arrays, initial state, every applied action, state/observation/reward/done/collision/Found/Contact/Hold/Success and planning/controller result diagnostic; float hex and array bytes retain bit identity. No numerical tolerance.",
+  "separately_validated_fields": {
+    "isolation.root": "Each absolute root must be its own full source snapshot, distinct from the worktree and the other snapshot.",
+    "isolation.project_modules": "Every imported core/chapter3_bser/tests source must belong to its own snapshot. Shared module paths must agree; exact additions are recorded and checked against the allowlist.",
+    "protocol_identity": "Absent on historical side; current side must explicitly equal legacy identity. No other result fields excluded."
+  },
+  "allowed_new_import_modules": [
+    "core.env.task_protocol",
+    "chapter3_bser.experiments.phase1c_prrac.checkpoint_transfer",
+    "chapter3_bser.experiments.phase1c_prrac.task_metrics"
+  ]
+}

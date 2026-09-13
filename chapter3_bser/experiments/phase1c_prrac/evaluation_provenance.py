@@ -99,7 +99,8 @@ def validate_evaluation_provenance(
     expected_scenarios: Iterable[Mapping[str, Any]],
 ) -> None:
     """Fail closed before final report writers see inconsistent artifacts."""
-
+    from .task_metrics import validated_rows
+    rows = validated_rows(rows, require_complete=True)
     summary_groups = list(summary_groups)
     validate_controller_artifacts(resolved_config, progress, rows, summary_groups)
     if str(resolved_config.get("schema")) != EVALUATION_REPORT_SCHEMA:

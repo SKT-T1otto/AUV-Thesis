@@ -109,7 +109,8 @@ def router_class_metrics(matrix: Iterable[Iterable[int]]) -> dict[str, Any]:
 
 def failure_stage(row: Mapping[str, Any]) -> str:
     if row.get("task_protocol") == "collision_terminal_v1":
-        return {"obstacle_collision": "OBSTACLE_COLLISION", "timeout": "TIMEOUT", "running": "INCOMPLETE"}.get(row.get("termination_reason"), "SUCCESS")
+        from .task_metrics import strict_outcome
+        return strict_outcome(row)
     if bool(row.get("success")):
         return "SUCCESS"
     if not bool(row.get("found")):
@@ -162,7 +163,12 @@ def _sum_confusions(rows: Iterable[Mapping[str, Any]]) -> list[list[int]]:
 def aggregate_checkpoint(
     rows: list[dict[str, Any]], checkpoint_info: Mapping[str, Any]
 ) -> dict[str, Any]:
+    from .task_metrics import validated_rows
+    rows = validated_rows(rows)
     controller_mode = require_single_controller(rows)
+    strict_rows = rows if rows and rows[0].get("task_protocol") == "collision_terminal_v1" else None
+    if strict_rows is not None:
+        rows = [row for row in rows if row["failure_stage"] != "INCOMPLETE"]
     if "controller_mode" in checkpoint_info and row_controller_mode(checkpoint_info) != controller_mode:
         raise ValueError("checkpoint summary controller_mode mismatch")
     count = len(rows)
@@ -246,9 +252,15 @@ def aggregate_checkpoint(
         "alignment_negative_rate",
     ):
         result[key] = _mean(rows, key)
-    if any(row.get("task_protocol") == "collision_terminal_v1" for row in rows):
+    if strict_rows is not None:
+        from core.env.task_protocol import protocol_identity
         from .task_metrics import aggregate_task_outcomes
-        result.update(aggregate_task_outcomes(rows, checkpoint_info.get("expected_episodes", len(rows))))
+        result.update(protocol_identity(strict_rows[0]))
+        result.update(aggregate_task_outcomes(strict_rows, checkpoint_info.get("expected_episodes", len(strict_rows))))
+        if not result["evaluation_complete"]:
+            for key in tuple(result):
+                if "rate" in key or "_ci_" in key:
+                    result[key] = None
     return result
 
 
@@ -273,6 +285,9 @@ def paired_checkpoint_comparison(
     candidate_checkpoint: str,
     evaluation_mode: str,
 ) -> dict[str, Any]:
+    from .task_metrics import validated_rows
+    base_rows = validated_rows(base_rows, require_complete=True)
+    candidate_rows = validated_rows(candidate_rows, require_complete=True)
     base = {str(row["scenario_id"]): row for row in base_rows}
     from core.env.task_protocol import protocol_identity
     identities = {tuple(protocol_identity(r).values()) for r in (*base_rows, *candidate_rows)}
@@ -324,8 +339,15 @@ def paired_checkpoint_comparison(
 
 
 def recommend_checkpoint(summary_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    from .task_metrics import boolean
+    from core.env.task_protocol import protocol_identity
+    if len({tuple(protocol_identity(row).values()) for row in summary_rows}) > 1:
+        raise ValueError("checkpoint ranking cannot mix task protocols")
     eligible = [
-        row for row in summary_rows if row.get("evaluation_mode") == "full_prrac" and row.get("evaluation_complete", True)
+        row for row in summary_rows if row.get("evaluation_mode") == "full_prrac"
+        and (boolean(row.get("evaluation_complete")) is True
+             if row.get("task_protocol") == "collision_terminal_v1"
+             else row.get("evaluation_complete", True))
     ]
     if not eligible:
         return {

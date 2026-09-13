@@ -4,6 +4,7 @@ import unittest
 
 from chapter3_bser.experiments.phase1c_prrac.evaluation_metrics import (
     aggregate_checkpoint,
+    failure_stage,
     mcnemar_exact_p_value,
     paired_checkpoint_comparison,
     recommend_checkpoint,
@@ -38,6 +39,81 @@ def _row(scenario: str, *, found: bool, contact: bool, hold: bool, success: bool
 
 
 class PRRACEvaluationMetricsTests(unittest.TestCase):
+    def test_strict_outcomes_share_validation_across_all_consumers(self):
+        from core.env.task_protocol import STRICT, protocol_identity
+        from chapter3_bser.experiments.phase1c_prrac.task_metrics import aggregate_task_outcomes
+        from chapter3_bser.experiments.phase1c_prrac.evaluate_prrac_checkpoints import _failure_funnel, _read_csv, _write_csv
+        from chapter3_bser.experiments.phase1c_prrac.search_continuity.aggregation import search_failure_funnel
+        from chapter3_bser.experiments.phase1c_prrac.search_collision_recovery.aggregation import search_collision_recovery_failure_funnel
+        from pathlib import Path
+        import tempfile
+        def row(reason):
+            return {**_row('case-42', found=True, contact=False, hold=False, success=reason == 'success'),
+                **protocol_identity({'task_protocol': STRICT}), 'termination_reason': reason,
+                'safe_success': reason == 'success', 'terminated': reason != 'running', 'truncated': False,
+                'collision_episode': reason == 'obstacle_collision', 'checkpoint': 'test.pt',
+                'evaluation_mode': 'full_prrac', 'first_collision_agent_ids': [0] if reason == 'obstacle_collision' else []}
+        for reason, stage in [('success', 'SUCCESS'), ('obstacle_collision', 'OBSTACLE_COLLISION'), ('timeout', 'TIMEOUT'), ('running', 'INCOMPLETE')]:
+            for csv_values in (False, True):
+                with self.subTest(reason=reason, csv=csv_values):
+                    value = row(reason)
+                    if csv_values:
+                        value = {k: str(v) if type(v) is bool else v for k, v in value.items()}
+                    self.assertEqual(failure_stage(value), stage)
+                    self.assertEqual(aggregate_task_outcomes([value])['evaluation_complete'], reason != 'running')
+                    for funnel in (search_failure_funnel, search_collision_recovery_failure_funnel):
+                        counts = {r['category']: r['count'] for r in funnel([value])}
+                        self.assertEqual(counts[stage], 1)
+                        self.assertEqual(sum(counts.values()), 1)
+                    self.assertEqual(_failure_funnel([value])[0][stage.lower()], 1)
+        for missing in (None, '', '  '):
+            value = row('timeout'); value['termination_reason'] = missing
+            self.assertEqual(failure_stage(value), 'INCOMPLETE')
+            self.assertFalse(aggregate_task_outcomes([value])['evaluation_complete'])
+            for funnel in (search_failure_funnel, search_collision_recovery_failure_funnel):
+                self.assertEqual({r['category']: r['count'] for r in funnel([value])}['INCOMPLETE'], 1)
+        value.pop('termination_reason')
+        self.assertEqual(failure_stage(value), 'INCOMPLETE')
+        for field in ('success', 'safe_success', 'found', 'terminated', 'truncated', 'collision_episode'):
+            with self.subTest(missing_field=field):
+                value = row('success'); value.pop(field)
+                self.assertEqual(failure_stage(value), 'INCOMPLETE')
+                summary = aggregate_checkpoint([value], {})
+                self.assertEqual(summary['n_valid_episodes'], 0)
+                self.assertIsNone(summary['success_rate'])
+                self.assertIsNone(recommend_checkpoint([summary])['recommended_checkpoint'])
+                with self.assertRaisesRegex(ValueError, 'complete'):
+                    paired_checkpoint_comparison([value], [row('success')], base_checkpoint='a', candidate_checkpoint='b', evaluation_mode='full_prrac')
+        cases = [('success', 'success', False), ('success', 'safe_success', False), ('success', 'found', False),
+                 ('obstacle_collision', 'success', True), ('timeout', 'terminated', False),
+                 ('timeout', 'collision_episode', True), ('success', 'truncated', True),
+                 ('running', 'terminated', True), ('timeout', 'found', 'invalid')]
+        for reason, key, value in cases:
+            bad = row(reason); bad[key] = value
+            for consumer in (failure_stage, lambda r: aggregate_task_outcomes([r]), lambda r: _failure_funnel([r]),
+                             lambda r: search_failure_funnel([r]), lambda r: search_collision_recovery_failure_funnel([r])):
+                with self.subTest(reason=reason, field=key, consumer=consumer):
+                    with self.assertRaisesRegex(ValueError, 'case-42.*termination_reason'):
+                        consumer(bad)
+        bad = row('timeout'); bad['termination_reason'] = 'alien'
+        with self.assertRaisesRegex(ValueError, 'case-42.*alien'):
+            failure_stage(bad)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'out.csv'
+            _write_csv(path, [row('success'), {**row('timeout'), 'scenario_id': 'case-43'}])
+            restored = _read_csv(path)
+            self.assertEqual(aggregate_task_outcomes(restored)['success_rate'], .5)
+            comparison = paired_checkpoint_comparison(restored, restored, base_checkpoint='a', candidate_checkpoint='b', evaluation_mode='full_prrac')
+            self.assertEqual(comparison['both_success'], 1)
+            self.assertEqual(comparison['neither_success'], 1)
+            _write_csv(path, [bad])
+            with self.assertRaisesRegex(ValueError, 'alien'):
+                _read_csv(path)
+        incomplete_summary = {**protocol_identity({'task_protocol': STRICT}), 'evaluation_mode': 'full_prrac', 'evaluation_complete': 'False'}
+        self.assertIsNone(recommend_checkpoint([incomplete_summary])['recommended_checkpoint'])
+        self.assertFalse(aggregate_task_outcomes([])['evaluation_complete'])
+        self.assertEqual(failure_stage(_row('legacy', found=True, contact=False, hold=False, success=True)), 'SUCCESS')
+
     def test_funnel_rates_and_conditional_denominators(self) -> None:
         rows = [
             _row("s0", found=False, contact=False, hold=False, success=False),

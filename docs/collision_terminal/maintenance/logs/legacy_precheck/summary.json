@@ -1,0 +1,33 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "-m",
+    "tools.verify_collision_terminal",
+    "--suite",
+    "legacy",
+    "--output-dir",
+    "docs/collision_terminal/maintenance/logs/legacy_precheck"
+  ],
+  "head": "06167b5807a05b29ee0f42e21556015c17cfd5c1",
+  "suite": "legacy",
+  "source_tree_sha256": "8e4fbedce64b766635e0dc90d465cda26b97a1d89a56096864e4f823da326e6e",
+  "tree_unchanged": true,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+  "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+  "dependencies": {
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6"
+  },
+  "started_utc": "2026-09-13T06:14:22.867100+00:00",
+  "ended_utc": "2026-09-13T06:15:53.740709+00:00",
+  "wall_seconds": 90.87244060000012,
+  "current_suite_passed": null,
+  "legacy_compatibility_passed": true,
+  "historical_suite_status": "not_run",
+  "golden_status": "not_run",
+  "all_required_verification_passed": false,
+  "passed": true,
+  "exit_code": 0
+}

@@ -1,0 +1,35 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "-m",
+    "tools.verify_collision_terminal",
+    "--suite",
+    "all",
+    "--workers",
+    "4",
+    "--output-dir",
+    "docs/collision_terminal/maintenance/logs/final_01"
+  ],
+  "head": "06167b5807a05b29ee0f42e21556015c17cfd5c1",
+  "suite": "all",
+  "source_tree_sha256": "ca3ae8bd48249eefc36082407a2f60d985e14b8a0821466de8fdd4dfd9ff584d",
+  "tree_unchanged": true,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+  "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+  "dependencies": {
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6"
+  },
+  "started_utc": "2026-09-13T06:29:24.927487+00:00",
+  "ended_utc": "2026-09-13T07:18:43.516458+00:00",
+  "wall_seconds": 2958.5891536999998,
+  "current_suite_passed": true,
+  "legacy_compatibility_passed": true,
+  "historical_suite_status": "blocked_missing_historical_input",
+  "golden_status": "blocked_missing_historical_input",
+  "all_required_verification_passed": false,
+  "passed": false,
+  "exit_code": 1
+}

@@ -17,7 +17,7 @@ from tests import test_s2_0_evaluation_provenance as protocol_fixtures
 from tests import test_prrac_evaluation_information_boundary as guidance_fixtures
 from tests import test_prrac_replay as transition_fixtures
 from tests.execution_continuity_test_support import previous_plan
-from tests.test_prrac_checkpoint_evaluator import _ImmediateExecutor
+from tests.prrac_evaluation_support import _ImmediateExecutor
 from tests.prrac_evaluation_support import write_checkpoint
 
 

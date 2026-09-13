@@ -1,3 +1,4 @@
+from tests.beds_test_support import navigation, parameters
 """Pure public-graph/control-boundary tests. No simulator episodes/checkpoints."""
 import copy
 import hashlib
@@ -35,9 +36,6 @@ def public_state():
         agents=tuple(replace(a, position=scale(a.position), current_navigation_target=scale(a.current_navigation_target)) for a in old.agents))
 
 
-def parameters():
-    # Fixture values match existing runtime semantics; production reads runtime.
-    return StandbyNavigationParameters(10, .75, .75, 1.6, 2.4, 1.2, 1.0)
 
 
 def guidance(state):
@@ -49,9 +47,6 @@ def guidance(state):
         'EXECUTION' if state.target_found else 'SEARCH', assignments, executor, 'test')
 
 
-def navigation(state, **kwargs):
-    return SafeStandbyNavigation(parameters(), state_factory=lambda: state,
-        segment_clear=kwargs.pop('segment_clear', lambda a, b: True), **kwargs)
 
 
 def adapter(state, *, enabled=True, diagnostics=True):

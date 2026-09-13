@@ -17,31 +17,93 @@ def terminal_planning_snapshot(env, previous):
 
 
 def boolean(value):
-    if value is True or value in ("True", "true", "1"):
-        return True
-    if value is False or value in ("False", "false", "0"):
-        return False
-    return None
+    """Parse output/CSV booleans without turning missing values into False."""
+    if value is None:
+        return None
+    if isinstance(value, str):
+        value = value.strip().lower()
+        if value in ("", "none"):
+            return None
+        if value in ("true", "1"):
+            return True
+        if value in ("false", "0"):
+            return False
+    elif isinstance(value, (bool, int)) and value in (0, 1):
+        return bool(value)
+    raise ValueError(f"invalid task boolean: {value!r}")
+
+
+OUTCOME_FLAGS = ("success", "safe_success", "found", "terminated", "truncated", "collision_episode")
+OUTCOME_STAGES = {"success": "SUCCESS", "obstacle_collision": "OBSTACLE_COLLISION",
+                  "timeout": "TIMEOUT", "running": "INCOMPLETE"}
+
+
+def strict_outcome(row):
+    """Validate known facts first; missing required facts never certify completion."""
+    reason = row.get("termination_reason")
+    context = f"scenario={row.get('scenario_id', row.get('episode_id', '<unknown>'))!r}, termination_reason={reason!r}"
+    def fail(message):
+        raise ValueError(f"invalid strict task outcome ({context}): {message}")
+    if reason is not None and (not isinstance(reason, str) or reason.strip()):
+        if reason not in OUTCOME_STAGES:
+            fail("unknown termination reason")
+    else:
+        reason = None
+    try:
+        flags = {key: boolean(row.get(key)) for key in OUTCOME_FLAGS}
+    except ValueError as exc:
+        fail(str(exc))
+    success, safe, found, terminated, truncated, collision = (flags[k] for k in OUTCOME_FLAGS)
+    if success is not None and safe is not None and success != safe:
+        fail("success and safe_success disagree")
+    if (success is True or safe is True) and (found is False or collision is True):
+        fail("success requires Found and excludes obstacle collision")
+    if (success is True or safe is True or collision is True) and (terminated is False or truncated is True):
+        fail("success/collision requires a terminated, non-truncated episode")
+    if terminated is True and truncated is True:
+        fail("terminated and truncated cannot both be true")
+    if reason is not None:
+        expected = {"success": reason == "success", "safe_success": reason == "success",
+                    "collision_episode": reason == "obstacle_collision",
+                    "terminated": reason != "running", "truncated": False}
+        if reason == "success":
+            expected["found"] = True
+        for key, value in expected.items():
+            if flags[key] is not None and flags[key] != value:
+                fail(f"{key}={flags[key]!r} contradicts {reason}")
+    if reason in (None, "running") or any(value is None for value in flags.values()):
+        return "INCOMPLETE"
+    return OUTCOME_STAGES[reason]
+
+
+def validated_rows(rows, *, require_complete=False):
+    """Shared episode boundary for summaries, CSV recovery, funnels and pairs."""
+    rows = list(rows)
+    identities = {tuple(protocol_identity(row).values()) for row in rows}
+    if len(identities) > 1:
+        raise ValueError("episode rows cannot mix task protocols")
+    if not rows or protocol_identity(rows[0])["task_protocol"] != STRICT:
+        return rows
+    normalized = []
+    for row in rows:
+        stage = strict_outcome(row)
+        if require_complete and stage == "INCOMPLETE":
+            raise ValueError(f"strict outcomes must be complete: scenario={row.get('scenario_id')!r}")
+        value = dict(row)
+        for key in (*OUTCOME_FLAGS, "contact_episode", "hold_episode"):
+            if key in row:
+                value[key] = boolean(row[key])
+        value["failure_stage"] = stage
+        normalized.append(value)
+    return normalized
 
 
 def aggregate_task_outcomes(rows, expected_episodes=None):
     if any(protocol_identity(row)["task_protocol"] != STRICT for row in rows):
         raise ValueError("strict outcome summary cannot mix task protocols")
     expected = len(rows) if expected_episodes is None else int(expected_episodes)
-    valid = []
-    for row in rows:
-        reason = row.get("termination_reason")
-        if (boolean(row.get("terminated")) is True and boolean(row.get("truncated")) is False
-                and reason in ("success", "obstacle_collision", "timeout")
-                and boolean(row.get("success")) is not None and boolean(row.get("found")) is not None):
-            success = reason == "success"
-            if boolean(row["success"]) != success or boolean(row.get("safe_success")) != success:
-                raise ValueError("authoritative task outcome/success disagreement")
-            if success and boolean(row["found"]) is not True:
-                raise ValueError("success requires Found")
-            if boolean(row.get("collision_episode")) != (reason == "obstacle_collision"):
-                raise ValueError("collision outcome disagreement")
-            valid.append(row)
+    rows = validated_rows(rows)
+    valid = [row for row in rows if row["failure_stage"] != "INCOMPLETE"]
     counts = Counter(r["termination_reason"] for r in valid)
     found = [r for r in valid if boolean(r["found"]) is True]
     success_found = sum(r["termination_reason"] == "success" for r in found)
@@ -55,7 +117,7 @@ def aggregate_task_outcomes(rows, expected_episodes=None):
         roles.update({"Executor" if i == 3 else "Searcher" for i in ids})
         phases.update([row.get("first_collision_phase")])
     count = len(valid)
-    complete = count == expected == len(rows)
+    complete = count == expected == len(rows) and count > 0
     def rate(n):
         return n / count if count and complete else None
     return {

@@ -1,0 +1,69 @@
+{
+  "discovered": 4,
+  "discovered_ids": [
+    "historical_verification.test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest.test_all_v1_files_match_before_manifest",
+    "historical_verification.test_ch3_e0_equivalence.E0DeliveryTests.test_full_e0_passed",
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered",
+    "historical_verification.test_phase1c_v2_overlay.Phase1CV2OverlayTests.test_overlay_manifest_contains_no_frozen_or_core_files"
+  ],
+  "tests_run": 1,
+  "ran_ids": [
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered"
+  ],
+  "passed_methods": 1,
+  "success_ids": [
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered"
+  ],
+  "failure_records": [],
+  "error_records": [],
+  "skipped_records": [],
+  "unsuccessful_method_count": 0,
+  "subtest_failure_records": 0,
+  "blocked": 3,
+  "started_utc": "2026-09-13T07:18:38.599723+00:00",
+  "ended_utc": "2026-09-13T07:18:42.379114+00:00",
+  "passed": false,
+  "blocked_records": [
+    {
+      "id": "historical_verification.test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest.test_all_v1_files_match_before_manifest",
+      "status": "blocked_missing_historical_input",
+      "missing": [
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/aggregate_by_profile.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/aggregate_by_protocol_slice.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/aggregate_by_solver.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/baseline_comparison.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/candidate_statistics.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/config_snapshot.json",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/determinism_manifest.json",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/e1_summary.json",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/e1_summary.md",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/experiment_manifest.json",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/failure_cases.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/instance_manifest.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/instance_manifest.json",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/per_instance_results.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/property_check_results.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/skipped_instances.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/solver_scalability.csv",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/test_report.md",
+        "93a9c8fb53857051390265e3035061bf05402e25:experiments/chapter3/bser_e1_offline/typical_case.json"
+      ]
+    },
+    {
+      "id": "historical_verification.test_ch3_e0_equivalence.E0DeliveryTests.test_full_e0_passed",
+      "status": "blocked_missing_historical_input",
+      "missing": [
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_equivalence\\equivalence_summary.json",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_equivalence\\per_trajectory_results.csv"
+      ]
+    },
+    {
+      "id": "historical_verification.test_phase1c_v2_overlay.Phase1CV2OverlayTests.test_overlay_manifest_contains_no_frozen_or_core_files",
+      "status": "blocked_missing_historical_input",
+      "missing": [
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs2\\phase1c_v2_design\\overlay_manifest.json"
+      ]
+    }
+  ],
+  "status": "blocked_missing_historical_input"
+}

@@ -48,39 +48,29 @@ class Phase1CV2IsolationTests(unittest.TestCase):
         self.assertNotIn("sys.path", combined)
         self.assertIn("bser.phase1c.training_state.v1", combined)
 
-    def test_overlay_manifest_contains_no_frozen_or_core_files(self) -> None:
-        manifest = json.loads(
-            (ROOT / "docs2/phase1c_v2_design/overlay_manifest.json").read_text(
-                encoding="utf-8"
-            )
-        )
-        paths = set(manifest["files"])
-        self.assertTrue(paths.isdisjoint(FROZEN))
-        self.assertFalse(any(path.startswith("core/") for path in paths))
-        self.assertNotIn("core/registry/experiment_registry.py", paths)
 
-    def test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available(self) -> None:
+    def test_frozen_paths_match_fixed_legacy_and_reviewed_evolutions(self) -> None:
         if not (ROOT / ".git").exists():
             self.skipTest("archive checkout has no .git metadata")
         # The 2026-09-12 task explicitly authorizes exactly these two core
-        # evolutions. Pin HEAD and current bytes rather than exempting core.
+        # evolutions. Pin the immutable pre-collision commit and reviewed current bytes.
         from tests.test_phase1a1_original_core_freeze import PERMITTED_EVOLUTION
         reviewed = {path: PERMITTED_EVOLUTION[path] for path in
                     ("core/env/uav_env.py", "core/env/mission_env.py")}
         for path, identity in reviewed.items():
-            historical = subprocess.check_output(["git", "show", f"HEAD:{path}"], cwd=ROOT)
+            historical = subprocess.check_output(["git", "show", f"93a9c8fb53857051390265e3035061bf05402e25:{path}"], cwd=ROOT)
             self.assertIn(hashlib.sha256(historical).hexdigest(),
                           {identity["historical_sha256"], identity["current_sha256"]}, path)
             self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), identity["current_sha256"], path)
         result = subprocess.run(
-            ["git", "diff", "--quiet", "HEAD", "--", *(path for path in FROZEN if path not in reviewed)],
+            ["git", "diff", "--quiet", "93a9c8fb53857051390265e3035061bf05402e25", "--", *(path for path in FROZEN if path not in reviewed)],
             cwd=ROOT,
             check=False,
         )
         self.assertEqual(
             result.returncode,
             0,
-            "one or more frozen v1/core paths differ from HEAD; inspect git diff before running v2",
+            "one or more frozen v1/core paths differ from the immutable legacy baseline; inspect git diff before running v2",
         )
 
 

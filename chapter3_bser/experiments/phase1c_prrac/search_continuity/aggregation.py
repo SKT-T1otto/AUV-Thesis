@@ -39,6 +39,8 @@ def _percentile(rows: Iterable[Mapping[str, Any]], key: str, fraction: float):
 def aggregate_search_continuity(
     rows: list[dict[str, Any]], info: Mapping[str, Any]
 ) -> dict[str, Any]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows)
     count = len(rows)
     found = [row for row in rows if bool(row.get("found"))]
     success = [row for row in rows if bool(row.get("success"))]
@@ -115,10 +117,15 @@ def aggregate_search_continuity(
         ("mean_searcher_residual_alignment_zero_residual_count_pre_found", "searcher_residual_alignment_zero_residual_count_pre_found"),
     ):
         result[output] = _mean(rows, source)
+    if rows and rows[0].get("task_protocol") == "collision_terminal_v1":
+        from ..task_metrics import aggregate_task_outcomes
+        result.update(aggregate_task_outcomes(rows, info.get("expected_episodes", len(rows))))
     return result
 
 
 def paired_searcher_residual_comparisons(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows, require_complete=True)
     keys = (
         "checkpoint", "checkpoint_config_hash", "checkpoint_runtime_revision",
         "evaluation_runtime_revision", "runtime_integration_mode", "execution_variant",
@@ -170,6 +177,8 @@ def paired_searcher_residual_comparisons(rows: list[dict[str, Any]]) -> list[dic
 
 
 def search_failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from ..task_metrics import validated_rows
+    rows = validated_rows(rows)
     group_keys = (
         "checkpoint", "checkpoint_runtime_revision", "evaluation_runtime_revision",
         "runtime_integration_mode", "execution_variant", "evaluation_mode",
@@ -185,9 +194,8 @@ def search_failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "NOT_FOUND_WITHOUT_PREFIND_COLLISION": [row for row in values if not bool(row.get("found")) and not bool(row.get("searcher_collision_episode_pre_found"))],
         }
         if values and values[0].get("task_protocol") == "collision_terminal_v1":
-            categories = {name: [r for r in values if r.get("termination_reason") == reason]
-                          for name, reason in (("SUCCESS", "success"), ("OBSTACLE_COLLISION", "obstacle_collision"),
-                                               ("TIMEOUT", "timeout"), ("INCOMPLETE", "running"))}
+            categories = {stage: [r for r in values if r["failure_stage"] == stage]
+                          for stage in ("SUCCESS", "OBSTACLE_COLLISION", "TIMEOUT", "INCOMPLETE")}
         for category, selected in categories.items():
             row = dict(zip(group_keys, key))
             row.update({"category": category, "count": len(selected), "rate": nullable_rate(len(selected), len(values))})

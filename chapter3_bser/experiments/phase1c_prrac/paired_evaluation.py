@@ -70,6 +70,10 @@ def read_episode_csv(path):
         for name, value in tuple(row.items()):
             if value is None or not value.strip():
                 row[name] = None
+        if row.get("task_protocol") == "collision_terminal_v1":
+            from .task_metrics import validated_rows
+            row.update(validated_rows([row])[0])
+            continue
         for name in BOOL_FIELDS:
             row[name] = parse_optional_bool(row.get(name))
         if row["success"] is True and row["found"] is False:
@@ -79,6 +83,9 @@ def read_episode_csv(path):
 
 def outcome_summary(rows):
     """Missing outcomes remain unavailable; never treat blank as failure."""
+    if any(row.get("task_protocol") == "collision_terminal_v1" for row in rows):
+        from .task_metrics import aggregate_task_outcomes
+        return {"episodes": len(rows), **aggregate_task_outcomes(rows)}
     found = [row for row in rows if row["found"] is True]
     found_complete = all(row["found"] is not None for row in rows)
     success_complete = all(row["success"] is not None for row in rows)
@@ -220,6 +227,8 @@ def analyze_pair(root):
         from .task_metrics import aggregate_task_outcomes
         for mode in CONTROLLERS:
             summaries[mode].update(aggregate_task_outcomes(data[mode], plan["episodes_per_controller"]))
+            if not summaries[mode]["evaluation_complete"]:
+                raise ValueError(f"paired strict evaluation is incomplete: {mode}")
     return {
         "schema": "prrac.controller_pair_analysis.v1", "paired_scenarios": len(data["prior_only"]),
         "checkpoint_sha256": plan["checkpoint_sha256"], "manifest_sha256": manifests["prior_only"]["manifest_sha256"],

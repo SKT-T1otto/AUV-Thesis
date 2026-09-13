@@ -1,5 +1,7 @@
 # 文件与作用
 
+> 2026-09-13 维护索引：新协议现已提交为 `06167b5807a05b29ee0f42e21556015c17cfd5c1`。下文“本轮/未提交/验证”保留原交付时点含义；本次修复与实际验收见 [maintenance/SUMMARY.md](maintenance/SUMMARY.md)。三份过期调试日志的精确 Git blob 恢复索引见 [cleanup_manifest.json](maintenance/cleanup_manifest.json)，其余历史结果未改写。
+
 以下为本轮工作区变更，未 commit/push。路径相对仓库根目录；历史 outputs 和历史 manifest 没有修改。
 
 | 文件 | 作用 |

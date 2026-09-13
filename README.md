@@ -1,5 +1,10 @@
 # CRK-Thesis-v2
 
+Current maintenance scope, test organization and fresh local acceptance are in
+[the maintenance summary](docs/collision_terminal/maintenance/SUMMARY.md).
+The collision protocol was published in `06167b5807a05b29ee0f42e21556015c17cfd5c1`;
+older delivery notes saying “uncommitted” describe their original delivery time.
+
 The opt-in `collision_terminal_v1` implementation and manual PRRAC entry points
 are documented in [the collision-terminal delivery guide](docs/collision_terminal/IMPLEMENTATION.md).
 The historical experiment-status statements below are retained historical records;

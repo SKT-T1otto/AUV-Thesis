@@ -1,3 +1,4 @@
+from tests.prrac_evaluation_support import _transitions
 from pathlib import Path
 import tempfile
 import unittest
@@ -37,28 +38,6 @@ def _config():
     }
 
 
-def _transitions():
-    phases = [TransitionPhase.PRE_FOUND] * 4 + [TransitionPhase.POST_FOUND] * 4 + [TransitionPhase.HOLD] * 4
-    rows = []
-    previous = TransitionPhase.PRE_FOUND
-    for index, phase in enumerate(phases):
-        found = phase != TransitionPhase.PRE_FOUND
-        hold = phase == TransitionPhase.HOLD
-        base = Phase1CTransitionMetadata.build(
-            episode_id=0, episode_index=0, step=index + 1,
-            task_found=found, executor_target_assigned=found,
-            contact=hold, full_hold=hold, hold_counter=int(hold), mission_complete=False,
-        )
-        metadata = PRRACTransitionMetadata(
-            base, transition_phase_to_prrac_stage(previous), transition_phase_to_prrac_stage(phase)
-        )
-        obs = tuple(torch.randn(28) for _ in range(4))
-        actions = torch.tanh(torch.randn(4, 3))
-        rewards = torch.randn(4)
-        next_obs = tuple(value + 0.01 for value in obs)
-        rows.append((obs, actions, rewards, next_obs, (False,) * 4, (False,) * 4, metadata))
-        previous = phase
-    return rows
 
 
 class PRRACTrainingSmokeTests(unittest.TestCase):

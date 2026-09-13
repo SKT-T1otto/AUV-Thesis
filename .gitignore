@@ -75,3 +75,7 @@ codex_*.diff
 
 # Legacy preflight output path
 runtime/linux_preflight.json
+
+# Compact maintenance evidence; model and experiment-output ignores stay active.
+!docs/collision_terminal/maintenance/logs/
+!docs/collision_terminal/maintenance/logs/**
