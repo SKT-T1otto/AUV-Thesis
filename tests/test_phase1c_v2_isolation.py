@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 import unittest
@@ -61,8 +62,18 @@ class Phase1CV2IsolationTests(unittest.TestCase):
     def test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available(self) -> None:
         if not (ROOT / ".git").exists():
             self.skipTest("archive checkout has no .git metadata")
+        # The 2026-09-12 task explicitly authorizes exactly these two core
+        # evolutions. Pin HEAD and current bytes rather than exempting core.
+        from tests.test_phase1a1_original_core_freeze import PERMITTED_EVOLUTION
+        reviewed = {path: PERMITTED_EVOLUTION[path] for path in
+                    ("core/env/uav_env.py", "core/env/mission_env.py")}
+        for path, identity in reviewed.items():
+            historical = subprocess.check_output(["git", "show", f"HEAD:{path}"], cwd=ROOT)
+            self.assertIn(hashlib.sha256(historical).hexdigest(),
+                          {identity["historical_sha256"], identity["current_sha256"]}, path)
+            self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), identity["current_sha256"], path)
         result = subprocess.run(
-            ["git", "diff", "--quiet", "HEAD", "--", *FROZEN],
+            ["git", "diff", "--quiet", "HEAD", "--", *(path for path in FROZEN if path not in reviewed)],
             cwd=ROOT,
             check=False,
         )

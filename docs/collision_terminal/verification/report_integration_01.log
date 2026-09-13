@@ -1,0 +1,6 @@
+test_strict_evaluation_writes_complete_report_and_resumes_cache (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 101.784s
+
+OK

@@ -1,0 +1,42 @@
+test_event_enum_and_detection_are_deterministic (tests.test_bser_event_detection.EventDetectionTest) ... FAIL
+test_all_pyplot_experiment_modules_select_agg_first (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_gitattributes_forces_linux_shell_lf (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_launchers_call_shared_python_modules (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... FAIL
+test_linux_cuda_environment_is_platform_specific_without_windows_packages (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... FAIL
+test_powershell_conda_fallback_is_environment_driven (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+test_preflight_writes_required_json_report (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests) ... ok
+
+======================================================================
+FAIL: test_event_enum_and_detection_are_deterministic (tests.test_bser_event_detection.EventDetectionTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lenovo\AppData\Local\Temp\auv-head-collision-baseline-1eb628e65c8f4e19bf6cef0b1dc7830d\tests\test_bser_event_detection.py", line 11, in test_event_enum_and_detection_are_deterministic
+    self.assertEqual(len(BSEREvent), 8)
+AssertionError: 9 != 8
+
+======================================================================
+FAIL: test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lenovo\AppData\Local\Temp\auv-head-collision-baseline-1eb628e65c8f4e19bf6cef0b1dc7830d\tests\test_linux_runtime_assets.py", line 57, in test_linux_assets_activate_configured_conda_environment
+    self.assertTrue(
+AssertionError: False is not true : bundle_search_value_audits.sh
+
+======================================================================
+FAIL: test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lenovo\AppData\Local\Temp\auv-head-collision-baseline-1eb628e65c8f4e19bf6cef0b1dc7830d\tests\test_linux_runtime_assets.py", line 26, in test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints
+    self.assertEqual({path.name for path in LINUX_SCRIPTS.glob("*.sh")}, expected)
+AssertionError: Items in the first set but not the second:
+'run_search_value_d2_audit.sh'
+'bundle_search_value_audits.sh'
+'_search_value_audit_common.sh'
+'run_search_value_d1_audit.sh'
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.504s
+
+FAILED (failures=3)

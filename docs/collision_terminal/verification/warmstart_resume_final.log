@@ -1,0 +1,10 @@
+{"episode": 1, "environment_steps": 1, "training_updates": 1, "recent_safe_success": 0.0, "recent_collision_failure": 1.0, "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\tmpg8bbilpu\\collision_terminal\\warmstart\\checkpoints\\phase1c_prrac_episode_0001.pt", "elapsed_seconds": 69.2040808999991}
+{"episode": 2, "environment_steps": 2, "training_updates": 2, "recent_safe_success": 0.0, "recent_collision_failure": 1.0, "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\tmpg8bbilpu\\collision_terminal\\warmstart\\checkpoints\\phase1c_prrac_episode_0002.pt", "elapsed_seconds": 138.57088740000108}
+{"episode": 2, "environment_steps": 2, "training_updates": 2, "recent_safe_success": 0.0, "recent_collision_failure": 1.0, "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\tmpg8bbilpu\\collision_terminal\\resumed\\checkpoints\\phase1c_prrac_episode_0002.pt", "elapsed_seconds": 62.42158669999844}
+test_real_warmstart_training_summary_and_same_protocol_resume (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 241.247s
+
+OK

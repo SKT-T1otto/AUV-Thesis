@@ -1,0 +1,18 @@
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_all_27_authority_records_map_to_current_core_files (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok
+test_reviewed_registry_evolution_preserves_historical_active_modes (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok
+test_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest) ... ok
+test_original_40_core_python_files_match (tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest) ... ok
+test_terminal_reward_configuration_is_validated (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ok
+test_strict_evaluation_writes_complete_report_and_resumes_cache (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_every_dry_run_requirement_is_enforced (tests.test_prrac_training_smoke.PRRACTrainingSmokeTests) ... ok
+test_real_update_diagnostics_and_checkpoint_in_temporary_directory (tests.test_prrac_training_smoke.PRRACTrainingSmokeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 112.182s
+
+OK

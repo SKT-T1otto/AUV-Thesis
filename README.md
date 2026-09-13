@@ -1,5 +1,10 @@
 # CRK-Thesis-v2
 
+The opt-in `collision_terminal_v1` implementation and manual PRRAC entry points
+are documented in [the collision-terminal delivery guide](docs/collision_terminal/IMPLEMENTATION.md).
+The historical experiment-status statements below are retained historical records;
+they do not establish the status of the user's independently running Linux job.
+
 Self-contained production repository for the multi-agent AUV thesis. The
 shared mission environment and reinforcement-learning infrastructure live in
 `core`; chapter-specific work remains in its chapter namespace.

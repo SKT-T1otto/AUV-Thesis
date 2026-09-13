@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
 import torch
+from core.env.task_protocol import LEGACY, STRICT, validate_task_config
 
 from chapter3_bser.experiments.phase1c_common import Phase1CTransitionMetadata
 
@@ -174,6 +175,34 @@ class Phase1CExecutionRewardAdapter:
                 f"Phase 1C-v2 expects four rewards, got {base.numel()}"
             )
         adjusted = base.clone()
+        collision_terminal = (
+            getattr(runtime, "task_protocol", LEGACY) == STRICT
+            and runtime.episode_outcome.termination_reason == "obstacle_collision"
+        )
+        if collision_terminal:
+            validate_task_config({**vars(runtime), "reward": self.config.to_dict()})
+            adjusted.fill_(runtime.collision_terminal_reward)
+            metadata = Phase1CTransitionMetadata.build(
+                episode_id=int(episode_id or 0), episode_index=int(episode_index or 0),
+                step=int(getattr(task_after, "step", 0)),
+                task_found=bool(getattr(task_after, "target_found", False)),
+                executor_target_assigned=bool(getattr(task_after, "executor_knows_target", False)),
+                contact=False, full_hold=False, hold_counter=hold_counter_before,
+                mission_complete=False,
+            )
+            before = getattr(runtime, "reward_before_terminal_override", base)
+            return RewardAdjustmentResult(adjusted, {
+                "base_reward": float(base.sum()), "base_reward_by_agent": base.tolist(),
+                "raw_reward_components": {k: torch.as_tensor(v).tolist() for k, v in getattr(runtime, "last_reward_components", {}).items()},
+                "terminal_override": True,
+                "reward_before_terminal_override_by_agent": torch.as_tensor(before).tolist(),
+                "reward_after_terminal_override_by_agent": adjusted.tolist(),
+                "final_reward_by_agent": adjusted.tolist(),
+                "adjusted_reward": float(adjusted.sum()), "adjusted_reward_by_agent": adjusted.tolist(),
+                "contact_entry_bonus": 0.0, "hold_increment_bonus": 0.0,
+                "terminal_success_bonus": 0.0, "terminal_success_bonus_post_tanh": 0.0,
+                "execution_shaping_total": 0.0,
+            }, metadata)
         before_found = bool(getattr(task_before, "target_found", False))
         after_found = bool(getattr(task_after, "target_found", False))
         before_complete = bool(getattr(task_before, "mission_complete", False))
@@ -256,6 +285,10 @@ class Phase1CExecutionRewardAdapter:
             )
 
         breakdown = {
+            "terminal_override": False,
+            "reward_before_terminal_override_by_agent": adjusted.tolist(),
+            "reward_after_terminal_override_by_agent": adjusted.tolist(),
+            "final_reward_by_agent": adjusted.tolist(),
             "base_reward": float(base.sum().item()),
             "base_reward_by_agent": [float(item) for item in base.tolist()],
             "searcher_discovery_only_reward": float(discovery_restored),

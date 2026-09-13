@@ -11,6 +11,7 @@ LINUX_SCRIPTS = ROOT / "scripts" / "linux"
 class LinuxRuntimeAssetTests(unittest.TestCase):
     def test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints(self) -> None:
         expected = {
+            "run_collision_terminal.sh",
             "env_preflight.sh",
             "run_phase1c_prrac_eval.sh",
             "run_phase1c_prrac_execution_ablation.sh",
@@ -61,6 +62,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             )
             self.assertTrue(
                 'CONDA_BASE="$(conda info --base)"' in source
+                or 'CONDA_BASE="$("${COLLISION_CONDA_EXE}" info --base)"' in source
                 or '$(conda info --base)/etc/profile.d/conda.sh' in source,
                 path.name,
             )

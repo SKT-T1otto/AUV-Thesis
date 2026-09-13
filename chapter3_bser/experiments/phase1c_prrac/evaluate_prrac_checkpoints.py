@@ -15,6 +15,8 @@ import multiprocessing as mp
 import os
 from pathlib import Path
 import statistics
+import time
+import traceback
 from typing import Any, Iterable, Mapping
 
 import matplotlib
@@ -23,6 +25,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from core.env.task_protocol import PROTOCOL_FIELDS, LEGACY, STRICT, protocol_identity, validate_task_config, strict_terminal
 
 from chapter3_bser.controllers.state_provider import OnlinePlanningStateProvider
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.train_phase1c_v2 import _seed_all
@@ -185,6 +188,10 @@ OUTPUT_FILES = (
     "search_collision_recovery_activation_steps.csv",
     "search_collision_recovery_summary.json",
 )
+OPTIONAL_PROTOCOL_OUTPUT_FILES = (
+    "evaluation_failure.json", "incomplete_episode_evaluation.csv",
+    "collision_terminal_outcomes.png",
+)
 SEARCH_VALUE_GUIDANCE_OUTPUT = "search_value_guidance_metrics.json"
 
 
@@ -307,6 +314,10 @@ def _contains_tensor(payload: Any) -> bool:
 
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
+    validate_task_config(config)
+    if config.get("task_protocol") == STRICT:
+        config.update(protocol_identity(config))
+        config["collision_terminal_reward"] = float(config.get("collision_terminal_reward", -2.0))
     _controller_mode(config)
     expected = {
         "method": METHOD,
@@ -423,6 +434,11 @@ def _validate_checkpoint_payload(
     state = payload.get("prrac_training_state")
     if not isinstance(state, Mapping):
         raise ValueError("PRRAC checkpoint is missing prrac_training_state")
+    if state.get("schema") != PRRACMADDPG.SCHEMA:
+        raise ValueError("unsupported PRRAC algorithm state schema")
+    from chapter3_bser.models.search_value_head import resolve_search_value_config
+    if "search_value" in metadata and "search_value" in state and resolve_search_value_config(metadata["search_value"]) != resolve_search_value_config(state["search_value"]):
+        raise ValueError("PRRAC search-value checkpoint configuration mismatch")
     architecture = metadata.get("architecture")
     loss = metadata.get("loss")
     if not isinstance(architecture, Mapping) or not isinstance(loss, Mapping):
@@ -432,6 +448,12 @@ def _validate_checkpoint_payload(
     if dict(state.get("loss", {})) != dict(loss):
         raise ValueError("PRRAC checkpoint loss mismatch")
     if config is not None:
+        source, target = protocol_identity(metadata), validate_task_config(config)
+        if source != target and not (
+            config.get("allow_protocol_transfer", False)
+            and source["task_protocol"] == LEGACY and target["task_protocol"] == STRICT
+        ):
+            raise ValueError("checkpoint task protocol mismatch; explicit --allow-protocol-transfer required")
         expected_checkpoint_revision = str(
             config.get("checkpoint_runtime_revision", config["execution_runtime_revision"])
         )
@@ -457,8 +479,12 @@ def load_prrac_checkpoint(
     resolved_device = torch.device(device)
     if resolved_device.type == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("CUDA was explicitly requested but is unavailable")
+    from .checkpoint_transfer import checkpoint_path, source_training_config
+    checkpoint_path(path)
     payload = torch.load(Path(path), map_location="cpu", weights_only=True)
     payload = _validate_checkpoint_payload(payload, config)
+    if config is not None and protocol_identity(payload["metadata"]) != protocol_identity(config):
+        source_training_config(path, payload)
     metadata = dict(payload["metadata"])
     state = dict(payload["prrac_training_state"])
     guidance = resolve_search_value_guidance((config or {}).get("search_value_guidance"))
@@ -472,7 +498,14 @@ def load_prrac_checkpoint(
         gamma=float(state["gamma"]),
         tau=float(state["tau"]),
     )
-    learner.load_training_state_dict(state)
+    # Read-only evaluation imports actor parameters and optional auxiliary head.
+    # It does not restore the checkpoint's optimizer or replay state.
+    if len(state["agents"]) != 4:
+        raise ValueError("evaluation requires four actors")
+    for agent, stored in zip(learner.agents, state["agents"]):
+        agent.actor.load_state_dict(stored["actor"], strict=True)
+    if learner.search_value_head is not None and state.get("search_value_head") is not None:
+        learner.search_value_head.load_state_dict(state["search_value_head"], strict=True)
     learner.prep_rollouts(resolved_device)
     return learner, payload
 
@@ -622,7 +655,9 @@ def _load_scenario_id_file(path: Path) -> list[str]:
 
 
 def _make_env(config: Mapping[str, Any], reward: Mapping[str, Any]) -> PRRACTrainingEnv:
+    validate_task_config({**config, "reward": reward})
     env_config = build_ch3_config(str(config["base_candidate"]), str(config["profile"]))
+    env_config.update({key: config[key] for key in (*PROTOCOL_FIELDS, "collision_terminal_reward") if key in config})
     base = MissionCoreEnv(
         **environment_kwargs_from_config(
             env_config,
@@ -914,12 +949,18 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
 
     if _contains_tensor(job):
         raise TypeError("PRRAC evaluation worker input must not contain torch.Tensor")
+    episode_started = time.perf_counter()
     torch.set_num_threads(1)
     scenario = copy.deepcopy(dict(job["scenario"]))
     _seed_all(int(scenario["scenario_seed"]))
     config = copy.deepcopy(dict(job["config"]))
     info = dict(job["checkpoint_info"])
     info["controller_mode"] = _controller_mode(config)
+    if "task_protocol" in config:
+        info.update(protocol_identity(config))
+        info["evaluation_task_protocol"] = info["task_protocol"]
+        info.setdefault("checkpoint_task_protocol", LEGACY)
+        info["protocol_transfer_evaluation"] = info["checkpoint_task_protocol"] != info["task_protocol"]
     mode = str(info["evaluation_mode"])
     execution_variant = parse_execution_variant(
         info.get("execution_variant", ExecutionVariant.B0_LEGACY_V2_1.value)
@@ -1090,6 +1131,22 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 or torch.as_tensor(env.unwrapped._collision_flags).any().item()
             )
 
+            if strict_terminal(env):
+                # The returned observation is the terminal state; no next decision.
+                observations = step_observations
+                from .task_metrics import terminal_planning_snapshot
+                state = terminal_planning_snapshot(env, state_before)
+                search_diagnostics.observe_transition(
+                    stage_before=metadata.stage_before, stage_after=metadata.stage_after,
+                    installed_guidance=transition_guidance, planning_state_before=state_before,
+                    planning_state_after=state, collision_flags=env.unwrapped.collision_flags,
+                    raw_actions=residual_actions, applied_actions=actions, actor_outputs=outputs,
+                    residual_contribution_ratios=env.unwrapped.last_residual_contribution_ratio_search)
+                recorder.record({**env.unwrapped.get_episode_result(),
+                    "step": episode_length, "scenario_id": scenario["scenario_id"],
+                    "controller_mode": info["controller_mode"],
+                    "final_reward_by_agent": torch.as_tensor(rewards).tolist()})
+                break
             state = provider.snapshot(force=False)
             if recovery_controller is not None:
                 recovery_controller.observe_transition(
@@ -1279,6 +1336,9 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 ),
             }
         )
+        if env.unwrapped.task_protocol == STRICT:
+            row.update(env.unwrapped.get_episode_result())
+            row["wall_seconds"] = time.perf_counter() - episode_started
         row["failure_stage"] = failure_stage(row)
         traces, trace_index = recorder.finish_episode(
             found=bool(row["found"]),
@@ -1376,6 +1436,9 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
 
 def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
     return {
+        **protocol_identity(info),
+        "checkpoint_task_protocol": info.get("checkpoint_task_protocol", LEGACY),
+        **({"checkpoint_sha256": info["checkpoint_sha256"]} if "checkpoint_sha256" in info else {}),
         "controller_mode": row_controller_mode(info),
         "checkpoint": str(Path(info["checkpoint"]).resolve()),
         "checkpoint_config_hash": str(info["checkpoint_config_hash"]),
@@ -1432,7 +1495,7 @@ def _failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             [],
         ).append(row)
     output = []
-    stages = ("NOT_FOUND", "FOUND_NO_CONTACT", "CONTACT_NO_HOLD", "HOLD_NO_SUCCESS", "SUCCESS")
+    stages = ("NOT_FOUND", "FOUND_NO_CONTACT", "CONTACT_NO_HOLD", "HOLD_NO_SUCCESS", "SUCCESS", "OBSTACLE_COLLISION", "TIMEOUT", "INCOMPLETE")
     for (checkpoint, mode, variant), values in sorted(grouped.items()):
         result = {
             "controller_mode": controller_mode,
@@ -1658,6 +1721,15 @@ def _evaluation_summary(
     controller_mode = require_single_controller(summary_rows)
     return {
         "schema": SUMMARY_SCHEMA,
+        "outcome_summaries": [{key: row.get(key) for key in (
+            "checkpoint", "evaluation_mode", "execution_variant", "task_protocol",
+            "checkpoint_task_protocol", "evaluation_task_protocol", "protocol_transfer_evaluation",
+            "safe_success_rate", "collision_failure_rate", "timeout_failure_rate", "found_rate",
+            "success_if_found_numerator", "success_if_found_denominator", "success_if_found_rate",
+            "n_valid_episodes", "n_missing_or_abnormal_episodes", "evaluation_complete",
+            "actual_environment_steps", "actual_training_updates", "wall_seconds",
+            "first_collision_by_agent", "first_collision_by_role", "first_collision_by_phase")}
+            for row in summary_rows if row.get("task_protocol") == STRICT],
         "controller_mode": controller_mode,
         **provenance,
         "method": METHOD,
@@ -1713,6 +1785,10 @@ def _write_outputs(
     # One evaluator run owns one controller. Reject mixed cached/imported rows
     # before any writer or legacy within-controller comparison sees them.
     controller_mode = require_single_controller([*episode_rows, *summary_rows])
+    identities = {tuple(protocol_identity(row).values()) for row in episode_rows}
+    if len(identities) > 1:
+        raise ValueError("report cannot mix task protocols or detection revisions")
+    task_identity = protocol_identity(episode_rows[0] if episode_rows else {})
     for group in (trace_rows, trace_index, recovery_planning_failures or (), recovery_activation_steps or ()):
         if any(row_controller_mode(row) != controller_mode for row in group):
             raise ValueError("diagnostic controller_mode mismatch")
@@ -1724,7 +1800,7 @@ def _write_outputs(
     def write_csv(path, rows):
         if any("controller_mode" in row and row_controller_mode(row) != controller_mode for row in rows):
             raise ValueError("CSV controller_mode mismatch")
-        _write_csv(path, [{**row, "controller_mode": controller_mode} for row in rows])
+        _write_csv(path, [{**task_identity, **row, "controller_mode": controller_mode} for row in rows])
 
     write_csv(output / "episode_evaluation.csv", episode_rows)
     if any("search_value_guidance" in row for row in episode_rows):
@@ -1980,6 +2056,20 @@ def _write_outputs(
         ),
     )
     _plot(summary_rows, output)
+    if task_identity["task_protocol"] == STRICT:
+        figure, axis = plt.subplots(figsize=(9, 4))
+        x = np.arange(len(summary_rows))
+        bottom = np.zeros(len(summary_rows))
+        for field, label in (("safe_success_rate", "Safe success"), ("collision_failure_rate", "Obstacle collision"), ("timeout_failure_rate", "Task timeout")):
+            values = np.asarray([np.nan if r.get(field) is None else r[field] for r in summary_rows])
+            axis.bar(x, values, bottom=bottom, label=label)
+            bottom += values
+        axis.set_xticks(x, [str(r.get("checkpoint_episode", "")) for r in summary_rows])
+        axis.set(xlabel="Checkpoint episode", ylabel="Completed mission outcome rate", ylim=(0, 1))
+        axis.legend()
+        figure.tight_layout()
+        figure.savefig(output / "collision_terminal_outcomes.png", dpi=150)
+        plt.close(figure)
     _plot_execution_variants(execution_summary_rows, output)
     _plot_search_recovery(recovery_episode_rows, recovery_summary_rows, strata_rows, output)
 
@@ -1996,6 +2086,7 @@ def run_evaluation(
     workers_override: int | None = None,
     device_override: str | None = None,
     controller_override: str | None = None,
+    allow_protocol_transfer: bool = False,
     modes_override: Iterable[str] | None = None,
     execution_variants_override: Iterable[str] | None = None,
     search_recovery_variants_override: Iterable[str] | None = None,
@@ -2008,6 +2099,8 @@ def run_evaluation(
     assert_registered_ch3_method(METHOD)
     requested_checkpoints = tuple(checkpoints or ())
     config = copy.deepcopy(_load_config(config_path))
+    if allow_protocol_transfer:
+        config["allow_protocol_transfer"] = True
     if controller_override is not None:
         config["controller"] = controller_override
     controller_mode = _controller_mode(config)
@@ -2119,9 +2212,11 @@ def run_evaluation(
         raise ValueError("PRRAC CUDA evaluation requires workers=1")
     config["workers"] = workers
     output = Path(output_dir) if output_dir is not None else Path(config["output_dir"])
+    from core.env.task_protocol import require_protocol_output
+    require_protocol_output(config, output)
     if not output.is_absolute():
         output = ROOT / output
-    existing = [output / name for name in (*OUTPUT_FILES, SEARCH_VALUE_GUIDANCE_OUTPUT) if (output / name).exists()]
+    existing = [output / name for name in (*OUTPUT_FILES, *OPTIONAL_PROTOCOL_OUTPUT_FILES, SEARCH_VALUE_GUIDANCE_OUTPUT) if (output / name).exists()]
     if "early_discovery" in config or "executor_standby" in config:
         from chapter3_bser.experiments.phase1c_prrac.beds import beds_requested, DIAGNOSTIC_FILES
         if beds_requested(config):
@@ -2274,7 +2369,7 @@ def run_evaluation(
     # Normalize only the legacy missing field in memory; never rewrite evidence
     # to pretend an old unlabelled prior_only cache had a controller identity.
     completed = {
-        _canonical_json({**value, "controller_mode": row_controller_mode(value)})
+        _canonical_json({**protocol_identity(value), "checkpoint_task_protocol": value.get("checkpoint_task_protocol", LEGACY), **value, "controller_mode": row_controller_mode(value)})
         for value in progress.get("completed", ())
     }
     checkpoint_metadata = []
@@ -2325,6 +2420,13 @@ def run_evaluation(
                         search_recovery_schema=search_recovery_schema,
                     )
                     info["controller_mode"] = controller_mode
+                    info.update(protocol_identity(config))
+                    info["checkpoint_task_protocol"] = protocol_identity(metadata)["task_protocol"]
+                    info["evaluation_task_protocol"] = info["task_protocol"]
+                    info["protocol_transfer_evaluation"] = info["checkpoint_task_protocol"] != info["task_protocol"]
+                    if config.get("task_protocol") == STRICT:
+                        from .checkpoint_transfer import file_sha256
+                        info["checkpoint_sha256"] = file_sha256(checkpoint)
                     if bool(config.get("diagnostic_only", False)):
                         info["diagnostic_only"] = True
                     combo = _combo_key(info, manifest_hash)
@@ -2346,7 +2448,7 @@ def run_evaluation(
                             "loss": metadata["loss"],
                             "gamma": state["gamma"],
                             "tau": state["tau"],
-                            "reward": metadata["reward"],
+                            "reward": config.get("reward", metadata["reward"]),
                             "policy_snapshot": snapshot,
                             "search_value_snapshot": (
                                 learner.search_value_snapshot()
@@ -2362,9 +2464,29 @@ def run_evaluation(
                     ]
                     if any(_contains_tensor(job) for job in jobs):
                         raise RuntimeError("PRRAC evaluation worker job contains torch.Tensor")
-                    with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
-                        results = list(executor.map(_evaluate_episode_job, jobs))
+                    combo_started = time.perf_counter()
+                    try:
+                        with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
+                            results = list(executor.map(_evaluate_episode_job, jobs))
+                    except Exception as exc:
+                        _write_json(output / "evaluation_failure.json", {
+                            **combo, "evaluation_complete": False,
+                            "expected_episodes_in_failed_combination": len(jobs),
+                            "completed_prior_combination_episodes": len(episode_rows),
+                            "missing_or_abnormal_episodes_in_failed_combination": len(jobs),
+                            "exception_type": type(exc).__name__, "exception": str(exc),
+                            "traceback": traceback.format_exc(),
+                        })
+                        raise
                     rows = [dict(result["episode"]) for result in results]
+                    if config.get("task_protocol") == STRICT:
+                        from .task_metrics import aggregate_task_outcomes
+                        outcome_counts = aggregate_task_outcomes(rows, len(scenarios))
+                        if not outcome_counts["evaluation_complete"]:
+                            _write_csv(output / "incomplete_episode_evaluation.csv", rows)
+                            _write_json(output / "evaluation_failure.json", {**combo, **outcome_counts,
+                                "reason": "incomplete_or_abnormal_worker_outcomes"})
+                            raise RuntimeError("strict evaluation has incomplete worker outcomes; combination is not complete")
                     if beds_rows is not None:
                         for result in results:
                             for name, values in result["beds_diagnostics"].items():
@@ -2380,7 +2502,8 @@ def run_evaluation(
                         )
                     recovery_activation_steps = _dedupe_activation_rows(recovery_activation_steps)
                     episode_rows.extend(rows)
-                    summary_rows.append(aggregate_checkpoint(rows, info))
+                    summary_rows.append({**aggregate_checkpoint(rows, {**info, "expected_episodes": len(scenarios)}),
+                                         "wall_seconds": time.perf_counter() - combo_started})
                     accepted_trace_count = 0
                     trace_limit = int(config["failure_trace"]["max_traces_per_checkpoint_mode"])
                     for result in results:
@@ -2445,6 +2568,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workers", type=int)
     parser.add_argument("--device")
     parser.add_argument("--controller", choices=CONTROLLER_MODES)
+    parser.add_argument("--allow-protocol-transfer", action="store_true")
     parser.add_argument("--modes", nargs="+")
     parser.add_argument(
         "--execution-variants",
@@ -2473,6 +2597,7 @@ def main(argv: list[str] | None = None) -> int:
         workers_override=args.workers,
         device_override=args.device,
         controller_override=args.controller,
+        allow_protocol_transfer=args.allow_protocol_transfer,
         modes_override=args.modes,
         execution_variants_override=args.execution_variants,
         search_recovery_variants_override=args.search_recovery_variants,

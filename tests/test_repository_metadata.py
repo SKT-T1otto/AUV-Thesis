@@ -29,6 +29,11 @@ ROOT = Path(__file__).resolve().parents[1]
 # legacy Chapter-3 active method tuple was not changed when the independent
 # Phase 1C method was registered.
 PERMITTED_POST_BASELINE_EVOLUTIONS = {
+    "core/env/uav_env.py": {
+        "phase0b2_sha256": "ef964149b6af3a164cd35ce3ff81636e140fd88180750b12ecac6f30e2b9f698",
+        "current_sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+        "reason": "User-authorized collision_terminal_v1 opt-in branch; legacy behavior preserved",
+    },
     "core/registry/experiment_registry.py": {
         "phase0b2_sha256": (
             "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61"
@@ -49,7 +54,36 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+# The 2026-09-12 request authorizes this evolution of one of the 27 records.
+# The separate record pins historical AND current bytes; no general exemptions.
+_collision_evolution = json.loads((ROOT / "docs/provenance/collision_terminal_evolution.json").read_text(encoding="utf-8"))
+assert [r["path"] for r in _collision_evolution["records"]] == ["core/env/uav_env.py"]
+for _record in _collision_evolution["records"]:
+    for _key in ("phase0b2_sha256", "current_sha256"):
+        assert _record[_key] == PERMITTED_POST_BASELINE_EVOLUTIONS[_record["path"]][_key]
+
+
 class RepositoryMetadataTests(unittest.TestCase):
+    def test_collision_public_facade_evolution_is_exact(self):
+        from tests.test_phase1a_core_freeze import PERMITTED_EVOLUTION
+        records = _collision_evolution["public_facade_records"]
+        self.assertEqual([r["path"] for r in records], ["core/env/mission_env.py"])
+        for record in records:
+            expected = PERMITTED_EVOLUTION[record["path"]]
+            self.assertEqual(record["historical_phase1a_sha256"], expected["historical_sha256"])
+            self.assertEqual(record["current_sha256"], expected["current_sha256"])
+            self.assertEqual(record["current_ast_dump_sha256"], expected["current_ast_dump_sha256"])
+            self.assertEqual(_sha256(ROOT / record["path"]), record["current_sha256"])
+        from tests.test_prrac_isolation import REVIEWED_COLLISION_EVOLUTIONS
+        wrappers = _collision_evolution["wrapper_records"]
+        self.assertEqual([r["path"] for r in wrappers],
+            ["chapter3_bser/experiments/phase1c_bser_rmaddpg_v2/training_env.py"])
+        for record in wrappers:
+            expected = REVIEWED_COLLISION_EVOLUTIONS[record["path"]]
+            self.assertEqual(record["historical_prrac_sha256"], expected["historical_sha256"])
+            self.assertEqual(record["current_sha256"], expected["current_sha256"])
+            self.assertEqual(_sha256(ROOT / record["path"]), record["current_sha256"])
+
     def test_metadata_matches_chapter3_phase1c_wip(self):
         attributes = ROOT / ".gitattributes"
         ignore = ROOT / ".gitignore"

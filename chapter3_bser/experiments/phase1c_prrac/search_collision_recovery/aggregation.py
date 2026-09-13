@@ -213,6 +213,10 @@ def search_collision_recovery_failure_funnel(rows: list[dict[str, Any]]) -> list
     output=[]
     for key, values in sorted(groups.items(),key=lambda item:str(item[0])):
         categories={"FOUND":lambda r:bool(r.get("found")),"NOT_FOUND_WITH_PREFIND_COLLISION":lambda r:not bool(r.get("found")) and bool(r.get("searcher_collision_episode_pre_found")),"NOT_FOUND_WITHOUT_PREFIND_COLLISION":lambda r:not bool(r.get("found")) and not bool(r.get("searcher_collision_episode_pre_found")),"RECOVERY_TRIGGERED_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)>0 and bool(r.get("found")),"RECOVERY_TRIGGERED_NOT_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)>0 and not bool(r.get("found")),"RECOVERY_NOT_TRIGGERED_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)==0 and bool(r.get("found")),"RECOVERY_NOT_TRIGGERED_NOT_FOUND":lambda r:int(r.get("search_recovery_entry_count") or 0)==0 and not bool(r.get("found"))}
+        if values and values[0].get("task_protocol") == "collision_terminal_v1":
+            categories = {name: (lambda r, reason=reason: r.get("termination_reason") == reason)
+                          for name, reason in (("SUCCESS", "success"), ("OBSTACLE_COLLISION", "obstacle_collision"),
+                                               ("TIMEOUT", "timeout"), ("INCOMPLETE", "running"))}
         for name,predicate in categories.items():
             count=sum(predicate(row) for row in values); item=dict(zip(group_keys,key)); item.update({"category":name,"count":count,"rate":_rate(count,len(values))}); output.append(item)
     return output

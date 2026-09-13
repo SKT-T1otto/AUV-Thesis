@@ -1,0 +1,17 @@
+test_frozen_files_hashes_and_import_direction (tests.test_prrac_isolation.PRRACIsolationTests) ... ok
+test_legacy_configs_and_dimensions_remain_isolated (tests.test_prrac_isolation.PRRACIsolationTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_all_27_authority_records_map_to_current_core_files (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok
+test_reviewed_registry_evolution_preserves_historical_active_modes (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok
+test_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest) ... ok
+test_original_40_core_python_files_match (tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest) ... ok
+test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.491s
+
+OK

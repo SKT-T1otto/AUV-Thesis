@@ -53,6 +53,9 @@ class PRRACTrainingEnv:
             base=base,
             stage_before=stage_before,
             stage_after=stage_after,
+            task_protocol=getattr(self.unwrapped, "task_protocol", "legacy_nonterminal_v1"),
+            termination_reason=getattr(getattr(self.unwrapped, "episode_outcome", None), "termination_reason", "running"),
+            terminated=getattr(getattr(self.unwrapped, "episode_outcome", None), "episode_terminated", False),
         )
         self._previous_phase = current_phase
         return result

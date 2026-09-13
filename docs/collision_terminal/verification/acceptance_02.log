@@ -1,0 +1,726 @@
+test_adapter_disabled_still_overrides (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_collision_beats_deadline (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_deadline_success_and_timeout (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... test_frozen_agent_has_no_phantom_collision (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_invalid_reset_has_explicit_diagnostic (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ok
+test_segment_tunnelling_and_legacy_endpoint_behavior (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_simultaneous_agents_one_team_failure_and_no_success_event (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_target_contact_and_separation_are_not_obstacle_collision (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ERROR
+test_terminal_reward_configuration_is_validated (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) ... ok
+test_closed_geometry_cases (tests.test_collision_terminal_protocol.CollisionGeometryTests) ... ok
+test_invalid_geometry_rejected (tests.test_collision_terminal_protocol.CollisionGeometryTests) ... ok
+test_100_pair_plan_only_and_protocol_provenance (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_cache_and_metric_missingness (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_collector_preserves_terminal_transition_and_does_not_replan (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_critic_terminal_nan_next_state_never_evaluated (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_critic_warmup_freezes_actors_and_updates_critics (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_strict_evaluator_terminal_never_calls_actor_for_prior_only (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_transfer_actor_only_and_resume_rejected (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+
+======================================================================
+ERROR: test_adapter_disabled_still_overrides (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 123, in test_adapter_disabled_still_overrides
+    env=collision_env(3,"Hold",False)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_collision_beats_deadline (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 135, in test_collision_beats_deadline
+    env=collision_env(3)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_deadline_success_and_timeout (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 183, in test_deadline_success_and_timeout
+    env=collision_env(3)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=0, phase='Search')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=0, phase='Intercept')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=0, phase='Hold')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=1, phase='Search')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=1, phase='Intercept')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=1, phase='Hold')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=2, phase='Search')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=2, phase='Intercept')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=2, phase='Hold')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=3, phase='Search')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=3, phase='Intercept')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_every_agent_and_phase_ends_team_with_final_reward (tests.test_collision_terminal_protocol.CollisionEnvironmentTests) (agent=3, phase='Hold')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 91, in test_every_agent_and_phase_ends_team_with_final_reward
+    env = collision_env(agent, phase)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_frozen_agent_has_no_phantom_collision (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 127, in test_frozen_agent_has_no_phantom_collision
+    env=collision_env(0)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_segment_tunnelling_and_legacy_endpoint_behavior (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 112, in test_segment_tunnelling_and_legacy_endpoint_behavior
+    env=collision_env(protocol=protocol)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_simultaneous_agents_one_team_failure_and_no_success_event (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 141, in test_simultaneous_agents_one_team_failure_and_no_success_event
+    env=collision_env(0)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+ERROR: test_target_contact_and_separation_are_not_obstacle_collision (tests.test_collision_terminal_protocol.CollisionEnvironmentTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 151, in test_target_contact_and_separation_are_not_obstacle_collision
+    env=collision_env(3)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_collision_terminal_protocol.py", line 38, in collision_env
+    env = copy.deepcopy(_ENV_TEMPLATES[key])
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 271, in _reconstruct
+    state = deepcopy(state, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 146, in deepcopy
+    y = copier(x, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 231, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 172, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "D:\anaconda\anaconda\envs\AUV\lib\copy.py", line 272, in _reconstruct
+    if hasattr(y, '__setstate__'):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py", line 247, in __getattr__
+    return getattr(self.env, name)
+  [Previous line repeated 963 more times]
+RecursionError: maximum recursion depth exceeded
+
+----------------------------------------------------------------------
+Ran 19 tests in 232.267s
+
+FAILED (errors=19)

@@ -1,0 +1,6 @@
+test_existing_strict_failure_and_plot_artifacts_are_protected (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.102s
+
+OK

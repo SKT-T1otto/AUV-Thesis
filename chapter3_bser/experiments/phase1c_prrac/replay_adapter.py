@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from typing import Any, Mapping
 
 import torch
+from core.env.task_protocol import LEGACY, STRICT, protocol_identity
 
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.phase_aware_replay import (
     PhaseAwareReplayBuffer,
@@ -64,7 +65,9 @@ class PRRACReplayAdapter:
         generator_seed: int = 2729,
         base_replay: PhaseAwareReplayBuffer | None = None,
         search_value_config: Mapping[str, Any] | None = None,
+        task_config: Mapping[str, Any] | None = None,
     ) -> None:
+        self.task_identity = protocol_identity(task_config)
         self.search_value_config = resolve_search_value_config(search_value_config)
         self.search_value_enabled = bool(self.search_value_config["enabled"])
         self.base = base_replay or PhaseAwareReplayBuffer(
@@ -123,6 +126,13 @@ class PRRACReplayAdapter:
     ) -> int:
         if not isinstance(metadata, PRRACTransitionMetadata):
             raise TypeError("PRRAC replay requires PRRACTransitionMetadata")
+        if metadata.task_protocol != self.task_identity["task_protocol"]:
+            raise ValueError("replay task protocol mismatch")
+        if metadata.task_protocol == STRICT:
+            if metadata.terminated and not all(bool(v) for v in dones):
+                raise ValueError("team terminal transition requires four done masks")
+            if metadata.termination_reason == "obstacle_collision" and (any(bool(v) for v in success_flags) or metadata.base.mission_complete):
+                raise ValueError("collision cannot enter success replay")
         index = self.base.push(
             obs,
             actions,
@@ -217,6 +227,7 @@ class PRRACReplayAdapter:
 
     def state_dict(self) -> dict[str, Any]:
         state = {
+            **self.task_identity,
             "schema": REPLAY_SCHEMA,
             "base_replay": self.base.state_dict(),
             "stage_before": self.stage_before.detach().cpu().clone(),
@@ -232,6 +243,8 @@ class PRRACReplayAdapter:
         return state
 
     def load_state_dict(self, state: Mapping[str, Any]) -> None:
+        if protocol_identity(state) != self.task_identity:
+            raise ValueError("replay state task protocol mismatch")
         if state.get("schema") != REPLAY_SCHEMA:
             raise ValueError("unsupported PRRAC replay schema")
         self.base.load_state_dict(state["base_replay"])

@@ -1,0 +1,48 @@
+test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+test_overlay_manifest_contains_no_frozen_or_core_files (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ERROR
+test_v2_source_does_not_import_v1_trainer_or_mutate_python_path (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+test_v2_uses_independent_schema_config_scripts_and_output (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+test_all_v1_files_match_before_manifest (tests.test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest) ... fatal: path 'experiments/chapter3/bser_e1_offline/aggregate_by_profile.csv' does not exist in 'HEAD'
+ERROR
+test_full_e0_passed (tests.test_ch3_e0_equivalence.E0DeliveryTests) ... ERROR
+
+======================================================================
+ERROR: test_overlay_manifest_contains_no_frozen_or_core_files (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_phase1c_v2_isolation.py", line 53, in test_overlay_manifest_contains_no_frozen_or_core_files
+    (ROOT / "docs2/phase1c_v2_design/overlay_manifest.json").read_text(
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs2\\phase1c_v2_design\\overlay_manifest.json'
+
+======================================================================
+ERROR: test_all_v1_files_match_before_manifest (tests.test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_bser_v1_artifacts_frozen.py", line 9, in test_all_v1_files_match_before_manifest
+    blob=subprocess.check_output(["git","cat-file","blob",f"HEAD:{record['path']}"],cwd=root)
+  File "D:\anaconda\anaconda\envs\AUV\lib\subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "D:\anaconda\anaconda\envs\AUV\lib\subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'cat-file', 'blob', 'HEAD:experiments/chapter3/bser_e1_offline/aggregate_by_profile.csv']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_full_e0_passed (tests.test_ch3_e0_equivalence.E0DeliveryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_e0_equivalence.py", line 13, in test_full_e0_passed
+    summary = json.loads((OUTPUT / "equivalence_summary.json").read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_equivalence\\equivalence_summary.json'
+
+----------------------------------------------------------------------
+Ran 6 tests in 34.656s
+
+FAILED (errors=3)

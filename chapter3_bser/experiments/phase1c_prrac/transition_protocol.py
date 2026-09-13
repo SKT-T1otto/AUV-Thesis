@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any, Mapping
+from core.env.task_protocol import LEGACY, protocol_identity
 
 from chapter3_bser.experiments.phase1c_common import Phase1CTransitionMetadata
 from chapter3_bser.models.prrac.stage_mapping import (
@@ -17,6 +18,10 @@ class PRRACTransitionMetadata:
     base: Phase1CTransitionMetadata
     stage_before: PRRACStage
     stage_after: PRRACStage
+    task_protocol: str = LEGACY
+    termination_reason: str = "running"
+    terminated: bool = False
+    truncated: bool = False
 
     def __post_init__(self) -> None:
         if not isinstance(self.base, Phase1CTransitionMetadata):
@@ -32,6 +37,9 @@ class PRRACTransitionMetadata:
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            **protocol_identity({"task_protocol": self.task_protocol}),
+            "termination_reason": self.termination_reason,
+            "terminated": self.terminated, "truncated": self.truncated,
             "base": self.base.to_dict(),
             "stage_before": int(self.stage_before),
             "stage_before_name": self.stage_before.name,
@@ -45,6 +53,10 @@ class PRRACTransitionMetadata:
             base=Phase1CTransitionMetadata.from_dict(value["base"]),
             stage_before=PRRACStage(int(value["stage_before"])),
             stage_after=PRRACStage(int(value["stage_after"])),
+            task_protocol=protocol_identity(value)["task_protocol"],
+            termination_reason=str(value.get("termination_reason", "running")),
+            terminated=bool(value.get("terminated", False)),
+            truncated=bool(value.get("truncated", False)),
         )
 
 

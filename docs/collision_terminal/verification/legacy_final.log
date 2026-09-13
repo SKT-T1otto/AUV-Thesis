@@ -1,0 +1,13 @@
+usage: python.exe -m unittest run [-h] --checkpoint CHECKPOINT
+                                  [--config CONFIG] --episodes EPISODES
+                                  [--allow-protocol-transfer]
+                                  [--workers WORKERS] [--device DEVICE]
+                                  [--output-root OUTPUT_ROOT] [--prepare-only]
+python.exe -m unittest run: error: the following arguments are required: --checkpoint
+Pair directory: C:\Users\lenovo\AppData\Local\Temp\tmpz0m5d2k6\20260912_215130_818022_42855638
+Pair directory: C:\Users\lenovo\AppData\Local\Temp\tmp6lus638x\20260912_215130_964750_41991d13
+----------------------------------------------------------------------
+Ran 23 tests in 319.306s
+
+OK
+Prepared only; no checkpoint loaded and no episode started.

@@ -90,6 +90,7 @@ class FailureTraceRecorder:
             )
         else:
             selected = bool(not success and (found or not self.only_found_failures))
+        selected = selected or any(row.get("termination_reason") == "obstacle_collision" and row.get("task_protocol") == "collision_terminal_v1" for row in self._episode_rows)
         accepted = bool(self.enabled and self.accepted_trace_count < int(self.max_traces) and selected)
         if not accepted:
             self._episode_rows = []

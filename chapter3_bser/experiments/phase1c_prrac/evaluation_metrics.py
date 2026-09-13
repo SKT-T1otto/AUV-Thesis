@@ -108,6 +108,8 @@ def router_class_metrics(matrix: Iterable[Iterable[int]]) -> dict[str, Any]:
 
 
 def failure_stage(row: Mapping[str, Any]) -> str:
+    if row.get("task_protocol") == "collision_terminal_v1":
+        return {"obstacle_collision": "OBSTACLE_COLLISION", "timeout": "TIMEOUT", "running": "INCOMPLETE"}.get(row.get("termination_reason"), "SUCCESS")
     if bool(row.get("success")):
         return "SUCCESS"
     if not bool(row.get("found")):
@@ -244,6 +246,9 @@ def aggregate_checkpoint(
         "alignment_negative_rate",
     ):
         result[key] = _mean(rows, key)
+    if any(row.get("task_protocol") == "collision_terminal_v1" for row in rows):
+        from .task_metrics import aggregate_task_outcomes
+        result.update(aggregate_task_outcomes(rows, checkpoint_info.get("expected_episodes", len(rows))))
     return result
 
 
@@ -269,6 +274,16 @@ def paired_checkpoint_comparison(
     evaluation_mode: str,
 ) -> dict[str, Any]:
     base = {str(row["scenario_id"]): row for row in base_rows}
+    from core.env.task_protocol import protocol_identity
+    identities = {tuple(protocol_identity(r).values()) for r in (*base_rows, *candidate_rows)}
+    if len(identities) > 1:
+        raise ValueError("paired comparison task protocol mismatch")
+    if base_rows and base_rows[0].get("task_protocol") == "collision_terminal_v1":
+        from .task_metrics import aggregate_task_outcomes
+        if not all(aggregate_task_outcomes(values)["evaluation_complete"] for values in (base_rows, candidate_rows)):
+            raise ValueError("paired strict outcomes must be complete; missing outcomes are not failures")
+        if any(len({r["scenario_id"] for r in values}) != len(values) for values in (base_rows, candidate_rows)):
+            raise ValueError("paired strict outcomes contain duplicate scenarios")
     candidate = {str(row["scenario_id"]): row for row in candidate_rows}
     if set(base) != set(candidate):
         raise ValueError("paired checkpoint comparison requires identical scenario_id sets")
@@ -310,7 +325,7 @@ def paired_checkpoint_comparison(
 
 def recommend_checkpoint(summary_rows: list[dict[str, Any]]) -> dict[str, Any]:
     eligible = [
-        row for row in summary_rows if row.get("evaluation_mode") == "full_prrac"
+        row for row in summary_rows if row.get("evaluation_mode") == "full_prrac" and row.get("evaluation_complete", True)
     ]
     if not eligible:
         return {

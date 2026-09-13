@@ -1,0 +1,15 @@
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":2}
+{"completed":0,"current_branch":"A","current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":2}
+{"completed":1,"current_branch":"A","current_scenario":null,"elapsed_seconds":84.7809999999954,"error":null,"estimated_remaining_seconds":84.7809999999954,"percent":50.0,"stage":"replaying","status":"running","total":2}
+{"completed":2,"current_branch":"B","current_scenario":null,"elapsed_seconds":172.95300000000134,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":2}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":2}
+{"completed":0,"current_branch":"A","current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":2}
+{"completed":1,"current_branch":"B","current_scenario":null,"elapsed_seconds":103.0309999999954,"error":null,"estimated_remaining_seconds":103.0309999999954,"percent":50.0,"stage":"replaying","status":"running","total":2}
+{"completed":2,"current_branch":"A","current_scenario":null,"elapsed_seconds":103.17199999999866,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":2}
+test_native_ON_no_op_and_spawn_branches_are_identical (tests.test_search_value_audit_runtime.AuditRuntimeTests) ... ok
+test_synthetic_shadow_closed_loop_is_no_op (tests.test_search_value_audit_runtime.AuditRuntimeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 775.666s
+
+OK

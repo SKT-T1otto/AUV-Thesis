@@ -1,0 +1,11 @@
+{
+  "status": "blocked_missing_historical_input",
+  "missing_input": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_core_migration\\golden_trace_manifest.json",
+  "trajectories": 0,
+  "passed_trajectories": 0,
+  "passed": false,
+  "context": "latest_recorded_local_verification_not_CI",
+  "suite": "golden",
+  "recorded_utc": "2026-09-12T13:54:12.362716+00:00",
+  "wall_seconds": 0.004754800000227988
+}

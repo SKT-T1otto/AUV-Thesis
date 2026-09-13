@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Iterable, Mapping
+from core.env.task_protocol import PROTOCOL_FIELDS, LEGACY, protocol_identity
 
 
 EVALUATION_REPORT_SCHEMA = "bser.phase1c.prrac.evaluation_report.v2"
@@ -13,6 +14,8 @@ SEARCH_SUMMARY_SCHEMA = "bser.phase1c.prrac.search_summary.v2"
 PROGRESS_SCHEMA = "bser.phase1c.prrac.evaluation_progress.v2"
 
 PROVENANCE_FIELDS = (
+    *PROTOCOL_FIELDS, "checkpoint_task_protocol", "evaluation_task_protocol",
+    "checkpoint_sha256",
     "controller_mode",
     "checkpoint",
     "checkpoint_episode",
@@ -54,6 +57,10 @@ def validate_controller_artifacts(config, progress, *row_groups) -> None:
 
 
 def _field(row: Mapping[str, Any], name: str) -> Any:
+    if name in PROTOCOL_FIELDS:
+        return protocol_identity(row)[name]
+    if name in ("checkpoint_task_protocol", "evaluation_task_protocol"):
+        return row.get(name, LEGACY)
     return row_controller_mode(row) if name == "controller_mode" else row.get(name)
 
 
@@ -162,6 +169,8 @@ def validate_evaluation_provenance(
         ),
     }
     combo_fields = (
+        *PROTOCOL_FIELDS, "checkpoint_task_protocol",
+        "checkpoint_sha256",
         "controller_mode",
         "checkpoint", "checkpoint_config_hash", "checkpoint_episode",
         "checkpoint_runtime_revision", "evaluation_runtime_revision",
@@ -204,6 +213,13 @@ def validate_evaluation_provenance(
             raise ValueError(f"episode row {index} has unregistered checkpoint")
         metadata_item = metadata_by_path[checkpoint]
         metadata = dict(metadata_item.get("metadata", {}))
+        if row.get("task_protocol") == "collision_terminal_v1":
+            from .checkpoint_transfer import file_sha256
+            _require_equal("checkpoint bytes", row.get("checkpoint_sha256"), file_sha256(checkpoint))
+        if protocol_identity(row) != protocol_identity(resolved_config):
+            raise ValueError("episode task protocol/detection/reward provenance mismatch")
+        _require_equal("source task protocol", _field(row, "checkpoint_task_protocol"), protocol_identity(metadata)["task_protocol"])
+        _require_equal("evaluation task protocol", _field(row, "evaluation_task_protocol"), protocol_identity(resolved_config)["task_protocol"])
         _require_equal(f"row {index} checkpoint_episode", row.get("checkpoint_episode"), metadata_item.get("completed_episode"))
         _require_equal(f"row {index} checkpoint_config_hash", row.get("checkpoint_config_hash"), metadata.get("config_hash", ""))
         _require_equal(

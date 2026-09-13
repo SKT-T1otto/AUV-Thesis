@@ -221,6 +221,8 @@ class Phase1CV2TrainingEnv:
 
     def finalize_episode(self) -> dict[str, Any]:
         row = self.diagnostics.finalize(self)
+        if getattr(self.unwrapped, "task_protocol", "legacy_nonterminal_v1") == "collision_terminal_v1":
+            row.update(self.unwrapped.get_episode_result())
         row.update(
             {
                 "contact_bonus_count": int(self.reward_adapter.contact_bonus_count),

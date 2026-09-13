@@ -24,6 +24,7 @@ RUN_SPECIFIC_FIELDS = {
     "resolved_config_output_path", "resolved_config_hash",
 }
 FIXED_INPUT_FIELDS = (
+    "task_protocol", "collision_detection_revision", "terminal_reward_revision", "collision_terminal_reward", "allow_protocol_transfer",
     "method", "implementation_version", "architecture_version", "checkpoint_schema",
     "base_candidate", "profile", "split", "scenario_seed", "evaluation_episodes",
     "max_steps", "observation_dim", "action_dim", "critic_dim", "device", "workers",
@@ -104,13 +105,19 @@ def reject_fixture(checkpoint, metadata=None):
             raise ValueError("checkpoint has test/untrained metadata; supply a trained PRRAC checkpoint")
 
 
-def prepare_pair(*, checkpoint, config_path=DEFAULT_CONFIG, episodes=1, workers=1, output_root=None):
+def prepare_pair(*, checkpoint, config_path=DEFAULT_CONFIG, episodes=1, workers=1, output_root=None, allow_protocol_transfer=False, device=None):
     checkpoint = Path(checkpoint).resolve(strict=True)
     reject_fixture(checkpoint)
-    if not checkpoint.is_file() or episodes not in (1, 10) or workers < 1:
-        raise ValueError("a checkpoint file, 1 or 10 scenarios, and positive workers are required")
+    if not checkpoint.is_file() or isinstance(episodes, bool) or not isinstance(episodes, int) or episodes <= 0 or workers < 1:
+        raise ValueError("a checkpoint file, positive integer scenarios, and positive workers are required")
+    from .checkpoint_transfer import checkpoint_path
+    checkpoint_path(checkpoint)
     config_path = Path(config_path).resolve(strict=True)
     config = read_json(config_path)
+    if device is not None:
+        config["device"] = device
+    if allow_protocol_transfer:
+        config["allow_protocol_transfer"] = True
     if config.get("modes", ["full_prrac"]) != ["full_prrac"]:
         raise ValueError("paired controller evaluation requires modes=['full_prrac']")
     if config.get("explore") is not False or config.get("training_update") is not False:
@@ -209,6 +216,10 @@ def analyze_pair(root):
     if indexed["prior_only"].keys() != indexed["full_prrac"].keys():
         raise ValueError("paired scenario id/seed mismatch")
     summaries = {mode: outcome_summary(data[mode]) for mode in CONTROLLERS}
+    if shared_config.get("task_protocol") == "collision_terminal_v1":
+        from .task_metrics import aggregate_task_outcomes
+        for mode in CONTROLLERS:
+            summaries[mode].update(aggregate_task_outcomes(data[mode], plan["episodes_per_controller"]))
     return {
         "schema": "prrac.controller_pair_analysis.v1", "paired_scenarios": len(data["prior_only"]),
         "checkpoint_sha256": plan["checkpoint_sha256"], "manifest_sha256": manifests["prior_only"]["manifest_sha256"],
@@ -227,8 +238,10 @@ def main(argv=None):
     run = sub.add_parser("run")
     run.add_argument("--checkpoint", type=Path, required=True)
     run.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    run.add_argument("--episodes", type=int, choices=(1, 10), required=True)
+    run.add_argument("--episodes", type=int, required=True)
+    run.add_argument("--allow-protocol-transfer", action="store_true")
     run.add_argument("--workers", type=int, default=1)
+    run.add_argument("--device")
     run.add_argument("--output-root", type=Path)
     run.add_argument("--prepare-only", action="store_true")
     analyze = sub.add_parser("analyze")
@@ -238,7 +251,7 @@ def main(argv=None):
         print(json.dumps(analyze_pair(args.pair_dir), ensure_ascii=False, indent=2, allow_nan=False))
         return 0
     root, plan = prepare_pair(checkpoint=args.checkpoint, config_path=args.config, episodes=args.episodes,
-                              workers=args.workers, output_root=args.output_root)
+                              workers=args.workers, output_root=args.output_root, allow_protocol_transfer=args.allow_protocol_transfer, device=args.device)
     print(f"Pair directory: {root}", flush=True)
     if args.prepare_only:
         print("Prepared only; no checkpoint loaded and no episode started.")

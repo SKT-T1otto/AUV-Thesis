@@ -204,10 +204,13 @@ def _numpy_copy(value: Any) -> np.ndarray:
 
 
 def _make_base_env(config: Mapping[str, Any], *, device: str = "cpu") -> MissionCoreEnv:
+    from core.env.task_protocol import PROTOCOL_FIELDS, validate_task_config
+    validate_task_config(config)
     env_config = build_ch3_config(
         str(config.get("base_candidate", "ch3_v3_full_reference")),
         str(config["profile"]),
     )
+    env_config.update({key: config[key] for key in (*PROTOCOL_FIELDS, "collision_terminal_reward") if key in config})
     return MissionCoreEnv(
         **environment_kwargs_from_config(
             env_config,

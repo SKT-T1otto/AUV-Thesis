@@ -1,0 +1,6 @@
+test_native_evaluator_trace_no_op_both_modes (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 239.405s
+
+OK

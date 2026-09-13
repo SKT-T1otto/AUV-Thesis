@@ -211,21 +211,24 @@ class PRRACMADDPG:
 
     def _target_q(self, agent: PRRACAgent, data: dict[str, Any], agent_i: int):
         with torch.no_grad():
+            active = data["dones"][agent_i].reshape(-1) == 0
+            target = data["rewards"][agent_i].reshape(-1, 1).clone()
+            if not bool(active.any()):
+                return target
+            next_obs = [obs[active] for obs in data["next_obs"]]
             next_actions = [
                 other.target_actor(obs).gated_residual_action
-                for other, obs in zip(self.agents, data["next_obs"])
+                for other, obs in zip(self.agents, next_obs)
             ]
-            target_input = torch.cat((*data["next_obs"], *next_actions), dim=1)
+            target_input = torch.cat((*next_obs, *next_actions), dim=1)
             q1 = gather_stage_values(
-                agent.target_critic1(target_input), data["stage_after"]
+                agent.target_critic1(target_input), data["stage_after"][active]
             )
             q2 = gather_stage_values(
-                agent.target_critic2(target_input), data["stage_after"]
+                agent.target_critic2(target_input), data["stage_after"][active]
             )
-            target = data["rewards"][agent_i].reshape(-1, 1) + self.gamma * torch.minimum(
-                q1, q2
-            ) * (1.0 - data["dones"][agent_i].reshape(-1, 1))
-            return torch.clamp(target, -10.0, 10.0)
+            target[active] = torch.clamp(target[active] + self.gamma * torch.minimum(q1, q2), -10.0, 10.0)
+            return target
 
     @staticmethod
     def _stage_statistics(

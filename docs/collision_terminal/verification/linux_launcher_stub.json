@@ -1,0 +1,16 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "recorded_utc": "2026-09-12T14:56:45.090218+00:00",
+  "stub_only_no_training": true,
+  "conda_variable_preserved": true,
+  "exit_code": 37,
+  "expected_exit_code": 37,
+  "forwarded_arguments": [
+    "-B",
+    "-m",
+    "chapter3_bser.experiments.phase1c_prrac.collision_terminal_cli",
+    "--help"
+  ],
+  "stderr": "",
+  "passed": true
+}

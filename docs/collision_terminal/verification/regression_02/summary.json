@@ -1,0 +1,32 @@
+{
+  "tests_run": 571,
+  "failures": 15,
+  "errors": 4,
+  "skipped": 0,
+  "failed_tests": [
+    "test_off_worker_matches_prechange_HEAD_bit_for_bit (tests.test_beds_evaluation.BEDSEvaluationTests)",
+    "test_event_enum_and_detection_are_deterministic (tests.test_bser_event_detection.EventDetectionTest)",
+    "test_all_27_authority_records_map_to_current_core_files (tests.test_core_source_provenance.CoreSourceProvenanceTests)",
+    "test_linux_assets_activate_configured_conda_environment (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests)",
+    "test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints (tests.test_linux_runtime_assets.LinuxRuntimeAssetTests)",
+    "test_original_40_core_python_files_match (tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest)",
+    "test_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest)",
+    "test_frozen_paths_have_no_worktree_diff_when_git_metadata_is_available (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests)",
+    "test_frozen_files_hashes_and_import_direction (tests.test_prrac_isolation.PRRACIsolationTests)",
+    "test_later_boundary_retains_acceptance_and_original_global_cutoff (tests.test_search_value_audit_branches.BranchTests)",
+    "test_native_ON_no_op_and_spawn_branches_are_identical (tests.test_search_value_audit_runtime.AuditRuntimeTests)",
+    "test_synthetic_shadow_closed_loop_is_no_op (tests.test_search_value_audit_runtime.AuditRuntimeTests)",
+    "test_worker_uses_checkpoint_head_without_update_and_disabled_equivalence (tests.test_search_value_guided_ranking.SearchValueGuidedRankingTests)",
+    "test_native_evaluator_trace_no_op_both_modes (tests.test_searcher_residual_trace.TraceMetricTests) (mode='full_prrac')",
+    "test_native_evaluator_trace_no_op_both_modes (tests.test_searcher_residual_trace.TraceMetricTests) (mode='searcher_residual_off')",
+    "test_all_v1_files_match_before_manifest (tests.test_bser_v1_artifacts_frozen.Phase1AV1FrozenTest)",
+    "test_full_e0_passed (tests.test_ch3_e0_equivalence.E0DeliveryTests)",
+    "test_cache_and_metric_missingness (tests.test_collision_terminal_protocol.CollisionTrainingTests)",
+    "test_overlay_manifest_contains_no_frozen_or_core_files (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests)"
+  ],
+  "passed": false,
+  "context": "latest_recorded_local_verification_not_CI",
+  "suite": "regression",
+  "recorded_utc": "2026-09-12T15:14:42.643124+00:00",
+  "wall_seconds": 6918.591501300001
+}

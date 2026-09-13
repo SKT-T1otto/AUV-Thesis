@@ -184,6 +184,10 @@ def search_failure_funnel(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "NOT_FOUND_WITH_PREFIND_COLLISION": [row for row in values if not bool(row.get("found")) and bool(row.get("searcher_collision_episode_pre_found"))],
             "NOT_FOUND_WITHOUT_PREFIND_COLLISION": [row for row in values if not bool(row.get("found")) and not bool(row.get("searcher_collision_episode_pre_found"))],
         }
+        if values and values[0].get("task_protocol") == "collision_terminal_v1":
+            categories = {name: [r for r in values if r.get("termination_reason") == reason]
+                          for name, reason in (("SUCCESS", "success"), ("OBSTACLE_COLLISION", "obstacle_collision"),
+                                               ("TIMEOUT", "timeout"), ("INCOMPLETE", "running"))}
         for category, selected in categories.items():
             row = dict(zip(group_keys, key))
             row.update({"category": category, "count": len(selected), "rate": nullable_rate(len(selected), len(values))})

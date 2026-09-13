@@ -133,6 +133,10 @@ class MissionCoreEnv:
             completion_step=None if self._env.success_step is None else int(self._env.success_step),
         )
 
+    def get_episode_result(self) -> Dict[str, Any]:
+        """Authoritative termination metadata, separate from the frozen 28D input."""
+        return self._env.get_episode_result()
+
     def get_target_state(self) -> TargetStateView:
         state = self._env.target_state
         return TargetStateView(

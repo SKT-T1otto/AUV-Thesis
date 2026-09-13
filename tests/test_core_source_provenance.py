@@ -8,6 +8,10 @@ from core.registry.experiment_registry import ACTIVE_CH3_FINAL_EXPERIMENT_MODES
 
 ROOT = Path(__file__).resolve().parents[1]
 REVIEWED_POST_PHASE0B2_EVOLUTIONS = {
+    "core/env/uav_env.py": {
+        "historical_sha256": "ef964149b6af3a164cd35ce3ff81636e140fd88180750b12ecac6f30e2b9f698",
+        "current_sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+    },
     "core/registry/experiment_registry.py": {
         "historical_sha256": (
             "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61"

@@ -30,6 +30,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from core.env.task_protocol import PROTOCOL_FIELDS, STRICT, protocol_identity, validate_task_config, strict_terminal
 
 from chapter3_bser.controllers.state_provider import OnlinePlanningStateProvider
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.train_phase1c_v2 import (
@@ -145,6 +146,10 @@ def _config_hash_without_search_modules(config: Mapping[str, Any]) -> str:
 
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
+    validate_task_config(config)
+    if config.get("task_protocol") == STRICT:
+        config.update(protocol_identity(config))
+        config["collision_terminal_reward"] = float(config.get("collision_terminal_reward", -2.0))
     expected = {
         "schema": "bser.phase1c.prrac.training.v1",
         "method": METHOD,
@@ -235,6 +240,8 @@ def _checkpoint_metadata(
     contract = runtime_contract(config)
     return {
         "schema": CHECKPOINT_SCHEMA,
+        **protocol_identity(config),
+        "collision_terminal_reward": config.get("collision_terminal_reward"),
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
         "architecture_version": ARCHITECTURE_VERSION,
@@ -284,6 +291,7 @@ def _save_checkpoint(
         raise FileExistsError(f"refusing to overwrite checkpoint: {path}")
     payload = {
         "schema": CHECKPOINT_SCHEMA,
+        "resolved_training_config": copy.deepcopy(dict(config)),
         "metadata": _checkpoint_metadata(config, completed_episode, learner),
         "prrac_training_state": learner.training_state_dict(),
         "prrac_replay_state": replay.state_dict(),
@@ -293,6 +301,8 @@ def _save_checkpoint(
         "replay_sample_count": int(replay_sample_count),
         "optimizer_update_count": int(optimizer_update_count),
         "episode_metrics": [dict(row) for row in episode_rows],
+        "initialization": copy.deepcopy(config.get("initialization", {"mode": "from_scratch"})),
+        "critic_only_warmup_updates_executed": min(update_step, int(config.get("rl", {}).get("critic_only_warmup_updates", 0))),
         "execution_diagnostics": [dict(row) for row in execution_rows],
         "prrac_diagnostics": [dict(row) for row in prrac_rows],
         "search_value_decision_state": copy.deepcopy(
@@ -335,6 +345,10 @@ def _load_checkpoint(
     if schema != CHECKPOINT_SCHEMA:
         raise ValueError(f"unsupported PRRAC checkpoint schema: {schema!r}")
     metadata = dict(payload.get("metadata", {}))
+    if protocol_identity(metadata) != protocol_identity(config):
+        raise ValueError("resume task protocol/detection/reward mismatch; use actor warmstart")
+    if protocol_identity(config)["task_protocol"] == STRICT and metadata.get("collision_terminal_reward") != config.get("collision_terminal_reward", -2.0):
+        raise ValueError("resume terminal reward mismatch")
     if metadata.get("architecture_version") != ARCHITECTURE_VERSION:
         raise ValueError("PRRAC checkpoint architecture mismatch")
     expected_runtime = runtime_contract(config)
@@ -433,6 +447,7 @@ def _verify_checkpoint_roundtrip(
     )
     replay = PRRACReplayAdapter(
         max_steps=int(replay_state["max_steps"]),
+        task_config=config,
         config=config.get("replay", {}),
         generator_seed=int(config["seed"]) + 31,
         search_value_config=config.get("search_value"),
@@ -479,6 +494,7 @@ def _build_learner(config: Mapping[str, Any]):
     )
     replay = PRRACReplayAdapter(
         max_steps=int(config["rl"]["replay_size"]),
+        task_config=config,
         config=config["replay"],
         generator_seed=int(config["seed"]) + 31,
         search_value_config=config.get("search_value"),
@@ -689,7 +705,8 @@ def _apply_transitions(
             batch = replay.sample(int(rl["batch_size"]), norm_rews=False, device=device)
             replay_sample_count += 1
             errors = []
-            update_actor = update_step % int(rl["policy_delay"]) == 0
+            update_actor = (update_step >= int(rl.get("critic_only_warmup_updates", 0))
+                            and update_step % int(rl["policy_delay"]) == 0)
             for agent_i in range(4):
                 if update_actor:
                     result = learner.update(batch, agent_i)
@@ -884,57 +901,68 @@ def _collect_episode(job: dict[str, Any]):
                 raise RuntimeError("PRRAC training wrapper did not emit stage metadata")
             for output in actor_outputs:
                 rollout_diagnostics.observe_actor(output, [int(metadata.stage_before)])
-            state = provider.snapshot(force=False)
-            if search_feature_extractor is not None:
-                search_feature_extractor.observe_transition(
-                    state, env.unwrapped.collision_flags
-                )
-            decision = None
-            if search_value_decision.enabled:
-                decision_features = search_feature_extractor.extract(
-                    step_observations[:SEARCHER_COUNT], state
-                )
-                with torch.no_grad():
-                    decision_values = actor.search_value_head(
-                        torch.as_tensor(decision_features, dtype=torch.float32)
-                    )
-                decision = search_value_decision.observe(
-                    float(decision_values.mean().item()),
-                    step=int(state.step),
-                    search_active=bool(metadata.stage_after == PRRACStage.SEARCH),
-                )
-                if decision.trigger_replan:
-                    state = provider.snapshot(force=True)
-                    search_feature_extractor.synchronize_state(state)
-            if search_diagnostics_enabled:
+            next_observations = step_observations
+            if strict_terminal(env) and search_diagnostics_enabled:
+                from .task_metrics import terminal_planning_snapshot
+                state = terminal_planning_snapshot(env, state_before)
                 search_diagnostics.observe_transition(
-                    stage_before=metadata.stage_before,
-                    stage_after=metadata.stage_after,
-                    installed_guidance=installed_guidance,
-                    planning_state_before=state_before,
-                    planning_state_after=state,
-                    collision_flags=env.unwrapped.collision_flags,
-                    raw_actions=actions,
-                    applied_actions=actions,
-                    actor_outputs=actor_outputs,
-                    residual_contribution_ratios=(
-                        env.unwrapped.last_residual_contribution_ratio_search
-                    ),
+                    stage_before=metadata.stage_before, stage_after=metadata.stage_after,
+                    installed_guidance=installed_guidance, planning_state_before=state_before,
+                    planning_state_after=state, collision_flags=env.unwrapped.collision_flags,
+                    raw_actions=actions, applied_actions=actions, actor_outputs=actor_outputs,
+                    residual_contribution_ratios=env.unwrapped.last_residual_contribution_ratio_search)
+            if not strict_terminal(env):
+                state = provider.snapshot(force=False)
+                if search_feature_extractor is not None:
+                    search_feature_extractor.observe_transition(
+                        state, env.unwrapped.collision_flags
+                    )
+                decision = None
+                if search_value_decision.enabled:
+                    decision_features = search_feature_extractor.extract(
+                        step_observations[:SEARCHER_COUNT], state
+                    )
+                    with torch.no_grad():
+                        decision_values = actor.search_value_head(
+                            torch.as_tensor(decision_features, dtype=torch.float32)
+                        )
+                    decision = search_value_decision.observe(
+                        float(decision_values.mean().item()),
+                        step=int(state.step),
+                        search_active=bool(metadata.stage_after == PRRACStage.SEARCH),
+                    )
+                    if decision.trigger_replan:
+                        state = provider.snapshot(force=True)
+                        search_feature_extractor.synchronize_state(state)
+                if search_diagnostics_enabled:
+                    search_diagnostics.observe_transition(
+                        stage_before=metadata.stage_before,
+                        stage_after=metadata.stage_after,
+                        installed_guidance=installed_guidance,
+                        planning_state_before=state_before,
+                        planning_state_after=state,
+                        collision_flags=env.unwrapped.collision_flags,
+                        raw_actions=actions,
+                        applied_actions=actions,
+                        actor_outputs=actor_outputs,
+                        residual_contribution_ratios=(
+                            env.unwrapped.last_residual_contribution_ratio_search
+                        ),
+                    )
+                context = _public_context(env, state)
+                result = controller.step(state, context)
+                if decision is not None:
+                    search_value_decision.observe_replan_result(
+                        decision, replanned=bool(result.replanned)
+                    )
+                env.observe_controller_result(result, controller=controller, state_provider=provider)
+                guidance = bridge.compile_guidance(
+                    result.allocation, state, context, decision_reason=result.decision_reason
                 )
-            context = _public_context(env, state)
-            result = controller.step(state, context)
-            if decision is not None:
-                search_value_decision.observe_replan_result(
-                    decision, replanned=bool(result.replanned)
-                )
-            env.observe_controller_result(result, controller=controller, state_provider=provider)
-            guidance = bridge.compile_guidance(
-                result.allocation, state, context, decision_reason=result.decision_reason
-            )
-            env.install_guidance(guidance)
-            next_observations = env.refresh_observation_after_guidance()
-            event_count += len(result.events)
-            accepted_replans += int(bool(result.replanned))
+                env.install_guidance(guidance)
+                next_observations = env.refresh_observation_after_guidance()
+                event_count += len(result.events)
+                accepted_replans += int(bool(result.replanned))
             collision_count += int(env.unwrapped._collision_flags.sum().item())
             action_norms.append(float(torch.linalg.vector_norm(actions, dim=1).mean().item()))
             reward_tensor = torch.as_tensor(rewards, dtype=torch.float32).reshape(-1)
@@ -973,6 +1001,7 @@ def _collect_episode(job: dict[str, Any]):
         task = env.get_task_state()
         decision_summary = search_value_decision.summary()
         metrics = {
+            **protocol_identity(job),
             "method": METHOD,
             "implementation_version": IMPLEMENTATION_VERSION,
             "architecture_version": ARCHITECTURE_VERSION,
@@ -1016,6 +1045,8 @@ def _collect_episode(job: dict[str, Any]):
                     searcher_residual_off_enabled=False,
                 )
             )
+        if env.unwrapped.task_protocol == STRICT:
+            metrics.update(env.unwrapped.get_episode_result())
         payload = (
             metrics,
             transitions,
@@ -1190,6 +1221,8 @@ def run_training(
     dry_run: bool = False,
     seed_override: int | None = None,
     resume: Path | None = None,
+    init_actors_from: Path | None = None,
+    critic_warmup_updates: int | None = None,
     episodes_override: int | None = None,
     max_steps_override: int | None = None,
     workers_override: int | None = None,
@@ -1197,6 +1230,17 @@ def run_training(
 ) -> dict[str, Any]:
     assert_registered_ch3_method(METHOD)
     config = copy.deepcopy(_load_config(config_path))
+    if resume is not None and init_actors_from is not None:
+        raise ValueError("--resume and --init-actors-from are mutually exclusive")
+    if resume is not None:
+        from .checkpoint_transfer import checkpoint_path
+        resume_payload = torch.load(checkpoint_path(resume), map_location="cpu", weights_only=True)
+        saved = resume_payload.get("resolved_training_config", {})
+        if "initialization" in saved:
+            config["initialization"] = copy.deepcopy(saved["initialization"])
+            config["rl"]["critic_only_warmup_updates"] = saved["rl"].get("critic_only_warmup_updates", 0)
+    if critic_warmup_updates is not None and init_actors_from is None:
+        raise ValueError("--critic-warmup-updates requires --init-actors-from")
     overrides = {
         "seed": seed_override,
         "episodes": episodes_override,
@@ -1220,8 +1264,12 @@ def run_training(
     if not configured_output.is_absolute():
         configured_output = ROOT / configured_output
     output = Path(output_dir) if output_dir is not None else configured_output
+    from core.env.task_protocol import require_protocol_output
+    require_protocol_output(config, output)
     if dry_run:
         output = output / "dry_run"
+    if config.get("task_protocol") == STRICT and resume is None and output.exists():
+        raise FileExistsError(f"strict training requires a new run directory: {output}")
     directories = {name: output / name for name in ("checkpoints", "metrics", "logs")}
     protected = (
         output / "resolved_training_config.json",
@@ -1232,13 +1280,22 @@ def run_training(
         or any(directories["checkpoints"].glob("*.pt"))
     ):
         raise FileExistsError(f"PRRAC output exists; use --resume or a new directory: {output}")
+    _seed_all(int(config["seed"]))
+    learner, replay = _build_learner(config)
+    if init_actors_from is not None:
+        from .checkpoint_transfer import import_actors
+        config["initialization"] = import_actors(init_actors_from, learner, config)
+        budget = int(critic_warmup_updates if critic_warmup_updates is not None else config.get("actor_warmstart", {}).get("critic_only_warmup_updates", 256))
+        if budget < 0:
+            raise ValueError("critic warmup budget must be nonnegative")
+        config["rl"]["critic_only_warmup_updates"] = budget
     for directory in directories.values():
         directory.mkdir(parents=True, exist_ok=True)
     resolved = output / "resolved_training_config.json"
+    if config.get("task_protocol") == STRICT and resolved.exists() and _config_hash(json.loads(resolved.read_text(encoding="utf-8"))) != _config_hash(config):
+        raise ValueError("existing strict run resolved config mismatch")
     if not resolved.exists():
         _write_json(resolved, config)
-    _seed_all(int(config["seed"]))
-    learner, replay = _build_learner(config)
     learner.prep_rollouts(str(device))
     rows: list[dict[str, Any]] = []
     execution_rows: list[dict[str, Any]] = []
@@ -1284,6 +1341,7 @@ def run_training(
             jobs = [
                 {
                     "episode_index": index,
+                    **{key: config[key] for key in (*PROTOCOL_FIELDS, "collision_terminal_reward") if key in config},
                     "scenario": scenarios[index],
                     "base_candidate": config["base_candidate"],
                     "profile": config["profile"],
@@ -1323,6 +1381,9 @@ def run_training(
                         "schema": "bser.phase1c.prrac.worker_failure.v1",
                         "exception_type": type(exc).__name__,
                         "exception_message": str(exc),
+                        **protocol_identity(config),
+                        "run_complete": False, "completed_episode_count": len(rows),
+                        "missing_or_abnormal_episode_count": int(config["episodes"]) - len(rows),
                         "traceback": traceback.format_exc(),
                     },
                 )
@@ -1398,6 +1459,13 @@ def run_training(
             _write_csv(directories["metrics"] / "episode_metrics.csv", rows)
             _write_csv(directories["metrics"] / "execution_diagnostics.csv", execution_rows)
             _write_csv(directories["metrics"] / "prrac_diagnostics.csv", prrac_rows)
+            recent = rows[-int(config["rolling_window"]):]
+            print(json.dumps({"episode": rows[-1]["episode"], "environment_steps": global_step,
+                "training_updates": update_step,
+                "recent_safe_success": sum(bool(r.get("safe_success", r["success"])) for r in recent) / len(recent),
+                "recent_collision_failure": sum(r.get("termination_reason") == "obstacle_collision" for r in recent) / len(recent),
+                "latest_checkpoint": checkpoints[-1] if checkpoints else None,
+                "elapsed_seconds": time.perf_counter() - started}), flush=True)
     update_counts = {
         f"{name}_parameter_update_count": _changed(
             before, _current_group_parameters(learner, name)
@@ -1462,6 +1530,10 @@ def run_training(
         if row.get("search_value_mean_trigger_value") is not None
     )
     summary = {
+        **protocol_identity(config),
+        "initialization": config.get("initialization", {"mode": "from_scratch"}),
+        "critic_only_warmup_budget": int(config["rl"].get("critic_only_warmup_updates", 0)),
+        "critic_only_warmup_updates_executed": min(update_step, int(config["rl"].get("critic_only_warmup_updates", 0))),
         "schema": "bser.phase1c.prrac.training.summary.v1",
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -1472,6 +1544,7 @@ def run_training(
         "completed_episode_count": len(rows),
         "global_step": int(global_step),
         "replay_sample_count": int(replay_sample_count),
+        "learner_update_rounds": int(update_step),
         "optimizer_update_count": int(optimizer_update_count),
         "parameter_update_count": int(parameter_update_count),
         **update_counts,
@@ -1540,6 +1613,9 @@ def run_training(
         "wall_seconds": float(time.perf_counter() - started),
         **_runtime_metadata(str(config["device"]), device),
     }
+    if protocol_identity(config)["task_protocol"] == STRICT:
+        from .task_metrics import aggregate_task_outcomes
+        summary.update(aggregate_task_outcomes(rows, int(config["episodes"])))
     _write_json(directories["metrics"] / "training_summary.json", summary)
     return summary
 
@@ -1553,7 +1629,10 @@ def main(argv=None) -> int:
     parser.add_argument("--max-steps", type=int)
     parser.add_argument("--workers", type=int)
     parser.add_argument("--device")
-    parser.add_argument("--resume", type=Path)
+    source = parser.add_mutually_exclusive_group()
+    source.add_argument("--resume", type=Path)
+    source.add_argument("--init-actors-from", type=Path)
+    parser.add_argument("--critic-warmup-updates", type=int)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     summary = run_training(
@@ -1562,6 +1641,8 @@ def main(argv=None) -> int:
         dry_run=args.dry_run,
         seed_override=args.seed,
         resume=args.resume,
+        init_actors_from=args.init_actors_from,
+        critic_warmup_updates=args.critic_warmup_updates,
         episodes_override=args.episodes,
         max_steps_override=args.max_steps,
         workers_override=args.workers,

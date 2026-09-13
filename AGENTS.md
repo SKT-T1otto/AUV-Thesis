@@ -45,7 +45,7 @@
 - `docs/provenance/ch3_to_core_migration_manifest.json` is a frozen historical
   Phase 0B-2 baseline. Do not rewrite its hashes to match later code.
 - All 27 historical provenance records must remain present and validated.
-- The only currently permitted post-Phase-0B-2 provenance evolution is
+- The historical permitted post-Phase-0B-2 provenance evolution is
   `core/registry/experiment_registry.py`, where the independent
   `ch3_bser_rmaddpg_phase1c` method was registered.
 - That permitted evolution must preserve the seven legacy
@@ -56,6 +56,12 @@
 - Any additional provenance mismatch is a failure until explicitly reviewed.
 - Never delete, skip, broadly exempt, or weaken provenance checks merely to
   make a test pass.
+- The 2026-09-12 user request additionally authorizes the opt-in
+  `collision_terminal_v1` task protocol and its necessary call chain.
+  `docs/provenance/collision_terminal_evolution.json` pins the explicit
+  `core/env/uav_env.py` evolution and the `core/env/mission_env.py` public
+  result accessor; the historical manifests stay frozen.
+  Existing configurations without task-protocol fields retain legacy behavior.
 
 # Required verification
 

@@ -1,0 +1,7 @@
+test_later_boundary_retains_acceptance_and_original_global_cutoff (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_worker_uses_checkpoint_head_without_update_and_disabled_equivalence (tests.test_search_value_guided_ranking.SearchValueGuidedRankingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 292.835s
+
+OK

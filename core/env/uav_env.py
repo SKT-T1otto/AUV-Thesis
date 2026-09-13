@@ -9,6 +9,11 @@ import json
 import numpy as np
 import torch
 
+from core.env.task_protocol import (
+    LEGACY, STRICT, EpisodeOutcome, closed_segment_aabb_first_hit,
+    episode_result, validate_task_config,
+)
+
 from core.communication.basic_communication import FixedReliableHandoff
 from core.mapping.map_module import PheromoneWaypointPlanner, ProbabilisticTaskMapPlanner
 from core.mapping.path_planner import (
@@ -39,6 +44,10 @@ class _BaseUAVEnv:
         space_size=(20, 20, 8),
         dt=0.2,
         max_steps=400,
+        task_protocol=LEGACY,
+        collision_detection_revision=None,
+        terminal_reward_revision=None,
+        collision_terminal_reward=-2.0,
         random_z_range=(0.5, 7.5),
         random_search_waypoint_count=(2, 4),
         random_executor_waypoint_count=(1, 1),
@@ -140,6 +149,18 @@ class _BaseUAVEnv:
         self.space_size = self._vec(space_size)
         self.dt = float(dt)
         self.max_steps = int(max_steps)
+        identity = validate_task_config({
+            "task_protocol": task_protocol,
+            "collision_terminal_reward": collision_terminal_reward,
+            **({"collision_detection_revision": collision_detection_revision}
+               if collision_detection_revision is not None else {}),
+            **({"terminal_reward_revision": terminal_reward_revision}
+               if terminal_reward_revision is not None else {}),
+        })
+        for key, value in identity.items():
+            setattr(self, key, value)
+        self.collision_terminal_reward = float(collision_terminal_reward)
+        self.episode_outcome = EpisodeOutcome()
         self.task_mode = "mission"
         self.use_obstacles = bool(use_obstacles)
         self._default_use_obstacles = bool(use_obstacles)
@@ -755,6 +776,9 @@ class _BaseUAVEnv:
 
     def reset(self, scenario=None):
         self.step_count = 0
+        self.episode_outcome = EpisodeOutcome()
+        self.last_collision_records = []
+        self.invalid_initial_state = None
         scenario = None if scenario is None else dict(scenario)
         self._apply_scenario_obstacles(scenario)
         if scenario is not None:
@@ -776,6 +800,13 @@ class _BaseUAVEnv:
             else self._vec(scenario["initial_agent_positions"]).reshape(4, 3).clone()
         )
         for index, point in enumerate(self._agent_pos):
+            if self.task_protocol == STRICT:
+                for obstacle_id, obstacle in enumerate(self.obstacles):
+                    center, half = np.asarray(obstacle["center"]), np.asarray(obstacle["size"]) / 2
+                    position = point.detach().cpu().numpy()
+                    if closed_segment_aabb_first_hit(position, position, center - half, center + half) is not None:
+                        self.invalid_initial_state = {"agent_id": index, "obstacle_id": obstacle_id, "position": position.tolist()}
+                        raise ValueError(f"invalid initial state: {self.invalid_initial_state}")
             self._validate_scenario_point(point, name=f"initial_agent_positions[{index}]")
         pairwise_initial = torch.cdist(self._agent_pos, self._agent_pos)
         pairwise_initial.fill_diagonal_(float("inf"))
@@ -1040,12 +1071,37 @@ class _BaseUAVEnv:
         self._agent_vel[:, :2] *= xy_scale[:, None]
         self._agent_vel[:, 2] = torch.clamp(self._agent_vel[:, 2], -self._v_z_max, self._v_z_max)
         self._agent_pos += self._agent_vel * self.dt
+        if self.task_protocol == STRICT:
+            # Freeze before constructing the actual physical segment.
+            self._agent_pos[blocked] = old_position[blocked]
+            candidate = self._agent_pos.clone()
+            self.last_collision_records = []
+            for agent_id in range(4):
+                start = old_position[agent_id].detach().cpu().numpy().astype(np.float64)
+                end = candidate[agent_id].detach().cpu().numpy().astype(np.float64)
+                hits = []
+                for obstacle_id, obstacle in enumerate(self.obstacles):
+                    center, half = np.asarray(obstacle["center"]), np.asarray(obstacle["size"]) / 2
+                    tau = closed_segment_aabb_first_hit(start, end, center - half, center + half)
+                    if tau is not None:
+                        hits.append((tau, obstacle_id))
+                if hits:
+                    tau, obstacle_id = min(hits)
+                    point = start + tau * (end - start)
+                    self._agent_pos[agent_id] = self._vec(point)
+                    self._agent_vel[agent_id] = 0.0
+                    self._collision_flags[agent_id] = True
+                    self.last_collision_records.append({
+                        "agent_id": agent_id, "obstacle_id": obstacle_id,
+                        "position_before": start.tolist(), "candidate_position": end.tolist(),
+                        "first_hit_point": point.tolist(), "hit_fraction": tau,
+                    })
         clipped = torch.clamp(self._agent_pos, min=self._lower_bound, max=self.space_size)
         wall = torch.any(clipped != self._agent_pos, dim=1)
         self._agent_pos.copy_(clipped)
         self._agent_vel[wall] *= 0.4
         inside = self._points_inside_obstacles(self._agent_pos)
-        if torch.any(inside):
+        if self.task_protocol == LEGACY and torch.any(inside):
             self._agent_pos[inside] = old_position[inside]
             self._agent_vel[inside] *= -0.2
             self._collision_flags[inside] = True
@@ -2296,6 +2352,12 @@ class UAVEnv(_BaseUAVEnv):
         }
 
     def step(self, actions):
+        if self.task_protocol == STRICT and self.episode_outcome.episode_terminated:
+            raise RuntimeError("episode terminated; call reset before step")
+        self._phase_before_step = (
+            "Hold" if getattr(self, "_capture_hold_counter", 0) > 0
+            else "Intercept" if self.task_found else "Search"
+        )
         if not self._mission_features_enabled:
             self._found_event = False
             self._mission_complete_event = False
@@ -2307,6 +2369,8 @@ class UAVEnv(_BaseUAVEnv):
             self._update_nav_targets()
             previous_nav_distances = self._compute_nav_distances()
             self._apply_agent_dynamics(actions)
+            if self.task_protocol == STRICT and self.last_collision_records:
+                return self._collision_terminal_transition(previous_nav_distances)
             self._planner_step_update()
             self._maybe_detect_task()
             self._update_nav_targets()
@@ -2319,6 +2383,7 @@ class UAVEnv(_BaseUAVEnv):
             rewards = self._calculate_mission_rewards(previous_nav_distances)
             observations = self._get_obs()
             done = self.mission_complete or self.step_count >= self.max_steps
+            self._record_task_outcome()
             self._prev_nav_distances = self._compute_nav_distances()
             self._prev_acc.copy_(self._agent_acc)
             self._prev_coverage_ratio = self._current_coverage_ratio_internal()
@@ -2350,6 +2415,10 @@ class UAVEnv(_BaseUAVEnv):
         target_start = self.target_state.position.copy()
 
         self._apply_agent_dynamics(actions)
+        if self.task_protocol == STRICT and self.last_collision_records:
+            self.executed_path_distance += float(np.linalg.norm(
+                self._agent_pos.detach().cpu().numpy() - agent_start, axis=1).sum())
+            return self._collision_terminal_transition(previous_nav_distances)
         movement = np.linalg.norm(
             self._agent_pos.detach().cpu().numpy() - agent_start, axis=1
         )
@@ -2404,6 +2473,7 @@ class UAVEnv(_BaseUAVEnv):
         self.obstacle_collision_count += new_collisions
         observations = self._get_obs()
         done = self.mission_complete or self.step_count >= self.max_steps
+        self._record_task_outcome()
         self._prev_nav_distances = self._compute_nav_distances()
         self._prev_acc.copy_(self._agent_acc)
         self._prev_coverage_ratio = self._current_coverage_ratio_internal()
@@ -2414,6 +2484,34 @@ class UAVEnv(_BaseUAVEnv):
             self._rewards_to_public(rewards),
             [done] * 4,
         )
+
+
+    def _record_task_outcome(self):
+        if self.mission_complete:
+            self.episode_outcome.finish("success", self.step_count)
+        elif self.step_count >= self.max_steps:
+            self.episode_outcome.finish("timeout", self.step_count)
+
+    def get_episode_result(self):
+        return episode_result(self)
+
+    def _collision_terminal_transition(self, previous_nav_distances):
+        outcome = self.episode_outcome
+        outcome.first_collision_step = self.step_count
+        outcome.first_collision_agent_ids = [r["agent_id"] for r in self.last_collision_records]
+        outcome.first_collision_phase = self._phase_before_step
+        outcome.collision_records = deepcopy(self.last_collision_records)
+        outcome.finish("obstacle_collision", self.step_count)
+        self.mission_complete = False
+        self._mission_complete_event = False
+        self.success_step = None
+        for name in ("obstacle_collision_count", "map_collision_count"):
+            setattr(self, name, getattr(self, name, 0) + len(self.last_collision_records))
+        raw = self._calculate_mission_rewards(previous_nav_distances)
+        self.reward_before_terminal_override = raw.detach().clone()
+        rewards = torch.full((4,), self.collision_terminal_reward, dtype=self.dtype, device=self.device)
+        self.final_reward_by_agent = rewards.detach().cpu().tolist()
+        return self._obs_to_public(self._get_obs()), self._rewards_to_public(rewards), [True] * 4
 
 
 def _mission_init_signature(

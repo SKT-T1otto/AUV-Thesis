@@ -1,0 +1,7 @@
+test_existing_strict_failure_and_plot_artifacts_are_protected (tests.test_collision_terminal_protocol.CollisionTrainingTests) ... ok
+test_incremental_outputs_and_resume_do_not_repeat_completed_combo (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 32.053s
+
+OK
