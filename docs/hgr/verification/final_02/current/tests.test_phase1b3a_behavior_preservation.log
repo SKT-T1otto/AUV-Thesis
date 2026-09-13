@@ -1,0 +1,8 @@
+test_diagnostic_calls_do_not_change_events_decision_allocation_or_actions (tests.test_phase1b3a_behavior_preservation.Phase1B3ABehaviorPreservationTest) ... ok
+test_path_tracker_diagnostics_are_idempotent_and_read_only (tests.test_phase1b3a_behavior_preservation.Phase1B3ABehaviorPreservationTest) ... ok
+test_recorder_uses_the_committed_public_target_as_lock_baseline (tests.test_phase1b3a_behavior_preservation.Phase1B3ABehaviorPreservationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.179s
+
+OK

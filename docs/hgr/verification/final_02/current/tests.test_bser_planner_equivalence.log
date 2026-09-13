@@ -1,0 +1,10 @@
+test_returned_cells_are_valid_authoritative_edges (tests.test_bser_planner_equivalence.CollisionEquivalenceTest) ... ok
+test_registered_agent_endpoint_has_zero_connector (tests.test_bser_planner_equivalence.ConnectorEquivalenceTest) ... ok
+test_diagonal_cost_matches_authoritative_edge (tests.test_bser_planner_equivalence.CostEquivalenceTest) ... ok
+test_executor_physical_time_uses_executor_graph (tests.test_bser_planner_equivalence.PhysicalTimeEquivalenceTest) ... ok
+test_all_valid_centers_are_reachable_in_reference_component (tests.test_bser_planner_equivalence.ReachabilityEquivalenceTest) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.028s
+
+OK

@@ -1,0 +1,7 @@
+test_executor_primary_partition_and_priority (tests.test_phase1b3a_reason_partition.Phase1B3AReasonPartitionTest) ... ok
+test_waypoint_primary_partition_and_priority (tests.test_phase1b3a_reason_partition.Phase1B3AReasonPartitionTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

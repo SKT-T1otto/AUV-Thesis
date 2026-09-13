@@ -65,6 +65,15 @@
 
 # Required verification
 
+- The 2026-09-13 user request authorizes `team_mean_v1` after the existing
+  execution reward adapter and the independent `ch3_hgr`,
+  `ch3_stochastic_direct_mc`, and `ch3_direct_boundary_corrected` methods.
+  Their stochastic 28D/3D policies and complete simulator snapshot/restore
+  interfaces live in Chapter 3. The legacy PRRAC network and 124D critic
+  remain unchanged. Exact registry evolution is recorded in
+  `docs/provenance/hgr_evolution.json`; all historical manifests stay frozen.
+  Bounded integration is authorized; formal long experiments remain manual.
+
 - For documentation-only or narrowly scoped changes, run task-scoped tests.
 - For shared-core, environment-contract, training-runtime, or release-level
   changes, run the complete relevant regression suite.

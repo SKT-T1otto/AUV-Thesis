@@ -1,0 +1,6 @@
+test_at_most_one_candidate_per_searcher (tests.test_bser_partition_constraint.PartitionConstraintTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+OK

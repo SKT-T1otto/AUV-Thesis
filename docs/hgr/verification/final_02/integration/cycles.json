@@ -1,0 +1,144 @@
+[
+  {
+    "cycle": 1,
+    "completed_main_trajectories": 1,
+    "N": 1,
+    "handoff_count": 1,
+    "no_handoff_count": 0,
+    "K": 2,
+    "draws": [
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": 4.149408777535512e-05
+      },
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": 7.618674018467723e-05
+      }
+    ],
+    "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+    "theta_after_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+    "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+    "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+    "predictor_hash": "eedb06ed2524f23c61407fa09dc692b227177f208ce8736061958ee5a0a73fc1",
+    "predictions": [
+      -0.08054894208908081
+    ],
+    "predictor_fit": {
+      "updates": 3,
+      "mse": 0.00022796689881943166,
+      "samples": 1
+    },
+    "suffix_loss": -0.040570393204689026,
+    "suffix_dataset_ids": [
+      "seed:2729/stream:1/suffix_training/scenario"
+    ],
+    "pilot_dataset_ids": [
+      "seed:2729/stream:5/pilot/scenario"
+    ],
+    "main_dataset_ids": [
+      "seed:2729/stream:3/main/scenario"
+    ],
+    "biased_ablation": false,
+    "hgr_boundary_mechanism_active": true,
+    "g0_norm": 3.316336154937744,
+    "prediction_norm": 1.0372213125228882,
+    "correction_norm": 1.0379788875579834,
+    "delta_g_norm": 0.0007577060023322701,
+    "g1_norm": 3.31705904006958,
+    "parameter_change_norm": 0.0033170839305967093,
+    "loss_old": -2.4239888191223145,
+    "loss_delta": -0.0006360411643981934,
+    "costs": {
+      "main_prefix_steps": 2,
+      "old_reference_suffix_steps": 6,
+      "main_current_suffix_steps": 0,
+      "suffix_policy_training_steps": 8,
+      "pilot_prefix_steps": 2,
+      "pilot_old_suffix_steps": 6,
+      "pilot_new_suffix_steps": 6,
+      "correction_old_suffix_steps": 12,
+      "correction_new_suffix_steps": 12,
+      "snapshot_restore_count": 6,
+      "predictor_updates": 3,
+      "prefix_actor_updates": 1,
+      "suffix_actor_updates": 1
+    },
+    "wall_seconds": 260.2604190999991,
+    "complete": true,
+    "actual_total_environment_steps": 54
+  },
+  {
+    "cycle": 2,
+    "completed_main_trajectories": 2,
+    "N": 1,
+    "handoff_count": 1,
+    "no_handoff_count": 0,
+    "K": 2,
+    "draws": [
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": 0.00010053862234326357
+      },
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": -0.00011279397566439035
+      }
+    ],
+    "theta_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+    "theta_after_hash": "20dd648e73607d7bac10bc5173c615f3d1d0b2a624aa7ed583c998ce860dc697",
+    "phi0_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+    "phi1_hash": "bff98a4c4fcd32cb9957c5fabb2ba2851c087e9a3c728151d3eb514b17c8beb7",
+    "predictor_hash": "8eb2ef22b6972728e3f0ac5ac9d6bf35e1ef234d978d52bdbfe0d26ae5296fc8",
+    "predictions": [
+      0.13914665579795837
+    ],
+    "predictor_fit": {
+      "updates": 3,
+      "mse": 6.223365926416591e-05,
+      "samples": 1
+    },
+    "suffix_loss": -0.05286860466003418,
+    "suffix_dataset_ids": [
+      "seed:2729/stream:13/suffix_training/scenario"
+    ],
+    "pilot_dataset_ids": [
+      "seed:2729/stream:17/pilot/scenario"
+    ],
+    "main_dataset_ids": [
+      "seed:2729/stream:15/main/scenario"
+    ],
+    "biased_ablation": false,
+    "hgr_boundary_mechanism_active": true,
+    "g0_norm": 3.25321102142334,
+    "prediction_norm": 1.7037211656570435,
+    "correction_norm": 1.7037960290908813,
+    "delta_g_norm": 7.502661173930392e-05,
+    "g1_norm": 3.2531397342681885,
+    "parameter_change_norm": 0.003253159811720252,
+    "loss_old": -2.5073678493499756,
+    "loss_delta": 6.854534149169922e-05,
+    "costs": {
+      "main_prefix_steps": 2,
+      "old_reference_suffix_steps": 6,
+      "main_current_suffix_steps": 0,
+      "suffix_policy_training_steps": 8,
+      "pilot_prefix_steps": 2,
+      "pilot_old_suffix_steps": 6,
+      "pilot_new_suffix_steps": 6,
+      "correction_old_suffix_steps": 12,
+      "correction_new_suffix_steps": 12,
+      "snapshot_restore_count": 6,
+      "predictor_updates": 3,
+      "prefix_actor_updates": 1,
+      "suffix_actor_updates": 1
+    },
+    "wall_seconds": 248.99678810000114,
+    "complete": true,
+    "actual_total_environment_steps": 54
+  }
+]

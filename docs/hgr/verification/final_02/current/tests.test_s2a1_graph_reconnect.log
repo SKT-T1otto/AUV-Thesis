@@ -1,0 +1,6 @@
+test_unconnectable_collision_position_gets_local_plan_then_reconnects (tests.test_s2a1_graph_reconnect.GraphReconnectTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.037s
+
+OK

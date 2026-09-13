@@ -1,0 +1,6 @@
+test_probabilities_are_finite_bounded_and_deterministic (tests.test_bser_detection_probability.DetectionProbabilityTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+OK

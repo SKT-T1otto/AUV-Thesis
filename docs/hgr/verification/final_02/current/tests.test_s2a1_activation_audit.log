@@ -1,0 +1,10 @@
+test_activation_dedupe_uses_stable_identity (tests.test_s2a1_activation_audit.ActivationInfrastructureTests) ... ok
+test_scenario_id_file_rejects_empty_duplicate_and_unknown (tests.test_s2a1_activation_audit.ActivationInfrastructureTests) ... ok
+test_targeted_manifest_resolves_final_count_and_preserves_file_order (tests.test_s2a1_activation_audit.ActivationInfrastructureTests) ... ok
+test_targeted_selector_uses_only_baseline_prefound_collision_order (tests.test_s2a1_activation_audit.ActivationInfrastructureTests) ... ok
+test_validator_rejects_observationally_inert_recovery (tests.test_s2a1_activation_audit.ActivationInfrastructureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 74.645s
+
+OK

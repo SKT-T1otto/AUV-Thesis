@@ -1,0 +1,6 @@
+test_adapter_restores_cache_in_finally_and_has_no_environment_step (tests.test_bser_planning_graph_extraction_purity.PlanningGraphPurityTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+OK

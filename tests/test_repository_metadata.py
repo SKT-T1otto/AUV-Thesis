@@ -39,11 +39,11 @@ PERMITTED_POST_BASELINE_EVOLUTIONS = {
             "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61"
         ),
         "current_sha256": (
-            "8c735bdbe3e6bff0a56a8e4c120f9e65c236987721ad4ba7ec7b74e01d41a87c"
+            "f5cd0ee57ac83ba9c1525bcda43594f4639b19b7c3502c95d963a8726775c94b"
         ),
         "reason": (
             "Post-Phase-0B-2 registration of the independent "
-            "ch3_bser_rmaddpg_phase1c runtime without changing the frozen "
+            "ch3_bser_rmaddpg_phase1c and explicitly authorized HGR-family runtimes without changing the frozen "
             "legacy Chapter-3 active-method tuple."
         ),
     }
@@ -64,6 +64,22 @@ for _record in _collision_evolution["records"]:
 
 
 class RepositoryMetadataTests(unittest.TestCase):
+    def test_hgr_registry_evolution_is_exact_and_preserves_previous_review(self):
+        evolution = json.loads((ROOT / "docs/provenance/hgr_evolution.json").read_text(encoding="utf-8"))
+        self.assertFalse(evolution["historical_manifests_modified"])
+        self.assertEqual(evolution["baseline_commit"], "0a5bd3a4efdb68f2cca8721ffe0e8dbf2d54e265")
+        self.assertEqual([r["path"] for r in evolution["records"]], ["core/registry/experiment_registry.py"])
+        record = evolution["records"][0]
+        self.assertEqual(record["previous_reviewed_sha256"], "8c735bdbe3e6bff0a56a8e4c120f9e65c236987721ad4ba7ec7b74e01d41a87c")
+        expected = PERMITTED_POST_BASELINE_EVOLUTIONS[record["path"]]
+        self.assertEqual(record["phase0b2_sha256"], expected["phase0b2_sha256"])
+        self.assertEqual(record["current_sha256"], expected["current_sha256"])
+        self.assertEqual(_sha256(ROOT / record["path"]), record["current_sha256"])
+        for method in ("ch3_hgr", "ch3_stochastic_direct_mc", "ch3_direct_boundary_corrected"):
+            self.assertEqual(assert_registered_ch3_method(method), method)
+            with self.assertRaises(ValueError):
+                assert_ch3_method(method)
+
     def test_collision_public_facade_evolution_is_exact(self):
         from tests.test_phase1a_core_freeze import PERMITTED_EVOLUTION
         records = _collision_evolution["public_facade_records"]
@@ -305,7 +321,7 @@ class RepositoryMetadataTests(unittest.TestCase):
             "ch3_pse_no_standby",
             "ch3_pse_no_residual",
         )
-        independent_modes = ("ch3_bser_rmaddpg_phase1c",)
+        independent_modes = ("ch3_bser_rmaddpg_phase1c", "ch3_hgr", "ch3_stochastic_direct_mc", "ch3_direct_boundary_corrected")
 
         self.assertEqual(
             ACTIVE_CH3_FINAL_EXPERIMENT_MODES,

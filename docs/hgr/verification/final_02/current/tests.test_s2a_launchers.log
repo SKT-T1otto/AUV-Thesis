@@ -1,0 +1,8 @@
+test_config_and_launchers_are_frozen (tests.test_s2a_launchers.LauncherTests) ... ok
+test_evaluator_parses_s2a_schema_and_hash (tests.test_s2a_launchers.LauncherTests) ... ok
+test_linux_launcher_is_lf_and_safe (tests.test_s2a_launchers.LauncherTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.013s
+
+OK

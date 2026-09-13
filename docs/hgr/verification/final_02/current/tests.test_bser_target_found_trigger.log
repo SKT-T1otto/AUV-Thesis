@@ -1,0 +1,6 @@
+test_false_to_true_is_immediate_event (tests.test_bser_target_found_trigger.TargetFoundTriggerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+OK

@@ -1,0 +1,6 @@
+test_core_ast_has_no_historical_runtime_imports_or_path_injection (tests.test_core_has_no_legacy_imports.NoHistoricalRuntimeImportsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.547s
+
+OK

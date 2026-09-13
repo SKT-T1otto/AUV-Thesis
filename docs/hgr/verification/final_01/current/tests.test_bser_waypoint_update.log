@@ -1,0 +1,6 @@
+test_only_changed_high_level_waypoints_are_reported (tests.test_bser_waypoint_update.WaypointUpdateTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.130s
+
+OK

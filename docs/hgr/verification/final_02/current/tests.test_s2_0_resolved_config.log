@@ -1,0 +1,6 @@
+test_cli_paths_are_frozen_after_resolution (tests.test_s2_0_resolved_config.ResolvedConfigTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 25.184s
+
+OK

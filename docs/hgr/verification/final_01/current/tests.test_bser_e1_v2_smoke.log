@@ -1,0 +1,6 @@
+test_smoke_has_four_exact_protocol_requests (tests.test_bser_e1_v2_smoke.E1V2SmokeTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 173.778s
+
+OK

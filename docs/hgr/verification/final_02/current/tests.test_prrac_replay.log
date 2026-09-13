@@ -1,0 +1,6 @@
+test_ring_replacement_roundtrip_generator_and_priority (tests.test_prrac_replay.PRRACReplayTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.036s
+
+OK

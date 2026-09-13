@@ -1,0 +1,7 @@
+test_execution_diagnostics_tracks_post_found_chain_without_mutation (tests.test_phase1c_execution_diagnostics.Phase1CExecutionDiagnosticsTests) ... ok
+test_execution_diagnostics_uses_only_exact_executor_path_metric (tests.test_phase1c_execution_diagnostics.Phase1CExecutionDiagnosticsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+OK

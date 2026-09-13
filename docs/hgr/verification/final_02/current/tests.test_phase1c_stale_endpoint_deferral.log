@@ -1,0 +1,6 @@
+test_moved_executor_with_old_endpoint_is_deferred (tests.test_phase1c_stale_endpoint_deferral.Phase1CStaleEndpointDeferralTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.059s
+
+OK

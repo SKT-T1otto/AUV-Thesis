@@ -1,0 +1,6 @@
+test_belief_shift_cannot_replace_public_execution_target (tests.test_phase1b21_execution_target_lock.Phase1B21ExecutionTargetLockTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.063s
+
+OK

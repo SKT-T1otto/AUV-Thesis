@@ -1,0 +1,6 @@
+test_corrected_modules_use_only_public_context (tests.test_phase1b1_no_target_truth.NoTargetTruthTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+OK

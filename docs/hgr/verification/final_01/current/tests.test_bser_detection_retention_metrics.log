@@ -1,0 +1,6 @@
+test_retention_is_finite_without_threshold_gate (tests.test_bser_detection_retention_metrics.DetectionRetentionTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+OK

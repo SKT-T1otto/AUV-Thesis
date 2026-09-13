@@ -1,0 +1,7 @@
+test_empty_stage_statistics_remain_finite (tests.test_prrac_phase_critic.PRRACCriticTests) ... ok
+test_strict_input_heads_gather_twin_independence_and_target_update (tests.test_prrac_phase_critic.PRRACCriticTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.015s
+
+OK

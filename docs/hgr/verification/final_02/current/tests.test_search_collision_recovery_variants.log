@@ -1,0 +1,6 @@
+test_registry_and_c0_no_state (tests.test_search_collision_recovery_variants.VariantTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

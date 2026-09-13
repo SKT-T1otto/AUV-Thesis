@@ -1,0 +1,6 @@
+test_router_probabilities_are_deterministic_and_finite (tests.test_prrac_phase_router.PRRACRouterTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.030s
+
+OK

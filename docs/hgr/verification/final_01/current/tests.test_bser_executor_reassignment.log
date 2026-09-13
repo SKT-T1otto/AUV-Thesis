@@ -1,0 +1,6 @@
+test_target_found_uses_belief_peak_and_freezes_search (tests.test_bser_executor_reassignment.ExecutorReassignmentTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.044s
+
+OK

@@ -1,0 +1,6 @@
+test_no_event_does_not_replan_each_step (tests.test_bser_no_overplanning.NoOverplanningTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.161s
+
+OK

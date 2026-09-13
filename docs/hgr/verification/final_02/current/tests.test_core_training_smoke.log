@@ -1,0 +1,6 @@
+test_two_by_ten_training_closure (tests.test_core_training_smoke.CoreTrainingSmokeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 232.006s
+
+OK

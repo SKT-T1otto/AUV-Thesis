@@ -1,0 +1,9 @@
+test_candidate_tiers_one_two_and_three_are_public_and_ordered (tests.test_s2a1_local_connector_planner.LocalConnectorPlannerTests) ... ok
+test_last_safe_tier_precedes_graph_cells (tests.test_s2a1_local_connector_planner.LocalConnectorPlannerTests) ... ok
+test_plan_does_not_need_current_start_connector (tests.test_s2a1_local_connector_planner.LocalConnectorPlannerTests) ... ok
+test_same_position_anchor_and_base_tracking_endpoint_are_rejected (tests.test_s2a1_local_connector_planner.LocalConnectorPlannerTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.048s
+
+OK

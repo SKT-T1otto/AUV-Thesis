@@ -1,0 +1,7 @@
+test_algorithm_ast_has_no_privileged_attributes (tests.test_bser_no_ground_truth_leakage.NoTruthLeakageTest) ... ok
+test_runtime_guard_rejects_privileged_reads (tests.test_bser_no_ground_truth_leakage.NoTruthLeakageTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 70.142s
+
+OK

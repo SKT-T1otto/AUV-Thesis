@@ -1,0 +1,6 @@
+test_proxy_is_deterministic_and_preserves_semantic_target (tests.test_execution_reachable_proxy.ReachableProxyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK

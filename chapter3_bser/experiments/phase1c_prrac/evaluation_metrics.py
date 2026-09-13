@@ -172,6 +172,7 @@ def aggregate_checkpoint(
     if "controller_mode" in checkpoint_info and row_controller_mode(checkpoint_info) != controller_mode:
         raise ValueError("checkpoint summary controller_mode mismatch")
     count = len(rows)
+    reward_summary = {f"mean_{name}": _mean(rows, name) for name in ("team_discounted_return", "team_undiscounted_return")}
     found_rows = [row for row in rows if bool(row.get("found"))]
     contact_rows = [row for row in rows if bool(row.get("contact_episode"))]
     hold_rows = [row for row in rows if bool(row.get("hold_episode"))]
@@ -222,6 +223,7 @@ def aggregate_checkpoint(
         low, high = wilson_interval(successes, total)
         result[f"{prefix}_ci_low"] = low
         result[f"{prefix}_ci_high"] = high
+    result.update(reward_summary)
 
     conditional_fields = (
         ("executor_invalid_count", "executor_invalid_count"),

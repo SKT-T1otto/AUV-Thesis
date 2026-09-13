@@ -1,0 +1,6 @@
+test_fixed_manifests_reproduce (tests.test_scenario_manifest_reproducibility.ScenarioReproducibilityTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 51.953s
+
+OK

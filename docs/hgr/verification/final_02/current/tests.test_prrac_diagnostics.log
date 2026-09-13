@@ -1,0 +1,8 @@
+test_runtime_metadata_records_required_cpu_fields (tests.test_prrac_diagnostics.PRRACDiagnosticsAggregationTests) ... ok
+test_summary_accuracy_matches_confusion_matrix_and_stage_coverage (tests.test_prrac_diagnostics.PRRACDiagnosticsAggregationTests) ... ok
+test_update_diagnostics_do_not_overwrite_rollout_diagnostics (tests.test_prrac_diagnostics.PRRACDiagnosticsAggregationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+OK

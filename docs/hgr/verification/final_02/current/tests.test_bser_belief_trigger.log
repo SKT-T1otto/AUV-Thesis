@@ -1,0 +1,6 @@
+test_configured_belief_shift_triggers (tests.test_bser_belief_trigger.BeliefTriggerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+OK

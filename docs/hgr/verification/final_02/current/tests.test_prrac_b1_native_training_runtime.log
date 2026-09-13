@@ -1,0 +1,7 @@
+test_native_worker_uses_b1_and_returns_search_metrics_without_tensors (tests.test_prrac_b1_native_training_runtime.B1NativeTrainingRuntimeTests) ... ok
+test_s1_config_changes_only_allowed_runtime_fields (tests.test_prrac_b1_native_training_runtime.B1NativeTrainingRuntimeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 83.194s
+
+OK

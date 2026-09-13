@@ -1,0 +1,6 @@
+test_event_enum_and_detection_are_deterministic (tests.test_bser_event_detection.EventDetectionTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+OK

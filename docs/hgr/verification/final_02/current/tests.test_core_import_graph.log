@@ -1,0 +1,6 @@
+test_all_absolute_core_imports_resolve (tests.test_core_import_graph.CoreImportGraphTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.806s
+
+OK

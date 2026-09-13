@@ -1,0 +1,6 @@
+test_candidates_reachable_unique_and_partitioned (tests.test_bser_candidate_generation.CandidateGenerationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+OK

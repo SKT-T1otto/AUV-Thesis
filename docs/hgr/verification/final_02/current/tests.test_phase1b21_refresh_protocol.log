@@ -1,0 +1,6 @@
+test_event_methods_use_the_same_twenty_step_refresh (tests.test_phase1b21_refresh_protocol.Phase1B21RefreshProtocolTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+OK

@@ -1,0 +1,14 @@
+test_auxiliary_update_changes_only_search_head (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_config_defaults_disabled_and_opt_in_file_enabled (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_disabled_mode_preserves_original_policy_and_replay_shape (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_enabled_checkpoint_roundtrip_preserves_auxiliary_state (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_enabling_head_does_not_change_actor_parameter_count (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_future_found_horizon_labels (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_old_checkpoint_load_initializes_missing_head (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_shape (tests.test_search_value_head.SearchValueHeadTests) ... ok
+test_worker_emits_side_channel_features_without_actor_shape_change (tests.test_search_value_head.SearchValueHeadTests) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 91.248s
+
+OK

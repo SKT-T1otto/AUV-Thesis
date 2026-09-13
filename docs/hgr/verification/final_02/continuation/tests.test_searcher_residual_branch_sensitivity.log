@@ -1,0 +1,28 @@
+test_all_tied_agents_retained (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_alpha_zero_only_selected_searchers_and_executor_unchanged (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_anchor_uses_discrete_step_not_position (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_control_failure_prohibits_interpretation (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_delayed_and_stable (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_half_exact_and_executor_cannot_be_selected (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_missing_control_endpoint_is_not_interpolated (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_missing_or_falsified_branch_step_rejected (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_monotonic_immediate_coarse_interval (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_non_monotonic_and_unordered_not_forced (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_position_separation_and_immediate_comparison (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_same_state_mismatch_and_incomplete_fail (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_trace_preserves_authoritative_diagnostic_norms (tests.test_searcher_residual_branch_sensitivity.BranchMetricTests) ... ok
+test_native_same_state_control_and_original_clip_path (tests.test_searcher_residual_branch_sensitivity.BranchNativeTests) ... ok
+test_all_offline_outputs_and_failed_manifest_gate (tests.test_searcher_residual_branch_sensitivity.BranchOfflineTests) ... ok
+test_checkpoint_hash_mismatch_rejected (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_config_and_trace_bytes_mismatch_rejected (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_custom_formal_grid_and_missing_alpha1_rejected (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_formal_15_and_75_job_assembly_without_simulation (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_nonempty_and_historical_output_protected_before_load (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_parent_outputs_stably_sorted_and_analyzable_without_simulation (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_seed_manifest_mismatch_rejected (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+test_smoke_validates_all_then_selects_six_runs (tests.test_searcher_residual_branch_sensitivity.BranchSourceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 294.444s
+
+OK

@@ -1,0 +1,6 @@
+test_false_to_true_public_transition_is_distinct_event (tests.test_phase1b1_executor_target_received.ExecutorTargetReceivedTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+OK

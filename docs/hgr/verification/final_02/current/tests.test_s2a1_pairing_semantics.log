@@ -1,0 +1,7 @@
+test_baseline_strata_rejects_per_id_seed_mismatch (tests.test_s2a1_pairing_semantics.PairingSemanticsTests) ... ok
+test_directions_and_per_id_seed_validation (tests.test_s2a1_pairing_semantics.PairingSemanticsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.007s
+
+OK

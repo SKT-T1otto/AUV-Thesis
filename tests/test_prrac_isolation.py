@@ -48,6 +48,11 @@ class PRRACIsolationTests(unittest.TestCase):
         }
         for relative, expected in hashes.items():
             data = (ROOT / relative).read_bytes()
+            if relative == "core/registry/experiment_registry.py":
+                record = json.loads((ROOT / "docs/provenance/hgr_evolution.json").read_text(encoding="utf-8"))["records"][0]
+                self.assertEqual(record["path"], relative)
+                self.assertEqual(record["previous_reviewed_sha256"], expected)
+                expected = record["current_sha256"]
             if relative in REVIEWED_COLLISION_EVOLUTIONS:
                 reviewed = REVIEWED_COLLISION_EVOLUTIONS[relative]
                 self.assertEqual(expected, reviewed["historical_sha256"], relative)

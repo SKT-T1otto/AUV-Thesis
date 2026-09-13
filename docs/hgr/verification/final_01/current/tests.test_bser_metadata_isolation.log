@@ -1,0 +1,6 @@
+test_experiment_fields_exist_only_in_metadata (tests.test_bser_metadata_isolation.MetadataIsolationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

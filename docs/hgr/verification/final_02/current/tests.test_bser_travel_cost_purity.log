@@ -1,0 +1,6 @@
+test_query_is_deterministic_and_snapshot_unchanged (tests.test_bser_travel_cost_purity.TravelCostPurityTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.037s
+
+OK

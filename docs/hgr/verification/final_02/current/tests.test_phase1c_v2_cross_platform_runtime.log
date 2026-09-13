@@ -1,0 +1,12 @@
+test_cuda_seed_is_applied_when_cuda_is_available (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_explicit_cuda_requests_fail_fast_without_cuda (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_policy_snapshot_contains_numpy_copies_only (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_spawn_executor_round_trip_contains_no_tensors (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_training_executor_uses_spawn_context (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_training_summary_records_reproducibility_runtime (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+test_worker_transition_payload_is_numpy_and_preserves_contracts (tests.test_phase1c_v2_cross_platform_runtime.Phase1CV2CrossPlatformRuntimeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 239.293s
+
+OK

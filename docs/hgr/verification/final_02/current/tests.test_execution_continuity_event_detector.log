@@ -1,0 +1,8 @@
+test_proxy_validity_uses_proxy_endpoint_not_semantic_target (tests.test_execution_continuity_event_detector.ExecutionContinuityEventDetectorTests) ... ok
+test_retry_is_aligned_to_existing_refresh_cadence_and_shift_threshold (tests.test_execution_continuity_event_detector.ExecutionContinuityEventDetectorTests) ... ok
+test_safe_hold_is_retry_pending_not_assignment_unreachable (tests.test_execution_continuity_event_detector.ExecutionContinuityEventDetectorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.003s
+
+OK

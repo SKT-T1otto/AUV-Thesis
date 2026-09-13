@@ -1,0 +1,6 @@
+test_refresh_once_per_continuous_collision (tests.test_search_collision_recovery_route_refresh.RouteRefreshTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK

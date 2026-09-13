@@ -1,0 +1,6 @@
+test_candidate_ids_repeat_exactly (tests.test_bser_determinism.DeterminismTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.045s
+
+OK

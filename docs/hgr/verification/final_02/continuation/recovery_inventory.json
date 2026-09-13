@@ -1,0 +1,16 @@
+{
+  "source_tree_sha256": "cebb5de89775406ca1dd3bb26ae2ed2f80fdc90c90f350ea5541803b94495e45",
+  "source_tree_unchanged": true,
+  "completed_modules": 178,
+  "completed_methods": 550,
+  "remaining_modules": [
+    "tests.test_search_value_audit_runtime",
+    "tests.test_searcher_residual_branch_sensitivity",
+    "tests.test_searcher_residual_trace",
+    "tests.test_team_reward",
+    "tests.test_verify_external_archive"
+  ],
+  "discovered_methods": 600,
+  "original_process_exit_codes_available": false,
+  "reason": "User interrupted the original runner; all processes stopped. Only exact complete OK logs are reused."
+}

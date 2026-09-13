@@ -1,0 +1,6 @@
+test_same_state_has_same_allocation_hash (tests.test_bser_online_allocator.OnlineAllocatorTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.069s
+
+OK

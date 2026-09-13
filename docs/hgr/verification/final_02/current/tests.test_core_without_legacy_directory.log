@@ -1,0 +1,6 @@
+test_historical_area_contains_no_python_and_is_not_required (tests.test_core_without_legacy_directory.CoreWithoutHistoricalDirectoryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK

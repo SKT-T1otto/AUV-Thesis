@@ -79,3 +79,10 @@ runtime/linux_preflight.json
 # Compact maintenance evidence; model and experiment-output ignores stay active.
 !docs/collision_terminal/maintenance/logs/
 !docs/collision_terminal/maintenance/logs/**
+
+# Bounded HGR mechanism and fixed-tree regression evidence; no model artifacts.
+!docs/hgr/verification/
+!docs/hgr/verification/**
+docs/hgr/verification/**/*.pt
+docs/hgr/verification/**/*.pth
+docs/hgr/verification/**/*.ckpt

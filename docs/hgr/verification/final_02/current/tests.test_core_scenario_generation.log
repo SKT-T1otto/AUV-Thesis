@@ -1,0 +1,6 @@
+test_core_regenerates_frozen_manifests_exactly (tests.test_core_scenario_generation.CoreScenarioGenerationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 47.882s
+
+OK

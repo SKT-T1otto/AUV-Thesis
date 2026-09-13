@@ -1,0 +1,8 @@
+test_collision_edge_requests_one_force_and_rearms_after_clear (tests.test_s2a1_forced_refresh.ForcedRefreshTests) ... ok
+test_found_terminates_without_force (tests.test_s2a1_forced_refresh.ForcedRefreshTests) ... ok
+test_v2_overlay_preserves_collision_edge_semantic_identity_and_allocation (tests.test_s2a1_forced_refresh.ForcedRefreshTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.038s
+
+OK

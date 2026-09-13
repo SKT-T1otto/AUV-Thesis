@@ -1,0 +1,8 @@
+test_launchers_are_thin_and_select_new_config (tests.test_phase1c_v2_1_isolation.Phase1CV21IsolationTests) ... ok
+test_legacy_or_revisionless_checkpoint_is_rejected_by_v2_1 (tests.test_phase1c_v2_1_isolation.Phase1CV21IsolationTests) ... ok
+test_v2_and_v2_1_share_training_contract_but_not_runtime_namespace (tests.test_phase1c_v2_1_isolation.Phase1CV21IsolationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.049s
+
+OK

@@ -1,0 +1,22 @@
+test_all_offline_outputs_and_scenario_equal_statistics (tests.test_searcher_residual_trace.OfflineTraceFilesTests) ... ok
+test_offline_detects_missing_steps_even_with_updated_file_hash (tests.test_searcher_residual_trace.OfflineTraceFilesTests) ... ok
+test_reproduction_mismatch_blocks_mechanism_report (tests.test_searcher_residual_trace.OfflineTraceFilesTests) ... ok
+test_distance_first_divergence_and_non_counterfactual_label (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+test_native_evaluator_trace_no_op_both_modes (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+test_no_interpolation_duplicate_keys_and_censored_followups (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+test_raw_applied_and_authoritative_aggregate_no_change (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+test_zero_norm_cosine_is_NA (tests.test_searcher_residual_trace.TraceMetricTests) ... ok
+test_bad_case_counts_rejected_even_in_smoke (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_case_outside_original_manifest_rejected (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_different_manifests_rejected (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_formal_count_seeds_and_original_indices_without_generation (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_nonempty_output_refused_before_checkpoint_load (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_runner_builds_exact_30_jobs_without_simulation (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_seed_and_behavior_mismatch_fail (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_smoke_only_slices_after_full_validation (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+test_spawn_parent_sorting_stable (tests.test_searcher_residual_trace.TraceSourceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 276.690s
+
+OK

@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 from core.env.task_protocol import PROTOCOL_FIELDS, LEGACY, protocol_identity
+from chapter3_bser.experiments.reward_objective import INDIVIDUAL, OBJECTIVE_FIELDS, objective_identity
 
 
 EVALUATION_REPORT_SCHEMA = "bser.phase1c.prrac.evaluation_report.v2"
@@ -14,6 +15,7 @@ SEARCH_SUMMARY_SCHEMA = "bser.phase1c.prrac.search_summary.v2"
 PROGRESS_SCHEMA = "bser.phase1c.prrac.evaluation_progress.v2"
 
 PROVENANCE_FIELDS = (
+    *OBJECTIVE_FIELDS, "checkpoint_reward_objective",
     *PROTOCOL_FIELDS, "checkpoint_task_protocol", "evaluation_task_protocol",
     "checkpoint_sha256",
     "controller_mode",
@@ -57,6 +59,10 @@ def validate_controller_artifacts(config, progress, *row_groups) -> None:
 
 
 def _field(row: Mapping[str, Any], name: str) -> Any:
+    if name in OBJECTIVE_FIELDS:
+        return objective_identity(row)[name]
+    if name == "checkpoint_reward_objective":
+        return row.get(name, INDIVIDUAL)
     if name in PROTOCOL_FIELDS:
         return protocol_identity(row)[name]
     if name in ("checkpoint_task_protocol", "evaluation_task_protocol"):
@@ -170,6 +176,7 @@ def validate_evaluation_provenance(
         ),
     }
     combo_fields = (
+        *OBJECTIVE_FIELDS, "checkpoint_reward_objective",
         *PROTOCOL_FIELDS, "checkpoint_task_protocol",
         "checkpoint_sha256",
         "controller_mode",
@@ -214,6 +221,9 @@ def validate_evaluation_provenance(
             raise ValueError(f"episode row {index} has unregistered checkpoint")
         metadata_item = metadata_by_path[checkpoint]
         metadata = dict(metadata_item.get("metadata", {}))
+        if objective_identity(row) != objective_identity(resolved_config):
+            raise ValueError("episode reward objective provenance mismatch")
+        _require_equal("checkpoint reward objective", _field(row, "checkpoint_reward_objective"), objective_identity(metadata)["reward_objective"])
         if row.get("task_protocol") == "collision_terminal_v1":
             from .checkpoint_transfer import file_sha256
             _require_equal("checkpoint bytes", row.get("checkpoint_sha256"), file_sha256(checkpoint))
@@ -304,6 +314,8 @@ def validate_summary_provenance(
 
 
 def validate_resume_config(saved: Mapping[str, Any], expected: Mapping[str, Any]) -> None:
+    if objective_identity(saved) != objective_identity(expected):
+        raise ValueError("resume evaluation reward objective mismatch")
     _require_equal("resume controller_mode", saved.get("controller", "full_prrac"), expected.get("controller", "full_prrac"))
     for field in (
         "schema", "resolved_config_hash", "manifest_sha256",

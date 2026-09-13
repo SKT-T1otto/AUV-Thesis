@@ -1,0 +1,6 @@
+test_algorithm_modules_never_access_obstacle_layout_id (tests.test_bser_no_layout_id_algorithm_access.NoLayoutLeakageTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.029s
+
+OK

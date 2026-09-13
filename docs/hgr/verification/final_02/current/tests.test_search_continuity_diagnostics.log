@@ -1,0 +1,10 @@
+test_agent_step_denominators_and_public_deltas (tests.test_search_continuity_diagnostics.SearchContinuityDiagnosticsTests) ... ok
+test_alignment_validity_excludes_zero_hold_and_unreachable (tests.test_search_continuity_diagnostics.SearchContinuityDiagnosticsTests) ... ok
+test_assignment_and_tracking_switches_are_separate (tests.test_search_continuity_diagnostics.SearchContinuityDiagnosticsTests) ... ok
+test_suppression_counts_env_steps_and_agent_steps (tests.test_search_continuity_diagnostics.SearchContinuityDiagnosticsTests) ... ok
+test_zero_denominators_are_null (tests.test_search_continuity_diagnostics.SearchContinuityDiagnosticsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.008s
+
+OK

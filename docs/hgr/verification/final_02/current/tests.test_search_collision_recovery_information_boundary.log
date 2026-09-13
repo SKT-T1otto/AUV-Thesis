@@ -1,0 +1,6 @@
+test_recovery_package_has_no_forbidden_oracle_access (tests.test_search_collision_recovery_information_boundary.InformationBoundaryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.178s
+
+OK

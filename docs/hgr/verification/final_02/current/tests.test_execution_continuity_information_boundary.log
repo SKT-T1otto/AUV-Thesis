@@ -1,0 +1,7 @@
+test_actor_input_and_checkpoint_architecture_contracts_are_unchanged (tests.test_execution_continuity_information_boundary.ExecutionContinuityInformationBoundaryTests) ... ok
+test_proxy_planner_has_no_true_target_input_or_lookup (tests.test_execution_continuity_information_boundary.ExecutionContinuityInformationBoundaryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+OK

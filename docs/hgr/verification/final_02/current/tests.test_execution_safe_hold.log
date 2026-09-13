@@ -1,0 +1,6 @@
+test_no_route_enters_explicit_safe_hold_at_current_position (tests.test_execution_safe_hold.SafeHoldTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

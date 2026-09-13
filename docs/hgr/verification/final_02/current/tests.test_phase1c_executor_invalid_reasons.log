@@ -1,0 +1,9 @@
+test_assignment_unreachable_is_not_hidden_by_stale_snapshot (tests.test_phase1c_executor_invalid_reasons.Phase1CExecutorInvalidReasonTests) ... ok
+test_episode_diagnostics_count_structured_reasons_and_refreshes (tests.test_phase1c_executor_invalid_reasons.Phase1CExecutorInvalidReasonTests) ... ok
+test_fresh_endpoint_query_unreachable_is_real_invalid (tests.test_phase1c_executor_invalid_reasons.Phase1CExecutorInvalidReasonTests) ... ok
+test_same_target_cost_increase_has_distinct_reason (tests.test_phase1c_executor_invalid_reasons.Phase1CExecutorInvalidReasonTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.181s
+
+OK

@@ -13,7 +13,7 @@ PERMITTED_EVOLUTION = {
     },
     "core/registry/experiment_registry.py": {
         "historical_sha256": "769dad9c900af98bc0cb067632d2343db573fcd36c52bd176cba6966351f2b61",
-        "current_sha256": "8c735bdbe3e6bff0a56a8e4c120f9e65c236987721ad4ba7ec7b74e01d41a87c",
+        "current_sha256": "f5cd0ee57ac83ba9c1525bcda43594f4639b19b7c3502c95d963a8726775c94b",
     }
 }
 

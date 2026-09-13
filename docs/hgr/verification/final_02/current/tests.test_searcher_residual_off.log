@@ -1,0 +1,8 @@
+test_existing_modes_are_unchanged (tests.test_searcher_residual_off.SearcherResidualOffTests) ... ok
+test_search_only_copy_suppression_preserves_executor_bitwise (tests.test_searcher_residual_off.SearcherResidualOffTests) ... ok
+test_searcher_off_is_diagnostic_only_and_not_recommended (tests.test_searcher_residual_off.SearcherResidualOffTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.771s
+
+OK

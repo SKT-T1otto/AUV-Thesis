@@ -1,0 +1,6 @@
+test_lazy_matches_standard (tests.test_bser_lazy_equivalence.LazyEquivalenceTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.023s
+
+OK

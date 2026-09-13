@@ -12,6 +12,9 @@ ACTIVE_CH3_FINAL_EXPERIMENT_MODES = (
 
 INDEPENDENT_CH3_EXPERIMENT_MODES = (
     "ch3_bser_rmaddpg_phase1c",
+    "ch3_hgr",
+    "ch3_stochastic_direct_mc",
+    "ch3_direct_boundary_corrected",
 )
 
 REGISTERED_CH3_EXPERIMENT_MODES = (
@@ -25,6 +28,9 @@ CONTROLLER_ONLY_METHODS = (
 )
 
 METHOD_DESCRIPTIONS = {
+    "ch3_hgr": "Team MC old gradient plus handoff value-difference prediction and residual correction.",
+    "ch3_stochastic_direct_mc": "Isolated stochastic policies with direct full-task team MC gradients.",
+    "ch3_direct_boundary_corrected": "Team prefix reward gradient plus corrected current boundary value.",
     "ch3_pheromone_prior": "Pheromone prior controller without a learned residual.",
     "ch3_pheromone_rmaddpg": "Pheromone prior with RMADDPG residual control.",
     "ch3_pse_rmaddpg": "Full Chapter-3 PSE-RMADDPG method.",

@@ -1,0 +1,13 @@
+test_AB_equivalent_root_cannot_pass_delivery_gate (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_C_preserves_standby_and_best_original_objective (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_ids_and_accepted_counter_alone_are_not_delivery (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_init_boundary_AA_reverse_order_one_intervention (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_later_boundary_retains_acceptance_and_original_global_cutoff (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_no_C_does_not_manufacture_proposal (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_partial_C_excludes_B_after_frozen_assignment_merge (tests.test_search_value_audit_branches.BranchTests) ... ok
+test_scoring_boundary_is_public_and_team_probabilities_not_summed (tests.test_search_value_audit_branches.BranchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 98.635s
+
+OK

@@ -3,6 +3,7 @@ import json
 from collections import Counter
 from dataclasses import replace
 from core.env.task_protocol import STRICT, protocol_identity
+from chapter3_bser.experiments.reward_objective import objective_identity
 
 
 def terminal_planning_snapshot(env, previous):
@@ -79,6 +80,8 @@ def strict_outcome(row):
 def validated_rows(rows, *, require_complete=False):
     """Shared episode boundary for summaries, CSV recovery, funnels and pairs."""
     rows = list(rows)
+    if len({tuple(objective_identity(row).values()) for row in rows}) > 1:
+        raise ValueError("episode rows cannot mix reward objectives")
     identities = {tuple(protocol_identity(row).values()) for row in rows}
     if len(identities) > 1:
         raise ValueError("episode rows cannot mix task protocols")

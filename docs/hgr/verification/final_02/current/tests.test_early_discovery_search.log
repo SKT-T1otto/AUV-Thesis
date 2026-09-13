@@ -1,0 +1,12 @@
+test_active_changes_actual_selection_but_retains_original_objective (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_arrival_discount_order_and_stable_ties (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_candidate_arrays_are_unchanged (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_disabled_and_zero_lambda_identity_without_arrival_computation (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_existing_astar_length_precedes_straight_line (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_found_restores_baseline (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+test_invalid_settings_rejected (tests.test_early_discovery_search.EarlyDiscoveryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.082s
+
+OK

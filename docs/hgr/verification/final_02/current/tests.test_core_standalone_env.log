@@ -1,0 +1,6 @@
+test_facade_uses_core_and_preserves_contract (tests.test_core_standalone_env.CoreStandaloneEnvironmentTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 110.297s
+
+OK

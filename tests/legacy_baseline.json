@@ -14,6 +14,7 @@
     "protocol_identity": "Absent on historical side; current side must explicitly equal legacy identity. No other result fields excluded."
   },
   "allowed_new_import_modules": [
+    "chapter3_bser.experiments.reward_objective",
     "core.env.task_protocol",
     "chapter3_bser.experiments.phase1c_prrac.checkpoint_transfer",
     "chapter3_bser.experiments.phase1c_prrac.task_metrics"

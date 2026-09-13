@@ -1,0 +1,6 @@
+test_cpu_reset_step_and_public_views (tests.test_mission_core_contract.MissionCoreContractTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 65.132s
+
+OK

@@ -1,0 +1,6 @@
+test_cooldown_gain_and_critical_rules (tests.test_bser_hysteresis.HysteresisTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

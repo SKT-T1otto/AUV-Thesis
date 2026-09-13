@@ -1,0 +1,6 @@
+test_unreachable_executor_assignment_does_not_use_straight_line_fallback (tests.test_phase1b21_unreachable_executor_hold.Phase1B21UnreachableExecutorHoldTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.065s
+
+OK

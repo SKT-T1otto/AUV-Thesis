@@ -1,0 +1,6 @@
+test_arrays_are_defensive_readonly_values (tests.test_bser_planning_state_readonly.PlanningStateReadonlyTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK

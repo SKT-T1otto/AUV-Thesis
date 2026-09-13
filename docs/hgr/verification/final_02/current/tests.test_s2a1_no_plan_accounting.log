@@ -1,0 +1,6 @@
+test_identical_refresh_is_not_effective_or_plan_active (tests.test_s2a1_no_plan_accounting.NoPlanAccountingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.024s
+
+OK

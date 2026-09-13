@@ -1,0 +1,6 @@
+test_core_environment_does_not_write_outside_temporary_output (tests.test_no_legacy_write.LegacyReadOnlyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 117.749s
+
+OK

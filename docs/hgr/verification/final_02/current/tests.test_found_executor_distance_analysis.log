@@ -1,0 +1,30 @@
+test_contact_discordance_runs_auxiliary (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_manifest_hashes_and_no_historical_input_modifications (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_missing_found_step_blocks_adjustment_without_deleting (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_missing_primary_blocks_all_models_and_keeps_ids (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_refuse_overwrite_and_nested_source (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_reject_mixed_mode_or_subset_or_duplicate_before_writes (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_reject_unknown_semantics_and_protocol (tests.test_found_executor_distance_analysis.FileAnalysisTests) ... ok
+test_3d_xy_and_dz (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_conflicting_timing_and_remaining_rejected (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_contact_equality_and_missing (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_first_event_latch_uses_actual_diagnostics_source (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_found_and_full_only_filtering_and_grouping (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_invalid_geometry (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_missing_primary_preserved_no_final_or_alias_fallback (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_off_by_one_wrapper_calls_diagnostics_after_physical_step (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_scalar_does_not_fabricate_coordinates_xy_dz_speed (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_timing_semantics_and_receive_are_distinct (tests.test_found_executor_distance_analysis.PopulationTests) ... ok
+test_adjusted_model_matches_known_two_predictor_odds (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_auc_negative_distance_direction_and_ties (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_bootstrap_reproducible_and_failed_draws_accounted (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_logistic_direction_matches_analytic_solution (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_point_biserial_known_value (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_quartile_partition_and_duplicate_boundaries (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_separation_and_rank_detection (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+test_summary_sample_std_and_grouping (tests.test_found_executor_distance_analysis.StatisticsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 15.921s
+
+OK

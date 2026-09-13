@@ -63,7 +63,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             base = Path(directory); stub = base/'conda.ps1'; captured = base/'args.txt'
             stub.write_text('[IO.File]::WriteAllLines($env:STUB_ARGS, [string[]]$args)\nexit 37\n', encoding='utf-8')
             env = {**os.environ, 'CRK_CONDA_EXE': str(stub), 'CRK_CONDA_ENV': 'TEST_ONLY_ENV', 'STUB_ARGS': str(captured)}
-            for name in ('run_collision_terminal.ps1', 'run_collision_terminal.bat'):
+            for name in ('run_collision_terminal.ps1', 'run_collision_terminal.bat', 'run_ch3_learning.ps1', 'run_ch3_learning.bat'):
                 command = ([powershell, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', str(ROOT/'scripts'/name)]
                            if name.endswith('.ps1') else [str(ROOT/'scripts'/name)])
                 result = subprocess.run([*command, '-CondaEnv', 'TEST_ONLY_ENV', 'evaluate', '--test-value', 'two words'], env=env, capture_output=True, text=True, timeout=30)
@@ -75,6 +75,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
     def test_linux_shell_assets_exist_use_lf_and_have_strict_entrypoints(self) -> None:
         expected = {
             "run_collision_terminal.sh",
+            "run_ch3_learning.sh",
             "env_preflight.sh",
             "run_phase1c_prrac_eval.sh",
             "run_phase1c_prrac_execution_ablation.sh",
@@ -138,6 +139,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             self.assertTrue(
                 'CONDA_BASE="$(conda info --base)"' in source
                 or 'CONDA_BASE="$("${COLLISION_CONDA_EXE}" info --base)"' in source
+                or 'CONDA_BASE="$("${CH3_CONDA_EXE}" info --base)"' in source
                 or '$(conda info --base)/etc/profile.d/conda.sh' in source,
                 path.name,
             )

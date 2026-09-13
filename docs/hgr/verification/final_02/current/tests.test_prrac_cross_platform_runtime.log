@@ -1,0 +1,9 @@
+test_linux_launcher_is_lf_thin_and_cpu_safe_by_default (tests.test_prrac_cross_platform_runtime.PRRACCrossPlatformRuntimeTests) ... ok
+test_policy_snapshot_is_numpy_copy_and_spawn_pickleable (tests.test_prrac_cross_platform_runtime.PRRACCrossPlatformRuntimeTests) ... ok
+test_spawn_single_worker_collects_tensor_free_payload (tests.test_prrac_cross_platform_runtime.PRRACCrossPlatformRuntimeTests) ... ok
+test_spawn_two_worker_smoke_has_no_pool_transport_failure (tests.test_prrac_cross_platform_runtime.PRRACCrossPlatformRuntimeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 201.941s
+
+OK

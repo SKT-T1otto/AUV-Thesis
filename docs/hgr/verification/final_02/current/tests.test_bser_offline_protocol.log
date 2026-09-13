@@ -1,0 +1,8 @@
+test_smoke_writes_explicit_temporary_output (tests.test_bser_offline_protocol.E1SmokeTest) ... ok
+test_protocol_declares_exactly_240_requests (tests.test_bser_offline_protocol.RequestCountTest) ... ok
+test_step50_is_requested_under_400_step_environment (tests.test_bser_offline_protocol.Step50ProtocolTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 173.763s
+
+OK

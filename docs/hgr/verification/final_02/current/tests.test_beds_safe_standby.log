@@ -1,0 +1,33 @@
+test_arrival_hold_has_no_active_residual (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_collision_diagnostics_partition_by_pre_transition_found (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_diagnostic_missing_fields_serialize_na_and_keep_other_files (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_diagnostics_disabled_does_not_change_control (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_disabled_guidance_and_actions_are_identity (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_early_only_adapter_matches_previous_commit (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_early_source_is_frozen_at_requested_commit (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_existing_waypoint_prior_brakes_with_zero_hold_target (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_failed_planner_holds_and_never_p_commands_raw_target (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_found_releases_guidance_action_and_tracker_without_velocity_reset (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_found_state_speed_latched_once_on_actual_transition (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_input_public_arrays_unchanged (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_live_map_invalidation_holds_without_replan_every_step (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_local_tracking_target_not_final_raw_target (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_missing_collision_data_is_na_not_zero (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_navigation_binding_uses_only_unknown_map_and_runtime_thresholds (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_no_truth_or_future_information_is_needed (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_nonconnector_raw_is_repaired_by_existing_public_graph (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_occupied_raw_target_is_never_selected (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_old_config_resolves_inherited_defaults_deterministically (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_planned_path_passes_to_real_path_tracker (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_planner_query_exception_is_fail_safe_hold (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_prior_slow_radius_decreases_actual_navigation_acceleration (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_raw_median_remains_geometric_median (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_searcher_on_local_segment_forces_hold (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_slowdown_fades_residual_without_replacing_direction (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_small_target_shift_retains_route_and_tracker (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+test_update_requires_interval_and_material_shift (tests.test_beds_safe_standby.SafeStandbyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.693s
+
+OK

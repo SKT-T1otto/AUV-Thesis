@@ -1,0 +1,7 @@
+test_frozen_files_hashes_and_import_direction (tests.test_prrac_isolation.PRRACIsolationTests) ... ok
+test_legacy_configs_and_dimensions_remain_isolated (tests.test_prrac_isolation.PRRACIsolationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.062s
+
+OK

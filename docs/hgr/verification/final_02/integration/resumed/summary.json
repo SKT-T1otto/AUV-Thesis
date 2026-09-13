@@ -1,0 +1,36 @@
+{
+  "method": "ch3_hgr",
+  "reward_objective": "team_mean_v1",
+  "gamma": 0.95,
+  "run_mode": "same_method_resume",
+  "resume_from": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-urgtdabi\\collision_terminal\\hgr\\checkpoints\\hgr_main_000001_cycle_000001.pt",
+  "implementation_version": "hgr.exact_score_cycle.v1",
+  "source_sha256": "0f29d031b818d1c87ca238dade78cde3bb8a8ff9f07f5180cecdac35160cbae8",
+  "completed_main_trajectories": 2,
+  "completed_cycles": 2,
+  "actual_total_environment_steps": 108,
+  "costs": {
+    "main_prefix_steps": 4,
+    "old_reference_suffix_steps": 12,
+    "main_current_suffix_steps": 0,
+    "suffix_policy_training_steps": 16,
+    "pilot_prefix_steps": 4,
+    "pilot_old_suffix_steps": 12,
+    "pilot_new_suffix_steps": 12,
+    "correction_old_suffix_steps": 24,
+    "correction_new_suffix_steps": 24,
+    "snapshot_restore_count": 12,
+    "predictor_updates": 6,
+    "prefix_actor_updates": 2,
+    "suffix_actor_updates": 2
+  },
+  "wall_seconds": 268.63891760000115,
+  "budget_policy": "finish_started_cycle_then_stop",
+  "budget_overshoot_steps": 0,
+  "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-urgtdabi\\collision_terminal\\resumed\\checkpoints\\hgr_main_000002_cycle_000002.pt",
+  "initialization": {
+    "mode": "from_scratch"
+  },
+  "formal_experiments_completed": false,
+  "performance_claims_supported": false
+}

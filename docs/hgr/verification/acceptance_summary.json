@@ -1,0 +1,95 @@
+{
+  "schema": "hgr.implementation_acceptance.v1",
+  "context": "latest_recorded_local_verification_not_CI",
+  "implementation_complete": true,
+  "integration_passed": true,
+  "mechanism_checks_passed": true,
+  "formal_experiments_completed": false,
+  "performance_claims_supported": false,
+  "all_required_verification_passed": false,
+  "baseline_commit": "0a5bd3a4efdb68f2cca8721ffe0e8dbf2d54e265",
+  "source_tree_sha256": "cebb5de89775406ca1dd3bb26ae2ed2f80fdc90c90f350ea5541803b94495e45",
+  "production_source_sha256": "0f29d031b818d1c87ca238dade78cde3bb8a8ff9f07f5180cecdac35160cbae8",
+  "tree_unchanged": true,
+  "current_regression": {
+    "discovered": 600,
+    "tests_run": 600,
+    "passed_methods": 600,
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "exact_discovery_execution_match": true,
+    "recovered_modules": 178,
+    "fresh_modules": 5,
+    "recovered_process_exit_codes_available": false
+  },
+  "legacy": {
+    "passed": true,
+    "reference_commit": "93a9c8fb53857051390265e3035061bf05402e25",
+    "bounded_steps_per_source": 4,
+    "different_top_level_fields": [],
+    "dependency_isolation_valid": true
+  },
+  "historical": {
+    "status": "blocked_missing_historical_input",
+    "discovered": 4,
+    "passed_methods": 1,
+    "blocked": 3
+  },
+  "golden": {
+    "status": "blocked_missing_historical_input",
+    "missing_input": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_core_migration\\golden_trace_manifest.json",
+    "trajectories": 0,
+    "passed_trajectories": 0,
+    "blocked": 1,
+    "passed": false,
+    "started_utc": "2026-09-13T12:59:44.701878+00:00",
+    "ended_utc": "2026-09-13T12:59:44.715653+00:00"
+  },
+  "integration": {
+    "completed_cycles": 2,
+    "completed_main_trajectories": 2,
+    "actual_total_environment_steps": 108,
+    "costs": {
+      "main_prefix_steps": 4,
+      "old_reference_suffix_steps": 12,
+      "main_current_suffix_steps": 0,
+      "suffix_policy_training_steps": 16,
+      "pilot_prefix_steps": 4,
+      "pilot_old_suffix_steps": 12,
+      "pilot_new_suffix_steps": 12,
+      "correction_old_suffix_steps": 24,
+      "correction_new_suffix_steps": 24,
+      "snapshot_restore_count": 12,
+      "predictor_updates": 6,
+      "prefix_actor_updates": 2,
+      "suffix_actor_updates": 2
+    },
+    "checkpoint": {
+      "checkpoint": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\outputs\\chapter3\\hgr\\collision_terminal\\verification_final_02\\checkpoints\\hgr_main_000002_cycle_000002.pt",
+      "file_sha256": "cd2688329505c1e70599cd9fad8bdb7462c0785d783bc695b510259b58e2e2af",
+      "source_matches_current": true,
+      "policy_hashes_match": true,
+      "completed_cycles": 2,
+      "completed_main": 2,
+      "cycle_complete": true,
+      "prefixes_valid": false
+    },
+    "resume_parameters_identical": true
+  },
+  "baseline_environment_steps": {
+    "stochastic_direct_mc": 16,
+    "direct_boundary_corrected": 30
+  },
+  "limitations": [
+    "Historical input files are missing; no substitute golden data was created.",
+    "550 successful methods were recovered from exact complete logs after interruption; their original child exit codes are unavailable. The remaining 50 methods were rerun normally.",
+    "Bounded legal 8-step integration is mechanism evidence only. No 1000-main-trajectory run or formal performance comparison was executed.",
+    "HGR v1 uses CPU sequential collection and untuned default hyperparameters."
+  ],
+  "artifacts": {
+    "guide": "docs/hgr/README.md",
+    "verification": "docs/hgr/verification/final_02/summary.json",
+    "missing_historical_inputs": "docs/hgr/verification/final_02/historical/summary.json"
+  }
+}

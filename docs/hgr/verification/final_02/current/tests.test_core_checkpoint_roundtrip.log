@@ -1,0 +1,6 @@
+test_weights_only_checkpoint_roundtrip (tests.test_core_checkpoint_roundtrip.CoreCheckpointRoundtripTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4.972s
+
+OK

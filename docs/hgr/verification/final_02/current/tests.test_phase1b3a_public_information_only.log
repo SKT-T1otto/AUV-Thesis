@@ -1,0 +1,8 @@
+test_ast_has_no_forbidden_private_information_names (tests.test_phase1b3a_public_information_only.Phase1B3APublicInformationOnlyTest) ... ok
+test_phase_uses_public_context_flags (tests.test_phase1b3a_public_information_only.Phase1B3APublicInformationOnlyTest) ... ok
+test_public_target_lock_checks_committed_public_assignment (tests.test_phase1b3a_public_information_only.Phase1B3APublicInformationOnlyTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.108s
+
+OK

@@ -1,0 +1,6 @@
+test_public_executor_target_is_separate_from_active_guidance (tests.test_phase1c_public_target_separation.Phase1CPublicTargetSeparationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK

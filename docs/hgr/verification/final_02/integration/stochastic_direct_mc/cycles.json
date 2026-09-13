@@ -1,0 +1,60 @@
+[
+  {
+    "cycle": 1,
+    "completed_main_trajectories": 1,
+    "N": 1,
+    "handoff_count": 1,
+    "no_handoff_count": 0,
+    "K": 0,
+    "draws": [],
+    "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+    "theta_after_hash": "41507c651e98b56df5621025de2407840593d398d2746503ae8ee17a5badf253",
+    "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+    "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+    "predictor_hash": "e99f2a0b491a253031dfb91f36a204e33307ebf107e8ba40cd09e870385258d9",
+    "predictions": [
+      0.0
+    ],
+    "predictor_fit": {
+      "updates": 0,
+      "mse": null,
+      "samples": 0
+    },
+    "suffix_loss": -0.040570393204689026,
+    "suffix_dataset_ids": [
+      "seed:2729/stream:1/suffix_training/scenario"
+    ],
+    "pilot_dataset_ids": [],
+    "main_dataset_ids": [
+      "seed:2729/stream:3/main/scenario"
+    ],
+    "biased_ablation": false,
+    "hgr_boundary_mechanism_active": false,
+    "g0_norm": 3.316336154937744,
+    "prediction_norm": 0.0,
+    "correction_norm": 0.0,
+    "delta_g_norm": 0.0,
+    "g1_norm": 3.316336154937744,
+    "parameter_change_norm": 0.0033163174521178007,
+    "loss_old": -2.4239888191223145,
+    "loss_delta": -0.0,
+    "costs": {
+      "main_prefix_steps": 2,
+      "old_reference_suffix_steps": 0,
+      "main_current_suffix_steps": 6,
+      "suffix_policy_training_steps": 8,
+      "pilot_prefix_steps": 0,
+      "pilot_old_suffix_steps": 0,
+      "pilot_new_suffix_steps": 0,
+      "correction_old_suffix_steps": 0,
+      "correction_new_suffix_steps": 0,
+      "snapshot_restore_count": 0,
+      "predictor_updates": 0,
+      "prefix_actor_updates": 1,
+      "suffix_actor_updates": 1
+    },
+    "wall_seconds": 157.5789704000017,
+    "complete": true,
+    "actual_total_environment_steps": 16
+  }
+]

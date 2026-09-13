@@ -1,0 +1,23 @@
+{
+  "discovered": 1,
+  "discovered_ids": [
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered"
+  ],
+  "tests_run": 1,
+  "ran_ids": [
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered"
+  ],
+  "passed_methods": 1,
+  "success_ids": [
+    "historical_verification.test_phase1b3a_case_manifest.Phase1B3ACaseManifestTest.test_case_manifest_is_exactly_preregistered"
+  ],
+  "failure_records": [],
+  "error_records": [],
+  "skipped_records": [],
+  "unsuccessful_method_count": 0,
+  "subtest_failure_records": 0,
+  "blocked": 0,
+  "started_utc": "2026-09-13T12:59:44.690070+00:00",
+  "ended_utc": "2026-09-13T12:59:44.692122+00:00",
+  "passed": true
+}

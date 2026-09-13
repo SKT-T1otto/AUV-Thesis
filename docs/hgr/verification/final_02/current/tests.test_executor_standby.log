@@ -1,0 +1,12 @@
+test_active_only_replaces_executor_and_preserves_dtype (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_collinear_median_not_centroid (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_disabled_and_found_action_are_object_identity (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_duplicate_and_identical_searchers (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_equilateral_three_point_center (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_finite_and_convex_hull_and_invalid_input (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+test_weighted_median_and_unreliable_weights (tests.test_executor_standby.ExecutorStandbyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.770s
+
+OK

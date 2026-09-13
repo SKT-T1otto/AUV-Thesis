@@ -1,0 +1,6 @@
+test_step_and_experiment_metadata_do_not_change_state_hash (tests.test_bser_unique_state_dedup.UniqueStateDedupTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+OK

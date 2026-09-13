@@ -1,0 +1,7 @@
+test_local_collision_audit_endpoint_exclusion_agent_counts_and_history (tests.test_s2a1_diagnostic_correctness.S2A1DiagnosticCorrectnessTests) ... ok
+test_only_agent_one_counts_and_global_sums_match (tests.test_s2a1_diagnostic_correctness.S2A1DiagnosticCorrectnessTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.044s
+
+OK

@@ -1,0 +1,6 @@
+test_spawn_one_and_two_are_ordered_plain_and_share_manifest (tests.test_s2a1_spawn.S2A1SpawnTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 365.657s
+
+OK

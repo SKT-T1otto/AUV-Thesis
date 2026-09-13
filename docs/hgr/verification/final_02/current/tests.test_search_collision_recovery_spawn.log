@@ -1,0 +1,6 @@
+test_spawn_one_and_two_workers_are_ordered_plain_and_paired (tests.test_search_collision_recovery_spawn.SearchCollisionRecoverySpawnTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 379.349s
+
+OK

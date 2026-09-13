@@ -1,0 +1,7 @@
+test_recovery_funnel_is_deterministic (tests.test_s2a_outputs.OutputTests) ... ok
+test_scalar_baseline_and_distribution_fields (tests.test_s2a_outputs.OutputTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.007s
+
+OK

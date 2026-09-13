@@ -1,0 +1,36 @@
+{
+  "method": "ch3_direct_boundary_corrected",
+  "reward_objective": "team_mean_v1",
+  "gamma": 0.95,
+  "run_mode": "from_scratch",
+  "resume_from": null,
+  "implementation_version": "hgr.exact_score_cycle.v1",
+  "source_sha256": "0f29d031b818d1c87ca238dade78cde3bb8a8ff9f07f5180cecdac35160cbae8",
+  "completed_main_trajectories": 1,
+  "completed_cycles": 1,
+  "actual_total_environment_steps": 30,
+  "costs": {
+    "main_prefix_steps": 2,
+    "old_reference_suffix_steps": 0,
+    "main_current_suffix_steps": 0,
+    "suffix_policy_training_steps": 8,
+    "pilot_prefix_steps": 2,
+    "pilot_old_suffix_steps": 0,
+    "pilot_new_suffix_steps": 6,
+    "correction_old_suffix_steps": 0,
+    "correction_new_suffix_steps": 12,
+    "snapshot_restore_count": 3,
+    "predictor_updates": 3,
+    "prefix_actor_updates": 1,
+    "suffix_actor_updates": 1
+  },
+  "wall_seconds": 252.28812299999845,
+  "budget_policy": "finish_started_cycle_then_stop",
+  "budget_overshoot_steps": 0,
+  "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-urgtdabi\\collision_terminal\\direct_boundary_corrected\\checkpoints\\hgr_main_000001_cycle_000001.pt",
+  "initialization": {
+    "mode": "from_scratch"
+  },
+  "formal_experiments_completed": false,
+  "performance_claims_supported": false
+}

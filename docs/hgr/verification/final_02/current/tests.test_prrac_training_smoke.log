@@ -1,0 +1,7 @@
+test_every_dry_run_requirement_is_enforced (tests.test_prrac_training_smoke.PRRACTrainingSmokeTests) ... ok
+test_real_update_diagnostics_and_checkpoint_in_temporary_directory (tests.test_prrac_training_smoke.PRRACTrainingSmokeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 7.499s
+
+OK

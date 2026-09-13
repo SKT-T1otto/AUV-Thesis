@@ -1,0 +1,6 @@
+test_arrays_and_adjacency_are_readonly (tests.test_bser_planning_graph_readonly.PlanningGraphReadonlyTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+OK

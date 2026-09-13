@@ -1,0 +1,6 @@
+test_native_b1_force_timing_actions_executor_divergence_and_cleanup (tests.test_s2a1_native_b1_integration.NativeB1IntegrationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 177.455s
+
+OK

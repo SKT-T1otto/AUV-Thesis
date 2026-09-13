@@ -1,0 +1,13 @@
+test_config_diff_is_only_controller (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_full_prrac_actions_match_original_path_exactly (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_prior_cannot_enable_oracle_ablation (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_prior_skips_policy_and_preserves_adapter_input (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_summary_rejects_mixed_controller_rows (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_unknown_controller_is_rejected (tests.test_prior_only_evaluation.PriorOnlyControllerTests) ... ok
+test_one_episode_csv_and_summary (tests.test_prior_only_evaluation.PriorOnlySmokeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 871.521s
+
+OK
+{"smoke": {"controller_mode": "prior_only", "episodes": 1, "steps": 400, "action_shape": [4, 3], "max_abs_residual": 0.0, "physical_residual_zero": true, "actor_forward_calls": 0, "adapter_calls": 400, "episode_ended": true, "checkpoint_kind": "untrained_test_fixture", "csv_rows": 1, "csv_generated": true, "checkpoint_unchanged": true, "success": "False", "found": "False"}, "artifacts": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\tmp2_3x82mq\\evaluation"}

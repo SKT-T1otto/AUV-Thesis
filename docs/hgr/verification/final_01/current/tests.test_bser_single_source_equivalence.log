@@ -1,0 +1,6 @@
+test_single_source_matches_scalar_queries (tests.test_bser_single_source_equivalence.SingleSourceEquivalenceTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.030s
+
+OK

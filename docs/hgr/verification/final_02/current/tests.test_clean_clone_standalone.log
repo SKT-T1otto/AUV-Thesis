@@ -1,0 +1,6 @@
+test_core_imports_in_isolated_minimal_copy (tests.test_clean_clone_standalone.CleanCloneStandaloneTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 52.113s
+
+OK

@@ -1,0 +1,6 @@
+test_new_obstacle_uses_occupancy_belief_only (tests.test_bser_obstacle_trigger.ObstacleTriggerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+OK

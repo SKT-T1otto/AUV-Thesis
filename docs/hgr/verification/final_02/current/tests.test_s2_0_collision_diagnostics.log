@@ -1,0 +1,7 @@
+test_post_found_executor_and_terminal_streaks (tests.test_s2_0_collision_diagnostics.CollisionDiagnosticsTests) ... ok
+test_search_count_streak_first_last_and_zero (tests.test_s2_0_collision_diagnostics.CollisionDiagnosticsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+OK

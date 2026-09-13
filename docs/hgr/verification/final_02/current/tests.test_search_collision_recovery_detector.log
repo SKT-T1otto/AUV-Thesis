@@ -1,0 +1,6 @@
+test_one_edge_per_streak_and_rearm (tests.test_search_collision_recovery_detector.DetectorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK

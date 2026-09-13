@@ -1,0 +1,6 @@
+test_executor_only_replan_does_not_require_search_candidates (tests.test_phase1b21_executor_public_replan.Phase1B21ExecutorPublicReplanTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.063s
+
+OK

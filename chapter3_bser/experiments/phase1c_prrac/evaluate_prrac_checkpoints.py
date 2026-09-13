@@ -26,6 +26,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from core.env.task_protocol import PROTOCOL_FIELDS, LEGACY, STRICT, protocol_identity, validate_task_config, strict_terminal
+from chapter3_bser.experiments.reward_objective import TEAM, INDIVIDUAL, OBJECTIVE_FIELDS, objective_identity
 
 from chapter3_bser.controllers.state_provider import OnlinePlanningStateProvider
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.train_phase1c_v2 import _seed_all
@@ -454,6 +455,8 @@ def _validate_checkpoint_payload(
     if dict(state.get("loss", {})) != dict(loss):
         raise ValueError("PRRAC checkpoint loss mismatch")
     if config is not None:
+        if objective_identity(metadata) != objective_identity(config) and not config.get("allow_objective_transfer", False):
+            raise ValueError("checkpoint reward objective mismatch; explicit --allow-objective-transfer required")
         source, target = protocol_identity(metadata), validate_task_config(config)
         if source != target and not (
             config.get("allow_protocol_transfer", False)
@@ -489,7 +492,7 @@ def load_prrac_checkpoint(
     checkpoint_path(path)
     payload = torch.load(Path(path), map_location="cpu", weights_only=True)
     payload = _validate_checkpoint_payload(payload, config)
-    if config is not None and protocol_identity(payload["metadata"]) != protocol_identity(config):
+    if config is not None and (protocol_identity(payload["metadata"]) != protocol_identity(config) or objective_identity(payload["metadata"]) != objective_identity(config)):
         source_training_config(path, payload)
     metadata = dict(payload["metadata"])
     state = dict(payload["prrac_training_state"])
@@ -673,7 +676,8 @@ def _make_env(config: Mapping[str, Any], reward: Mapping[str, Any]) -> PRRACTrai
         )
     )
     return PRRACTrainingEnv(
-        Phase1CV2TrainingEnv(GuidedEnv(base, enabled=True), reward_config=reward)
+        Phase1CV2TrainingEnv(GuidedEnv(base, enabled=True), reward_config=reward),
+        reward_objective_config=config, gamma=config.get("rl", {}).get("gamma", config.get("gamma", 0.95)),
     )
 
 
@@ -964,6 +968,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
     info["controller_mode"] = _controller_mode(config)
     if "task_protocol" in config:
         info.update(protocol_identity(config))
+        info.update(objective_identity(config))
         info["evaluation_task_protocol"] = info["task_protocol"]
         info.setdefault("checkpoint_task_protocol", LEGACY)
         info["protocol_transfer_evaluation"] = info["checkpoint_task_protocol"] != info["task_protocol"]
@@ -1121,7 +1126,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
             if metadata.stage_before != current_stage:
                 raise RuntimeError("PRRAC evaluation stage_before drift")
             current_stage = metadata.stage_after
-            reward_total += float(torch.as_tensor(rewards).sum().item())
+            reward_total += (env.reward_accounting.last["team_reward"] if objective_identity(config)["reward_objective"] == TEAM else float(torch.as_tensor(rewards).sum().item()))
             task = env.get_task_state()
             episode_length = int(task.step)
             transition_diagnostics.observe(
@@ -1306,6 +1311,7 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
                 "scenario_seed": int(scenario["scenario_seed"]),
                 "episode_length": int(episode_length),
                 "reward": float(reward_total),
+                **(env.reward_accounting.summary() if env.objective_explicit else {}),
                 "found": bool(task.target_found),
                 "contact_episode": bool(
                     getattr(env.unwrapped, "capture_contact_step_count", 0)
@@ -1443,6 +1449,8 @@ def _evaluate_episode_job(job: dict[str, Any], *, audit=None, searcher_trace=Non
 def _combo_key(info: Mapping[str, Any], manifest_hash: str) -> dict[str, Any]:
     return {
         **protocol_identity(info),
+        **objective_identity(info),
+        "checkpoint_reward_objective": info.get("checkpoint_reward_objective", INDIVIDUAL),
         "checkpoint_task_protocol": info.get("checkpoint_task_protocol", LEGACY),
         **({"checkpoint_sha256": info["checkpoint_sha256"]} if "checkpoint_sha256" in info else {}),
         "controller_mode": row_controller_mode(info),
@@ -2095,6 +2103,7 @@ def run_evaluation(
     device_override: str | None = None,
     controller_override: str | None = None,
     allow_protocol_transfer: bool = False,
+    allow_objective_transfer: bool = False,
     modes_override: Iterable[str] | None = None,
     execution_variants_override: Iterable[str] | None = None,
     search_recovery_variants_override: Iterable[str] | None = None,
@@ -2109,6 +2118,8 @@ def run_evaluation(
     config = copy.deepcopy(_load_config(config_path))
     if allow_protocol_transfer:
         config["allow_protocol_transfer"] = True
+    if allow_objective_transfer:
+        config["allow_objective_transfer"] = True
     if controller_override is not None:
         config["controller"] = controller_override
     controller_mode = _controller_mode(config)
@@ -2380,7 +2391,7 @@ def run_evaluation(
     # Normalize only the legacy missing field in memory; never rewrite evidence
     # to pretend an old unlabelled prior_only cache had a controller identity.
     completed = {
-        _canonical_json({**protocol_identity(value), "checkpoint_task_protocol": value.get("checkpoint_task_protocol", LEGACY), **value, "controller_mode": row_controller_mode(value)})
+        _canonical_json({**protocol_identity(value), **objective_identity(value), "checkpoint_reward_objective": value.get("checkpoint_reward_objective", INDIVIDUAL), "checkpoint_task_protocol": value.get("checkpoint_task_protocol", LEGACY), **value, "controller_mode": row_controller_mode(value)})
         for value in progress.get("completed", ())
     }
     checkpoint_metadata = []
@@ -2432,6 +2443,9 @@ def run_evaluation(
                     )
                     info["controller_mode"] = controller_mode
                     info.update(protocol_identity(config))
+                    info.update(objective_identity(config))
+                    info["checkpoint_reward_objective"] = objective_identity(metadata)["reward_objective"]
+                    info["run_mode"] = "cross_objective_evaluation" if info["checkpoint_reward_objective"] != info["reward_objective"] else "same_objective_evaluation"
                     info["checkpoint_task_protocol"] = protocol_identity(metadata)["task_protocol"]
                     info["evaluation_task_protocol"] = info["task_protocol"]
                     info["protocol_transfer_evaluation"] = info["checkpoint_task_protocol"] != info["task_protocol"]
@@ -2580,6 +2594,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--device")
     parser.add_argument("--controller", choices=CONTROLLER_MODES)
     parser.add_argument("--allow-protocol-transfer", action="store_true")
+    parser.add_argument("--allow-objective-transfer", action="store_true")
     parser.add_argument("--modes", nargs="+")
     parser.add_argument(
         "--execution-variants",
@@ -2609,6 +2624,7 @@ def main(argv: list[str] | None = None) -> int:
         device_override=args.device,
         controller_override=args.controller,
         allow_protocol_transfer=args.allow_protocol_transfer,
+        allow_objective_transfer=args.allow_objective_transfer,
         modes_override=args.modes,
         execution_variants_override=args.execution_variants,
         search_recovery_variants_override=args.search_recovery_variants,

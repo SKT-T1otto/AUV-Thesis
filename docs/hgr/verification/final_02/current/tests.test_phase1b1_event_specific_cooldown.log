@@ -1,0 +1,6 @@
+test_belief_cooldown_does_not_block_obstacle (tests.test_phase1b1_event_specific_cooldown.EventSpecificCooldownTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

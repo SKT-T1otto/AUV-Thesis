@@ -1,0 +1,9 @@
+test_schema_variant_isolation_rejects_mixed_empty_and_duplicate_lists (tests.test_s2a1_variants.S2A1VariantTests) ... ok
+test_v1_and_v2_hashes_are_resume_isolated (tests.test_s2a1_variants.S2A1VariantTests) ... ok
+test_v1_contract_and_hash_are_unchanged (tests.test_s2a1_variants.S2A1VariantTests) ... ok
+test_v2_variants_and_c0_no_controller (tests.test_s2a1_variants.S2A1VariantTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.012s
+
+OK

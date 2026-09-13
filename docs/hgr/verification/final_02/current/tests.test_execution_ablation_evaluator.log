@@ -1,0 +1,7 @@
+test_ablation_config_and_runtime_metadata_are_registered (tests.test_execution_ablation_evaluator.ExecutionAblationEvaluatorTests) ... ok
+test_four_variants_produce_six_paired_rows_on_same_manifest (tests.test_execution_ablation_evaluator.ExecutionAblationEvaluatorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK

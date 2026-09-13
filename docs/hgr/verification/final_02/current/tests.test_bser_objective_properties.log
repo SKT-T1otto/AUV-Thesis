@@ -1,0 +1,11 @@
+test_complete_enumeration_count (tests.test_bser_objective_properties.ExactSolverTest) ... ok
+test_joint_half_bound (tests.test_bser_objective_properties.GreedyBoundTest) ... ok
+test_finite_standby_enumeration_bound (tests.test_bser_objective_properties.JointStandbyBoundTest) ... ok
+test_all_feasible_extensions (tests.test_bser_objective_properties.MonotonicityTest) ... ok
+test_empty_zero_and_marginal_identity (tests.test_bser_objective_properties.ObjectiveTest) ... ok
+test_diminishing_returns (tests.test_bser_objective_properties.SubmodularityTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.148s
+
+OK

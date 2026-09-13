@@ -1,0 +1,7 @@
+test_c2_does_refresh_before_egress (tests.test_search_collision_recovery_egress.EgressTests) ... ok
+test_candidate_is_deterministic_known_free_reachable (tests.test_search_collision_recovery_egress.EgressTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.021s
+
+OK

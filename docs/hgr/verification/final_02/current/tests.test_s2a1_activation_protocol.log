@@ -1,0 +1,6 @@
+test_complete_protocol_passes_and_rejects_c0_activation (tests.test_s2a1_activation_protocol.ActivationProtocolTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.237s
+
+OK

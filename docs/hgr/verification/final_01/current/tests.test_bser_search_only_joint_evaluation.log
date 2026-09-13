@@ -1,0 +1,6 @@
+test_selected_allocation_can_be_evaluated_with_joint_objective (tests.test_bser_search_only_joint_evaluation.SearchOnlyJointEvaluationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.024s
+
+OK

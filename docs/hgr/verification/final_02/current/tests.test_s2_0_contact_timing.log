@@ -1,0 +1,7 @@
+test_missing_events_are_null (tests.test_s2_0_contact_timing.ContactTimingTests) ... ok
+test_transition_times_are_not_cumulative_counts (tests.test_s2_0_contact_timing.ContactTimingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

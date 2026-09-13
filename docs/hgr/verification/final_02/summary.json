@@ -1,0 +1,30 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "original_command": "python -B -m tools.verify_collision_terminal --suite all --workers 4 --output-dir docs/hgr/verification/final_02",
+  "continuation_recipe": "docs/hgr/verification/final_02/continue_verification.py",
+  "head": "0a5bd3a4efdb68f2cca8721ffe0e8dbf2d54e265",
+  "suite": "all",
+  "source_tree_sha256": "cebb5de89775406ca1dd3bb26ae2ed2f80fdc90c90f350ea5541803b94495e45",
+  "tree_unchanged": true,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+  "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+  "dependencies": {
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6"
+  },
+  "continuation_started_utc": "2026-09-13T12:41:25.324190+00:00",
+  "ended_utc": "2026-09-13T12:59:45.813359+00:00",
+  "continuation_wall_seconds": 1100.4876048000006,
+  "continued_after_user_interruption": true,
+  "recovered_modules": 178,
+  "fresh_modules": 5,
+  "recovered_process_exit_codes_available": false,
+  "current_suite_passed": true,
+  "legacy_compatibility_passed": true,
+  "historical_suite_status": "blocked_missing_historical_input",
+  "golden_status": "blocked_missing_historical_input",
+  "all_required_verification_passed": false,
+  "passed": false,
+  "exit_code": 1
+}

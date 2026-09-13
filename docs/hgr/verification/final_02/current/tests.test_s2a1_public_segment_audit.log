@@ -1,0 +1,8 @@
+test_clear_segment_is_deterministic_and_spacing_bounded (tests.test_s2a1_public_segment_audit.PublicSegmentAuditTests) ... ok
+test_occupied_endpoint_and_out_of_bounds_are_rejected (tests.test_s2a1_public_segment_audit.PublicSegmentAuditTests) ... ok
+test_only_the_first_collision_sample_is_exempt (tests.test_s2a1_public_segment_audit.PublicSegmentAuditTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.017s
+
+OK

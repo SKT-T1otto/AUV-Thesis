@@ -1,0 +1,12 @@
+test_mismatch_raises (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_progress_activation_schema_mismatch_raises (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_row_recovery_and_activation_schema_mismatches_raise (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_summary_cannot_mix_v1_and_v2_schema (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_summary_runtime_is_derived_from_rows (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_unique_and_plural_provenance (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+test_v1_cannot_resume_into_v2 (tests.test_s2_0_evaluation_provenance.EvaluationProvenanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.031s
+
+OK

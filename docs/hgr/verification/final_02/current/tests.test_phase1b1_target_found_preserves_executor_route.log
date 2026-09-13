@@ -1,0 +1,6 @@
+test_waits_for_public_handoff (tests.test_phase1b1_target_found_preserves_executor_route.TargetFoundPreservesRouteTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.052s
+
+OK

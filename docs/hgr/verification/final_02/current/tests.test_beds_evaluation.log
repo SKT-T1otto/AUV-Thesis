@@ -1,0 +1,13 @@
+test_absent_and_explicitly_disabled_beds_are_equivalent (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_all_active_worker_combinations_and_serializable_diagnostics (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_config_defaults_and_four_combinations (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_existing_sidecar_is_not_overwritten (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_guidance_only_executor_changes_and_found_returns_original (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_smoke_cli_selects_variant_without_running_it (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+test_terminal_ranking_is_reported_without_claiming_an_action (tests.test_beds_evaluation.BEDSEvaluationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 389.100s
+
+OK
+{}

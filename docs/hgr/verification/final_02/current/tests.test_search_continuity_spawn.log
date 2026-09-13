@@ -1,0 +1,6 @@
+test_spawn_one_and_two_workers_are_ordered_and_tensor_free (tests.test_search_continuity_spawn.SearchContinuitySpawnTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 304.057s
+
+OK

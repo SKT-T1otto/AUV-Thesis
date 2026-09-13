@@ -1,0 +1,64 @@
+test_cli_help_modes_and_output_refuses_overwrite (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+test_fixed_30_manifest_and_unverified_independence_not_relabeled (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+test_history_malformed_manifest_and_metrics_fail (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+test_history_selects_all_logged_changes_and_checks_seed_join (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+test_launchers_are_lf_and_root_relative (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+test_training_manifest_must_crosscheck_checkpoint_episodes (tests.test_search_value_audit_drivers.DriverContractTests) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 6.596s
+
+OK
+usage: verify_collision_terminal.py [-h] --checkpoint CHECKPOINT
+                                    (--training-config TRAINING_CONFIG | --training-manifest TRAINING_MANIFEST)
+                                    --historical-off-output
+                                    HISTORICAL_OFF_OUTPUT
+                                    --historical-on-output
+                                    HISTORICAL_ON_OUTPUT --output-dir
+                                    OUTPUT_DIR [--workers {1,2}]
+                                    (--smoke | --diagnostic)
+
+diagnostic
+
+options:
+  -h, --help            show this help message and exit
+  --checkpoint CHECKPOINT
+  --training-config TRAINING_CONFIG
+  --training-manifest TRAINING_MANIFEST
+  --historical-off-output HISTORICAL_OFF_OUTPUT
+  --historical-on-output HISTORICAL_ON_OUTPUT
+  --output-dir OUTPUT_DIR
+  --workers {1,2}
+  --smoke               D1: first two of frozen 30; D2: first selected scene;
+                        still 400-step cutoff
+  --diagnostic          all predeclared diagnostic scenarios; not a formal
+                        thesis test
+usage: verify_collision_terminal.py [-h] --checkpoint CHECKPOINT
+                                    (--training-config TRAINING_CONFIG | --training-manifest TRAINING_MANIFEST)
+                                    --historical-off-output
+                                    HISTORICAL_OFF_OUTPUT
+                                    --historical-on-output
+                                    HISTORICAL_ON_OUTPUT --output-dir
+                                    OUTPUT_DIR [--workers {1,2}]
+                                    (--smoke | --diagnostic)
+                                    [--manifest MANIFEST] [--save-features]
+
+diagnostic
+
+options:
+  -h, --help            show this help message and exit
+  --checkpoint CHECKPOINT
+  --training-config TRAINING_CONFIG
+  --training-manifest TRAINING_MANIFEST
+  --historical-off-output HISTORICAL_OFF_OUTPUT
+  --historical-on-output HISTORICAL_ON_OUTPUT
+  --output-dir OUTPUT_DIR
+  --workers {1,2}
+  --smoke               D1: first two of frozen 30; D2: first selected scene;
+                        still 400-step cutoff
+  --diagnostic          all predeclared diagnostic scenarios; not a formal
+                        thesis test
+  --manifest MANIFEST   existing frozen 30-scene manifest; otherwise generate
+                        with seed 51729
+  --save-features       write compressed raw 34D feature dictionary, excluded
+                        from bundle

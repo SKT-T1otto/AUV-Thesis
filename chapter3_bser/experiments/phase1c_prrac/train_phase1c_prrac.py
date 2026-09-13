@@ -31,6 +31,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from core.env.task_protocol import PROTOCOL_FIELDS, STRICT, protocol_identity, validate_task_config, strict_terminal
+from chapter3_bser.experiments.reward_objective import TEAM, OBJECTIVE_FIELDS, objective_identity
 
 from chapter3_bser.controllers.state_provider import OnlinePlanningStateProvider
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.train_phase1c_v2 import (
@@ -146,6 +147,7 @@ def _config_hash_without_search_modules(config: Mapping[str, Any]) -> str:
 
 def _load_config(path: Path) -> dict[str, Any]:
     config = json.loads(Path(path).read_text(encoding="utf-8"))
+    objective_identity(config)
     validate_task_config(config)
     if config.get("task_protocol") == STRICT:
         config.update(protocol_identity(config))
@@ -241,6 +243,7 @@ def _checkpoint_metadata(
     return {
         "schema": CHECKPOINT_SCHEMA,
         **protocol_identity(config),
+        **objective_identity(config),
         "collision_terminal_reward": config.get("collision_terminal_reward"),
         "method": METHOD,
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -345,6 +348,8 @@ def _load_checkpoint(
     if schema != CHECKPOINT_SCHEMA:
         raise ValueError(f"unsupported PRRAC checkpoint schema: {schema!r}")
     metadata = dict(payload.get("metadata", {}))
+    if objective_identity(metadata) != objective_identity(config):
+        raise ValueError("resume reward objective mismatch; use actor warmstart")
     if protocol_identity(metadata) != protocol_identity(config):
         raise ValueError("resume task protocol/detection/reward mismatch; use actor warmstart")
     if protocol_identity(config)["task_protocol"] == STRICT and metadata.get("collision_terminal_reward") != config.get("collision_terminal_reward", -2.0):
@@ -801,7 +806,7 @@ def _collect_episode(job: dict[str, Any]):
     base_env = _make_base_env(job, device="cpu")
     guided = GuidedEnv(base_env, enabled=True)
     v2_env = Phase1CV2TrainingEnv(guided, reward_config=job["reward"])
-    env = PRRACTrainingEnv(v2_env)
+    env = PRRACTrainingEnv(v2_env, reward_objective_config=job, gamma=job["rl"]["gamma"])
     started = time.perf_counter()
     try:
         env.reset(
@@ -966,7 +971,7 @@ def _collect_episode(job: dict[str, Any]):
             collision_count += int(env.unwrapped._collision_flags.sum().item())
             action_norms.append(float(torch.linalg.vector_norm(actions, dim=1).mean().item()))
             reward_tensor = torch.as_tensor(rewards, dtype=torch.float32).reshape(-1)
-            reward_total += float(reward_tensor.sum().item())
+            reward_total += (env.reward_accounting.last["team_reward"] if objective_identity(job)["reward_objective"] == TEAM else float(reward_tensor.sum().item()))
             task = env.get_task_state()
             final_step = int(task.step)
             transitions.append(
@@ -1002,6 +1007,7 @@ def _collect_episode(job: dict[str, Any]):
         decision_summary = search_value_decision.summary()
         metrics = {
             **protocol_identity(job),
+            **(env.reward_accounting.summary() if env.objective_explicit else {}),
             "method": METHOD,
             "implementation_version": IMPLEMENTATION_VERSION,
             "architecture_version": ARCHITECTURE_VERSION,
@@ -1341,7 +1347,7 @@ def run_training(
             jobs = [
                 {
                     "episode_index": index,
-                    **{key: config[key] for key in (*PROTOCOL_FIELDS, "collision_terminal_reward") if key in config},
+                    **{key: config[key] for key in (*PROTOCOL_FIELDS, *OBJECTIVE_FIELDS, "collision_terminal_reward") if key in config},
                     "scenario": scenarios[index],
                     "base_candidate": config["base_candidate"],
                     "profile": config["profile"],
@@ -1531,6 +1537,11 @@ def run_training(
     )
     summary = {
         **protocol_identity(config),
+        "run_mode": "same_method_resume" if resume is not None else config.get("initialization", {}).get("mode", "from_scratch"),
+        **objective_identity(config),
+        "gamma": config["rl"]["gamma"],
+        "mean_team_discounted_return": episode_scalar_mean("team_discounted_return"),
+        "mean_team_undiscounted_return": episode_scalar_mean("team_undiscounted_return"),
         "initialization": config.get("initialization", {"mode": "from_scratch"}),
         "critic_only_warmup_budget": int(config["rl"].get("critic_only_warmup_updates", 0)),
         "critic_only_warmup_updates_executed": min(update_step, int(config["rl"].get("critic_only_warmup_updates", 0))),

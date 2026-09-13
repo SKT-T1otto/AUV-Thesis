@@ -1,0 +1,12 @@
+test_disabled_mode_is_behaviorally_baseline (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_fifty_steps_after_trigger_are_in_cooldown (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_high_value_never_triggers (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_old_checkpoint_loads_with_fresh_decision_controller (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_search_value_rollout_snapshot_is_spawn_serializable (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_twenty_continuous_low_value_steps_trigger (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+test_worker_uses_low_value_to_request_existing_bser_reassessment (tests.test_search_value_decision.SearchValueDecisionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 87.674s
+
+OK

@@ -1,0 +1,7 @@
+test_handoff_forces_full_refresh_only_when_enabled (tests.test_phase1c_handoff_target_refresh.Phase1CHandoffTargetRefreshTests) ... ok
+test_public_target_shift_is_cumulative_from_last_full_refresh (tests.test_phase1c_handoff_target_refresh.Phase1CHandoffTargetRefreshTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.053s
+
+OK

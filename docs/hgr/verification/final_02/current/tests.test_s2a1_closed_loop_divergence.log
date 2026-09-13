@@ -1,0 +1,6 @@
+test_same_residual_with_local_overlay_changes_only_searcher_trajectory (tests.test_s2a1_closed_loop_divergence.ClosedLoopDivergenceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 167.585s
+
+OK

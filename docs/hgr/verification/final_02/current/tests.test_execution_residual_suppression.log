@@ -1,0 +1,7 @@
+test_b1_b2_and_active_routes_never_suppress (tests.test_execution_residual_suppression.ResidualSuppressionTests) ... ok
+test_b3_execution_safe_hold_zeros_only_executor_copy (tests.test_execution_residual_suppression.ResidualSuppressionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.005s
+
+OK

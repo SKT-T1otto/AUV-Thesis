@@ -1,0 +1,6 @@
+test_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.007s
+
+OK

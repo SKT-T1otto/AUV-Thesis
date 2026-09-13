@@ -1,0 +1,24 @@
+test_all_four_predeclared_decisions (tests.test_found_timing_failure_attribution.DecisionTests) ... ok
+test_missing_data_instability_or_adjusted_disagreement_prevents_selection (tests.test_found_timing_failure_attribution.DecisionTests) ... ok
+test_contact_budget_censoring_is_not_contact_duration (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_episode_unit_duplicate_steps_do_not_create_samples (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_fixed_bin_boundaries_and_empty_bin_na (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_found_filtering_and_three_population_percentages (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_found_step_stats_mean_median_and_bootstrap_reproduce (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_logistic_input_predictor_order_and_no_not_found (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_missing_geometry_stops_whole_geometry_population (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_not_found_is_na_never_zero_or_final_step (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_remaining_steps_exact_and_contradictions_rejected (tests.test_found_timing_failure_attribution.EpisodeTests) ... ok
+test_all_outputs_hashes_input_immutability_and_denominators (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_checkpoint_metadata_identity_validation (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_direct_cli_and_expected_episode_gate (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_missing_distance_keeps_all_rows_and_stops_geometry_only (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_missing_found_step_does_not_drop_episode_from_geometry (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_no_found_or_single_outcome_does_not_force_factor (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_refuse_output_overwrite_or_historical_write (tests.test_found_timing_failure_attribution.FileTests) ... ok
+test_seed_checkpoint_mode_and_manifest_identity_rejected (tests.test_found_timing_failure_attribution.FileTests) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 4.446s
+
+OK

@@ -1,0 +1,6 @@
+test_stability_filter_restores_unaffected_assignments (tests.test_phase1b1_unaffected_agent_preserved.UnaffectedAgentPreservedTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.067s
+
+OK

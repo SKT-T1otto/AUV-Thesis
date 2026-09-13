@@ -137,3 +137,12 @@ Do not commit checkpoints (`.pt`, `.pth`, `.ckpt`), models, raw long-run data,
 or generated long-training outputs. Do not delete locally retained outputs.
 Compact manifests, documentation, tests, and explicitly selected acceptance
 evidence may be committed.
+
+## Chapter 3 team objective and HGR
+
+The opt-in team reward, isolated stochastic HGR implementation, direct MC and
+corrected-boundary baselines, snapshot/restore contract, and manual training
+commands are documented in [the HGR implementation guide](docs/hgr/README.md).
+Bounded local mechanism checks do not establish formal experiment completion
+or performance superiority. Legacy PRRAC models and retained outputs remain
+separate from the new method and objective identities.

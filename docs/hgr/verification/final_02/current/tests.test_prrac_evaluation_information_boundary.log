@@ -1,0 +1,8 @@
+test_actor_receives_only_four_public_28d_observations (tests.test_prrac_evaluation_information_boundary.PRRACEvaluationInformationBoundaryTests) ... ok
+test_oracle_mode_and_failure_trace_are_privileged_diagnostic_only (tests.test_prrac_evaluation_information_boundary.PRRACEvaluationInformationBoundaryTests) ... ok
+test_oracle_tracking_is_installed_after_public_policy_observation (tests.test_prrac_evaluation_information_boundary.PRRACEvaluationInformationBoundaryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.011s
+
+OK

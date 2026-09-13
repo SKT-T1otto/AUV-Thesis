@@ -1,0 +1,6 @@
+test_missing_affected_route_preserves_whole_allocation (tests.test_phase1b1_atomic_update.AtomicUpdateTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.044s
+
+OK

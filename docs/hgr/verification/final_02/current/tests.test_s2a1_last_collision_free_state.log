@@ -1,0 +1,7 @@
+test_clear_updates_collision_does_not_and_nonsearch_is_ignored (tests.test_s2a1_last_collision_free_state.LastCollisionFreeStateTests) ... ok
+test_nonfinite_clear_position_is_rejected (tests.test_s2a1_last_collision_free_state.LastCollisionFreeStateTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.022s
+
+OK

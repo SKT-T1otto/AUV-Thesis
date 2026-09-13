@@ -1,0 +1,6 @@
+test_subunit_waypoint_change_is_suppressed (tests.test_phase1b1_minimum_switch_distance.MinimumSwitchDistanceTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.044s
+
+OK

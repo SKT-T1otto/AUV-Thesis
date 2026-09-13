@@ -1,0 +1,6 @@
+test_conditional_time_divides_by_reachable_mass (tests.test_bser_response_denominator.ResponseDenominatorTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+OK

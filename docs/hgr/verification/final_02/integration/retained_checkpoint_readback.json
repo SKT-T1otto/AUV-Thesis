@@ -1,0 +1,10 @@
+{
+  "checkpoint": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\outputs\\chapter3\\hgr\\collision_terminal\\verification_final_02\\checkpoints\\hgr_main_000002_cycle_000002.pt",
+  "file_sha256": "cd2688329505c1e70599cd9fad8bdb7462c0785d783bc695b510259b58e2e2af",
+  "source_matches_current": true,
+  "policy_hashes_match": true,
+  "completed_cycles": 2,
+  "completed_main": 2,
+  "cycle_complete": true,
+  "prefixes_valid": false
+}

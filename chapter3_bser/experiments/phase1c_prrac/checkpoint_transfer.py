@@ -7,6 +7,7 @@ from pathlib import Path
 import torch
 
 from core.env.task_protocol import LEGACY, STRICT, protocol_identity
+from chapter3_bser.experiments.reward_objective import objective_identity
 
 
 def checkpoint_path(path):
@@ -36,6 +37,8 @@ def source_training_config(path, payload):
         raise ValueError("source training config hash mismatch")
     if protocol_identity(value) != protocol_identity(payload["metadata"]):
         raise ValueError("source training protocol metadata mismatch")
+    if objective_identity(value) != objective_identity(payload["metadata"]):
+        raise ValueError("source training reward objective metadata mismatch")
     for key in ("architecture", "loss", "reward", "execution_runtime_revision", "observation_dim", "action_dim", "critic_dim"):
         if value.get(key) != payload["metadata"].get(key):
             raise ValueError(f"source training config/metadata {key} mismatch")
@@ -47,7 +50,7 @@ def import_actors(path, learner, config):
     path = checkpoint_path(path)
     digest = file_sha256(path)
     payload = torch.load(path, map_location="cpu", weights_only=True)
-    _validate_checkpoint_payload(payload, {**config, "allow_protocol_transfer": True})
+    _validate_checkpoint_payload(payload, {**config, "allow_protocol_transfer": True, "allow_objective_transfer": True})
     source = source_training_config(path, payload)
     if protocol_identity(config)["task_protocol"] != STRICT:
         raise ValueError("actor warmstart entry requires collision_terminal_v1")
@@ -73,6 +76,8 @@ def import_actors(path, learner, config):
         "mode": "actor_warmstart", "source_checkpoint": str(path),
         "source_checkpoint_sha256": digest,
         "source_training_protocol": protocol_identity(source)["task_protocol"],
+        "source_reward_objective": objective_identity(source)["reward_objective"],
+        "target_reward_objective": objective_identity(config)["reward_objective"],
         "source_completed_episode": payload.get("completed_episode"),
         "source_environment_steps": payload.get("global_step"),
         "source_training_updates": payload.get("update_step"),

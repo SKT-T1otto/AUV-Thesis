@@ -1,0 +1,6 @@
+test_public_navigation_target_has_first_priority (tests.test_phase1b1_public_handoff_priority.PublicHandoffPriorityTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+OK

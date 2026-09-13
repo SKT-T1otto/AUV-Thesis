@@ -1,0 +1,6 @@
+test_unreachable_detected_mass_is_explicit (tests.test_bser_response_unreachable_mass.ResponseUnreachableMassTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027s
+
+OK

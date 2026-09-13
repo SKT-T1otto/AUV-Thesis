@@ -1,0 +1,8 @@
+test_five_outputs_are_registered_and_atomic_writers_leave_no_temp (tests.test_search_continuity_outputs.SearchContinuityOutputTests) ... ok
+test_schema_v2_and_resume_key_include_schema_and_hash (tests.test_search_continuity_outputs.SearchContinuityOutputTests) ... ok
+test_write_outputs_materializes_search_tables_and_pair (tests.test_search_continuity_outputs.SearchContinuityOutputTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.227s
+
+OK

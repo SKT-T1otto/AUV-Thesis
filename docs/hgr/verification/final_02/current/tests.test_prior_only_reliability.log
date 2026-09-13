@@ -1,0 +1,16 @@
+test_cached_progress_and_rows_are_checked_before_reuse (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_combo_and_activation_identity_distinguish_controller (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_controller_is_derived_and_blank_is_rejected (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_cross_artifact_validation_rejects_wrong_controller (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_exports_keep_controller_and_accept_legacy_full_rows_without_simulation (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_legacy_completed_key_normalizes_to_current_full_key (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_mixed_summaries_fail_before_writes (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_resume_rejects_controller_even_with_identical_hashes (tests.test_prior_only_reliability.ControllerIdentityTests) ... ok
+test_historical_final_norm_remains_pre_clip_physical_sum (tests.test_prior_only_reliability.PostFoundFixtureTests) ... ok
+test_intercept_hold_success_traces_without_actor (tests.test_prior_only_reliability.PostFoundFixtureTests) ... ok
+test_zero_residual_survives_original_post_found_adapters (tests.test_prior_only_reliability.PostFoundFixtureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 21.732s
+
+OK

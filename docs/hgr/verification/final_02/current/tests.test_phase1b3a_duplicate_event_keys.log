@@ -1,0 +1,8 @@
+test_aggregate_keys_are_namespaced_by_episode (tests.test_phase1b3a_duplicate_event_keys.Phase1B3ADuplicateEventKeysTest) ... ok
+test_key_is_stable_and_never_suppresses_duplicate_events (tests.test_phase1b3a_duplicate_event_keys.Phase1B3ADuplicateEventKeysTest) ... ok
+test_versions_change_only_with_allocation_hash (tests.test_phase1b3a_duplicate_event_keys.Phase1B3ADuplicateEventKeysTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK

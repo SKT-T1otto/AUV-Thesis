@@ -1,0 +1,7 @@
+test_arbitrary_combinations_are_rejected (tests.test_execution_continuity_variants.ExecutionContinuityVariantTests) ... ok
+test_registry_is_exactly_the_four_frozen_variants (tests.test_execution_continuity_variants.ExecutionContinuityVariantTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

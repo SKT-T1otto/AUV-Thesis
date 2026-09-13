@@ -1,0 +1,15 @@
+test_native_ON_no_op_and_spawn_branches_are_identical (tests.test_search_value_audit_runtime.AuditRuntimeTests) ... ok
+test_synthetic_shadow_closed_loop_is_no_op (tests.test_search_value_audit_runtime.AuditRuntimeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 829.566s
+
+OK
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":2}
+{"completed":0,"current_branch":"A","current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":2}
+{"completed":1,"current_branch":"A","current_scenario":null,"elapsed_seconds":88.39099999999962,"error":null,"estimated_remaining_seconds":88.39099999999962,"percent":50.0,"stage":"replaying","status":"running","total":2}
+{"completed":2,"current_branch":"B","current_scenario":null,"elapsed_seconds":182.03099999999904,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":2}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":2}
+{"completed":0,"current_branch":"A","current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":2}
+{"completed":1,"current_branch":"A","current_scenario":null,"elapsed_seconds":105.45300000000134,"error":null,"estimated_remaining_seconds":105.45300000000134,"percent":50.0,"stage":"replaying","status":"running","total":2}
+{"completed":2,"current_branch":"B","current_scenario":null,"elapsed_seconds":105.65599999999904,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":2}

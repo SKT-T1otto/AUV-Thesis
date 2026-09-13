@@ -1,0 +1,6 @@
+test_discovery_transition_and_installed_guidance_are_authoritative (tests.test_search_continuity_stage_attribution.SearchContinuityStageAttributionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

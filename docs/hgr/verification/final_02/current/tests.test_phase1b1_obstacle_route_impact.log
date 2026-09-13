@@ -1,0 +1,6 @@
+test_path_intersection_marks_only_declared_route (tests.test_phase1b1_obstacle_route_impact.ObstacleRouteImpactTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.046s
+
+OK

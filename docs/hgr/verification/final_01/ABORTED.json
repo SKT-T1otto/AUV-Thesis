@@ -1,0 +1,5 @@
+{
+  "status": "aborted_by_implementer_before_final_verification",
+  "reason": "Static review identified new reward diagnostic fields changing legacy output structure. The owned verification process was stopped, explicit-objective output compatibility was fixed, and fixed-commit legacy verification passed in ../legacy_compat_01. This directory is partial evidence only; use ../final_02 for the final frozen-tree run.",
+  "all_required_verification_passed": false
+}

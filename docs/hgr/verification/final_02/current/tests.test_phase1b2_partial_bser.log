@@ -1,0 +1,6 @@
+test_partial_result_uses_joint_greedy_and_original_objective (tests.test_phase1b2_partial_bser.Phase1B2PartialBSERTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.069s
+
+OK

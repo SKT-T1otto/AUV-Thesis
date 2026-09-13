@@ -1,0 +1,7 @@
+test_planner_runtime_interfaces_accept_only_public_state_inputs (tests.test_s2a1_information_boundary.S2A1InformationBoundaryTests) ... ok
+test_v2_planner_and_controller_have_no_oracle_access (tests.test_s2a1_information_boundary.S2A1InformationBoundaryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.121s
+
+OK

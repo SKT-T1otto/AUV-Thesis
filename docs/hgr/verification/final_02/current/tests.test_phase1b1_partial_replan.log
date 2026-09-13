@@ -1,0 +1,6 @@
+test_only_affected_searcher_is_replaced (tests.test_phase1b1_partial_replan.PartialReplanTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.050s
+
+OK

@@ -1,0 +1,8 @@
+test_checkpoint_aggregation_reports_conditional_success_rate (tests.test_phase1c_checkpoint_evaluator.Phase1CCheckpointEvaluatorTests) ... ok
+test_checkpoint_validation_accepts_v1_and_v2_but_rejects_dimension_drift (tests.test_phase1c_checkpoint_evaluator.Phase1CCheckpointEvaluatorTests) ... ok
+test_run_evaluation_writes_diagnostic_artifacts_without_training (tests.test_phase1c_checkpoint_evaluator.Phase1CCheckpointEvaluatorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.710s
+
+OK

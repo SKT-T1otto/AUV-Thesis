@@ -1,0 +1,6 @@
+test_rejected_target_found_attempt_is_fully_recorded (tests.test_phase1b1_diagnostics.DiagnosticsTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.042s
+
+OK

@@ -1,0 +1,10 @@
+test_legacy_resume_allows_missing_runtime_origin_fields (tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests) ... ok
+test_native_metadata_contract_is_required (tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests) ... ok
+test_native_resume_requires_real_factory_variant_and_integration_fields (tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests) ... ok
+test_new_checkpoint_metadata_records_runtime_origin (tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests) ... ok
+test_old_checkpoint_is_accepted_by_legacy_and_rejected_by_native (tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 8.474s
+
+OK

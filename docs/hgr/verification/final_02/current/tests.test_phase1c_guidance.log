@@ -1,0 +1,8 @@
+test_phase1c_config_is_disabled_by_default (tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest) ... ok
+test_reset_step_guidance_and_replay_transition_are_aligned (tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest) ... ok
+test_unknown_map_reset_defers_invalid_legacy_initial_endpoint (tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 109.685s
+
+OK

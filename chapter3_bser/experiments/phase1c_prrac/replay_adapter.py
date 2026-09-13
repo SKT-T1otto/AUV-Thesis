@@ -8,6 +8,7 @@ from typing import Any, Mapping
 
 import torch
 from core.env.task_protocol import LEGACY, STRICT, protocol_identity
+from chapter3_bser.experiments.reward_objective import TEAM, objective_identity
 
 from chapter3_bser.experiments.phase1c_bser_rmaddpg_v2.phase_aware_replay import (
     PhaseAwareReplayBuffer,
@@ -68,6 +69,7 @@ class PRRACReplayAdapter:
         task_config: Mapping[str, Any] | None = None,
     ) -> None:
         self.task_identity = protocol_identity(task_config)
+        self.objective_identity = objective_identity(task_config)
         self.search_value_config = resolve_search_value_config(search_value_config)
         self.search_value_enabled = bool(self.search_value_config["enabled"])
         self.base = base_replay or PhaseAwareReplayBuffer(
@@ -83,6 +85,8 @@ class PRRACReplayAdapter:
             (self.base.max_steps,), -1, dtype=torch.int64, device=self.base.storage_device
         )
         self.stage_after = torch.full_like(self.stage_before, -1)
+        self.source_rewards = (torch.zeros((self.base.max_steps, 4), dtype=torch.float32, device=self.base.storage_device)
+                               if self.objective_identity["reward_objective"] == TEAM else None)
         self.search_features = None
         self.future_found = None
         self.search_value_valid = None
@@ -128,6 +132,18 @@ class PRRACReplayAdapter:
             raise TypeError("PRRAC replay requires PRRACTransitionMetadata")
         if metadata.task_protocol != self.task_identity["task_protocol"]:
             raise ValueError("replay task protocol mismatch")
+        if metadata.reward_objective != self.objective_identity["reward_objective"]:
+            raise ValueError("replay reward objective mismatch")
+        if metadata.reward_objective == TEAM:
+            values = torch.as_tensor(rewards).reshape(-1)
+            if values.shape != (4,) or not bool(torch.isfinite(values).all()) or not bool((values == values[0]).all()):
+                raise ValueError("team replay requires four identical finite rewards")
+            if metadata.source_reward_by_agent is None or metadata.final_reward_by_agent is None or metadata.reward_transform_applied_count != 1:
+                raise ValueError("team replay requires source and single-transform evidence")
+            source = torch.as_tensor(metadata.source_reward_by_agent, dtype=values.dtype, device=values.device)
+            final = torch.as_tensor(metadata.final_reward_by_agent, dtype=values.dtype, device=values.device)
+            if source.shape != (4,) or not bool(torch.isfinite(source).all()) or not torch.equal(final, values) or not bool(source.mean() == values[0]) or metadata.team_reward != float(values[0]):
+                raise ValueError("team replay source/mean/final reward disagreement")
         if metadata.task_protocol == STRICT:
             if metadata.terminated and not all(bool(v) for v in dones):
                 raise ValueError("team terminal transition requires four done masks")
@@ -144,6 +160,8 @@ class PRRACReplayAdapter:
         )
         self.stage_before[index] = int(metadata.stage_before)
         self.stage_after[index] = int(metadata.stage_after)
+        if self.source_rewards is not None:
+            self.source_rewards[index].copy_(source.to(self.source_rewards.device))
         if self.search_value_enabled:
             self.search_value_valid[index] = False
             if search_features is not None and future_found is not None:
@@ -229,6 +247,7 @@ class PRRACReplayAdapter:
         state = {
             **self.task_identity,
             "schema": REPLAY_SCHEMA,
+            **self.objective_identity,
             "base_replay": self.base.state_dict(),
             "stage_before": self.stage_before.detach().cpu().clone(),
             "stage_after": self.stage_after.detach().cpu().clone(),
@@ -240,13 +259,21 @@ class PRRACReplayAdapter:
                 future_found=self.future_found.detach().cpu().clone(),
                 search_value_valid=self.search_value_valid.detach().cpu().clone(),
             )
+        if self.source_rewards is not None:
+            state["source_rewards"] = self.source_rewards.detach().cpu().clone()
         return state
 
     def load_state_dict(self, state: Mapping[str, Any]) -> None:
+        if objective_identity(state) != self.objective_identity:
+            raise ValueError("replay reward objective mismatch")
         if protocol_identity(state) != self.task_identity:
             raise ValueError("replay state task protocol mismatch")
         if state.get("schema") != REPLAY_SCHEMA:
             raise ValueError("unsupported PRRAC replay schema")
+        if self.source_rewards is not None:
+            if "source_rewards" not in state or tuple(state["source_rewards"].shape) != tuple(self.source_rewards.shape):
+                raise ValueError("team replay source reward storage mismatch")
+            self.source_rewards.copy_(state["source_rewards"].to(self.source_rewards.device))
         self.base.load_state_dict(state["base_replay"])
         for name in ("stage_before", "stage_after"):
             source = torch.as_tensor(state[name], dtype=torch.int64)

@@ -1,0 +1,8 @@
+test_frozen_paths_match_fixed_legacy_and_reviewed_evolutions (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+test_v2_source_does_not_import_v1_trainer_or_mutate_python_path (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+test_v2_uses_independent_schema_config_scripts_and_output (tests.test_phase1c_v2_isolation.Phase1CV2IsolationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.277s
+
+OK

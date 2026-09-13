@@ -1,0 +1,9 @@
+test_generated_m20_scenario_reaches_real_production_collector (tests.test_hgr_integration.HGRIntegrationTests) ... ok
+test_no_handoff_cycle_retains_old_gradient_and_budget_completes_cycle (tests.test_hgr_integration.HGRIntegrationTests) ... ok
+test_production_two_cycles_resume_and_matching_baseline_entries (tests.test_hgr_integration.HGRIntegrationTests) ... ok
+test_real_boundary_snapshot_exact_continuation_and_spawn (tests.test_hgr_integration.HGRIntegrationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1771.817s
+
+OK

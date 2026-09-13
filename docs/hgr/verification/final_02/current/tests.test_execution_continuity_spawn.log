@@ -1,0 +1,6 @@
+test_spawn_one_and_two_worker_roundtrips_are_tensor_free (tests.test_execution_continuity_spawn.ExecutionContinuitySpawnTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 523.378s
+
+OK

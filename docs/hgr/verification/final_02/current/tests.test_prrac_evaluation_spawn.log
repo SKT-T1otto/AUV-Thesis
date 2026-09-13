@@ -1,0 +1,7 @@
+test_spawn_one_worker_roundtrip_is_tensor_free (tests.test_prrac_evaluation_spawn.PRRACEvaluationSpawnTests) ... ok
+test_spawn_two_workers_preserves_single_process_manifest_order (tests.test_prrac_evaluation_spawn.PRRACEvaluationSpawnTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 359.046s
+
+OK

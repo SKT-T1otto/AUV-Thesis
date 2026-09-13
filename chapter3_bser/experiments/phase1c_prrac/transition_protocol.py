@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Mapping
 from core.env.task_protocol import LEGACY, protocol_identity
+from chapter3_bser.experiments.reward_objective import INDIVIDUAL, OBJECTIVE_FIELDS, objective_identity
 
 from chapter3_bser.experiments.phase1c_common import Phase1CTransitionMetadata
 from chapter3_bser.models.prrac.stage_mapping import (
@@ -22,6 +23,12 @@ class PRRACTransitionMetadata:
     termination_reason: str = "running"
     terminated: bool = False
     truncated: bool = False
+    reward_objective: str = INDIVIDUAL
+    objective_metadata_present: bool = False
+    source_reward_by_agent: tuple[float, ...] | None = None
+    team_reward: float | None = None
+    final_reward_by_agent: tuple[float, ...] | None = None
+    reward_transform_applied_count: int = 0
 
     def __post_init__(self) -> None:
         if not isinstance(self.base, Phase1CTransitionMetadata):
@@ -36,8 +43,18 @@ class PRRACTransitionMetadata:
             )
 
     def to_dict(self) -> dict[str, Any]:
+        objective_fields = {}
+        if self.objective_metadata_present or self.reward_objective != INDIVIDUAL:
+            objective_fields = {
+                **objective_identity({"reward_objective": self.reward_objective}),
+                "source_reward_by_agent": self.source_reward_by_agent,
+                "team_reward": self.team_reward,
+                "final_reward_by_agent": self.final_reward_by_agent,
+                "reward_transform_applied_count": self.reward_transform_applied_count,
+            }
         return {
             **protocol_identity({"task_protocol": self.task_protocol}),
+            **objective_fields,
             "termination_reason": self.termination_reason,
             "terminated": self.terminated, "truncated": self.truncated,
             "base": self.base.to_dict(),
@@ -57,6 +74,12 @@ class PRRACTransitionMetadata:
             termination_reason=str(value.get("termination_reason", "running")),
             terminated=bool(value.get("terminated", False)),
             truncated=bool(value.get("truncated", False)),
+            reward_objective=objective_identity(value)["reward_objective"],
+            objective_metadata_present=any(key in value for key in OBJECTIVE_FIELDS),
+            source_reward_by_agent=None if value.get("source_reward_by_agent") is None else tuple(value["source_reward_by_agent"]),
+            team_reward=value.get("team_reward"),
+            final_reward_by_agent=None if value.get("final_reward_by_agent") is None else tuple(value["final_reward_by_agent"]),
+            reward_transform_applied_count=int(value.get("reward_transform_applied_count", 0)),
         )
 
 

@@ -39,6 +39,7 @@ def source_files():
         path = ROOT/name
         if (not path.is_file() or EXCLUDED.intersection(Path(name).parts)
                 or name.startswith('docs/collision_terminal/maintenance/')
+                or name.startswith('docs/hgr/verification/')
                 or path.suffix in {'.log', '.pt', '.pth', '.pyc'}): continue
         if path.suffix in {'.py', '.json', '.ps1', '.bat', '.sh', '.yml', '.yaml', '.toml', '.csv'} or path.name in {'AGENTS.md', '.gitignore', '.gitattributes'}:
             yield name

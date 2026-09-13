@@ -1,0 +1,6 @@
+test_new_cell_away_from_all_declared_paths_is_off_route (tests.test_phase1b1_obstacle_off_route.ObstacleOffRouteTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.046s
+
+OK

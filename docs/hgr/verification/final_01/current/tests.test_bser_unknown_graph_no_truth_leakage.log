@@ -1,0 +1,6 @@
+test_unknown_graph_adapter_does_not_read_obstacle_truth (tests.test_bser_unknown_graph_no_truth_leakage.NoTruthLeakagePhase1A1Test) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+OK

@@ -1,0 +1,6 @@
+test_detector_controller_and_allocation_share_canonical_waypoints (tests.test_phase1b2_waypoint_consistency.Phase1B2WaypointConsistencyTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.044s
+
+OK

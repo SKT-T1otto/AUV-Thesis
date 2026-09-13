@@ -1,0 +1,29 @@
+test_different_endpoints_can_have_identical_features (tests.test_search_value_audit_metrics.FeatureTests) ... ok
+test_empty_actual_generation_is_observed_before_early_return (tests.test_search_value_audit_metrics.FeatureTests) ... ok
+test_same_time_required_and_overlay_stratified (tests.test_search_value_audit_metrics.FeatureTests) ... ok
+test_bundle_allowlist_missing_files_and_large_model_exclusion (tests.test_search_value_audit_metrics.InfrastructureTests) ... ok
+test_checkpoint_is_read_only_and_head_and_schema_required (tests.test_search_value_audit_metrics.InfrastructureTests) ... ok
+test_complete_inventory_detects_missing_tracker_recovery_rng (tests.test_search_value_audit_metrics.InfrastructureTests) ... ok
+test_spawn_order_and_incremental_progress (tests.test_search_value_audit_metrics.InfrastructureTests) ... ok
+test_empty_and_single_class_are_not_fake_success (tests.test_search_value_audit_metrics.LabelMetricTests) ... ok
+test_pre_action_window_boundaries (tests.test_search_value_audit_metrics.LabelMetricTests) ... ok
+test_same_id_different_seed_and_geometry_is_not_overlap (tests.test_search_value_audit_metrics.LabelMetricTests) ... ok
+test_scenario_units_not_repeated_team_labels (tests.test_search_value_audit_metrics.LabelMetricTests) ... ok
+test_training_baseline_uses_unique_stored_masked_labels_only (tests.test_search_value_audit_metrics.LabelMetricTests) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 14.317s
+
+OK
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":3}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.01599999999962165,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":3}
+{"completed":1,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.01599999999962165,"error":null,"estimated_remaining_seconds":0.0319999999992433,"percent":33.333333333333336,"stage":"replaying","status":"running","total":3}
+{"completed":2,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.01599999999962165,"error":null,"estimated_remaining_seconds":0.007999999999810825,"percent":66.66666666666667,"stage":"replaying","status":"running","total":3}
+{"completed":3,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.030999999999039574,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":3}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":3}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.01600000000325963,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"replaying","status":"running","total":3}
+{"completed":1,"current_branch":null,"current_scenario":null,"elapsed_seconds":7.313000000001921,"error":null,"estimated_remaining_seconds":14.626000000003842,"percent":33.333333333333336,"stage":"replaying","status":"running","total":3}
+{"completed":2,"current_branch":null,"current_scenario":null,"elapsed_seconds":7.313000000001921,"error":null,"estimated_remaining_seconds":3.6565000000009604,"percent":66.66666666666667,"stage":"replaying","status":"running","total":3}
+{"completed":3,"current_branch":null,"current_scenario":null,"elapsed_seconds":7.407000000002881,"error":null,"estimated_remaining_seconds":0.0,"percent":100.0,"stage":"replaying","status":"running","total":3}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":null,"estimated_remaining_seconds":null,"percent":0.0,"stage":"initializing","status":"running","total":1}
+{"completed":0,"current_branch":null,"current_scenario":null,"elapsed_seconds":0.0,"error":"Traceback (most recent call last):\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tests\\test_search_value_audit_metrics.py\", line 160, in test_spawn_order_and_incremental_progress\n    raise RuntimeError(\"synthetic failure\")\nRuntimeError: synthetic failure\n","estimated_remaining_seconds":null,"percent":0.0,"stage":"error","status":"failed","total":1}

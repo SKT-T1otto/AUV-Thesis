@@ -1,0 +1,13 @@
+{
+  "method": "ch3_hgr",
+  "policy_mode": "stochastic",
+  "episodes": 1,
+  "run_mode": "same_method_evaluation",
+  "safe_success_rate": 0.0,
+  "mean_team_discounted_return": 0.26902791794885295,
+  "mean_team_undiscounted_return": 0.27077326277503744,
+  "reward_objective": "team_mean_v1",
+  "gamma": 0.95,
+  "training_update": false,
+  "performance_claims_supported": false
+}

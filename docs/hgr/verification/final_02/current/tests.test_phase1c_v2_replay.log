@@ -1,0 +1,9 @@
+test_empty_strata_are_redistributed_and_reported (tests.test_phase1c_v2_replay.Phase1CV2ReplayTests) ... ok
+test_phase_aware_sample_preserves_eight_item_maddpg_contract (tests.test_phase1c_v2_replay.Phase1CV2ReplayTests) ... ok
+test_ring_buffer_wraparound_keeps_batch_contract (tests.test_phase1c_v2_replay.Phase1CV2ReplayTests) ... ok
+test_success_tail_round_trip_and_duplicate_priority_update (tests.test_phase1c_v2_replay.Phase1CV2ReplayTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.199s
+
+OK
