@@ -1,0 +1,8 @@
+test_algorithm_optimizer_replay_roundtrip_and_mismatch_rejection (tests.test_prrac_checkpoint.PRRACCheckpointTests) ... ok
+test_policy_snapshot_is_spawn_serializable (tests.test_prrac_checkpoint.PRRACCheckpointTests) ... ok
+test_v1_and_v2_are_explicitly_rejected (tests.test_prrac_checkpoint.PRRACCheckpointTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 5.553s
+
+OK

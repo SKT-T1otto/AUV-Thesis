@@ -1,0 +1,11 @@
+{
+  "status": "interrupted_for_compatibility_fix",
+  "completed": false,
+  "exit_code": 1,
+  "source_tree_sha256": "3f0911b780a9119b3712e8f1daed1079b2b61c791a0ab15b86970ee1b8f33b00",
+  "production_source_sha256": "72374af03be5dbd25a1df6706a734d62ebe9a70e61b2c8fc3aa1da508fe0bade",
+  "reason": "Read-only review and direct reproduction found that a valid training config omitting the default collision_terminal_reward raised KeyError in resolved_config. This run was explicitly stopped before source edits. Its partial logs are not the final regression result.",
+  "next_verification": "../final_02",
+  "formal_experiments_completed": false,
+  "performance_claims_supported": false
+}

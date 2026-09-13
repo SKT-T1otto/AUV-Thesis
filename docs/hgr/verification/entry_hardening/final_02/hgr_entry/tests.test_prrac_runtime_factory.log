@@ -1,0 +1,8 @@
+test_b1_delegates_search_without_overlaying_allocation (tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests) ... ok
+test_legacy_overlay_and_native_are_strict (tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests) ... ok
+test_native_rejects_proxy_variants (tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.030s
+
+OK

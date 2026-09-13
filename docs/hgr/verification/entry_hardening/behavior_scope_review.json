@@ -1,0 +1,59 @@
+{
+  "reference_commit": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "unchanged_files": {
+    "chapter3_bser/experiments/hgr/runtime.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "27c6273dc55d06303e4ad96d338b7e30d0a227368fb33b8e1a47d83033ee8ce6"
+    },
+    "chapter3_bser/models/hgr/policy.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "c0e49c0af4f46e93c47a2d7e810398b14a067941c7b8aed7390d0bcb1e9f83d6"
+    },
+    "chapter3_bser/models/hgr/estimator.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "063d3513cc714608a97b42a5087195d424f7a6439c3a3969de4198849743c17c"
+    },
+    "chapter3_bser/experiments/reward_objective.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "f4072f5bb6ec378eefec897365818baf789d351113e8be194f9c8b11c1853710"
+    },
+    "core/env/task_protocol.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "a2786eb3fa1db4fde485cbf21ef22226b3eefed4113b799888b1a820656638bb"
+    },
+    "core/env/uav_env.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf"
+    },
+    "core/env/mission_env.py": {
+      "byte_equal_to_reference": true,
+      "sha256": "e4d853fe143764ef4197cba472ebd045fbd0d03fae956cf539aae491f946657f"
+    },
+    "scripts/run_ch3_learning.ps1": {
+      "byte_equal_to_reference": true,
+      "sha256": "308778458bc188daeee8db2257a9a2352ebfa4d586cb0586716f016ef7c24f9f"
+    },
+    "scripts/run_ch3_learning.bat": {
+      "byte_equal_to_reference": true,
+      "sha256": "a2b694b7f29adffbd0ebd611451b7d087e64b79fc275b24fb93bf1cceb0b6a29"
+    },
+    "scripts/linux/run_ch3_learning.sh": {
+      "byte_equal_to_reference": true,
+      "sha256": "772ab882c07639971b22ffb61e19c27fbeb56eaf7764237e918ee8d476125191"
+    }
+  },
+  "trainer_methods_except_output_initialization": {
+    "_resume": true,
+    "branch": true,
+    "collect": true,
+    "paired_label": true,
+    "run": true,
+    "run_cycle": true,
+    "save": true,
+    "scenario": true,
+    "stream": true
+  },
+  "scope": "Static scope check; complements numerical real-collector reference comparison, not a performance claim",
+  "passed": true,
+  "verified_against_final_source_sha256": "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491"
+}

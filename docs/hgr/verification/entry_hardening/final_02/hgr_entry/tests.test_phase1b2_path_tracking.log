@@ -1,0 +1,6 @@
+test_tracks_path_in_order_without_jumping_to_final_waypoint (tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

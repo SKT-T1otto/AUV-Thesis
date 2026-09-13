@@ -1,0 +1,96 @@
+{
+  "verification_attempt": "final_metadata",
+  "scope": "Readback of exported bounded evaluation artifacts; not additional performance experiments",
+  "reports": [
+    {
+      "policy_mode": "stochastic",
+      "production_source_sha256": "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491",
+      "checks": {
+        "required_episode_fields": true,
+        "identity_hash": true,
+        "pairing_hash": true,
+        "manifest_content_hash": true,
+        "source_inventory_hash": true,
+        "current_source_matches": true,
+        "complete": true,
+        "actual_clock": true,
+        "no_evaluation_updates": true,
+        "counts": true,
+        "config_matches_canonical": true,
+        "actual_config_projection": true,
+        "source_training_costs_separate": true,
+        "authoritative_handoff": true,
+        "identity_links": true
+      },
+      "passed": true
+    },
+    {
+      "policy_mode": "deterministic_mean",
+      "production_source_sha256": "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491",
+      "checks": {
+        "required_episode_fields": true,
+        "identity_hash": true,
+        "pairing_hash": true,
+        "manifest_content_hash": true,
+        "source_inventory_hash": true,
+        "current_source_matches": true,
+        "complete": true,
+        "actual_clock": true,
+        "no_evaluation_updates": true,
+        "counts": true,
+        "config_matches_canonical": true,
+        "actual_config_projection": true,
+        "source_training_costs_separate": true,
+        "authoritative_handoff": true,
+        "identity_links": true
+      },
+      "passed": true
+    }
+  ],
+  "prior_full_scope_pairing": {
+    "verification_attempt": "final_02",
+    "same_pairing_hash": true,
+    "evaluations": [
+      {
+        "method": "ch3_hgr",
+        "production_source_sha256": "bbd30023e201fe4e21cab9f32f6961a6a2d42b416b622cf9c63665f083f7f577",
+        "pairing_sha256": "2fca6a2bf1904992b2fdab99b0cefa8915f43a226aba32508aee120b5ec8c564",
+        "n_valid_episodes": 1,
+        "actual_environment_steps": 8,
+        "actual_training_updates": 0,
+        "checkout_before": {
+          "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+          "dirty": true,
+          "status": "M chapter3_bser/experiments/hgr/cli.py\n M chapter3_bser/experiments/hgr/provenance.py\n M chapter3_bser/experiments/hgr/train.py\n M docs/hgr/README.md\n M tests/test_hgr_integration.py\n M tools/verify_collision_terminal.py\n?? chapter3_bser/experiments/hgr/evaluation.py\n?? docs/hgr/verification/entry_hardening/\n?? tests/test_hgr_evaluation.py"
+        }
+      },
+      {
+        "method": "ch3_stochastic_direct_mc",
+        "production_source_sha256": "bbd30023e201fe4e21cab9f32f6961a6a2d42b416b622cf9c63665f083f7f577",
+        "pairing_sha256": "2fca6a2bf1904992b2fdab99b0cefa8915f43a226aba32508aee120b5ec8c564",
+        "n_valid_episodes": 1,
+        "actual_environment_steps": 8,
+        "actual_training_updates": 0,
+        "checkout_before": {
+          "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+          "dirty": true,
+          "status": "M chapter3_bser/experiments/hgr/cli.py\n M chapter3_bser/experiments/hgr/provenance.py\n M chapter3_bser/experiments/hgr/train.py\n M docs/hgr/README.md\n M tests/test_hgr_integration.py\n M tools/verify_collision_terminal.py\n?? chapter3_bser/experiments/hgr/evaluation.py\n?? docs/hgr/verification/entry_hardening/\n?? tests/test_hgr_evaluation.py"
+        }
+      },
+      {
+        "method": "ch3_direct_boundary_corrected",
+        "production_source_sha256": "bbd30023e201fe4e21cab9f32f6961a6a2d42b416b622cf9c63665f083f7f577",
+        "pairing_sha256": "2fca6a2bf1904992b2fdab99b0cefa8915f43a226aba32508aee120b5ec8c564",
+        "n_valid_episodes": 1,
+        "actual_environment_steps": 8,
+        "actual_training_updates": 0,
+        "checkout_before": {
+          "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+          "dirty": true,
+          "status": "M chapter3_bser/experiments/hgr/cli.py\n M chapter3_bser/experiments/hgr/provenance.py\n M chapter3_bser/experiments/hgr/train.py\n M docs/hgr/README.md\n M tests/test_hgr_integration.py\n M tools/verify_collision_terminal.py\n?? chapter3_bser/experiments/hgr/evaluation.py\n?? docs/hgr/verification/entry_hardening/\n?? tests/test_hgr_evaluation.py"
+        }
+      }
+    ]
+  },
+  "passed": true
+}

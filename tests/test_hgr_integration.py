@@ -133,6 +133,8 @@ class HGRIntegrationTests(unittest.TestCase):
             # bounded integration fixture; it is never performance evidence.
             manifest=json.loads((ROOT/'tests/fixtures/hgr/handoff_manifest.json').read_text(encoding='utf-8'))
             manifest['scenarios'][0]['scenario_split']='validation'
+            manifest['scenarios'][0]['scenario_role']='validation'
+            manifest['purpose']='Repeated training scene for bounded interface testing only; not performance evidence'
             manifest_path=base/'evaluation_manifest.json'; manifest_path.write_text(json.dumps(manifest),encoding='utf-8')
             run_entry(['evaluate','--checkpoint',summary['latest_checkpoint'],'--output-dir',base/'evaluate',
                        '--episodes','1','--manifest',manifest_path])
@@ -140,13 +142,28 @@ class HGRIntegrationTests(unittest.TestCase):
             self.assertFalse(evaluation['training_update'])
             self.assertEqual(evaluation['reward_objective'],'team_mean_v1')
             self.assertEqual(evaluation['policy_mode'],'stochastic')
+            self.assertTrue(evaluation['evaluation_complete'])
+            self.assertEqual(evaluation['actual_environment_steps'],8)
+            for method in ('stochastic_direct_mc','direct_boundary_corrected'):
+                baseline=json.loads((base/method/'summary.json').read_text(encoding='utf-8'))
+                destination=base/(method+'_evaluation')
+                run_entry(['evaluate','--checkpoint',baseline['latest_checkpoint'],'--output-dir',destination,
+                           '--episodes','1','--manifest',manifest_path])
+                evaluated=json.loads((destination/'summary.json').read_text(encoding='utf-8'))
+                self.assertEqual(evaluated['method'],'ch3_'+method)
+                self.assertTrue(evaluated['evaluation_complete'])
+                self.assertEqual(evaluated['pairing_sha256'],evaluation['pairing_sha256'])
+                self.assertEqual(evaluated['actual_training_updates'],0)
             if os.environ.get('AUV_HGR_EVIDENCE_DIR'):
                 evidence=Path(os.environ['AUV_HGR_EVIDENCE_DIR']); evidence.mkdir(parents=True,exist_ok=True)
                 for name in ('cycles.json','branches.json','episodes.json','summary.json','config.json'):
                     shutil.copyfile(output/name,evidence/name)
-                for method in ('stochastic_direct_mc','direct_boundary_corrected','resumed','evaluate'):
+                for method in ('stochastic_direct_mc','direct_boundary_corrected','resumed','evaluate',
+                               'stochastic_direct_mc_evaluation','direct_boundary_corrected_evaluation'):
                     destination=evidence/method;destination.mkdir(exist_ok=True)
-                    for name in ('summary.json','cycles.json'):
+                    names=('summary.json','episodes.json','evaluation_identity.json','evaluation_manifest.json',
+                           'resolved_evaluation_config.json','evaluation_progress.json') if method=='evaluate' or method.endswith('_evaluation') else ('summary.json','cycles.json')
+                    for name in names:
                         if (base/method/name).is_file():
                             shutil.copyfile(base/method/name,destination/name)
                 if os.environ.get('AUV_HGR_CHECKPOINT_DIR'):

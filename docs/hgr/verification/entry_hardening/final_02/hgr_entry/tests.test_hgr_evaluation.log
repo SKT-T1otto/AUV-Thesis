@@ -1,0 +1,16 @@
+test_checkpoint_integrity_rng_and_source_rejection (tests.test_hgr_evaluation.HGREvaluationProductionTests) ... ok
+test_failures_interruptions_preserve_prefix_and_nonzero_cli (tests.test_hgr_evaluation.HGREvaluationProductionTests) ... ok
+test_fresh_end_checks_detect_policy_source_checkpoint_and_manifest_changes (tests.test_hgr_evaluation.HGREvaluationProductionTests) ... ok
+test_generated_evaluation_persists_initial_plan_actual_config_and_random_streams (tests.test_hgr_evaluation.HGREvaluationProductionTests) ... ok
+test_real_production_evaluation_matches_fixed_reference_actions_rewards_events (tests.test_hgr_evaluation.HGREvaluationProductionTests) ... ok
+test_boolean_missing_contradictory_unknown_and_clock (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+test_manifest_identity_validation_canonical_order_mode_and_pairing (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+test_output_preflight_all_methods_apis_cli_and_initialization_routes (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+test_resolved_config_preserves_existing_optional_environment_defaults (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+test_shared_task_metrics_and_real_clock_adapter (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+test_source_inventory_aggregate_and_difference (tests.test_hgr_evaluation.HGREvaluationUnitTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 699.444s
+
+OK

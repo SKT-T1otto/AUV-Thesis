@@ -1,0 +1,178 @@
+Final local workspace review
+2026-09-13T16:44:01.761406+00:00
+All commands use git -c safe.directory=E:/gym/code/WORKSPACE/AUV-Thesis.
+No git add/commit/push performed. Tracked diff --stat excludes untracked new files; full untracked inventory follows.
+
+git rev-parse HEAD
+exit_code=0
+0fed8e1650f2747bb58f17bc0b375b69870ea0b5
+
+git branch --show-current
+exit_code=0
+main
+
+git remote get-url origin
+exit_code=0
+https://github.com/SKT-T1otto/AUV-Thesis.git
+
+git diff --stat
+exit_code=0
+ chapter3_bser/experiments/hgr/cli.py        | 47 ++-----------------------
+ chapter3_bser/experiments/hgr/provenance.py | 54 +++++++++++++++++++++++++++--
+ chapter3_bser/experiments/hgr/train.py      | 29 ++++++++++++----
+ docs/hgr/README.md                          | 39 +++++++++++++++++++--
+ tests/test_hgr_integration.py               | 21 +++++++++--
+ tools/verify_collision_terminal.py          | 45 +++++++++++++++++++++---
+ 6 files changed, 174 insertions(+), 61 deletions(-)
+
+git diff --check
+exit_code=0
+(no output)
+
+git status --short
+exit_code=0
+ M chapter3_bser/experiments/hgr/cli.py
+ M chapter3_bser/experiments/hgr/provenance.py
+ M chapter3_bser/experiments/hgr/train.py
+ M docs/hgr/README.md
+ M tests/test_hgr_integration.py
+ M tools/verify_collision_terminal.py
+?? chapter3_bser/experiments/hgr/evaluation.py
+?? docs/hgr/verification/entry_hardening/
+?? tests/test_hgr_evaluation.py
+
+git ls-files --others --exclude-standard
+exit_code=0
+chapter3_bser/experiments/hgr/evaluation.py
+docs/hgr/verification/entry_hardening/RESULTS.md
+docs/hgr/verification/entry_hardening/acceptance_summary.json
+docs/hgr/verification/entry_hardening/artifact_readback.json
+docs/hgr/verification/entry_hardening/behavior_scope_review.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/behavior_comparison.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/episodes.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/deterministic_mean/summary.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/episodes.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/bounded_evaluation/stochastic/summary.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/production_entry_summaries.json
+docs/hgr/verification/entry_hardening/final/hgr_entry/unittest.log
+docs/hgr/verification/entry_hardening/final/interrupted.json
+docs/hgr/verification/entry_hardening/final/tree_before.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/behavior_comparison.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/deterministic_mean/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/bounded_evaluation/stochastic/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/discovery.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/methods.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/branches.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/cycles.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected/cycles.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/direct_boundary_corrected_evaluation/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/evaluate/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/resumed/cycles.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/resumed/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc/cycles.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/episodes.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/stochastic_direct_mc_evaluation/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/production_entries/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/summary.json
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_collision_terminal_protocol.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_hgr_evaluation.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_hgr_integration.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_hgr_mechanism.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_manual_prrac_pair.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_observation_28d_contract.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_phase1b2_path_tracking.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_phase1c_v2_execution_reward.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_phase1c_v2_reward_protocol.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_checkpoint.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_checkpoint_evaluator.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_evaluation_determinism.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_evaluation_metrics.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_runtime_checkpoint_compatibility.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_prrac_runtime_factory.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_repository_metadata.log
+docs/hgr/verification/entry_hardening/final_02/hgr_entry/tests.test_team_reward.log
+docs/hgr/verification/entry_hardening/final_02/summary.json
+docs/hgr/verification/entry_hardening/final_02/tree_after.json
+docs/hgr/verification/entry_hardening/final_02/tree_before.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/behavior_comparison.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/episodes.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/deterministic_mean/summary.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/episodes.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/evaluation_identity.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/evaluation_manifest.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/evaluation_progress.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/resolved_evaluation_config.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/stochastic/summary.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/discovery.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/methods.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/summary.json
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_collision_terminal_protocol.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_hgr_evaluation.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_hgr_mechanism.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_observation_28d_contract.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_prrac_evaluation_metrics.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_repository_metadata.log
+docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_team_reward.log
+docs/hgr/verification/entry_hardening/final_metadata/summary.json
+docs/hgr/verification/entry_hardening/final_metadata/tree_after.json
+docs/hgr/verification/entry_hardening/final_metadata/tree_before.json
+docs/hgr/verification/entry_hardening/git_review.txt
+docs/hgr/verification/entry_hardening/golden/golden/summary.json
+docs/hgr/verification/entry_hardening/golden/summary.json
+docs/hgr/verification/entry_hardening/golden/tree_after.json
+docs/hgr/verification/entry_hardening/golden/tree_before.json
+docs/hgr/verification/entry_hardening/historical/historical/methods.json
+docs/hgr/verification/entry_hardening/historical/historical/summary.json
+docs/hgr/verification/entry_hardening/historical/historical/unittest.log
+docs/hgr/verification/entry_hardening/historical/summary.json
+docs/hgr/verification/entry_hardening/historical/tree_after.json
+docs/hgr/verification/entry_hardening/historical/tree_before.json
+docs/hgr/verification/entry_hardening/repository_artifacts_check.json
+docs/hgr/verification/entry_hardening/repository_entry.json
+docs/hgr/verification/entry_hardening/windows_cli_help.txt
+tests/test_hgr_evaluation.py
+
+Post-report source tree still matches final_metadata/tree_after.json.
+All compact evidence is visible to Git; checkpoint extension remains ignored. No model/checkpoint artifacts were copied into this evidence directory.
+No tracked changes under outputs/, core/, configs/, docs/provenance/ or chapter3_bser/models/. Old user outputs and historical evidence were not modified by this task.
+Source identity review and numerical behavior evidence: behavior_scope_review.json and final_metadata/hgr_entry_metadata/bounded_evaluation/behavior_comparison.json.

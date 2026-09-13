@@ -1,0 +1,8 @@
+test_discovery_transition_restores_only_discovery_components (tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests) ... ok
+test_reward_adapter_source_has_no_core_protocol_dependency (tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests) ... ok
+test_searcher_freeze_is_explicit_and_independent_of_core_protocol (tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+OK

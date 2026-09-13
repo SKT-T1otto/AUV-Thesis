@@ -1,0 +1,33 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "-m",
+    "tools.verify_collision_terminal",
+    "--suite",
+    "historical",
+    "--output-dir",
+    "docs/hgr/verification/entry_hardening/historical"
+  ],
+  "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "suite": "historical",
+  "source_tree_sha256": "994f4ef4ea87e6105d9bda190be357fdb030f7e3788a61635208697198a46b99",
+  "tree_unchanged": true,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+  "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+  "dependencies": {
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6"
+  },
+  "started_utc": "2026-09-13T14:52:54.478607+00:00",
+  "ended_utc": "2026-09-13T14:53:00.732315+00:00",
+  "wall_seconds": 6.2435676000022795,
+  "current_suite_passed": null,
+  "legacy_compatibility_passed": null,
+  "historical_suite_status": "blocked_missing_historical_input",
+  "golden_status": "not_run",
+  "all_required_verification_passed": false,
+  "passed": false,
+  "exit_code": 1
+}

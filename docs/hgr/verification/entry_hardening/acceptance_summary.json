@@ -1,0 +1,157 @@
+{
+  "schema": "hgr.entry_hardening.acceptance.v1",
+  "recorded_utc": "2026-09-13T16:42:09.080511+00:00",
+  "context": "latest_recorded_local_verification_not_CI",
+  "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "dirty": true,
+  "production_source_sha256": "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491",
+  "evaluation_hardening_complete": true,
+  "current_regression_passed": true,
+  "bounded_evaluation_passed": true,
+  "historical_verification_status": "blocked_missing_historical_input",
+  "formal_experiments_completed": false,
+  "performance_claims_supported": false,
+  "completed_items": {
+    "output_protection": true,
+    "shared_strict_task_metrics": true,
+    "evaluation_input_identity_and_readonly_checks": true
+  },
+  "latest_final_source_regression": {
+    "scope": "Final metadata projection and all directly relevant tests, including real bounded evaluation and fixed-reference behavior",
+    "evidence": "final_metadata",
+    "discovered": 61,
+    "executed": 61,
+    "passed": 61,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "modules": 7,
+    "exact_discovery_execution_match": true,
+    "exit_code": 0,
+    "source_tree_sha256": "7e66931d838817395ec1a7d62a16420cd1cdbd1db6a24fca0e403d5c91b26753",
+    "tree_unchanged": true,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "dependencies": {
+      "torch": "2.11.0+cu126",
+      "numpy": "2.2.6"
+    },
+    "started_utc": "2026-09-13T16:27:14.808966+00:00",
+    "ended_utc": "2026-09-13T16:38:32.489212+00:00",
+    "wall_seconds": 677.6807334999976,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--suite",
+      "hgr-entry-metadata",
+      "--workers",
+      "4",
+      "--output-dir",
+      "docs/hgr/verification/entry_hardening/final_metadata"
+    ]
+  },
+  "preceding_full_relevant_regression": {
+    "scope": "Complete relevant HGR entry suite before final metadata projection; not the final source tree",
+    "evidence": "final_02",
+    "discovered": 100,
+    "executed": 100,
+    "passed": 100,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "modules": 17,
+    "exact_discovery_execution_match": true,
+    "exit_code": 0,
+    "source_tree_sha256": "463078eb225373c6bcf1cac62e02dfd57c27a7ba5e306aec67bc242e3816ba81",
+    "tree_unchanged": true,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "dependencies": {
+      "torch": "2.11.0+cu126",
+      "numpy": "2.2.6"
+    },
+    "started_utc": "2026-09-13T15:48:14.113356+00:00",
+    "ended_utc": "2026-09-13T16:19:14.333493+00:00",
+    "wall_seconds": 1860.220044900001,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--suite",
+      "hgr-entry",
+      "--workers",
+      "4",
+      "--output-dir",
+      "docs/hgr/verification/entry_hardening/final_02"
+    ]
+  },
+  "test_count_rule": "These are two separate executions on distinct fixed source trees. Do not add their counts or describe them as one run. Earlier 600-test reports are historical.",
+  "bounded_evaluation": {
+    "reference_commit": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+    "evidence": "final_metadata/hgr_entry_metadata/bounded_evaluation",
+    "production_cli_and_real_collector": true,
+    "policy_modes": [
+      "stochastic",
+      "deterministic_mean"
+    ],
+    "episodes_per_mode": 1,
+    "steps_per_episode": 8,
+    "policy_sampling_seed": 839,
+    "found_step": 1,
+    "handoff_event_step": 1,
+    "handoff_decision_step": 2,
+    "task_outcome": "timeout",
+    "actions_rewards_events_and_legacy_fields_exact_match": true,
+    "checkpoint_and_policy_unchanged": true,
+    "actual_training_updates": 0,
+    "test_fixture_only": true,
+    "formal_performance_evidence": false
+  },
+  "prior_three_method_pairing_evidence": "artifact_readback.json/prior_full_scope_pairing",
+  "behavior_scope": {
+    "unchanged_files": 10,
+    "unchanged_trainer_methods": 9,
+    "evidence": "behavior_scope_review.json",
+    "gamma_and_hyperparameters_unchanged": true,
+    "core_environment_reward_snapshot_policy_estimator_unchanged": true
+  },
+  "historical_inputs": {
+    "discovered": 4,
+    "executed": 1,
+    "passed": 1,
+    "blocked": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 1,
+    "evidence": "historical/historical/summary.json",
+    "golden": {
+      "trajectories": 0,
+      "blocked": 1,
+      "exit_code": 1,
+      "missing_input": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_core_migration\\golden_trace_manifest.json"
+    },
+    "scope": "Separate earlier read-only missing-input check. No historical data fabricated; not a current HGR code failure."
+  },
+  "platform_limitations": {
+    "windows_locally_verified": true,
+    "linux_verified": false,
+    "ci_verified": false
+  },
+  "checkpoint_compatibility": "Default exact production source match. Pre-hardening checkpoints must run under their original fixed source; no metadata rewrite or bypass.",
+  "manual_commands": "../../README.md",
+  "initial_attempt": {
+    "evidence": "final/interrupted.json",
+    "status": "interrupted_not_final_pass"
+  },
+  "git_review": "git_review.txt",
+  "commit_performed": false,
+  "push_performed": false,
+  "formal_training_started": false,
+  "old_user_outputs_modified": false,
+  "git_diff_check_passed": true,
+  "source_tree_still_matches_after_reporting": true,
+  "compact_evidence_visible_to_git": true,
+  "checkpoint_artifacts_ignored": true
+}

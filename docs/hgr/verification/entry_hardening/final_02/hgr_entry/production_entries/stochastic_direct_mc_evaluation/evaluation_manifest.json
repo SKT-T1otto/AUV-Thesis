@@ -1,0 +1,107 @@
+{
+  "schema": "hgr.evaluation_manifest.v1",
+  "origin": {
+    "kind": "external",
+    "original_path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-2p9rgz43\\collision_terminal\\evaluation_manifest.json",
+    "original_file_sha256": "bab9efed4ca6bba7176c3a1ee785cee53cfa8c97283503cbb41b10a01bbe3127",
+    "original_schema": null,
+    "generator_seed": null,
+    "available_count": 1,
+    "fixture_purpose": "Repeated training scene for bounded interface testing only; not performance evidence"
+  },
+  "split": "validation",
+  "profile": "M20_MOVING_UNKNOWN_MULTI",
+  "selected_count": 1,
+  "scenarios": [
+    {
+      "scenario_id": "hgr_fixed_legal_handoff_0001",
+      "scenario_seed": 31729,
+      "planner_seed": 31729,
+      "scenario_profile": "M20_MOVING_UNKNOWN_MULTI",
+      "scenario_split": "validation",
+      "scenario_role": "validation",
+      "protocol": "CH3_UNKNOWN_MAP_V1",
+      "max_steps": 8,
+      "initial_agent_positions": [
+        [
+          2,
+          2,
+          2
+        ],
+        [
+          5.2,
+          2,
+          2
+        ],
+        [
+          2,
+          5.2,
+          2
+        ],
+        [
+          6,
+          6,
+          2
+        ]
+      ],
+      "initial_executor_wait_point": [
+        8,
+        8,
+        2
+      ],
+      "target_position": [
+        2.6,
+        2.6,
+        2
+      ],
+      "target_initial_position": [
+        2.6,
+        2.6,
+        2
+      ],
+      "target_initial_velocity": [
+        0.25,
+        0,
+        0
+      ],
+      "target_motion_mode": "constant_velocity_reflect_v1",
+      "target_motion_known": true,
+      "target_motion_seed": 317290,
+      "target_state_schema": "moving_target_state_v1",
+      "use_obstacles": true,
+      "obstacle_layout_id": "custom_aabb_v1",
+      "obstacle_knowledge_mode": "online_unknown",
+      "obstacles": [
+        {
+          "center": [
+            14,
+            14,
+            3
+          ],
+          "size": [
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "center": [
+            16,
+            5,
+            4
+          ],
+          "size": [
+            2,
+            2,
+            2
+          ]
+        }
+      ],
+      "flow_phase_x": 0.0,
+      "flow_phase_y": 0.0,
+      "scenario_schema_version": 1
+    }
+  ],
+  "selected_content_sha256": "071c633d4b152ab0954fa71ddba5d560039bac6134aa735b80a3954f2cf34d16",
+  "split_validation_scope": "labels and unique identities within this run; no global training-overlap proof"
+}

@@ -1,0 +1,13 @@
+usage: cli.py evaluate [-h] --checkpoint CHECKPOINT --output-dir OUTPUT_DIR
+                       [--episodes EPISODES] [--seed SEED]
+                       [--policy-mode {stochastic,deterministic_mean}]
+                       [--manifest MANIFEST]
+
+options:
+  -h, --help            show this help message and exit
+  --checkpoint CHECKPOINT
+  --output-dir OUTPUT_DIR
+  --episodes EPISODES
+  --seed SEED
+  --policy-mode {stochastic,deterministic_mean}
+  --manifest MANIFEST

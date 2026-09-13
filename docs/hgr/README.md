@@ -4,7 +4,9 @@
 
 HGR 是工程方法名。实现与有界机制验收不证明论文创新性、性能优势或安全成功概率最大化。正式实验由用户手动启动。
 
-本轮最终状态、600 项固定树回归、真实更新证据及历史输入缺口见[验收报告](verification/RESULTS.md)与[机器可读状态](verification/acceptance_summary.json)。
+算法实现阶段的历史验收见[原验收报告](verification/RESULTS.md)与[原状态](verification/acceptance_summary.json)；其中 600 项是此前分段执行后的汇总，不是本轮连续执行结果。2026-09-13 评价入口收尾基于已核对的本地及远程 `main` 提交 `0fed8e1650f2747bb58f17bc0b375b69870ea0b5`，开始时工作区干净。本轮结果集中记录于[入口验收说明](verification/entry_hardening/RESULTS.md)。
+
+入口收尾已完成：最终源码相关专项 61/61 通过，此前完整相关回归 100/100 通过，两次分别记录源码身份。真实有界评价在两种策略模式下均与固定旧版本行为一致。历史输入仍有缺失，Linux 尚未验证；正式实验与性能结论均未完成，见[本轮交付状态](verification/entry_hardening/acceptance_summary.json)。
 
 ## 奖励与任务边界
 
@@ -63,6 +65,38 @@ HGR 是工程方法名。实现与有界机制验收不证明论文创新性、�
 
 ## 手动命令
 
+### 评价入口收尾协议
+
+三个随机方法通过 `experiments/hgr/evaluation.py` 共用固定策略评价。`train.py::validated_output` 在 resolve 后调用 `require_protocol_output`，允许新目录或已有空目录，拒绝非空目录及绕过组件的路径。`provenance.py` 核对 checkpoint 的源码清单与聚合，并在评价结束时重新扫描；源码不匹配默认拒绝，旧测试 checkpoint 应在原固定代码版本运行。
+
+每次评价保存 `resolved_evaluation_config.json`、`evaluation_manifest.json`、`evaluation_identity.json`、`episodes.json`、`summary.json`、`evaluation_progress.json`。异常额外保存 `evaluation_failure.json`，保留合法回合并退出非零。仅在全部回合有效且模型/输入/源码不变时 complete；此前正式整体率值及回报均值为 null。旧 episode 字段和完整 summary 的原有字段保留，新增字段与精确哈希口径见[入口协议说明](verification/entry_hardening/RESULTS.md)。共同任务指标来自 PRRAC-team 同一严格汇总函数，真实环境步数来自任务时钟，评价更新数为零，checkpoint 原训练成本另存。
+
+### 共用场景的手动评价
+
+下列占位 checkpoint 和 validation manifest 必须替换为用户实际文件；每条命令独占新目录。外部 manifest 需要至少 100 个身份唯一、profile/时域兼容的 validation 场景。生产入口不把 train 标签改成 validation；仅有 split 标签不能证明与全部训练数据无重叠。三种随机方法使用同一 `--manifest`、`--seed` 和 mode 时可检查 `pairing_sha256`；method/checkpoint 不同不妨碍同条件比较。
+
+Windows PowerShell（每行为独立命令）：
+
+```powershell
+.\scripts\run_ch3_learning.ps1 -CondaEnv AUV evaluate --checkpoint "USER_HGR_CHECKPOINT.pt" --manifest "USER_VALIDATION_MANIFEST.json" --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/hgr/collision_terminal/paired_eval_001
+.\scripts\run_ch3_learning.ps1 -CondaEnv AUV evaluate --checkpoint "USER_DIRECT_MC_CHECKPOINT.pt" --manifest "USER_VALIDATION_MANIFEST.json" --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/direct_mc/collision_terminal/paired_eval_001
+.\scripts\run_ch3_learning.ps1 -CondaEnv AUV evaluate --checkpoint "USER_DIRECT_BOUNDARY_CHECKPOINT.pt" --manifest "USER_VALIDATION_MANIFEST.json" --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/direct_boundary/collision_terminal/paired_eval_001
+.\scripts\run_ch3_learning.ps1 -CondaEnv AUV prrac-evaluate --config configs/chapter3/bser_phase1c_prrac_team_eval.json --checkpoint "USER_PRRAC_TEAM_CHECKPOINT.pt" --episodes 100 --scenario-seed 12729 --output-dir outputs/chapter3/team_reward/collision_terminal/eval_current_001
+```
+
+Linux（每行为独立命令；本轮未在 Linux 主机执行）：
+
+```bash
+CRK_CONDA_ENV=AUV bash scripts/linux/run_ch3_learning.sh evaluate --checkpoint USER_HGR_CHECKPOINT.pt --manifest USER_VALIDATION_MANIFEST.json --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/hgr/collision_terminal/paired_eval_001
+CRK_CONDA_ENV=AUV bash scripts/linux/run_ch3_learning.sh evaluate --checkpoint USER_DIRECT_MC_CHECKPOINT.pt --manifest USER_VALIDATION_MANIFEST.json --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/direct_mc/collision_terminal/paired_eval_001
+CRK_CONDA_ENV=AUV bash scripts/linux/run_ch3_learning.sh evaluate --checkpoint USER_DIRECT_BOUNDARY_CHECKPOINT.pt --manifest USER_VALIDATION_MANIFEST.json --episodes 100 --seed 12729 --policy-mode stochastic --output-dir outputs/chapter3/direct_boundary/collision_terminal/paired_eval_001
+CRK_CONDA_ENV=AUV bash scripts/linux/run_ch3_learning.sh prrac-evaluate --config configs/chapter3/bser_phase1c_prrac_team_eval.json --checkpoint USER_PRRAC_TEAM_CHECKPOINT.pt --episodes 100 --scenario-seed 12729 --output-dir outputs/chapter3/team_reward/collision_terminal/eval_current_001
+```
+
+PRRAC-team 继续用其原评价入口及场景协议，以上 PRRAC 命令不声称已使用随机方法的外部清单或相同动作随机流。无外部 manifest 的随机方法评价仍生成并保存完整场景：删除上述对应命令的 `--manifest` 参数即可。HGR CPU 串行入口没有 `--workers`、`--device`；gamma 及算法超参数均未因入口维护改变。
+
+### 训练、恢复及其他既有入口
+
 模型另外保存完整生产源码摘要及策略参数摘要；同方法续训要求源码身份匹配。快照也校验生产源码身份，并核对恢复后的原始时钟、实际时限和对象引用。首版 HGR 使用 CPU 逐条采集真实环境，不包含并行吞吐优化。预测器每轮以新先导标签重新拟合，Adam 状态保存在该轮 checkpoint 中；下一轮创建新的拟合优化器，正式校正标签始终不用于拟合。
 
 从仓库根目录运行；正式输出目录必须是全新路径，且包含 `collision_terminal` 目录组件。以下 checkpoint 占位路径须由用户明确替换。默认 HGR train 执行完整梯度更新。
@@ -101,13 +135,14 @@ CRK_CONDA_ENV=AUV bash scripts/linux/run_ch3_learning.sh evaluate --checkpoint U
 
 ```bash
 python -B -m unittest tests.test_hgr_mechanism tests.test_team_reward tests.test_hgr_integration -v
+python -B -m tools.verify_collision_terminal --suite hgr-entry --output-dir docs/hgr/verification/manual_entry_check
 python -B -m chapter3_bser.experiments.hgr.cli train --config tests/fixtures/hgr/integration_config.json --output-dir outputs/chapter3/hgr/collision_terminal/manual_bounded_check
 python -B -m tools.verify_collision_terminal --suite all --workers 4 --output-dir docs/hgr/verification/manual_fresh_run
 ```
 
 最终本地验收记录置于 `docs/hgr/verification/`。历史 E0/golden 缺失输入单独记为 blocked，不生成替代历史产物。模型、checkpoint、原始训练输出继续忽略；本轮不 commit、push，也不运行正式 1000 主轨迹实验。
 
-## 本轮真实有界集成证据
+## 算法实现阶段的历史有界集成证据
 
 `verification/final_02/current/tests.test_hgr_integration.log` 中四项集成检查全部通过：真实 M20 生成场景、无交接/预算收尾、生产入口两个完整外循环与续训/对照/评价、原流及 spawn 快照续跑。固定合法小场景的任务截止为 8 步，真实可靠交接决策为 `tau=2`；各分支沿用原截止，不补尾或重置时钟。
 

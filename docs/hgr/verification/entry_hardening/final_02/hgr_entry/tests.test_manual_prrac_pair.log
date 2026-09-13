@@ -1,0 +1,26 @@
+test_analysis_is_read_only_and_no_found_is_unavailable (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_analysis_rejects_config_or_checkpoint_drift (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_analysis_rejects_csv_controller_mismatch (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_analysis_rejects_matching_but_wrong_scenarios (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_checkpoint_is_required_and_fixture_rejected_even_if_renamed (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_failed_first_command_stops_second_without_real_execution (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_prepare_1_and_10_share_config_and_have_new_output_dirs (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_prepare_only_cli_never_loads_checkpoint_or_launches (tests.test_manual_prrac_pair.ManualPairTests) ... ok
+test_conditional_success_uses_found_denominator_and_null (tests.test_manual_prrac_pair.ParsingTests) ... ok
+test_explicit_boolean_and_missing_values (tests.test_manual_prrac_pair.ParsingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.304s
+
+OK
+usage: verify_collision_terminal.py run [-h] --checkpoint CHECKPOINT
+                                        [--config CONFIG] --episodes EPISODES
+                                        [--allow-protocol-transfer]
+                                        [--allow-objective-transfer]
+                                        [--workers WORKERS] [--device DEVICE]
+                                        [--output-root OUTPUT_ROOT]
+                                        [--prepare-only]
+verify_collision_terminal.py run: error: the following arguments are required: --checkpoint
+Pair directory: C:\Users\lenovo\AppData\Local\Temp\tmpw5a_eyep\20260913_235557_138743_a252a191
+Pair directory: C:\Users\lenovo\AppData\Local\Temp\tmpwgq4e4xe\20260913_235557_294323_4805b085
+Prepared only; no checkpoint loaded and no episode started.

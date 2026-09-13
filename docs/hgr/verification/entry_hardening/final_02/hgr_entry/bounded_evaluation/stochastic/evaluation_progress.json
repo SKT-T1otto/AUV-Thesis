@@ -1,0 +1,19 @@
+{
+  "schema": "hgr.evaluation_progress.v1",
+  "status": "complete",
+  "evaluation_identity_sha256": "1bd47fe0211bf6004b2de87b81ac69d95b745236d78e099e18ce9f4e074804e0",
+  "n_expected_episodes": 1,
+  "n_valid_episodes": 1,
+  "evaluation_complete": true,
+  "next_episode_index": 1,
+  "checkout_before": {
+    "head": null,
+    "dirty": null,
+    "status": "git metadata unavailable; content identity remains authoritative"
+  },
+  "checkout_after": {
+    "head": null,
+    "dirty": null,
+    "status": "git metadata unavailable; content identity remains authoritative"
+  }
+}

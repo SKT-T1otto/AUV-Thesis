@@ -1,0 +1,768 @@
+{
+  "schema": "hgr.entry_verification_capture.v1",
+  "test_fixture_only": true,
+  "performance_claims_supported": false,
+  "entries": {
+    "hgr": {
+      "source_directory": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\hgr",
+      "files": {
+        "summary.json": {
+          "raw_file_sha256": "ba9dcf8be3ff39d3c47978f551b41264602d820754917a965b37c80f0bcd667f",
+          "content": {
+            "method": "ch3_hgr",
+            "reward_objective": "team_mean_v1",
+            "gamma": 0.95,
+            "run_mode": "from_scratch",
+            "resume_from": null,
+            "implementation_version": "hgr.exact_score_cycle.v1",
+            "source_sha256": "72374af03be5dbd25a1df6706a734d62ebe9a70e61b2c8fc3aa1da508fe0bade",
+            "completed_main_trajectories": 2,
+            "completed_cycles": 2,
+            "actual_total_environment_steps": 108,
+            "costs": {
+              "main_prefix_steps": 4,
+              "old_reference_suffix_steps": 12,
+              "main_current_suffix_steps": 0,
+              "suffix_policy_training_steps": 16,
+              "pilot_prefix_steps": 4,
+              "pilot_old_suffix_steps": 12,
+              "pilot_new_suffix_steps": 12,
+              "correction_old_suffix_steps": 24,
+              "correction_new_suffix_steps": 24,
+              "snapshot_restore_count": 12,
+              "predictor_updates": 6,
+              "prefix_actor_updates": 2,
+              "suffix_actor_updates": 2
+            },
+            "wall_seconds": 553.0990759999986,
+            "budget_policy": "finish_started_cycle_then_stop",
+            "budget_overshoot_steps": 0,
+            "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\hgr\\checkpoints\\hgr_main_000002_cycle_000002.pt",
+            "initialization": {
+              "mode": "from_scratch"
+            },
+            "formal_experiments_completed": false,
+            "performance_claims_supported": false
+          }
+        },
+        "config.json": {
+          "raw_file_sha256": "b8f71b0a2206f1f0f498cd9beb3fea9374b1308767b2be14e182a5e457c3df3b",
+          "content": {
+            "base_candidate": "ch3_v3_full_reference",
+            "profile": "M20_MOVING_UNKNOWN_MULTI",
+            "max_steps": 8,
+            "seed": 2729,
+            "reward": {
+              "schema": "bser.phase1c.execution_reward.v2",
+              "enabled": true,
+              "freeze_searchers_after_found": true,
+              "preserve_discovery_reward": true,
+              "contact_entry_bonus": 0.25,
+              "hold_increment_bonus": 0.2,
+              "terminal_success_bonus": 2.0,
+              "reward_clip": 3.0,
+              "executor_id": 3,
+              "searcher_ids": [
+                0,
+                1,
+                2
+              ]
+            },
+            "rl": {
+              "batch_size": 128,
+              "replay_size": 500000,
+              "warmup_steps": 256,
+              "update_frequency": 4,
+              "updates_per_train": 2,
+              "policy_delay": 2,
+              "gamma": 0.95,
+              "tau": 0.005,
+              "lr_actor": 0.001,
+              "lr_critic": 0.0005,
+              "hidden_dim": 128,
+              "residual_action_reg": 0.01
+            },
+            "execution_runtime": {
+              "dynamic_public_target_enabled": true,
+              "public_target_update_distance": 0.75,
+              "public_target_update_min_steps": 20,
+              "defer_stale_endpoint_invalid": true,
+              "refresh_on_executor_handoff": true,
+              "refresh_on_public_target_shift": true
+            },
+            "execution_runtime_revision": "dynamic_public_intercept_v2_1",
+            "task_protocol": "collision_terminal_v1",
+            "collision_detection_revision": "segment_closed_aabb_v1",
+            "terminal_reward_revision": "team_failure_override_v1",
+            "collision_terminal_reward": -2.0,
+            "observation_dim": 28,
+            "action_dim": 3,
+            "schema": "hgr.training.v1",
+            "algorithm": "hgr",
+            "method": "ch3_hgr",
+            "architecture_version": "hgr.isolated_tanh_gaussian.v1",
+            "checkpoint_schema": "hgr.complete_cycle.v1",
+            "reward_objective": "team_mean_v1",
+            "source_reward_revision": "execution_reward_v2_after_terminal_override_v1",
+            "output_dir": "outputs/chapter3/hgr/collision_terminal/bounded_integration",
+            "total_main_trajectories": 2,
+            "main_prefix_batch_size": 1,
+            "suffix_training_episodes_per_cycle": 1,
+            "pilot_prefix_episodes_per_cycle": 1,
+            "correction_draws_per_cycle": 2,
+            "checkpoint_interval": 1,
+            "max_total_environment_steps": null,
+            "prefix_lr": 0.001,
+            "suffix_lr": 0.001,
+            "policy": {
+              "actor": {
+                "hidden_dim": 8,
+                "expert_hidden_dim": 8,
+                "router_temperature": 1.0,
+                "gate_initial_mean": 0.75,
+                "alignment_scale_init": 1.0
+              },
+              "initial_std": 0.12,
+              "mean_epsilon": 1e-06
+            },
+            "predictor": {
+              "hidden_dim": 8,
+              "updates": 3,
+              "lr": 0.001
+            },
+            "ablation": "none",
+            "scenario_manifest": "tests/fixtures/hgr/handoff_manifest.json",
+            "scenario_manifest_sha256": "a23d14cf35ee2519968c8aed975f1c70add88d22854b0b41ca636e70df7fff01"
+          }
+        },
+        "cycles.json": {
+          "raw_file_sha256": "b39f8aa8bb6668ce2231300a76657c6d7de84e3b8aec042c70bacf2f6688c50a",
+          "content": [
+            {
+              "cycle": 1,
+              "completed_main_trajectories": 1,
+              "N": 1,
+              "handoff_count": 1,
+              "no_handoff_count": 0,
+              "K": 2,
+              "draws": [
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 4.149408777535512e-05
+                },
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 7.618674018467723e-05
+                }
+              ],
+              "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+              "theta_after_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+              "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+              "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+              "predictor_hash": "eedb06ed2524f23c61407fa09dc692b227177f208ce8736061958ee5a0a73fc1",
+              "predictions": [
+                -0.08054894208908081
+              ],
+              "predictor_fit": {
+                "updates": 3,
+                "mse": 0.00022796689881943166,
+                "samples": 1
+              },
+              "suffix_loss": -0.040570393204689026,
+              "suffix_dataset_ids": [
+                "seed:2729/stream:1/suffix_training/scenario"
+              ],
+              "pilot_dataset_ids": [
+                "seed:2729/stream:5/pilot/scenario"
+              ],
+              "main_dataset_ids": [
+                "seed:2729/stream:3/main/scenario"
+              ],
+              "biased_ablation": false,
+              "hgr_boundary_mechanism_active": true,
+              "g0_norm": 3.316336154937744,
+              "prediction_norm": 1.0372213125228882,
+              "correction_norm": 1.0379788875579834,
+              "delta_g_norm": 0.0007577060023322701,
+              "g1_norm": 3.31705904006958,
+              "parameter_change_norm": 0.0033170839305967093,
+              "loss_old": -2.4239888191223145,
+              "loss_delta": -0.0006360411643981934,
+              "costs": {
+                "main_prefix_steps": 2,
+                "old_reference_suffix_steps": 6,
+                "main_current_suffix_steps": 0,
+                "suffix_policy_training_steps": 8,
+                "pilot_prefix_steps": 2,
+                "pilot_old_suffix_steps": 6,
+                "pilot_new_suffix_steps": 6,
+                "correction_old_suffix_steps": 12,
+                "correction_new_suffix_steps": 12,
+                "snapshot_restore_count": 6,
+                "predictor_updates": 3,
+                "prefix_actor_updates": 1,
+                "suffix_actor_updates": 1
+              },
+              "wall_seconds": 274.1445940000049,
+              "complete": true,
+              "actual_total_environment_steps": 54
+            },
+            {
+              "cycle": 2,
+              "completed_main_trajectories": 2,
+              "N": 1,
+              "handoff_count": 1,
+              "no_handoff_count": 0,
+              "K": 2,
+              "draws": [
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 0.00010053862234326357
+                },
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": -0.00011279397566439035
+                }
+              ],
+              "theta_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+              "theta_after_hash": "20dd648e73607d7bac10bc5173c615f3d1d0b2a624aa7ed583c998ce860dc697",
+              "phi0_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+              "phi1_hash": "bff98a4c4fcd32cb9957c5fabb2ba2851c087e9a3c728151d3eb514b17c8beb7",
+              "predictor_hash": "8eb2ef22b6972728e3f0ac5ac9d6bf35e1ef234d978d52bdbfe0d26ae5296fc8",
+              "predictions": [
+                0.13914665579795837
+              ],
+              "predictor_fit": {
+                "updates": 3,
+                "mse": 6.223365926416591e-05,
+                "samples": 1
+              },
+              "suffix_loss": -0.05286860466003418,
+              "suffix_dataset_ids": [
+                "seed:2729/stream:13/suffix_training/scenario"
+              ],
+              "pilot_dataset_ids": [
+                "seed:2729/stream:17/pilot/scenario"
+              ],
+              "main_dataset_ids": [
+                "seed:2729/stream:15/main/scenario"
+              ],
+              "biased_ablation": false,
+              "hgr_boundary_mechanism_active": true,
+              "g0_norm": 3.25321102142334,
+              "prediction_norm": 1.7037211656570435,
+              "correction_norm": 1.7037960290908813,
+              "delta_g_norm": 7.502661173930392e-05,
+              "g1_norm": 3.2531397342681885,
+              "parameter_change_norm": 0.003253159811720252,
+              "loss_old": -2.5073678493499756,
+              "loss_delta": 6.854534149169922e-05,
+              "costs": {
+                "main_prefix_steps": 2,
+                "old_reference_suffix_steps": 6,
+                "main_current_suffix_steps": 0,
+                "suffix_policy_training_steps": 8,
+                "pilot_prefix_steps": 2,
+                "pilot_old_suffix_steps": 6,
+                "pilot_new_suffix_steps": 6,
+                "correction_old_suffix_steps": 12,
+                "correction_new_suffix_steps": 12,
+                "snapshot_restore_count": 6,
+                "predictor_updates": 3,
+                "prefix_actor_updates": 1,
+                "suffix_actor_updates": 1
+              },
+              "wall_seconds": 278.6783060000016,
+              "complete": true,
+              "actual_total_environment_steps": 54
+            }
+          ]
+        }
+      }
+    },
+    "resumed": {
+      "source_directory": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\resumed",
+      "files": {
+        "summary.json": {
+          "raw_file_sha256": "80c3966f964dbf6fb78258862bf6a8f522302fa7a9647fbebd86dee7c17dc323",
+          "content": {
+            "method": "ch3_hgr",
+            "reward_objective": "team_mean_v1",
+            "gamma": 0.95,
+            "run_mode": "same_method_resume",
+            "resume_from": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\hgr\\checkpoints\\hgr_main_000001_cycle_000001.pt",
+            "implementation_version": "hgr.exact_score_cycle.v1",
+            "source_sha256": "72374af03be5dbd25a1df6706a734d62ebe9a70e61b2c8fc3aa1da508fe0bade",
+            "completed_main_trajectories": 2,
+            "completed_cycles": 2,
+            "actual_total_environment_steps": 108,
+            "costs": {
+              "main_prefix_steps": 4,
+              "old_reference_suffix_steps": 12,
+              "main_current_suffix_steps": 0,
+              "suffix_policy_training_steps": 16,
+              "pilot_prefix_steps": 4,
+              "pilot_old_suffix_steps": 12,
+              "pilot_new_suffix_steps": 12,
+              "correction_old_suffix_steps": 24,
+              "correction_new_suffix_steps": 24,
+              "snapshot_restore_count": 12,
+              "predictor_updates": 6,
+              "prefix_actor_updates": 2,
+              "suffix_actor_updates": 2
+            },
+            "wall_seconds": 282.5640534000049,
+            "budget_policy": "finish_started_cycle_then_stop",
+            "budget_overshoot_steps": 0,
+            "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\resumed\\checkpoints\\hgr_main_000002_cycle_000002.pt",
+            "initialization": {
+              "mode": "from_scratch"
+            },
+            "formal_experiments_completed": false,
+            "performance_claims_supported": false
+          }
+        },
+        "config.json": {
+          "raw_file_sha256": "b8f71b0a2206f1f0f498cd9beb3fea9374b1308767b2be14e182a5e457c3df3b",
+          "content": {
+            "base_candidate": "ch3_v3_full_reference",
+            "profile": "M20_MOVING_UNKNOWN_MULTI",
+            "max_steps": 8,
+            "seed": 2729,
+            "reward": {
+              "schema": "bser.phase1c.execution_reward.v2",
+              "enabled": true,
+              "freeze_searchers_after_found": true,
+              "preserve_discovery_reward": true,
+              "contact_entry_bonus": 0.25,
+              "hold_increment_bonus": 0.2,
+              "terminal_success_bonus": 2.0,
+              "reward_clip": 3.0,
+              "executor_id": 3,
+              "searcher_ids": [
+                0,
+                1,
+                2
+              ]
+            },
+            "rl": {
+              "batch_size": 128,
+              "replay_size": 500000,
+              "warmup_steps": 256,
+              "update_frequency": 4,
+              "updates_per_train": 2,
+              "policy_delay": 2,
+              "gamma": 0.95,
+              "tau": 0.005,
+              "lr_actor": 0.001,
+              "lr_critic": 0.0005,
+              "hidden_dim": 128,
+              "residual_action_reg": 0.01
+            },
+            "execution_runtime": {
+              "dynamic_public_target_enabled": true,
+              "public_target_update_distance": 0.75,
+              "public_target_update_min_steps": 20,
+              "defer_stale_endpoint_invalid": true,
+              "refresh_on_executor_handoff": true,
+              "refresh_on_public_target_shift": true
+            },
+            "execution_runtime_revision": "dynamic_public_intercept_v2_1",
+            "task_protocol": "collision_terminal_v1",
+            "collision_detection_revision": "segment_closed_aabb_v1",
+            "terminal_reward_revision": "team_failure_override_v1",
+            "collision_terminal_reward": -2.0,
+            "observation_dim": 28,
+            "action_dim": 3,
+            "schema": "hgr.training.v1",
+            "algorithm": "hgr",
+            "method": "ch3_hgr",
+            "architecture_version": "hgr.isolated_tanh_gaussian.v1",
+            "checkpoint_schema": "hgr.complete_cycle.v1",
+            "reward_objective": "team_mean_v1",
+            "source_reward_revision": "execution_reward_v2_after_terminal_override_v1",
+            "output_dir": "outputs/chapter3/hgr/collision_terminal/bounded_integration",
+            "total_main_trajectories": 2,
+            "main_prefix_batch_size": 1,
+            "suffix_training_episodes_per_cycle": 1,
+            "pilot_prefix_episodes_per_cycle": 1,
+            "correction_draws_per_cycle": 2,
+            "checkpoint_interval": 1,
+            "max_total_environment_steps": null,
+            "prefix_lr": 0.001,
+            "suffix_lr": 0.001,
+            "policy": {
+              "actor": {
+                "hidden_dim": 8,
+                "expert_hidden_dim": 8,
+                "router_temperature": 1.0,
+                "gate_initial_mean": 0.75,
+                "alignment_scale_init": 1.0
+              },
+              "initial_std": 0.12,
+              "mean_epsilon": 1e-06
+            },
+            "predictor": {
+              "hidden_dim": 8,
+              "updates": 3,
+              "lr": 0.001
+            },
+            "ablation": "none",
+            "scenario_manifest": "tests/fixtures/hgr/handoff_manifest.json",
+            "scenario_manifest_sha256": "a23d14cf35ee2519968c8aed975f1c70add88d22854b0b41ca636e70df7fff01"
+          }
+        },
+        "cycles.json": {
+          "raw_file_sha256": "b030a05f9ba06e001f4b301421d66624590878c9b1b49154181bf6096b29f8f2",
+          "content": [
+            {
+              "cycle": 1,
+              "completed_main_trajectories": 1,
+              "N": 1,
+              "handoff_count": 1,
+              "no_handoff_count": 0,
+              "K": 2,
+              "draws": [
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 4.149408777535512e-05
+                },
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 7.618674018467723e-05
+                }
+              ],
+              "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+              "theta_after_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+              "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+              "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+              "predictor_hash": "eedb06ed2524f23c61407fa09dc692b227177f208ce8736061958ee5a0a73fc1",
+              "predictions": [
+                -0.08054894208908081
+              ],
+              "predictor_fit": {
+                "updates": 3,
+                "mse": 0.00022796689881943166,
+                "samples": 1
+              },
+              "suffix_loss": -0.040570393204689026,
+              "suffix_dataset_ids": [
+                "seed:2729/stream:1/suffix_training/scenario"
+              ],
+              "pilot_dataset_ids": [
+                "seed:2729/stream:5/pilot/scenario"
+              ],
+              "main_dataset_ids": [
+                "seed:2729/stream:3/main/scenario"
+              ],
+              "biased_ablation": false,
+              "hgr_boundary_mechanism_active": true,
+              "g0_norm": 3.316336154937744,
+              "prediction_norm": 1.0372213125228882,
+              "correction_norm": 1.0379788875579834,
+              "delta_g_norm": 0.0007577060023322701,
+              "g1_norm": 3.31705904006958,
+              "parameter_change_norm": 0.0033170839305967093,
+              "loss_old": -2.4239888191223145,
+              "loss_delta": -0.0006360411643981934,
+              "costs": {
+                "main_prefix_steps": 2,
+                "old_reference_suffix_steps": 6,
+                "main_current_suffix_steps": 0,
+                "suffix_policy_training_steps": 8,
+                "pilot_prefix_steps": 2,
+                "pilot_old_suffix_steps": 6,
+                "pilot_new_suffix_steps": 6,
+                "correction_old_suffix_steps": 12,
+                "correction_new_suffix_steps": 12,
+                "snapshot_restore_count": 6,
+                "predictor_updates": 3,
+                "prefix_actor_updates": 1,
+                "suffix_actor_updates": 1
+              },
+              "wall_seconds": 274.1445940000049,
+              "complete": true,
+              "actual_total_environment_steps": 54
+            },
+            {
+              "cycle": 2,
+              "completed_main_trajectories": 2,
+              "N": 1,
+              "handoff_count": 1,
+              "no_handoff_count": 0,
+              "K": 2,
+              "draws": [
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": 0.00010053862234326357
+                },
+                {
+                  "index": 0,
+                  "q": 1.0,
+                  "label": -0.00011279397566439035
+                }
+              ],
+              "theta_hash": "88a147e8ade31f9998f944e24c437c08be4c55cdba165e9e8c2aae4a57c42a9a",
+              "theta_after_hash": "20dd648e73607d7bac10bc5173c615f3d1d0b2a624aa7ed583c998ce860dc697",
+              "phi0_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+              "phi1_hash": "bff98a4c4fcd32cb9957c5fabb2ba2851c087e9a3c728151d3eb514b17c8beb7",
+              "predictor_hash": "8eb2ef22b6972728e3f0ac5ac9d6bf35e1ef234d978d52bdbfe0d26ae5296fc8",
+              "predictions": [
+                0.13914665579795837
+              ],
+              "predictor_fit": {
+                "updates": 3,
+                "mse": 6.223365926416591e-05,
+                "samples": 1
+              },
+              "suffix_loss": -0.05286860466003418,
+              "suffix_dataset_ids": [
+                "seed:2729/stream:13/suffix_training/scenario"
+              ],
+              "pilot_dataset_ids": [
+                "seed:2729/stream:17/pilot/scenario"
+              ],
+              "main_dataset_ids": [
+                "seed:2729/stream:15/main/scenario"
+              ],
+              "biased_ablation": false,
+              "hgr_boundary_mechanism_active": true,
+              "g0_norm": 3.25321102142334,
+              "prediction_norm": 1.7037211656570435,
+              "correction_norm": 1.7037960290908813,
+              "delta_g_norm": 7.502661173930392e-05,
+              "g1_norm": 3.2531397342681885,
+              "parameter_change_norm": 0.003253159811720252,
+              "loss_old": -2.5073678493499756,
+              "loss_delta": 6.854534149169922e-05,
+              "costs": {
+                "main_prefix_steps": 2,
+                "old_reference_suffix_steps": 6,
+                "main_current_suffix_steps": 0,
+                "suffix_policy_training_steps": 8,
+                "pilot_prefix_steps": 2,
+                "pilot_old_suffix_steps": 6,
+                "pilot_new_suffix_steps": 6,
+                "correction_old_suffix_steps": 12,
+                "correction_new_suffix_steps": 12,
+                "snapshot_restore_count": 6,
+                "predictor_updates": 3,
+                "prefix_actor_updates": 1,
+                "suffix_actor_updates": 1
+              },
+              "wall_seconds": 282.40500520000205,
+              "complete": true,
+              "actual_total_environment_steps": 54
+            }
+          ]
+        }
+      }
+    },
+    "stochastic_direct_mc": {
+      "source_directory": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\stochastic_direct_mc",
+      "files": {
+        "summary.json": {
+          "raw_file_sha256": "cf782c3dd990e2efed164929f8e87ea33c6ff49f7e1038877ae8b4b1e9d8c7da",
+          "content": {
+            "method": "ch3_stochastic_direct_mc",
+            "reward_objective": "team_mean_v1",
+            "gamma": 0.95,
+            "run_mode": "from_scratch",
+            "resume_from": null,
+            "implementation_version": "hgr.exact_score_cycle.v1",
+            "source_sha256": "72374af03be5dbd25a1df6706a734d62ebe9a70e61b2c8fc3aa1da508fe0bade",
+            "completed_main_trajectories": 1,
+            "completed_cycles": 1,
+            "actual_total_environment_steps": 16,
+            "costs": {
+              "main_prefix_steps": 2,
+              "old_reference_suffix_steps": 0,
+              "main_current_suffix_steps": 6,
+              "suffix_policy_training_steps": 8,
+              "pilot_prefix_steps": 0,
+              "pilot_old_suffix_steps": 0,
+              "pilot_new_suffix_steps": 0,
+              "correction_old_suffix_steps": 0,
+              "correction_new_suffix_steps": 0,
+              "snapshot_restore_count": 0,
+              "predictor_updates": 0,
+              "prefix_actor_updates": 1,
+              "suffix_actor_updates": 1
+            },
+            "wall_seconds": 158.41716680000536,
+            "budget_policy": "finish_started_cycle_then_stop",
+            "budget_overshoot_steps": 0,
+            "latest_checkpoint": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\hgr-production-jct68b5l\\collision_terminal\\stochastic_direct_mc\\checkpoints\\hgr_main_000001_cycle_000001.pt",
+            "initialization": {
+              "mode": "from_scratch"
+            },
+            "formal_experiments_completed": false,
+            "performance_claims_supported": false
+          }
+        },
+        "config.json": {
+          "raw_file_sha256": "3acbd4074a6bc6c0126243f2c8fc00c077c58d6e787b5bdc301af3e9b67d6292",
+          "content": {
+            "base_candidate": "ch3_v3_full_reference",
+            "profile": "M20_MOVING_UNKNOWN_MULTI",
+            "max_steps": 8,
+            "seed": 2729,
+            "reward": {
+              "schema": "bser.phase1c.execution_reward.v2",
+              "enabled": true,
+              "freeze_searchers_after_found": true,
+              "preserve_discovery_reward": true,
+              "contact_entry_bonus": 0.25,
+              "hold_increment_bonus": 0.2,
+              "terminal_success_bonus": 2.0,
+              "reward_clip": 3.0,
+              "executor_id": 3,
+              "searcher_ids": [
+                0,
+                1,
+                2
+              ]
+            },
+            "rl": {
+              "batch_size": 128,
+              "replay_size": 500000,
+              "warmup_steps": 256,
+              "update_frequency": 4,
+              "updates_per_train": 2,
+              "policy_delay": 2,
+              "gamma": 0.95,
+              "tau": 0.005,
+              "lr_actor": 0.001,
+              "lr_critic": 0.0005,
+              "hidden_dim": 128,
+              "residual_action_reg": 0.01
+            },
+            "execution_runtime": {
+              "dynamic_public_target_enabled": true,
+              "public_target_update_distance": 0.75,
+              "public_target_update_min_steps": 20,
+              "defer_stale_endpoint_invalid": true,
+              "refresh_on_executor_handoff": true,
+              "refresh_on_public_target_shift": true
+            },
+            "execution_runtime_revision": "dynamic_public_intercept_v2_1",
+            "task_protocol": "collision_terminal_v1",
+            "collision_detection_revision": "segment_closed_aabb_v1",
+            "terminal_reward_revision": "team_failure_override_v1",
+            "collision_terminal_reward": -2.0,
+            "observation_dim": 28,
+            "action_dim": 3,
+            "schema": "hgr.training.v1",
+            "algorithm": "stochastic_direct_mc",
+            "method": "ch3_stochastic_direct_mc",
+            "architecture_version": "hgr.isolated_tanh_gaussian.v1",
+            "checkpoint_schema": "hgr.complete_cycle.v1",
+            "reward_objective": "team_mean_v1",
+            "source_reward_revision": "execution_reward_v2_after_terminal_override_v1",
+            "output_dir": "outputs/chapter3/hgr/collision_terminal/bounded_integration",
+            "total_main_trajectories": 1,
+            "main_prefix_batch_size": 1,
+            "suffix_training_episodes_per_cycle": 1,
+            "pilot_prefix_episodes_per_cycle": 1,
+            "correction_draws_per_cycle": 2,
+            "checkpoint_interval": 1,
+            "max_total_environment_steps": null,
+            "prefix_lr": 0.001,
+            "suffix_lr": 0.001,
+            "policy": {
+              "actor": {
+                "hidden_dim": 8,
+                "expert_hidden_dim": 8,
+                "router_temperature": 1.0,
+                "gate_initial_mean": 0.75,
+                "alignment_scale_init": 1.0
+              },
+              "initial_std": 0.12,
+              "mean_epsilon": 1e-06
+            },
+            "predictor": {
+              "hidden_dim": 8,
+              "updates": 3,
+              "lr": 0.001
+            },
+            "ablation": "none",
+            "scenario_manifest": "tests/fixtures/hgr/handoff_manifest.json",
+            "scenario_manifest_sha256": "a23d14cf35ee2519968c8aed975f1c70add88d22854b0b41ca636e70df7fff01"
+          }
+        },
+        "cycles.json": {
+          "raw_file_sha256": "5b46c4174bc63ede0cfacdccadb73aa144af5fc23daa17294f08eb9f3a64f39e",
+          "content": [
+            {
+              "cycle": 1,
+              "completed_main_trajectories": 1,
+              "N": 1,
+              "handoff_count": 1,
+              "no_handoff_count": 0,
+              "K": 0,
+              "draws": [],
+              "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+              "theta_after_hash": "41507c651e98b56df5621025de2407840593d398d2746503ae8ee17a5badf253",
+              "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+              "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+              "predictor_hash": "e99f2a0b491a253031dfb91f36a204e33307ebf107e8ba40cd09e870385258d9",
+              "predictions": [
+                0.0
+              ],
+              "predictor_fit": {
+                "updates": 0,
+                "mse": null,
+                "samples": 0
+              },
+              "suffix_loss": -0.040570393204689026,
+              "suffix_dataset_ids": [
+                "seed:2729/stream:1/suffix_training/scenario"
+              ],
+              "pilot_dataset_ids": [],
+              "main_dataset_ids": [
+                "seed:2729/stream:3/main/scenario"
+              ],
+              "biased_ablation": false,
+              "hgr_boundary_mechanism_active": false,
+              "g0_norm": 3.316336154937744,
+              "prediction_norm": 0.0,
+              "correction_norm": 0.0,
+              "delta_g_norm": 0.0,
+              "g1_norm": 3.316336154937744,
+              "parameter_change_norm": 0.0033163174521178007,
+              "loss_old": -2.4239888191223145,
+              "loss_delta": -0.0,
+              "costs": {
+                "main_prefix_steps": 2,
+                "old_reference_suffix_steps": 0,
+                "main_current_suffix_steps": 6,
+                "suffix_policy_training_steps": 8,
+                "pilot_prefix_steps": 0,
+                "pilot_old_suffix_steps": 0,
+                "pilot_new_suffix_steps": 0,
+                "correction_old_suffix_steps": 0,
+                "correction_new_suffix_steps": 0,
+                "snapshot_restore_count": 0,
+                "predictor_updates": 0,
+                "prefix_actor_updates": 1,
+                "suffix_actor_updates": 1
+              },
+              "wall_seconds": 158.2951580999943,
+              "complete": true,
+              "actual_total_environment_steps": 16
+            }
+          ]
+        }
+      }
+    }
+  },
+  "capture_complete": false,
+  "capture_scope": "Training, resume, both baseline training entries and representative HGR evaluation; baseline evaluation assertions are recorded in unittest.log"
+}

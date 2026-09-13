@@ -1,0 +1,846 @@
+[
+  {
+    "discovered": 8,
+    "discovered_ids": [
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_biased_predictor_correction_and_nonuniform_sampling",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_equal_suffix_policies_have_zero_increment_mean_but_nonzero_trial_noise",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_exact_enumeration_new_gradient_and_finite_difference",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_explicit_prrac_mean_mapping_is_finite_complete_and_independent",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_old_plus_difference_cancels_and_direct_boundary_keeps_prefix_rewards",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_prefix_standby_suffix_parameter_and_buffer_isolation",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_repeated_draws_and_no_handoff_keep_sampling_multiplicity",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_tanh_density_jacobian_fixed_latent_score_and_saturation"
+    ],
+    "tests_run": 8,
+    "ran_ids": [
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_biased_predictor_correction_and_nonuniform_sampling",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_equal_suffix_policies_have_zero_increment_mean_but_nonzero_trial_noise",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_exact_enumeration_new_gradient_and_finite_difference",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_explicit_prrac_mean_mapping_is_finite_complete_and_independent",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_old_plus_difference_cancels_and_direct_boundary_keeps_prefix_rewards",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_prefix_standby_suffix_parameter_and_buffer_isolation",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_repeated_draws_and_no_handoff_keep_sampling_multiplicity",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_tanh_density_jacobian_fixed_latent_score_and_saturation"
+    ],
+    "passed_methods": 8,
+    "success_ids": [
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_biased_predictor_correction_and_nonuniform_sampling",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_equal_suffix_policies_have_zero_increment_mean_but_nonzero_trial_noise",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_exact_enumeration_new_gradient_and_finite_difference",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_explicit_prrac_mean_mapping_is_finite_complete_and_independent",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_old_plus_difference_cancels_and_direct_boundary_keeps_prefix_rewards",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_prefix_standby_suffix_parameter_and_buffer_isolation",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_repeated_draws_and_no_handoff_keep_sampling_multiplicity",
+      "tests.test_hgr_mechanism.HGRMechanismTests.test_tanh_density_jacobian_fixed_latent_score_and_saturation"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:48:24.781003+00:00",
+    "ended_utc": "2026-09-13T15:48:31.029008+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_hgr_mechanism",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-ej7akuh6"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_hgr_mechanism"
+  },
+  {
+    "discovered": 5,
+    "discovered_ids": [
+      "tests.test_team_reward.TeamRewardTests.test_final_source_mean_broadcast_and_discount_accounting",
+      "tests.test_team_reward.TeamRewardTests.test_objective_transfer_is_explicit_and_evaluation_cache_rejects_mix",
+      "tests.test_team_reward.TeamRewardTests.test_real_checkpoint_actor_warmstart_and_hgr_mean_initialization",
+      "tests.test_team_reward.TeamRewardTests.test_real_prrac_collector_replay_and_critic_use_final_team_signal",
+      "tests.test_team_reward.TeamRewardTests.test_team_config_changes_only_objective_and_output"
+    ],
+    "tests_run": 5,
+    "ran_ids": [
+      "tests.test_team_reward.TeamRewardTests.test_final_source_mean_broadcast_and_discount_accounting",
+      "tests.test_team_reward.TeamRewardTests.test_objective_transfer_is_explicit_and_evaluation_cache_rejects_mix",
+      "tests.test_team_reward.TeamRewardTests.test_real_checkpoint_actor_warmstart_and_hgr_mean_initialization",
+      "tests.test_team_reward.TeamRewardTests.test_real_prrac_collector_replay_and_critic_use_final_team_signal",
+      "tests.test_team_reward.TeamRewardTests.test_team_config_changes_only_objective_and_output"
+    ],
+    "passed_methods": 5,
+    "success_ids": [
+      "tests.test_team_reward.TeamRewardTests.test_final_source_mean_broadcast_and_discount_accounting",
+      "tests.test_team_reward.TeamRewardTests.test_objective_transfer_is_explicit_and_evaluation_cache_rejects_mix",
+      "tests.test_team_reward.TeamRewardTests.test_real_checkpoint_actor_warmstart_and_hgr_mean_initialization",
+      "tests.test_team_reward.TeamRewardTests.test_real_prrac_collector_replay_and_critic_use_final_team_signal",
+      "tests.test_team_reward.TeamRewardTests.test_team_config_changes_only_objective_and_output"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:48:27.244681+00:00",
+    "ended_utc": "2026-09-13T15:49:50.253710+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_team_reward",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-yu68afga"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_team_reward"
+  },
+  {
+    "discovered": 6,
+    "discovered_ids": [
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_funnel_rates_and_conditional_denominators",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_paired_comparison_and_exact_mcnemar",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_router_precision_recall_and_balanced_accuracy",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_selection_rule_is_lexicographic_and_earlier_breaks_tie",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_strict_outcomes_share_validation_across_all_consumers",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_wilson_interval"
+    ],
+    "tests_run": 6,
+    "ran_ids": [
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_funnel_rates_and_conditional_denominators",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_paired_comparison_and_exact_mcnemar",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_router_precision_recall_and_balanced_accuracy",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_selection_rule_is_lexicographic_and_earlier_breaks_tie",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_strict_outcomes_share_validation_across_all_consumers",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_wilson_interval"
+    ],
+    "passed_methods": 6,
+    "success_ids": [
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_funnel_rates_and_conditional_denominators",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_paired_comparison_and_exact_mcnemar",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_router_precision_recall_and_balanced_accuracy",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_selection_rule_is_lexicographic_and_earlier_breaks_tie",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_strict_outcomes_share_validation_across_all_consumers",
+      "tests.test_prrac_evaluation_metrics.PRRACEvaluationMetricsTests.test_wilson_interval"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:49:56.016454+00:00",
+    "ended_utc": "2026-09-13T15:49:58.191199+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_evaluation_metrics",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-5zrr502r"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_evaluation_metrics"
+  },
+  {
+    "discovered": 1,
+    "discovered_ids": [
+      "tests.test_prrac_evaluation_determinism.PRRACEvaluationDeterminismTests.test_same_checkpoint_and_scenario_produce_identical_diagnostics"
+    ],
+    "tests_run": 1,
+    "ran_ids": [
+      "tests.test_prrac_evaluation_determinism.PRRACEvaluationDeterminismTests.test_same_checkpoint_and_scenario_produce_identical_diagnostics"
+    ],
+    "passed_methods": 1,
+    "success_ids": [
+      "tests.test_prrac_evaluation_determinism.PRRACEvaluationDeterminismTests.test_same_checkpoint_and_scenario_produce_identical_diagnostics"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:50:06.762288+00:00",
+    "ended_utc": "2026-09-13T15:52:41.330646+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_evaluation_determinism",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-u4do_j3r"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_evaluation_determinism"
+  },
+  {
+    "discovered": 7,
+    "discovered_ids": [
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_cuda_multi_worker_request_fails_fast",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_dimension_drift_and_architecture_mismatch_are_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_evaluator_has_no_replay_or_update_calls",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_incremental_outputs_and_resume_do_not_repeat_completed_combo",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_loaded_parameters_are_unchanged_by_episode_evaluation",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_old_checkpoint_schemas_are_explicitly_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_prrac_checkpoint_loads_into_fresh_learner"
+    ],
+    "tests_run": 7,
+    "ran_ids": [
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_cuda_multi_worker_request_fails_fast",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_dimension_drift_and_architecture_mismatch_are_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_evaluator_has_no_replay_or_update_calls",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_incremental_outputs_and_resume_do_not_repeat_completed_combo",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_loaded_parameters_are_unchanged_by_episode_evaluation",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_old_checkpoint_schemas_are_explicitly_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_prrac_checkpoint_loads_into_fresh_learner"
+    ],
+    "passed_methods": 7,
+    "success_ids": [
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_cuda_multi_worker_request_fails_fast",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_dimension_drift_and_architecture_mismatch_are_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_evaluator_has_no_replay_or_update_calls",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_incremental_outputs_and_resume_do_not_repeat_completed_combo",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_loaded_parameters_are_unchanged_by_episode_evaluation",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_old_checkpoint_schemas_are_explicitly_rejected",
+      "tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests.test_prrac_checkpoint_loads_into_fresh_learner"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:52:52.721727+00:00",
+    "ended_utc": "2026-09-13T15:54:35.460953+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_checkpoint_evaluator",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-k407roc_"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_checkpoint_evaluator"
+  },
+  {
+    "discovered": 3,
+    "discovered_ids": [
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_algorithm_optimizer_replay_roundtrip_and_mismatch_rejection",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_policy_snapshot_is_spawn_serializable",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_v1_and_v2_are_explicitly_rejected"
+    ],
+    "tests_run": 3,
+    "ran_ids": [
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_algorithm_optimizer_replay_roundtrip_and_mismatch_rejection",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_policy_snapshot_is_spawn_serializable",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_v1_and_v2_are_explicitly_rejected"
+    ],
+    "passed_methods": 3,
+    "success_ids": [
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_algorithm_optimizer_replay_roundtrip_and_mismatch_rejection",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_policy_snapshot_is_spawn_serializable",
+      "tests.test_prrac_checkpoint.PRRACCheckpointTests.test_v1_and_v2_are_explicitly_rejected"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:54:42.279559+00:00",
+    "ended_utc": "2026-09-13T15:54:47.833740+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_checkpoint",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-tjj6ci0k"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_checkpoint"
+  },
+  {
+    "discovered": 3,
+    "discovered_ids": [
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_b1_delegates_search_without_overlaying_allocation",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_legacy_overlay_and_native_are_strict",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_native_rejects_proxy_variants"
+    ],
+    "tests_run": 3,
+    "ran_ids": [
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_b1_delegates_search_without_overlaying_allocation",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_legacy_overlay_and_native_are_strict",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_native_rejects_proxy_variants"
+    ],
+    "passed_methods": 3,
+    "success_ids": [
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_b1_delegates_search_without_overlaying_allocation",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_legacy_overlay_and_native_are_strict",
+      "tests.test_prrac_runtime_factory.PRRACRuntimeFactoryTests.test_native_rejects_proxy_variants"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:54:55.119967+00:00",
+    "ended_utc": "2026-09-13T15:54:55.151720+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_runtime_factory",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-tivi5ago"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_runtime_factory"
+  },
+  {
+    "discovered": 5,
+    "discovered_ids": [
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_legacy_resume_allows_missing_runtime_origin_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_metadata_contract_is_required",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_resume_requires_real_factory_variant_and_integration_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_new_checkpoint_metadata_records_runtime_origin",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_old_checkpoint_is_accepted_by_legacy_and_rejected_by_native"
+    ],
+    "tests_run": 5,
+    "ran_ids": [
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_legacy_resume_allows_missing_runtime_origin_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_metadata_contract_is_required",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_resume_requires_real_factory_variant_and_integration_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_new_checkpoint_metadata_records_runtime_origin",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_old_checkpoint_is_accepted_by_legacy_and_rejected_by_native"
+    ],
+    "passed_methods": 5,
+    "success_ids": [
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_legacy_resume_allows_missing_runtime_origin_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_metadata_contract_is_required",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_native_resume_requires_real_factory_variant_and_integration_fields",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_new_checkpoint_metadata_records_runtime_origin",
+      "tests.test_prrac_runtime_checkpoint_compatibility.RuntimeCheckpointCompatibilityTests.test_old_checkpoint_is_accepted_by_legacy_and_rejected_by_native"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:04.842855+00:00",
+    "ended_utc": "2026-09-13T15:55:16.047793+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_prrac_runtime_checkpoint_compatibility",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-wq8gzbcj"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_prrac_runtime_checkpoint_compatibility"
+  },
+  {
+    "discovered": 3,
+    "discovered_ids": [
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_discovery_transition_restores_only_discovery_components",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_reward_adapter_source_has_no_core_protocol_dependency",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_searcher_freeze_is_explicit_and_independent_of_core_protocol"
+    ],
+    "tests_run": 3,
+    "ran_ids": [
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_discovery_transition_restores_only_discovery_components",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_reward_adapter_source_has_no_core_protocol_dependency",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_searcher_freeze_is_explicit_and_independent_of_core_protocol"
+    ],
+    "passed_methods": 3,
+    "success_ids": [
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_discovery_transition_restores_only_discovery_components",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_reward_adapter_source_has_no_core_protocol_dependency",
+      "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_searcher_freeze_is_explicit_and_independent_of_core_protocol"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:23.286986+00:00",
+    "ended_utc": "2026-09-13T15:55:23.299106+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_phase1c_v2_reward_protocol",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-e88ndjcz"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_phase1c_v2_reward_protocol"
+  },
+  {
+    "discovered": 2,
+    "discovered_ids": [
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_execution_bonuses_are_incremental_and_terminal_bonus_is_one_shot",
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_training_wrapper_emits_reward_metadata_and_diagnostics"
+    ],
+    "tests_run": 2,
+    "ran_ids": [
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_execution_bonuses_are_incremental_and_terminal_bonus_is_one_shot",
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_training_wrapper_emits_reward_metadata_and_diagnostics"
+    ],
+    "passed_methods": 2,
+    "success_ids": [
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_execution_bonuses_are_incremental_and_terminal_bonus_is_one_shot",
+      "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_training_wrapper_emits_reward_metadata_and_diagnostics"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:30.714193+00:00",
+    "ended_utc": "2026-09-13T15:55:30.732616+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_phase1c_v2_execution_reward",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-ri3xrpef"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_phase1c_v2_execution_reward"
+  },
+  {
+    "discovered": 6,
+    "discovered_ids": [
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes"
+    ],
+    "tests_run": 6,
+    "ran_ids": [
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes"
+    ],
+    "passed_methods": 6,
+    "success_ids": [
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+      "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:37.767877+00:00",
+    "ended_utc": "2026-09-13T15:55:38.287764+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_repository_metadata",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-yp1yfskk"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_repository_metadata"
+  },
+  {
+    "discovered": 1,
+    "discovered_ids": [
+      "tests.test_observation_28d_contract.ObservationContractTests.test_exact_layout"
+    ],
+    "tests_run": 1,
+    "ran_ids": [
+      "tests.test_observation_28d_contract.ObservationContractTests.test_exact_layout"
+    ],
+    "passed_methods": 1,
+    "success_ids": [
+      "tests.test_observation_28d_contract.ObservationContractTests.test_exact_layout"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:44.280343+00:00",
+    "ended_utc": "2026-09-13T15:55:44.283431+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_observation_28d_contract",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-ka_fobtl"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_observation_28d_contract"
+  },
+  {
+    "discovered": 1,
+    "discovered_ids": [
+      "tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest.test_tracks_path_in_order_without_jumping_to_final_waypoint"
+    ],
+    "tests_run": 1,
+    "ran_ids": [
+      "tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest.test_tracks_path_in_order_without_jumping_to_final_waypoint"
+    ],
+    "passed_methods": 1,
+    "success_ids": [
+      "tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest.test_tracks_path_in_order_without_jumping_to_final_waypoint"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:50.291669+00:00",
+    "ended_utc": "2026-09-13T15:55:50.293702+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_phase1b2_path_tracking",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-lgbl4uxl"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_phase1b2_path_tracking"
+  },
+  {
+    "discovered": 10,
+    "discovered_ids": [
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_is_read_only_and_no_found_is_unavailable",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_config_or_checkpoint_drift",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_csv_controller_mismatch",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_matching_but_wrong_scenarios",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_checkpoint_is_required_and_fixture_rejected_even_if_renamed",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_failed_first_command_stops_second_without_real_execution",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_1_and_10_share_config_and_have_new_output_dirs",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_only_cli_never_loads_checkpoint_or_launches",
+      "tests.test_manual_prrac_pair.ParsingTests.test_conditional_success_uses_found_denominator_and_null",
+      "tests.test_manual_prrac_pair.ParsingTests.test_explicit_boolean_and_missing_values"
+    ],
+    "tests_run": 10,
+    "ran_ids": [
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_is_read_only_and_no_found_is_unavailable",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_config_or_checkpoint_drift",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_csv_controller_mismatch",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_matching_but_wrong_scenarios",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_checkpoint_is_required_and_fixture_rejected_even_if_renamed",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_failed_first_command_stops_second_without_real_execution",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_1_and_10_share_config_and_have_new_output_dirs",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_only_cli_never_loads_checkpoint_or_launches",
+      "tests.test_manual_prrac_pair.ParsingTests.test_conditional_success_uses_found_denominator_and_null",
+      "tests.test_manual_prrac_pair.ParsingTests.test_explicit_boolean_and_missing_values"
+    ],
+    "passed_methods": 10,
+    "success_ids": [
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_is_read_only_and_no_found_is_unavailable",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_config_or_checkpoint_drift",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_csv_controller_mismatch",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_analysis_rejects_matching_but_wrong_scenarios",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_checkpoint_is_required_and_fixture_rejected_even_if_renamed",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_failed_first_command_stops_second_without_real_execution",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_1_and_10_share_config_and_have_new_output_dirs",
+      "tests.test_manual_prrac_pair.ManualPairTests.test_prepare_only_cli_never_loads_checkpoint_or_launches",
+      "tests.test_manual_prrac_pair.ParsingTests.test_conditional_success_uses_found_denominator_and_null",
+      "tests.test_manual_prrac_pair.ParsingTests.test_explicit_boolean_and_missing_values"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:55:56.034286+00:00",
+    "ended_utc": "2026-09-13T15:55:57.339800+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_manual_prrac_pair",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-9oki34ql"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_manual_prrac_pair"
+  },
+  {
+    "discovered": 24,
+    "discovered_ids": [
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_adapter_disabled_still_overrides",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_collision_beats_deadline",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_deadline_success_and_timeout",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_every_agent_and_phase_ends_team_with_final_reward",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_frozen_agent_has_no_phantom_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_invalid_reset_has_explicit_diagnostic",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_segment_tunnelling_and_legacy_endpoint_behavior",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_simultaneous_agents_one_team_failure_and_no_success_event",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_target_contact_and_separation_are_not_obstacle_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_terminal_reward_configuration_is_validated",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_closed_geometry_cases",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_invalid_geometry_rejected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_100_pair_plan_only_and_protocol_provenance",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_cache_and_metric_missingness",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_collector_preserves_terminal_transition_and_does_not_replan",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_terminal_nan_next_state_never_evaluated",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_warmup_freezes_actors_and_updates_critics",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_mixed_batch_only_nonterminal_rows_bootstrap",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_real_warmstart_training_summary_and_same_protocol_resume",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_checkpoint_roundtrip_preserves_identity_and_replay",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluation_writes_complete_report_and_resumes_cache",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluator_terminal_never_calls_actor_for_prior_only",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_transfer_actor_only_and_resume_rejected"
+    ],
+    "tests_run": 24,
+    "ran_ids": [
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_adapter_disabled_still_overrides",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_collision_beats_deadline",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_deadline_success_and_timeout",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_every_agent_and_phase_ends_team_with_final_reward",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_frozen_agent_has_no_phantom_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_invalid_reset_has_explicit_diagnostic",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_segment_tunnelling_and_legacy_endpoint_behavior",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_simultaneous_agents_one_team_failure_and_no_success_event",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_target_contact_and_separation_are_not_obstacle_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_terminal_reward_configuration_is_validated",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_closed_geometry_cases",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_invalid_geometry_rejected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_100_pair_plan_only_and_protocol_provenance",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_cache_and_metric_missingness",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_collector_preserves_terminal_transition_and_does_not_replan",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_terminal_nan_next_state_never_evaluated",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_warmup_freezes_actors_and_updates_critics",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_mixed_batch_only_nonterminal_rows_bootstrap",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_real_warmstart_training_summary_and_same_protocol_resume",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_checkpoint_roundtrip_preserves_identity_and_replay",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluation_writes_complete_report_and_resumes_cache",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluator_terminal_never_calls_actor_for_prior_only",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_transfer_actor_only_and_resume_rejected"
+    ],
+    "passed_methods": 24,
+    "success_ids": [
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_adapter_disabled_still_overrides",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_collision_beats_deadline",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_deadline_success_and_timeout",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_every_agent_and_phase_ends_team_with_final_reward",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_frozen_agent_has_no_phantom_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_invalid_reset_has_explicit_diagnostic",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_segment_tunnelling_and_legacy_endpoint_behavior",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_simultaneous_agents_one_team_failure_and_no_success_event",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_target_contact_and_separation_are_not_obstacle_collision",
+      "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_terminal_reward_configuration_is_validated",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_closed_geometry_cases",
+      "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_invalid_geometry_rejected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_100_pair_plan_only_and_protocol_provenance",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_cache_and_metric_missingness",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_collector_preserves_terminal_transition_and_does_not_replan",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_terminal_nan_next_state_never_evaluated",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_warmup_freezes_actors_and_updates_critics",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_mixed_batch_only_nonterminal_rows_bootstrap",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_real_warmstart_training_summary_and_same_protocol_resume",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_checkpoint_roundtrip_preserves_identity_and_replay",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluation_writes_complete_report_and_resumes_cache",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluator_terminal_never_calls_actor_for_prior_only",
+      "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_transfer_actor_only_and_resume_rejected"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:48:38.994520+00:00",
+    "ended_utc": "2026-09-13T15:57:50.295498+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_collision_terminal_protocol",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-bc174241"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_collision_terminal_protocol"
+  },
+  {
+    "discovered": 11,
+    "discovered_ids": [
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_checkpoint_integrity_rng_and_source_rejection",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_failures_interruptions_preserve_prefix_and_nonzero_cli",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_fresh_end_checks_detect_policy_source_checkpoint_and_manifest_changes",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_generated_evaluation_persists_initial_plan_actual_config_and_random_streams",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_real_production_evaluation_matches_fixed_reference_actions_rewards_events",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_boolean_missing_contradictory_unknown_and_clock",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_manifest_identity_validation_canonical_order_mode_and_pairing",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_output_preflight_all_methods_apis_cli_and_initialization_routes",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_resolved_config_preserves_existing_optional_environment_defaults",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_shared_task_metrics_and_real_clock_adapter",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_source_inventory_aggregate_and_difference"
+    ],
+    "tests_run": 11,
+    "ran_ids": [
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_checkpoint_integrity_rng_and_source_rejection",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_failures_interruptions_preserve_prefix_and_nonzero_cli",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_fresh_end_checks_detect_policy_source_checkpoint_and_manifest_changes",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_generated_evaluation_persists_initial_plan_actual_config_and_random_streams",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_real_production_evaluation_matches_fixed_reference_actions_rewards_events",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_boolean_missing_contradictory_unknown_and_clock",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_manifest_identity_validation_canonical_order_mode_and_pairing",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_output_preflight_all_methods_apis_cli_and_initialization_routes",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_resolved_config_preserves_existing_optional_environment_defaults",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_shared_task_metrics_and_real_clock_adapter",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_source_inventory_aggregate_and_difference"
+    ],
+    "passed_methods": 11,
+    "success_ids": [
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_checkpoint_integrity_rng_and_source_rejection",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_failures_interruptions_preserve_prefix_and_nonzero_cli",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_fresh_end_checks_detect_policy_source_checkpoint_and_manifest_changes",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_generated_evaluation_persists_initial_plan_actual_config_and_random_streams",
+      "tests.test_hgr_evaluation.HGREvaluationProductionTests.test_real_production_evaluation_matches_fixed_reference_actions_rewards_events",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_boolean_missing_contradictory_unknown_and_clock",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_manifest_identity_validation_canonical_order_mode_and_pairing",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_output_preflight_all_methods_apis_cli_and_initialization_routes",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_resolved_config_preserves_existing_optional_environment_defaults",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_shared_task_metrics_and_real_clock_adapter",
+      "tests.test_hgr_evaluation.HGREvaluationUnitTests.test_source_inventory_aggregate_and_difference"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:48:26.932265+00:00",
+    "ended_utc": "2026-09-13T16:00:06.378650+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_hgr_evaluation",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-ldb6y68y"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_hgr_evaluation"
+  },
+  {
+    "discovered": 4,
+    "discovered_ids": [
+      "tests.test_hgr_integration.HGRIntegrationTests.test_generated_m20_scenario_reaches_real_production_collector",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_no_handoff_cycle_retains_old_gradient_and_budget_completes_cycle",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_production_two_cycles_resume_and_matching_baseline_entries",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_real_boundary_snapshot_exact_continuation_and_spawn"
+    ],
+    "tests_run": 4,
+    "ran_ids": [
+      "tests.test_hgr_integration.HGRIntegrationTests.test_generated_m20_scenario_reaches_real_production_collector",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_no_handoff_cycle_retains_old_gradient_and_budget_completes_cycle",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_production_two_cycles_resume_and_matching_baseline_entries",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_real_boundary_snapshot_exact_continuation_and_spawn"
+    ],
+    "passed_methods": 4,
+    "success_ids": [
+      "tests.test_hgr_integration.HGRIntegrationTests.test_generated_m20_scenario_reaches_real_production_collector",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_no_handoff_cycle_retains_old_gradient_and_budget_completes_cycle",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_production_two_cycles_resume_and_matching_baseline_entries",
+      "tests.test_hgr_integration.HGRIntegrationTests.test_real_boundary_snapshot_exact_continuation_and_spawn"
+    ],
+    "failure_records": [],
+    "error_records": [],
+    "skipped_records": [],
+    "unsuccessful_method_count": 0,
+    "subtest_failure_records": 0,
+    "blocked": 0,
+    "started_utc": "2026-09-13T15:48:26.917691+00:00",
+    "ended_utc": "2026-09-13T16:19:11.480287+00:00",
+    "passed": true,
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-B",
+      "-m",
+      "tools.verify_collision_terminal",
+      "--_module",
+      "tests.test_hgr_integration",
+      "--output-dir",
+      "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-verify-module-0_z3dxhh"
+    ],
+    "exit_code": 0,
+    "module": "tests.test_hgr_integration"
+  }
+]

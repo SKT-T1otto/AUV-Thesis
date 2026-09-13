@@ -1,0 +1,12 @@
+test_cuda_multi_worker_request_fails_fast (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_dimension_drift_and_architecture_mismatch_are_rejected (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_evaluator_has_no_replay_or_update_calls (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_incremental_outputs_and_resume_do_not_repeat_completed_combo (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_loaded_parameters_are_unchanged_by_episode_evaluation (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_old_checkpoint_schemas_are_explicitly_rejected (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+test_prrac_checkpoint_loads_into_fresh_learner (tests.test_prrac_checkpoint_evaluator.PRRACCheckpointEvaluatorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 102.738s
+
+OK

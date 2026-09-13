@@ -1,0 +1,13 @@
+{
+  "repository": "SKT-T1otto/AUV-Thesis",
+  "origin": "https://github.com/SKT-T1otto/AUV-Thesis.git",
+  "remote_default_branch": "main",
+  "remote_default_branch_sha": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "remote_commit_created_at": "2026-09-13T13:26:21Z",
+  "remote_evidence_url": "https://github.com/SKT-T1otto/AUV-Thesis/commit/0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "check_method": "GitHub get_repo and fetch_commit(main), read during entry audit",
+  "local_root": "E:/gym/code/WORKSPACE/AUV-Thesis",
+  "local_branch": "main",
+  "local_head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+  "working_tree_clean_at_entry": true
+}

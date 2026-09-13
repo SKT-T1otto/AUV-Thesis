@@ -2,56 +2,13 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import json
 from pathlib import Path
 import sys
 
-import torch
-
-from .train import DEFAULT_CONFIG, ROOT, Trainer, load_config, load_checkpoint, write_json
-from .runtime import collect_trajectory
+from .train import DEFAULT_CONFIG, ROOT, Trainer, load_config
+from .evaluation import evaluate
 from chapter3_bser.models.hgr import METHODS
-from chapter3_bser.models.hgr.policy import HandoffPolicy, weights_hash
-from core.scenarios.ch3_generator_impl import build_scenario_manifests
-
-
-def evaluate(checkpoint, output, *, episodes=100, seed=12729, policy_mode="stochastic", manifest=None):
-    payload = load_checkpoint(checkpoint)
-    config = copy.deepcopy(payload["config"])
-    policy = HandoffPolicy(config["policy"])
-    policy.load_state_dict(payload["policy"], strict=True)
-    policy.eval(); policy.requires_grad_(False)
-    initial_hash = weights_hash(policy)
-    output = Path(output)
-    if output.exists() and any(output.iterdir()):
-        raise FileExistsError(output)
-    output.mkdir(parents=True, exist_ok=True)
-    if manifest:
-        scenarios = json.loads(Path(manifest).read_text(encoding="utf-8"))["scenarios"]
-        if any(s.get("scenario_split") != "validation" for s in scenarios):
-            raise ValueError("evaluation requires a held-out validation manifest")
-    else:
-        scenarios = build_scenario_manifests(count=episodes, generator_seed=seed, split="validation", profiles=[config["profile"]])[config["profile"]]["scenarios"]
-    if len(scenarios) < episodes:
-        raise ValueError("evaluation manifest is too short")
-    rows = []
-    for i, scenario in enumerate(scenarios[:episodes]):
-        trajectory = collect_trajectory(config, scenario, policy, seed=seed+i, episode_id=i,
-                                         deterministic=policy_mode == "deterministic_mean")
-        rows.append(dict(**trajectory["summary"], method=config["method"], policy_mode=policy_mode,
-                         checkpoint=str(Path(checkpoint).resolve()), policy_hash=initial_hash))
-    if weights_hash(policy) != initial_hash:
-        raise RuntimeError("evaluation mutated the policy")
-    result = dict(method=config["method"], policy_mode=policy_mode, episodes=len(rows),
-                  run_mode="same_method_evaluation",
-                  safe_success_rate=sum(bool(r["safe_success"]) for r in rows)/len(rows),
-                  mean_team_discounted_return=sum(r["team_discounted_return"] for r in rows)/len(rows),
-                  mean_team_undiscounted_return=sum(r["team_undiscounted_return"] for r in rows)/len(rows),
-                  reward_objective=config["reward_objective"], gamma=config["rl"]["gamma"],
-                  training_update=False, performance_claims_supported=False)
-    write_json(output / "episodes.json", rows); write_json(output / "summary.json", result)
-    return result
 
 
 def main(argv=None):

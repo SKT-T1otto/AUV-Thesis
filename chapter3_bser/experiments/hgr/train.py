@@ -16,10 +16,10 @@ from chapter3_bser.models.hgr import ARCHITECTURE_VERSION, CHECKPOINT_SCHEMA, ME
 from chapter3_bser.models.hgr.policy import HandoffPolicy, weights_hash
 from chapter3_bser.models.hgr.estimator import BoundaryPredictor, update_prefix, update_suffix
 from chapter3_bser.experiments.hgr.runtime import FEATURE_DIM, collect_trajectory, continue_branch, seed_innovations
-from core.env.task_protocol import STRICT, protocol_identity, validate_task_config
+from core.env.task_protocol import STRICT, protocol_identity, validate_task_config, require_protocol_output
 from core.registry.experiment_registry import assert_registered_ch3_method
 from core.scenarios.ch3_generator_impl import build_scenario_manifests
-from .provenance import source_identity, IMPLEMENTATION_VERSION
+from .provenance import source_identity, IMPLEMENTATION_VERSION, validate_source_identity
 
 ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = ROOT / "configs/chapter3/hgr_train.json"
@@ -42,6 +42,18 @@ def write_json(path, value):
 
 def immutable_config(config):
     return {k: v for k, v in config.items() if k not in ("output_dir", "total_main_trajectories", "max_total_environment_steps")}
+
+
+def validated_output(config, output):
+    """Read-only preflight, shared by direct APIs and every HGR-family entry."""
+    path = Path(output).resolve()
+    try:
+        require_protocol_output(config, path)
+    except ValueError as exc:
+        raise ValueError(f'{exc}: {path}. Example: outputs/chapter3/hgr/collision_terminal/new_run') from exc
+    if path.exists() and (not path.is_dir() or any(path.iterdir())):
+        raise FileExistsError(f'use a new or empty output directory: {path}')
+    return path
 
 
 def load_config(path):
@@ -88,10 +100,7 @@ class Trainer:
         self.run_mode = "same_method_resume" if resume else "cross_architecture_mean_initialization" if mean_initialization else "from_scratch"
         self.resume_from = None if resume is None else str(Path(resume).resolve())
         self.source_identity = source_identity()
-        self.output = Path(output).resolve()
-        validate_task_config({**config, "output_dir": str(self.output)})
-        if self.output.exists() and any(self.output.iterdir()):
-            raise FileExistsError(f"use a fresh output directory: {self.output}")
+        self.output = validated_output(config, output)
         self.output.mkdir(parents=True, exist_ok=True)
         seed_innovations(config["seed"])
         torch.set_num_threads(1)
@@ -349,11 +358,19 @@ def load_checkpoint(path):
         raise ValueError("not a same-architecture HGR-family checkpoint")
     if payload.get("implementation_version") != IMPLEMENTATION_VERSION or not payload.get("source_identity", {}).get("sha256"):
         raise ValueError("HGR checkpoint implementation/source version missing")
+    validate_source_identity(payload['source_identity'])
     if not payload.get("cycle_complete") or payload.get("prefixes_valid") is not False:
         raise ValueError("checkpoint contains an incomplete cycle or stale prefixes")
     if payload.get("config_hash") != digest(payload["config"]):
         raise ValueError("checkpoint config hash mismatch")
+    if payload.get('immutable_config_hash') != digest(immutable_config(payload['config'])):
+        raise ValueError('checkpoint immutable config hash mismatch')
     validate_config(payload["config"])
+    for name, expected in (("method", payload["config"]["method"]),
+                           ("algorithm", payload["config"]["algorithm"]),
+                           ("gamma", payload["config"]["rl"]["gamma"])):
+        if name in payload and payload[name] != expected:
+            raise ValueError(f"checkpoint {name} contradicts its training config")
     if objective_identity(payload) != objective_identity(payload["config"]) or protocol_identity(payload) != protocol_identity(payload["config"]):
         raise ValueError("checkpoint objective or physics identity mismatch")
     if (payload.get("cycle", 0) < 1 or not payload.get("cycles") or not payload["cycles"][-1]["complete"]

@@ -1,0 +1,73 @@
+[
+  {
+    "cycle": 1,
+    "completed_main_trajectories": 1,
+    "N": 1,
+    "handoff_count": 1,
+    "no_handoff_count": 0,
+    "K": 2,
+    "draws": [
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": 0.007219173195485745
+      },
+      {
+        "index": 0,
+        "q": 1.0,
+        "label": 0.0072435792019033395
+      }
+    ],
+    "theta_hash": "7fab252c23113dc4fb074cd140e958edc8df1e82a6aafa25a53288090e3e3686",
+    "theta_after_hash": "104698e41f6b07ffade42886b5d77e72da1c4957b0b425263415c45b74b2efe0",
+    "phi0_hash": "f458ff811d00025631ee0dc407ebdbb3ed39f70d286aaeb0ef380ac0754feddf",
+    "phi1_hash": "68cd0d7376ef99a60bffebf05db50926fde644f5ba9283cd05edfd29dee50700",
+    "predictor_hash": "ac3dba76d0399f7bd27b46384cb7eb4f2b6e1f62ecbdc77ba0d6578f83068e2b",
+    "predictions": [
+      -0.08056031912565231
+    ],
+    "predictor_fit": {
+      "updates": 3,
+      "mse": 6.336674414342269e-05,
+      "samples": 1
+    },
+    "suffix_loss": -0.040570393204689026,
+    "suffix_dataset_ids": [
+      "seed:2729/stream:1/suffix_training/scenario"
+    ],
+    "pilot_dataset_ids": [
+      "seed:2729/stream:5/pilot/scenario"
+    ],
+    "main_dataset_ids": [
+      "seed:2729/stream:3/main/scenario"
+    ],
+    "biased_ablation": false,
+    "hgr_boundary_mechanism_active": false,
+    "g0_norm": 3.227180004119873,
+    "prediction_norm": 1.0373677015304565,
+    "correction_norm": 1.1304854154586792,
+    "delta_g_norm": 0.09311777353286743,
+    "g1_norm": 3.3158445358276367,
+    "parameter_change_norm": 0.003315836424008012,
+    "loss_old": -2.3453917503356934,
+    "loss_delta": -0.07816386222839355,
+    "costs": {
+      "main_prefix_steps": 2,
+      "old_reference_suffix_steps": 0,
+      "main_current_suffix_steps": 0,
+      "suffix_policy_training_steps": 8,
+      "pilot_prefix_steps": 2,
+      "pilot_old_suffix_steps": 0,
+      "pilot_new_suffix_steps": 6,
+      "correction_old_suffix_steps": 0,
+      "correction_new_suffix_steps": 12,
+      "snapshot_restore_count": 3,
+      "predictor_updates": 3,
+      "prefix_actor_updates": 1,
+      "suffix_actor_updates": 1
+    },
+    "wall_seconds": 165.21080809999694,
+    "complete": true,
+    "actual_total_environment_steps": 30
+  }
+]

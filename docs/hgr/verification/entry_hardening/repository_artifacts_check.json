@@ -1,0 +1,49 @@
+{
+  "paths": [
+    {
+      "path": "docs/hgr/verification/entry_hardening/acceptance_summary.json",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/hgr/verification/entry_hardening/RESULTS.md",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/bounded_evaluation/behavior_comparison.json",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/hgr/verification/entry_hardening/final_metadata/hgr_entry_metadata/tests.test_hgr_evaluation.log",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "chapter3_bser/experiments/hgr/evaluation.py",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "tests/test_hgr_evaluation.py",
+      "exists": true,
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/hgr/verification/entry_hardening/forbidden_probe.pt",
+      "exists": false,
+      "ignored": true,
+      "exit_code": 0
+    }
+  ],
+  "no_model_artifacts_under_evidence": true,
+  "checkpoint_probe_created": false,
+  "passed": true
+}

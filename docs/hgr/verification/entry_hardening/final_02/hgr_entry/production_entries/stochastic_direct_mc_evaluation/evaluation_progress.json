@@ -1,0 +1,19 @@
+{
+  "schema": "hgr.evaluation_progress.v1",
+  "status": "complete",
+  "evaluation_identity_sha256": "8e104b7e451c081e8a785016218215d2d14e7f85c5f32a964899b3a276d4db2e",
+  "n_expected_episodes": 1,
+  "n_valid_episodes": 1,
+  "evaluation_complete": true,
+  "next_episode_index": 1,
+  "checkout_before": {
+    "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+    "dirty": true,
+    "status": "M chapter3_bser/experiments/hgr/cli.py\n M chapter3_bser/experiments/hgr/provenance.py\n M chapter3_bser/experiments/hgr/train.py\n M docs/hgr/README.md\n M tests/test_hgr_integration.py\n M tools/verify_collision_terminal.py\n?? chapter3_bser/experiments/hgr/evaluation.py\n?? docs/hgr/verification/entry_hardening/\n?? tests/test_hgr_evaluation.py"
+  },
+  "checkout_after": {
+    "head": "0fed8e1650f2747bb58f17bc0b375b69870ea0b5",
+    "dirty": true,
+    "status": "M chapter3_bser/experiments/hgr/cli.py\n M chapter3_bser/experiments/hgr/provenance.py\n M chapter3_bser/experiments/hgr/train.py\n M docs/hgr/README.md\n M tests/test_hgr_integration.py\n M tools/verify_collision_terminal.py\n?? chapter3_bser/experiments/hgr/evaluation.py\n?? docs/hgr/verification/entry_hardening/\n?? tests/test_hgr_evaluation.py"
+  }
+}

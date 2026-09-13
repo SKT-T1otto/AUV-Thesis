@@ -1,0 +1,10 @@
+test_final_source_mean_broadcast_and_discount_accounting (tests.test_team_reward.TeamRewardTests) ... ok
+test_objective_transfer_is_explicit_and_evaluation_cache_rejects_mix (tests.test_team_reward.TeamRewardTests) ... ok
+test_real_checkpoint_actor_warmstart_and_hgr_mean_initialization (tests.test_team_reward.TeamRewardTests) ... ok
+test_real_prrac_collector_replay_and_critic_use_final_team_signal (tests.test_team_reward.TeamRewardTests) ... ok
+test_team_config_changes_only_objective_and_output (tests.test_team_reward.TeamRewardTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 83.007s
+
+OK

@@ -1,0 +1,13 @@
+test_biased_predictor_correction_and_nonuniform_sampling (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_equal_suffix_policies_have_zero_increment_mean_but_nonzero_trial_noise (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_exact_enumeration_new_gradient_and_finite_difference (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_explicit_prrac_mean_mapping_is_finite_complete_and_independent (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_old_plus_difference_cancels_and_direct_boundary_keeps_prefix_rewards (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_prefix_standby_suffix_parameter_and_buffer_isolation (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_repeated_draws_and_no_handoff_keep_sampling_multiplicity (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_tanh_density_jacobian_fixed_latent_score_and_saturation (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 6.246s
+
+OK

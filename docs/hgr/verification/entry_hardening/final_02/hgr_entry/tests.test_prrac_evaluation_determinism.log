@@ -1,0 +1,6 @@
+test_same_checkpoint_and_scenario_produce_identical_diagnostics (tests.test_prrac_evaluation_determinism.PRRACEvaluationDeterminismTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 154.566s
+
+OK

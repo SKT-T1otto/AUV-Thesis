@@ -100,6 +100,11 @@ def module_job(module, output):
 
 def current(output, workers):
     modules = ['.'.join(p.relative_to(ROOT).with_suffix('').parts) for p in sorted((ROOT/'tests').rglob('test_*.py'))]
+    return run_modules(modules, output, workers)
+
+
+def run_modules(modules, output, workers):
+    """Run independent modules with the existing per-method recording process."""
     discovered = [t.id() for t in flatten(unittest.defaultTestLoader.loadTestsFromNames(modules))]
     if not discovered or len(discovered) != len(set(discovered)): raise ValueError('zero or duplicate current methods')
     dump(output/'discovery.json', discovered)
@@ -121,6 +126,38 @@ def current(output, workers):
         'blocked': 0, 'exact_discovery_execution_match': sorted(ran) == sorted(discovered),
         'modules': [{'module': r['module'], 'passed': r['passed'], 'exit_code': r['exit_code']} for r in results],
         'passed': all(r['passed'] and r['exit_code'] == 0 for r in results) and sorted(ran) == sorted(discovered)}
+
+
+def hgr_entry(output, workers, *, metadata_only=False):
+    """One continuous relevant regression, using the existing recording runner."""
+    names = [
+        'test_hgr_evaluation', 'test_hgr_integration', 'test_hgr_mechanism', 'test_team_reward',
+        'test_collision_terminal_protocol', 'test_prrac_evaluation_metrics',
+        'test_prrac_evaluation_determinism', 'test_prrac_checkpoint_evaluator', 'test_prrac_checkpoint',
+        'test_prrac_runtime_factory', 'test_prrac_runtime_checkpoint_compatibility',
+        'test_phase1c_v2_reward_protocol', 'test_phase1c_v2_execution_reward',
+        'test_repository_metadata', 'test_observation_28d_contract', 'test_phase1b2_path_tracking',
+        'test_manual_prrac_pair',
+    ]
+    if metadata_only:
+        names = ['test_hgr_evaluation', 'test_hgr_mechanism', 'test_team_reward',
+                 'test_prrac_evaluation_metrics', 'test_collision_terminal_protocol',
+                 'test_repository_metadata', 'test_observation_28d_contract']
+    previous = {key: os.environ.get(key) for key in ('HGR_ENTRY_EVIDENCE_DIR', 'AUV_HGR_EVIDENCE_DIR')}
+    os.environ['HGR_ENTRY_EVIDENCE_DIR'] = str(output/'bounded_evaluation')
+    os.environ['AUV_HGR_EVIDENCE_DIR'] = str(output/'production_entries')
+    try:
+        result = run_modules(['tests.'+name for name in names], output, workers)
+    finally:
+        for key, value in previous.items():
+            if value is None: os.environ.pop(key, None)
+            else: os.environ[key] = value
+    return result
+
+
+def hgr_entry_metadata(output, workers):
+    """Final metadata projection regression after a recorded full entry run."""
+    return hgr_entry(output, workers, metadata_only=True)
 
 
 def historical(output):
@@ -222,7 +259,7 @@ def golden(output):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--suite', choices=('current', 'regression', 'historical', 'legacy', 'golden', 'all'))
+    parser.add_argument('--suite', choices=('current', 'regression', 'hgr-entry', 'hgr-entry-metadata', 'historical', 'legacy', 'golden', 'all'))
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--workers', type=int, default=4)
     parser.add_argument('--_module', help=argparse.SUPPRESS)
@@ -238,11 +275,11 @@ def main(argv=None):
     output.mkdir(parents=True, exist_ok=False)
     started, timer = utc(), time.perf_counter()
     before = tree_identity(); dump(output/'tree_before.json', before)
-    selected = ('current', 'legacy', 'historical', 'golden') if args.suite == 'all' else (('current' if args.suite == 'regression' else args.suite),)
+    selected = ('current', 'legacy', 'historical', 'golden') if args.suite == 'all' else ({'regression':'current', 'hgr-entry':'hgr_entry', 'hgr-entry-metadata':'hgr_entry_metadata'}.get(args.suite, args.suite),)
     reports = {}
     for name in selected:
         child = output/name; child.mkdir(); suite_started = utc()
-        try: result = current(child, args.workers) if name == 'current' else globals()[name](child)
+        try: result = globals()[name](child, args.workers) if name in ('current', 'hgr_entry', 'hgr_entry_metadata') else globals()[name](child)
         except FileNotFoundError as exc:
             result = {'passed': False, 'status': 'blocked_missing_historical_input', 'blocked': 1, 'missing_input': str(exc)}
         except Exception:
@@ -259,7 +296,7 @@ def main(argv=None):
         'platform': platform.platform(), 'python': sys.version, 'executable': sys.executable,
         'dependencies': {'torch': torch.__version__, 'numpy': np.__version__},
         'started_utc': started, 'ended_utc': utc(), 'wall_seconds': time.perf_counter()-timer,
-        'current_suite_passed': reports.get('current', {}).get('passed'),
+        'current_suite_passed': reports.get('current', reports.get('hgr_entry', reports.get('hgr_entry_metadata', {}))).get('passed'),
         'legacy_compatibility_passed': reports.get('legacy', {}).get('passed'),
         'historical_suite_status': reports.get('historical', {}).get('status', 'not_run'),
         'golden_status': reports.get('golden', {}).get('status', 'passed' if reports.get('golden', {}).get('passed') else 'not_run'),
