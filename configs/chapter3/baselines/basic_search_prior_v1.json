@@ -1,0 +1,12 @@
+{
+  "schema": "ch3.basic_search_prior.spec.v1",
+  "method": "ch3_basic_search_prior_v1",
+  "planner_mode": "search_only",
+  "controller_mode": "prior_only",
+  "standby_mode": "initial_position_hold",
+  "training_update": false,
+  "residual_source": "zeros_4x3",
+  "policy_weights": null,
+  "standby_environment_override": {"pse_use_standby": false},
+  "allowed_interventions": ["search_scoring", "pre_handoff_standby", "residual_source", "learning_process"]
+}
