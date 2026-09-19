@@ -1,0 +1,15 @@
+{
+  "baseline": "B0_search_prior",
+  "method": "ch3_baseline_search_prior",
+  "runtime_method": "ch3_basic_search_prior_v1",
+  "planner": "search_only",
+  "controller": "prior_only",
+  "learning": false,
+  "learning_mode": "none",
+  "algorithm": null,
+  "residual_source": "zeros_4x3",
+  "training_required": false,
+  "hgr": false,
+  "default_evaluation_output": "outputs/chapter3/baselines/B0_search_prior/collision_terminal/eval100_seed12729_v1",
+  "evaluation_config": "configs/chapter3/baselines/search_prior_eval.json"
+}

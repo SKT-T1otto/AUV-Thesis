@@ -1,0 +1,15 @@
+{
+  "baseline": "B1_bser_prior",
+  "method": "ch3_baseline_bser_prior",
+  "runtime_method": "ch3_baseline_bser_prior",
+  "planner": "bser_joint",
+  "controller": "prior_only",
+  "learning": false,
+  "learning_mode": "none",
+  "algorithm": null,
+  "residual_source": "zeros_4x3",
+  "training_required": false,
+  "hgr": false,
+  "default_evaluation_output": "outputs/chapter3/baselines/B1_bser_prior/collision_terminal/eval100_seed12729_v1",
+  "evaluation_config": "configs/chapter3/baselines/bser_prior_eval.json"
+}
