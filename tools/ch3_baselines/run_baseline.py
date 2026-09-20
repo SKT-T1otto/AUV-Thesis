@@ -39,6 +39,9 @@ def unified_summary(rows, spec, episodes, *, finalized, wall_seconds, actual_ste
     result.update(schema="ch3.baseline_framework.summary.v1", method=spec["method"],
         runtime_method=spec["runtime_method"], planner_mode=spec["planner"], learning_mode=spec["learning_mode"],
         residual_source=spec["residual_source"], training_required=spec["training_required"],
+        # Prior runtimes assert zero each step; the native learned evaluator
+        # does not expose a measured residual maximum.
+        residual_action_max_abs=None if spec["learning"] else 0.0,
         optimizer_update_count=0, training_update=False, evaluation_policy_mode="stochastic" if spec["learning"] else "prior_only",
         completed_episode_environment_steps=sum(row["episode_length"] for row in rows),
         actual_environment_steps_complete=actual_steps is not None)
@@ -100,6 +103,9 @@ def evaluate(baseline, manifest, output_dir, *, episodes=100, seed=12729,
     frozen = digest(dict(spec=spec, config=config, resolved=resolved, selected=selected))
     identity = dict(schema="ch3.baseline_framework.identity.v1", method=spec["method"],
         runtime_method=spec["runtime_method"], baseline=baseline, resolved_config_sha256=digest(resolved),
+        reference_config_path=resolved["reference_config_path"],
+        task_protocol=resolved["common_task_conditions"]["task_protocol"],
+        reward_objective=resolved["common_task_conditions"]["reward_objective"],
         sources_before=sources, checkout_before=checkout_identity(),
         manifest_file_sha256=selected["origin"]["original_file_sha256"], selected_content_sha256=selected["selected_content_sha256"],
         comparable_inputs_sha256=resolved["comparable_inputs_sha256"], checkpoint=resolved["checkpoint"])
