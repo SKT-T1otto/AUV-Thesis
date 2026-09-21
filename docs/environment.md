@@ -158,17 +158,23 @@ exit codes using a fake Python executable. It also checks source provenance,
 negative mutation cases, and independent process imports. Probe environment
 values are assigned only by child shells, never by new Python assignments.
 
-Only launcher hashes are refreshed in `framework_protected_baseline.json` and
-`framework_protected_b0.json`; the original B0 launcher hashes are retained in
-`openmp_runtime_evolution`. Removing just the reporting block must recover those
-original bytes. Historical production manifests, their hashes and checkpoint
+The baseline source gate now protects Linux execution inputs only; see
+[Linux baseline provenance](chapter3/baselines/linux_provenance.md) for the current
+19-file inventory and verification. Windows launcher bytes are excluded from
+every active source gate. Their original hashes remain historical metadata, and
+their commands/functionality are checked separately. The OpenMP evolution check
+retains exact Linux bytes; Windows command comparisons allow CRLF/LF checkout
+conversion. Historical production manifests, their hashes and checkpoint
 identities are unchanged. No algorithm, model, baseline or HGR logic is changed.
 
 The earlier 2026-09-20 results (16/16 baseline, 7/8 OpenMP, 10/10 provenance/metadata)
 belong to the superseded default-on patch and old acceptance scope. They are not
 the verification result for this explicit-opt-in revision.
 
-## Latest recorded local verification (2026-09-21)
+## Earlier local verification: OpenMP opt-in revision (2026-09-21)
+
+The later Linux provenance revision and its 38-test rerun are recorded in the
+[Linux provenance report](chapter3/baselines/linux_provenance.md).
 
 | Test module | Result |
 | --- | --- |

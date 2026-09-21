@@ -1,30 +1,33 @@
-"""Current baseline protection alongside unchanged historical HGR/B0 gates."""
+"""Linux baseline provenance with unchanged production and B0 algorithm gates."""
 import json
 from pathlib import Path
 
 from .provenance import ROOT, capture_sources, digest, file_sha256, require_unchanged
 
 SCRIPT_FILES = (
-    "scripts/run_ch3_baseline_eval.bat", "scripts/linux/run_ch3_baseline_eval.sh",
-    "scripts/train_ch3_direct_mc.bat", "scripts/linux/train_ch3_direct_mc.sh",
-    "scripts/train_ch3_direct_boundary.bat", "scripts/linux/train_ch3_direct_boundary.sh",
+    "scripts/linux/run_ch3_basic_prior_eval.sh",
+    "scripts/linux/run_ch3_baseline_eval.sh",
+    "scripts/linux/train_ch3_direct_mc.sh",
+    "scripts/linux/train_ch3_direct_boundary.sh",
 )
 PROTECTED_B0 = ROOT / "docs/chapter3/baselines/framework_protected_b0.json"
 PROTECTED_BASELINE = ROOT / "docs/chapter3/baselines/framework_protected_baseline.json"
 
 
 def baseline_protected_identity(root=ROOT):
-    """Scan baseline source/configs and scripts that reference this namespace.
+    """Scan baseline source/configs and Bash scripts referencing this namespace.
 
     Hash actual file bytes, including line endings. The reviewed manifest lives
     outside these directories so it can also protect this module without a
-    self-referential hash. Python caches and unrelated scripts are not inputs.
+    self-referential hash. This inventory is identical on every host: Windows
+    launchers are tested separately, never read or hashed here. Linux script
+    bytes remain exact; no newline normalization weakens their protection.
     """
     root = Path(root)
     paths = set((root / "tools/ch3_baselines").rglob("*.py"))
     paths.update((root / "configs/chapter3/baselines").rglob("*.json"))
-    for path in (root / "scripts").rglob("*"):
-        if path.is_file() and path.suffix.lower() in (".py", ".sh", ".bat", ".cmd", ".ps1", ".psm1"):
+    for path in (root / "scripts").rglob("*.sh"):
+        if path.is_file():
             content = path.read_bytes()
             if any(marker in content for marker in (b"tools.ch3_baselines", b"tools/ch3_baselines", b"tools\\ch3_baselines")):
                 paths.add(path)

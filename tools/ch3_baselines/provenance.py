@@ -21,7 +21,9 @@ def baseline_source_identity(root=ROOT):
     root = Path(root)
     paths = set((root / "tools/ch3_baselines").rglob("*.py"))
     paths.update((root / "configs/chapter3").rglob("*.json"))
-    paths.update(root / name for name in ("scripts/run_ch3_basic_prior_eval.bat", "scripts/linux/run_ch3_basic_prior_eval.sh"))
+    # The B0 snapshot is part of Linux framework provenance as well. Windows
+    # launcher bytes must not leak back into it through capture_sources().
+    paths.add(root / "scripts/linux/run_ch3_basic_prior_eval.sh")
     files = {p.relative_to(root).as_posix(): file_sha256(p) for p in sorted(paths)}
     return dict(schema="ch3.basic_search_prior.source.v1", files=files, sha256=digest(files))
 

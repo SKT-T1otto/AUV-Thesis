@@ -5,9 +5,8 @@
     "tools/ch3_baselines/__init__.py": "86afebd4f087c8b796c15f9cc726e97e4e56e656ef2eea0d29176de74a857fb2",
     "tools/ch3_baselines/basic_search_prior.py": "7ee076bad323163894eceeb078918484420de4ab9490ef3e094b3f8e1785f0eb",
     "tools/ch3_baselines/evaluate.py": "d8316957907b60214aa888b718c787420d5ebd8af92cdebf143ac3e5e5a3c228",
-    "tools/ch3_baselines/provenance.py": "087b22f09a4e66eda3022140912279b0ee9f7d7d8595bc8484613674c749dc4a",
+    "tools/ch3_baselines/provenance.py": "501ee3c860e22764e763b679dad9394763f01d78f0a409a91f99eebc52dcc3ec",
     "configs/chapter3/baselines/basic_search_prior_v1.json": "9b7e7df2f6b20c7f438edfd0e2acfff8e434ead8c051a1aac5d720b6bc93e701",
-    "scripts/run_ch3_basic_prior_eval.bat": "6fc63878ce14a44cbd6fe8aae992712c2325c5daa2ee05d7ee8a4c4a7fea8889",
     "scripts/linux/run_ch3_basic_prior_eval.sh": "b2f9661b7e3f6ee427c1abd41e2933a83ae61ccbc7d6e4f4fba477421d857eee"
   },
   "openmp_runtime_evolution": {
@@ -18,5 +17,15 @@
       "scripts/run_ch3_basic_prior_eval.bat": "05b4a075a74c02db0c2bd1ff13c09059890587e0390ba7cb6571a93b958caa5a",
       "scripts/linux/run_ch3_basic_prior_eval.sh": "06299b3bcf6c9275bb0eb3f741b70b1f8404940aa33ed59001f0433819751c4c"
     }
+  },
+  "linux_runtime_evolution": {
+    "review_date": "2026-09-21",
+    "reference_commit": "85fd8c4b1bdae4fff9a7b3e887c2c3cbaddc5133",
+    "authorization": "User-requested Linux-only launcher provenance; exclude Windows launchers from every active baseline source gate.",
+    "previous_provenance_sha256": "087b22f09a4e66eda3022140912279b0ee9f7d7d8595bc8484613674c749dc4a",
+    "excluded_windows_launcher_hashes": {
+      "scripts/run_ch3_basic_prior_eval.bat": "6fc63878ce14a44cbd6fe8aae992712c2325c5daa2ee05d7ee8a4c4a7fea8889"
+    },
+    "retained_history": "Excluded Windows hashes are historical metadata only; Windows functionality is tested without a byte pin. B0 algorithm/config pins are unchanged."
   }
 }

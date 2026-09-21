@@ -218,6 +218,15 @@ class OpenMPRuntimeEnvTests(unittest.TestCase):
         self.assertEqual(set(previous), {"scripts/run_ch3_basic_prior_eval.bat", "scripts/linux/run_ch3_basic_prior_eval.sh"})
         for name, old_hash in previous.items():
             data = (ROOT / name).read_bytes()
+            if name.endswith(".bat"):
+                # Windows EOL conversion is allowed. Check the launcher commands
+                # separately from Linux runtime provenance, without a byte pin.
+                self.assertNotIn(name, manifest["files"])
+                source = data.decode().replace("\r\n", "\n")
+                old = git("show", manifest["openmp_runtime_evolution"]["reference_commit"] + ":" + name)
+                self.assertEqual(source.replace(reporting_block(source), "", 1),
+                                 old.decode().replace("\r\n", "\n"))
+                continue
             block = reporting_block(data.decode()).encode()
             self.assertEqual(hashlib.sha256(data.replace(block, b"", 1)).hexdigest(), old_hash)
             self.assertEqual(hashlib.sha256(data).hexdigest(), manifest["files"][name])
