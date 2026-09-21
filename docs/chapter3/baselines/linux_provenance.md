@@ -1,5 +1,11 @@
 # Linux baseline provenance
 
+This document records the **pre-final** 19-file gate and its historical local
+verification. The current CH3-final 36-file gate, new Git/LF production identity,
+exact retained Windows worktree profile and Linux commands are documented in
+[CH3-final experiment provenance](../../provenance/ch3_final_experiment_provenance.md).
+The historical results and hashes below are retained, not current acceptance.
+
 The baseline source gate uses the same Linux execution scope on every host.
 Windows launchers remain available and are checked for functionality separately;
 their checkout bytes do not participate in baseline runtime identity.

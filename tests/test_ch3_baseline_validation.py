@@ -178,7 +178,7 @@ class ContractValidationTests(unittest.TestCase):
     def test_frozen_production_and_baseline_source_gates(self):
         before = framework_sources()
         self.assertEqual(len(before["production"]["files"]), 196)
-        self.assertEqual(before["production"]["sha256"], "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491")
+        self.assertEqual(before["production_source_sha256"], "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd")
         verify_framework_sources(before)
 
 
@@ -191,7 +191,10 @@ class _SmokeValidationMixin:
         cls.directory = Path(temporary.name)
         cls.output = cls.directory/"collision_terminal"/cls.baseline
         manifest = cls.directory/"synthetic_interface_manifest.json"
-        write_json(manifest, fixture())
+        frozen_smoke = json.loads((ROOT / "tests/fixtures/ch3_final/smoke_manifest.json").read_text(encoding="utf-8"))
+        if frozen_smoke != fixture():
+            raise AssertionError("CH3-final smoke metadata must retain the existing synthetic fixture")
+        write_json(manifest, frozen_smoke)
         before = framework_sources()
         runtime_type = basic.BasicSearchPriorRuntime if cls.baseline == "B0_search_prior" else BSERPriorRuntime
         expected_allocator = basic.SearchPriorAllocator if cls.baseline == "B0_search_prior" else BSEROnlineAllocator

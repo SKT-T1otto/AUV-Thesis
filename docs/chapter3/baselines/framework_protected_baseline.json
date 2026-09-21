@@ -1,16 +1,8 @@
 {
-  "schema": "ch3.baseline_framework.protected_baseline.v1",
+  "schema": "ch3.final_experiment.protected_baseline.v1",
+  "source_reference_commit": "7b3767ca58b547bb34d0105ecdc9b8189ed151e7",
   "review_date": "2026-09-21",
-  "reference_commit": "85fd8c4b1bdae4fff9a7b3e887c2c3cbaddc5133",
-  "snapshot_state": "Reviewed Linux baseline provenance on all hosts; reference_commit identifies pre-change HEAD.",
-  "authorization": "2026-09-21 user request: exclude Windows-only launchers, retain Bash/source/config protection; production and algorithm hashes unchanged.",
-  "scope": {
-    "tools/ch3_baselines": "all Python source files",
-    "configs/chapter3/baselines": "all JSON configurations",
-    "scripts": "Bash (.sh) files recursively referencing the tools.ch3_baselines namespace (dot or path form); Windows launchers are not read or hashed"
-  },
-  "hash_semantics": "SHA256 of actual file bytes, including line endings; no normalization or alternate-hash exemptions",
-  "production_source_sha256": "7a8dda612fb68c0a63bcc38b04ee0973ac80488bddd6c9fffe1fbf9b2f23f491",
+  "production_source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
   "files": {
     "configs/chapter3/baselines/baseline_registry.json": "c3b2ea63b74564d84782cc189f6b5034c3b4d9ab57b6fc5bb14317c648bd0241",
     "configs/chapter3/baselines/basic_search_prior_v1.json": "9b7e7df2f6b20c7f438edfd0e2acfff8e434ead8c051a1aac5d720b6bc93e701",
@@ -18,36 +10,47 @@
     "configs/chapter3/baselines/direct_boundary_train.json": "cca9738a6c00900f1a6020be87f3d6b8a3ca25781f5d6aeb6640a40d80a4f399",
     "configs/chapter3/baselines/direct_mc_train.json": "64644a67c18da03c869d65114cd21a47bb235fcbcf327aec8571e55d1ce391b2",
     "configs/chapter3/baselines/search_prior_eval.json": "e1bf714f036a5cf688e90d18d8ef8e2c3e05b7bcb56871cb60f97eb5f6289b2f",
+    "scripts/linux/_search_value_audit_common.sh": "774beaebe49f29da7f680123c7cd43d06053d2cce309f454cfa00b746f105b12",
+    "scripts/linux/bundle_search_value_audits.sh": "41dc38db8ac87be1ba86d20cd9b9b038b6b6b6725d2fd02e007205afa0db768e",
+    "scripts/linux/env_preflight.sh": "6d7ddcb7426c8ab76e1b8eb514e34ecc6dae01bd5473d2f9b2304a5f8c4c8b6d",
     "scripts/linux/run_ch3_baseline_eval.sh": "72277a34b08fa21e43c7ebe658db45c83caa97ecf06911c329f48697e3d912be",
     "scripts/linux/run_ch3_basic_prior_eval.sh": "b2f9661b7e3f6ee427c1abd41e2933a83ae61ccbc7d6e4f4fba477421d857eee",
+    "scripts/linux/run_ch3_learning.sh": "faf0e19077f7f057bfc7d3efa63fb4ac01b0336a1d571e472b3b1b946e93d603",
+    "scripts/linux/run_collision_terminal.sh": "cdbc4a289e596cf1ff6e4b75cd09eb1cc01b5246d2a137a749876a790da249c4",
+    "scripts/linux/run_phase1c_prrac_eval.sh": "a744e4969f7d17f4a93f6135c179701838fe30cbe1356a4281b2ade8fc277b9b",
+    "scripts/linux/run_phase1c_prrac_execution_ablation.sh": "e4c614d947019eb2ebb033bd0c717f7af906e11ebb75ffa30c0365f2bd9138cf",
+    "scripts/linux/run_phase1c_prrac_s1_search_diag.sh": "5d6fc6090ed4e2599cb5098d2a2ae588558797ec551a3758692551113315fd8b",
+    "scripts/linux/run_phase1c_prrac_s1_train.sh": "cb5d8992f2bfa8359675009e9fec759780819abfc381cf69630b9fd11389504f",
+    "scripts/linux/run_phase1c_prrac_s2a1_local_connector_ablation.sh": "5bf1adcba69315a9c4ffeff6c5f8e6b7e5939e9a97bf7a9479af8093252572a4",
+    "scripts/linux/run_phase1c_prrac_s2a_collision_ablation.sh": "ee05491fafca42b9c8d177bf9c92669e88ee4267a1e1e7b2d1e43db8682387cb",
+    "scripts/linux/run_phase1c_prrac_train.sh": "81c700d9eae5d9d6f1e4033eb1b20ea202ba45ddd41f36ac525fd4a3947e7730",
+    "scripts/linux/run_phase1c_v2_1_train.sh": "370dd774af10a4d7819d1cbe982363d3a89299634c743980d2c72eb0360dddf0",
+    "scripts/linux/run_phase1c_v2_diagnostic_eval.sh": "c8563a94eed630661807f534e3080a1c996b9dff18a0b2124ca72137aa5adcfb",
+    "scripts/linux/run_phase1c_v2_train.sh": "6f1b8605a6b2cb07e3f49020dbd0f2d129a9c4cfde28f5cd02c8d1daba0a2b5e",
+    "scripts/linux/run_search_value_d1_audit.sh": "015a8ef72f1c9e30e30fc2e8c9461119394b4703b5258bbd1f60b84ea207096b",
+    "scripts/linux/run_search_value_d2_audit.sh": "81dce880c883983a3d7284d0e0340385f62a1652c39eda74a37ad6c88e311f15",
     "scripts/linux/train_ch3_direct_boundary.sh": "5e758218d039e993435f21242e169d8bf4be7a80efa404500ce3ef0553c06960",
     "scripts/linux/train_ch3_direct_mc.sh": "73517ed6e85054ec759171b9d16e85c7f3af061af7d29877e308209d3333a673",
     "tools/ch3_baselines/__init__.py": "86afebd4f087c8b796c15f9cc726e97e4e56e656ef2eea0d29176de74a857fb2",
     "tools/ch3_baselines/basic_search_prior.py": "7ee076bad323163894eceeb078918484420de4ab9490ef3e094b3f8e1785f0eb",
     "tools/ch3_baselines/bser_prior.py": "4cf994c545fcbbcc5958b8942b48235a15f95643b3234c39add75b7c89e9a374",
     "tools/ch3_baselines/evaluate.py": "d8316957907b60214aa888b718c787420d5ebd8af92cdebf143ac3e5e5a3c228",
-    "tools/ch3_baselines/framework_provenance.py": "3cacdef2345563bab0e032b7b867242782dbc9c4852cadc0c5f75f7cb17481eb",
-    "tools/ch3_baselines/provenance.py": "501ee3c860e22764e763b679dad9394763f01d78f0a409a91f99eebc52dcc3ec",
+    "tools/ch3_baselines/framework_provenance.py": "6a6c91ec8510ddff8b977abe86cefb97c89e991fc3a8287f305597f4d4fd76f5",
+    "tools/ch3_baselines/provenance.py": "31ae9caf013781aa31a4aaa83d4160ca98b640be96973769a30f0a6b8095fed8",
     "tools/ch3_baselines/registry.py": "f7212e1f16c9ec47a04857083358af079ec3dda3ce3b6417f7c36f412816af9f",
     "tools/ch3_baselines/run_baseline.py": "fac1108388bb3060ea8e6357444fcee9d4eb053909f8c6a6a8154621616ddfd7",
     "tools/ch3_baselines/run_training.py": "ac12813edbac0f072ffc3d4d70e1e08bd955c543e805b09ab861e81fe08059f8"
   },
-  "sha256": "b174c08f2859f5984024d730d72191377050d972ee2aec993f3e326d320d40da",
-  "checkout_policy": "Protected .py/.json/.sh files follow existing .gitattributes LF checkout rules. Hash raw bytes; do not normalize at verification time.",
-  "excluded_launchers": [
-    "scripts/**/*.bat",
-    "scripts/**/*.cmd",
-    "scripts/**/*.ps1",
-    "scripts/**/*.psm1"
+  "sha256": "ea3777d6e51e0aa002f12669e4d431d3d8ffed0105511c14051fadebe2023d41",
+  "scope": [
+    "tools/ch3_baselines/**/*.py",
+    "configs/chapter3/baselines/**/*.json",
+    "scripts/**/*.sh"
   ],
-  "config_checkout_alignment": {
-    "files": [
-      "configs/chapter3/baselines/baseline_registry.json",
-      "configs/chapter3/baselines/bser_prior_eval.json",
-      "configs/chapter3/baselines/direct_boundary_train.json",
-      "configs/chapter3/baselines/direct_mc_train.json",
-      "configs/chapter3/baselines/search_prior_eval.json"
-    ],
-    "change": "Restored existing Git LF bytes; JSON values and Git blob contents are unchanged."
-  }
+  "excluded": [
+    "Windows launchers: .bat/.cmd/.ps1/.psm1",
+    "docs/",
+    "README and Markdown"
+  ],
+  "historical_record": "docs/provenance/ch3_baseline_protected_pre_final.json"
 }

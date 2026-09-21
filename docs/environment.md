@@ -159,8 +159,8 @@ negative mutation cases, and independent process imports. Probe environment
 values are assigned only by child shells, never by new Python assignments.
 
 The baseline source gate now protects Linux execution inputs only; see
-[Linux baseline provenance](chapter3/baselines/linux_provenance.md) for the current
-19-file inventory and verification. Windows launcher bytes are excluded from
+[CH3-final experiment provenance](provenance/ch3_final_experiment_provenance.md) for the current
+36-file inventory and production checkout profiles. Windows launcher bytes are excluded from
 every active source gate. Their original hashes remain historical metadata, and
 their commands/functionality are checked separately. The OpenMP evolution check
 retains exact Linux bytes; Windows command comparisons allow CRLF/LF checkout
