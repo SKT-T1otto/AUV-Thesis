@@ -1,0 +1,148 @@
+{
+  "schema": "auv.openmp_runtime_compatibility.v1",
+  "review_date": "2026-09-21",
+  "historical_openmp_assignment_retained": true,
+  "historical_assignment": {
+    "path": "core/runtime/engine.py",
+    "line": 18,
+    "statement": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"",
+    "file_sha256": "1998051dc1651ea9413a4e18124d40dce0e56cc58aeb5e345c4a552a46e698cc",
+    "frozen_commit": "a51a234e4ca9575c9707409c6b75a26380ad2a5c",
+    "frozen_manifest": "docs/chapter3/baselines/frozen_production_source.json",
+    "scope": "This exact assignment in this byte-identical frozen file only; no directory exemptions."
+  },
+  "launcher_policy": {
+    "default_enablement": false,
+    "variable": "KMP_DUPLICATE_LIB_OK",
+    "enablement": "User-supplied environment value only; launchers never assign it.",
+    "environment_record": "OPENMP_RUNTIME_ENV on stderr before Python; preserve stderr with the run log.",
+    "risk_warning": "Bypassing duplicate runtime checks may crash or silently produce incorrect results. Numerical reliability is not guaranteed."
+  },
+  "entry_import_inspection": {
+    "method": "Fresh child Python per entry/value; read environment before and after import, inspect sys.modules and import audit stack. No trainer or evaluation is started.",
+    "results": [
+      {
+        "entry": "tools.ch3_baselines.evaluate",
+        "before": null,
+        "after": null,
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "tools.ch3_baselines.evaluate",
+        "before": "FALSE",
+        "after": "FALSE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "tools.ch3_baselines.evaluate",
+        "before": "TRUE",
+        "after": "TRUE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "tools.ch3_baselines.run_baseline",
+        "before": null,
+        "after": null,
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "tools.ch3_baselines.run_baseline",
+        "before": "FALSE",
+        "after": "FALSE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "tools.ch3_baselines.run_baseline",
+        "before": "TRUE",
+        "after": "TRUE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "chapter3_bser.experiments.hgr.cli",
+        "before": null,
+        "after": null,
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "chapter3_bser.experiments.hgr.cli",
+        "before": "FALSE",
+        "after": "FALSE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      },
+      {
+        "entry": "chapter3_bser.experiments.hgr.cli",
+        "before": "TRUE",
+        "after": "TRUE",
+        "legacy_engine_imported": false,
+        "import_paths": []
+      }
+    ],
+    "positive_control": {
+      "entry": "core.runtime.training",
+      "before": "FALSE",
+      "after": "TRUE",
+      "legacy_engine_imported": true,
+      "import_path": [
+        {
+          "path": "core/runtime/__init__.py",
+          "line": 3,
+          "statement": "from .builder import build_runtime"
+        },
+        {
+          "path": "core/runtime/builder.py",
+          "line": 11,
+          "statement": "from core.runtime.engine import CH3Runtime, _resolve_device, set_ch3_determinism"
+        },
+        {
+          "path": "core/runtime/engine.py",
+          "line": 18,
+          "statement": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\""
+        }
+      ]
+    },
+    "scope": "Entrypoint imports on the current Windows AUV environment; does not certify arbitrary checkpoint-driven or future dynamic imports."
+  },
+  "latest_local_verification": {
+    "date": "2026-09-21",
+    "platform": "Windows; Bash probes use Git Bash",
+    "openmp_runtime_env": {
+      "passed": 12,
+      "total": 12,
+      "skipped": 0,
+      "seconds": 87.231
+    },
+    "baseline_provenance_and_repository_metadata": {
+      "passed": 10,
+      "total": 10,
+      "seconds": 1.511
+    },
+    "baseline_validation": {
+      "passed": 16,
+      "total": 16,
+      "seconds": 739.154,
+      "initial_KMP_DUPLICATE_LIB_OK": null,
+      "synthetic_validation_episodes": 2,
+      "B0": {
+        "steps": 161,
+        "outcome": "success",
+        "program_failure": false
+      },
+      "B1": {
+        "steps": 400,
+        "outcome": "timeout",
+        "program_failure": false
+      },
+      "scope": "Bounded synthetic schema/runtime validation, not formal performance evidence."
+    },
+    "formal_training_started": false,
+    "hundred_episode_evaluation_started": false
+  }
+}

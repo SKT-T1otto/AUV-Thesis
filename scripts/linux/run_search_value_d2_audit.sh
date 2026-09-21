@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# OpenMP runtime compatibility (explicit user opt-in only).
+printf 'OPENMP_RUNTIME_ENV KMP_DUPLICATE_LIB_OK=%s\n' "${KMP_DUPLICATE_LIB_OK-<unset>}" >&2
+case "${KMP_DUPLICATE_LIB_OK-}" in
+    ""|[Ff][Aa][Ll][Ss][Ee]|0|[Nn][Oo]|[Oo][Ff][Ff]) ;;
+    *) printf '%s\n' 'WARNING: OpenMP duplicate-runtime bypass explicitly requested; this unsafe workaround may crash or silently produce incorrect results. Numerical reliability is not guaranteed.' >&2 ;;
+esac
+# End OpenMP runtime compatibility.
 audit_mode="${1:?Usage: bash run_search_value_d2_audit.sh smoke|diagnostic}"
 case "$audit_mode" in smoke|diagnostic) ;; *) printf 'Invalid mode: %s\n' "$audit_mode" >&2; exit 1 ;; esac
 shift

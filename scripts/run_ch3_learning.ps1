@@ -5,6 +5,12 @@ param(
     [string[]]$RunArguments
 )
 $ErrorActionPreference = 'Stop'
+# OpenMP runtime compatibility (explicit user opt-in only).
+[Console]::Error.WriteLine("OPENMP_RUNTIME_ENV KMP_DUPLICATE_LIB_OK={0}", $(if ($null -eq $env:KMP_DUPLICATE_LIB_OK) { '<unset>' } else { $env:KMP_DUPLICATE_LIB_OK }))
+if ($env:KMP_DUPLICATE_LIB_OK -and $env:KMP_DUPLICATE_LIB_OK -notmatch '^(FALSE|0|NO|OFF)$') {
+    [Console]::Error.WriteLine('WARNING: OpenMP duplicate-runtime bypass explicitly requested; this unsafe workaround may crash or silently produce incorrect results. Numerical reliability is not guaranteed.')
+}
+# End OpenMP runtime compatibility.
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Set-Location -LiteralPath $RepoRoot
 $CondaExecutable = $env:CRK_CONDA_EXE

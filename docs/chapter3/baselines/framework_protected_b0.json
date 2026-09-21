@@ -7,7 +7,16 @@
     "tools/ch3_baselines/evaluate.py": "d8316957907b60214aa888b718c787420d5ebd8af92cdebf143ac3e5e5a3c228",
     "tools/ch3_baselines/provenance.py": "087b22f09a4e66eda3022140912279b0ee9f7d7d8595bc8484613674c749dc4a",
     "configs/chapter3/baselines/basic_search_prior_v1.json": "9b7e7df2f6b20c7f438edfd0e2acfff8e434ead8c051a1aac5d720b6bc93e701",
-    "scripts/run_ch3_basic_prior_eval.bat": "05b4a075a74c02db0c2bd1ff13c09059890587e0390ba7cb6571a93b958caa5a",
-    "scripts/linux/run_ch3_basic_prior_eval.sh": "06299b3bcf6c9275bb0eb3f741b70b1f8404940aa33ed59001f0433819751c4c"
+    "scripts/run_ch3_basic_prior_eval.bat": "6fc63878ce14a44cbd6fe8aae992712c2325c5daa2ee05d7ee8a4c4a7fea8889",
+    "scripts/linux/run_ch3_basic_prior_eval.sh": "b2f9661b7e3f6ee427c1abd41e2933a83ae61ccbc7d6e4f4fba477421d857eee"
+  },
+  "openmp_runtime_evolution": {
+    "review_date": "2026-09-21",
+    "reference_commit": "2fe679e09692cccd3ccdf2923b8b7984adab9dfc",
+    "authorization": "User-authorized shell-only explicit OpenMP opt-in reporting and risk warnings; no default enablement, no Python command or production source changes.",
+    "previous_launcher_hashes": {
+      "scripts/run_ch3_basic_prior_eval.bat": "05b4a075a74c02db0c2bd1ff13c09059890587e0390ba7cb6571a93b958caa5a",
+      "scripts/linux/run_ch3_basic_prior_eval.sh": "06299b3bcf6c9275bb0eb3f741b70b1f8404940aa33ed59001f0433819751c4c"
+    }
   }
 }
