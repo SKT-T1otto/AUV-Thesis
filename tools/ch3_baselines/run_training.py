@@ -1,22 +1,20 @@
-"""Manual configuration/provenance entry for existing B2/B3 trainers.
-
---check-only validates a training plan without constructing a trainer or model.
-No estimator, update, checkpoint schema or production source is implemented here.
-"""
+"""Independent B2/B3 MADDPG training; --check-only never constructs a model."""
 import argparse
 import json
 from pathlib import Path
 import traceback
 
-from chapter3_bser.experiments.hgr.train import Trainer, validated_output
+from chapter3_bser.experiments.baselines.common.checkpoint import validated_output
+from chapter3_bser.experiments.baselines.direct_mc.train import DirectMCTrainer
+from chapter3_bser.experiments.baselines.direct_boundary.train import DirectBoundaryTrainer
 from chapter3_bser.experiments.hgr.provenance import checkout_identity
 from .framework_provenance import framework_sources, verify_framework_sources
 from .provenance import file_sha256, write_json, digest
 from .registry import training_config, task_conditions
 
 
-def training_plan(baseline, *, reference_training_config=None, output_dir=None):
-    spec, reference_path, config = training_config(baseline, reference_training_config=reference_training_config, output_dir=output_dir)
+def training_plan(baseline, *, reference_training_config=None, output_dir=None, episodes=None, seed=None):
+    spec, reference_path, config = training_config(baseline, reference_training_config=reference_training_config, output_dir=output_dir, episodes=episodes, seed=seed)
     output = validated_output(config, config["output_dir"])
     sources = framework_sources()
     return dict(baseline=baseline, method=spec["method"], runtime_method=spec["runtime_method"],
@@ -25,12 +23,12 @@ def training_plan(baseline, *, reference_training_config=None, output_dir=None):
         reference_config_sha256=file_sha256(reference_path),
         reference_kind="run_config_reference" if "outputs" in reference_path.parts else "default_config_reference",
         common_task_conditions=task_conditions(config), sources_before=sources,
-        checkout_before=checkout_identity(), trainer="chapter3_bser.experiments.hgr.train.Trainer",
+        checkout_before=checkout_identity(), trainer=("chapter3_bser.experiments.baselines.direct_mc.train.DirectMCTrainer" if baseline == "B2_direct_mc" else "chapter3_bser.experiments.baselines.direct_boundary.train.DirectBoundaryTrainer"),
         checkpoint_schema=config["checkpoint_schema"], training_started=False)
 
 
-def train(baseline, *, reference_training_config=None, output_dir=None, check_only=False):
-    plan = training_plan(baseline, reference_training_config=reference_training_config, output_dir=output_dir)
+def train(baseline, *, reference_training_config=None, output_dir=None, check_only=False, episodes=None, seed=None):
+    plan = training_plan(baseline, reference_training_config=reference_training_config, output_dir=output_dir, episodes=episodes, seed=seed)
     if check_only:
         return plan
     # Reached only through an explicit manual training invocation; the unified
@@ -39,7 +37,8 @@ def train(baseline, *, reference_training_config=None, output_dir=None, check_on
     verify_framework_sources(plan["sources_before"])
     if file_sha256(plan["reference_config_path"]) != plan["reference_config_sha256"]:
         raise ValueError("reference config changed before training")
-    trainer = Trainer(plan["config"], output)
+    trainer_class = DirectMCTrainer if baseline == "B2_direct_mc" else DirectBoundaryTrainer
+    trainer = trainer_class(plan["config"], output)
     plan["training_started"] = True
     plan["start_identity_sha256"] = digest(plan)
     write_json(output/"baseline_training_identity.json", plan)
@@ -67,7 +66,9 @@ def train(baseline, *, reference_training_config=None, output_dir=None, check_on
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline", required=True, choices=("B2_direct_mc", "B3_direct_boundary"))
-    parser.add_argument("--reference-training-config", help="Optional actual HGR config; all parameters except method/algorithm/output are retained")
+    parser.add_argument("--reference-training-config", help="Optional actual HGR config; shared task and applicable RL parameters are retained")
+    parser.add_argument("--episodes", type=int, help="Completed training episodes (default config: 1000)")
+    parser.add_argument("--seed", type=int, help="Training seed (default config: 2729)")
     parser.add_argument("--output-dir", help="New/empty collision_terminal directory; default is isolated per baseline")
     parser.add_argument("--check-only", action="store_true", help="Validate/print without constructing models, training or writing outputs")
     result = train(**vars(parser.parse_args(argv)))

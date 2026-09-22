@@ -1,0 +1,479 @@
+ERROR
+ERROR
+test_check_only_never_constructs_trainer_or_writes_outputs (tests.test_ch3_baseline_validation.ContractValidationTests) ... ERROR
+test_direct_training_configs_preserve_the_common_task (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_entry_help_and_training_rejection_for_priors (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_frozen_production_and_baseline_source_gates (tests.test_ch3_baseline_validation.ContractValidationTests) ... ERROR
+test_registry_module_and_exact_four_contracts (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+VALIDATION_PLANNING_PATHS {"B0": {"objective": 0.9045220923342497, "search_only_calls": 1, "joint_calls": 0, "standby_generation_calls": 0, "objective_search_only_flags": [true], "response_weight_reads": 0}, "B1": {"objective": 0.859134250382136, "search_only_calls": 0, "joint_calls": 1, "standby_generation_calls": 1, "objective_search_only_flags": [false], "response_weight_reads": 196}}
+test_same_planning_state_has_distinct_objective_and_standby_paths (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... test_documentation_and_historical_metadata_are_not_runtime_inputs (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ERROR
+test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+
+======================================================================
+ERROR: setUpClass (tests.test_ch3_baseline_validation.B0SmokeTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_validation.py", line 206, in setUpClass
+    before = framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: setUpClass (tests.test_ch3_baseline_validation.B1SmokeTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_validation.py", line 206, in setUpClass
+    before = framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_check_only_never_constructs_trainer_or_writes_outputs (tests.test_ch3_baseline_validation.ContractValidationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_validation.py", line 126, in test_check_only_never_constructs_trainer_or_writes_outputs
+    self.assertEqual(run_training.main(["--baseline", baseline, "--output-dir", str(output), "--check-only"]), 0)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\run_training.py", line 74, in main
+    result = train(**vars(parser.parse_args(argv)))
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\run_training.py", line 31, in train
+    plan = training_plan(baseline, reference_training_config=reference_training_config, output_dir=output_dir, episodes=episodes, seed=seed)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\run_training.py", line 19, in training_plan
+    sources = framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_frozen_production_and_baseline_source_gates (tests.test_ch3_baseline_validation.ContractValidationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_validation.py", line 185, in test_frozen_production_and_baseline_source_gates
+    before = framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='tools/ch3_baselines/run_baseline.py', change='changed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='tools/ch3_baselines/run_baseline.py', change='removed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='tools/ch3_baselines/run_baseline.py', change='added')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='configs/chapter3/baselines/search_prior_eval.json', change='changed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='configs/chapter3/baselines/search_prior_eval.json', change='removed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='configs/chapter3/baselines/search_prior_eval.json', change='added')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='scripts/linux/run_ch3_baseline_eval.sh', change='changed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='scripts/linux/run_ch3_baseline_eval.sh', change='removed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (path='scripts/linux/run_ch3_baseline_eval.sh', change='added')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 129, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (script='scripts/linux/run_ch3_basic_prior_eval.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 139, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (script='scripts/linux/run_ch3_baseline_eval.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 139, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (script='scripts/linux/train_ch3_direct_mc.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 139, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (script='scripts/linux/train_ch3_direct_boundary.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 139, in test_changed_removed_and_added_baseline_inputs_are_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_documentation_and_historical_metadata_are_not_runtime_inputs (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 248, in test_documentation_and_historical_metadata_are_not_runtime_inputs
+    with final_checkout() as root:
+  File "D:\anaconda\anaconda\envs\AUV\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 29, in final_checkout
+    paths = (set(pin["production"]["files"]) | set(source_gate.baseline_evolution()["added_production"])
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 273, in test_evolution_preserves_all_historical_records_and_exact_new_hashes
+    evolution = source_gate.baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 261, in test_final_pin_integrity_and_native_checkpoint_identity_are_retained
+    source = provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (field='sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 150, in test_invalid_manifest_or_changed_production_binding_is_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) (field='production_source_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 150, in test_invalid_manifest_or_changed_production_binding_is_rejected
+    provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 53, in test_linux_inventory_excludes_windows_bytes_but_launchers_still_run
+    sources = provenance.framework_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\framework_provenance.py", line 30, in framework_sources
+    result = production_sources()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 56, in production_sources
+    evolution = baseline_evolution()
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 189, in test_linux_provenance_platform_independent
+    with final_checkout() as root:
+  File "D:\anaconda\anaconda\envs\AUV\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 29, in final_checkout
+    paths = (set(pin["production"]["files"]) | set(source_gate.baseline_evolution()["added_production"])
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+======================================================================
+ERROR: test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 211, in test_real_source_inventory_changes_fail_for_every_protected_directory
+    with final_checkout() as root:
+  File "D:\anaconda\anaconda\envs\AUV\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 29, in final_checkout
+    paths = (set(pin["production"]["files"]) | set(source_gate.baseline_evolution()["added_production"])
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tools\ch3_baselines\provenance.py", line 34, in baseline_evolution
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "D:\anaconda\anaconda\envs\AUV\lib\pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\provenance\\baseline_maddpg_evolution.json'
+
+----------------------------------------------------------------------
+Ran 21 tests in 18.850s
+
+FAILED (errors=25)

@@ -26,9 +26,10 @@ def final_checkout():
     with tempfile.TemporaryDirectory(prefix="ch3-final-checkout-") as temporary:
         root = Path(temporary)
         pin = json.loads(source_gate.PIN.read_text(encoding="utf-8"))
-        paths = set(pin["production"]["files"]) | set(provenance.baseline_protected_identity()["files"])
+        paths = (set(pin["production"]["files"]) | set(source_gate.baseline_evolution()["added_production"])
+                 | set(provenance.baseline_protected_identity()["files"]))
         paths.update((source_gate.PIN.relative_to(provenance.ROOT).as_posix(),
-                      provenance.PROTECTED_BASELINE.relative_to(provenance.ROOT).as_posix()))
+                      provenance.PROTECTED_BASELINE.relative_to(provenance.ROOT).as_posix(), source_gate.EVOLUTION_RELATIVE))
         for name in paths:
             destination = root / name
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -52,8 +53,8 @@ class BaselineProvenanceTests(unittest.TestCase):
         sources = provenance.framework_sources()
         current = sources["protected_baseline"]
         self.assertEqual(current, provenance.baseline_protected_identity())
-        self.assertEqual(len(current["files"]), 36)
-        for prefix, count in (("tools/ch3_baselines/", 9), ("configs/chapter3/baselines/", 6), ("scripts/", 21)):
+        self.assertEqual(len(current["files"]), 37)
+        for prefix, count in (("tools/ch3_baselines/", 10), ("configs/chapter3/baselines/", 6), ("scripts/", 21)):
             self.assertEqual(sum(name.startswith(prefix) for name in current["files"]), count)
         self.assertIn("tools/ch3_baselines/framework_provenance.py", current["files"])
         self.assertIn("tools/ch3_baselines/run_baseline.py", current["files"])
@@ -187,7 +188,10 @@ class BaselineProvenanceTests(unittest.TestCase):
     def test_linux_provenance_platform_independent(self):
         with final_checkout() as root:
             before = provenance.framework_sources()
-            self.assertEqual(before["production"]["sha256"], FINAL_SHA256)
+            self.assertEqual(before["production_source_sha256"], FINAL_SHA256)
+            self.assertEqual(set(before["production"]["files"]),
+                             set(json.loads(source_gate.PIN.read_text())["production"]["files"])
+                             | set(source_gate.baseline_evolution()["added_production"]))
             self.assertEqual(before["production_checkout_profile"], "git_lf")
             self.assertEqual(before, source_gate.capture_sources())
             for ending in (b"\r\n", b"\n"):
@@ -201,7 +205,7 @@ class BaselineProvenanceTests(unittest.TestCase):
             result = subprocess.run([sys.executable, "-B", "-c", code], cwd=root,
                                     capture_output=True, text=True, timeout=90)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(result.stdout.splitlines(), [FINAL_SHA256, "PASS"])
+            self.assertEqual(result.stdout.splitlines(), [before["production"]["sha256"], "PASS"])
 
     def test_real_source_inventory_changes_fail_for_every_protected_directory(self):
         with final_checkout() as root:
@@ -209,6 +213,8 @@ class BaselineProvenanceTests(unittest.TestCase):
                 "core/runtime/engine.py", "chapter3_bser/controllers/action_adapter.py",
                 "tools/ch3_baselines/basic_search_prior.py", "configs/chapter3/baselines/search_prior_eval.json",
                 "scripts/linux/run_ch3_learning.sh",
+                "chapter3_bser/experiments/baselines/common/train.py",
+                "chapter3_bser/experiments/baselines/common/model.py",
             )
             before = provenance.framework_sources()
             for name in examples:
@@ -261,6 +267,25 @@ class BaselineProvenanceTests(unittest.TestCase):
             current_pin["production"]["files"]["core/runtime/engine.py"] = "0" * 64
             write_json(source_gate.PIN, current_pin)
             with self.assertRaisesRegex(ValueError, "inventory/aggregate hash mismatch"):
+                provenance.framework_sources()
+
+    def test_evolution_preserves_all_historical_records_and_exact_new_hashes(self):
+        evolution = source_gate.baseline_evolution()
+        pin = json.loads(source_gate.PIN.read_text(encoding="utf-8"))
+        historical = pin["production"]["files"]
+        self.assertEqual(len(historical), 196)
+        self.assertFalse(set(historical) & set(evolution["added_production"]))
+        self.assertEqual(evolution["historical_production_sha256"], FINAL_SHA256)
+        self.assertTrue(evolution["added_production"])
+        for name, expected in evolution["added_production"].items():
+            self.assertEqual(source_gate.file_sha256(provenance.ROOT / name), expected)
+        with final_checkout() as root:
+            path = root / source_gate.EVOLUTION_RELATIVE
+            value = json.loads(path.read_text())
+            value["added_production"]["core/runtime/engine.py"] = "0" * 64
+            value["sha256"] = digest({k: v for k, v in value.items() if k != "sha256"})
+            write_json(path, value)
+            with self.assertRaisesRegex(ValueError, "only add independent training sources"):
                 provenance.framework_sources()
 
 

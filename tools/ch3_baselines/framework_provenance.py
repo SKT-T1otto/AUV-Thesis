@@ -2,7 +2,7 @@
 import json
 
 from .provenance import (
-    ROOT, baseline_source_identity, production_sources, digest, file_sha256, require_unchanged,
+    ROOT, baseline_source_identity, production_sources, digest, file_sha256, require_unchanged, baseline_evolution,
 )
 
 SCRIPT_FILES = (
@@ -36,9 +36,26 @@ def framework_sources():
     if protected.get("production_source_sha256") != result["production_source_sha256"]:
         raise ValueError("protected baseline manifest must match the CH3-final production source hash")
     current = baseline_protected_identity()
-    if current["files"] != protected["files"]:
-        changed = sorted(name for name in current["files"].keys() | protected["files"].keys()
-                         if current["files"].get(name) != protected["files"].get(name))
+    evolution = baseline_evolution()
+    if evolution["historical_protected_sha256"] != protected["sha256"]:
+        raise ValueError("baseline evolution historical protected binding mismatch")
+    expected = dict(protected["files"])
+    permitted = {
+        "tools/ch3_baselines/registry.py", "tools/ch3_baselines/run_training.py",
+        "tools/ch3_baselines/run_baseline.py", "tools/ch3_baselines/learned_evaluation.py",
+        "tools/ch3_baselines/provenance.py", "tools/ch3_baselines/framework_provenance.py",
+        "configs/chapter3/baselines/baseline_registry.json",
+        "configs/chapter3/baselines/direct_mc_train.json", "configs/chapter3/baselines/direct_boundary_train.json",
+    }
+    if set(evolution["protected_changes"]) != permitted:
+        raise ValueError("independent baseline evolution has unexpected protected paths")
+    for name, record in evolution["protected_changes"].items():
+        if record["before"] != expected.get(name):
+            raise ValueError("baseline evolution does not preserve historical protected hashes")
+        expected[name] = record["after"]
+    if current["files"] != expected:
+        changed = sorted(name for name in current["files"].keys() | expected.keys()
+                         if current["files"].get(name) != expected.get(name))
         raise ValueError("protected baseline inventory changed; review before refreshing hashes: " + ", ".join(changed))
     result["protected_baseline"] = current
     result["baseline"] = current

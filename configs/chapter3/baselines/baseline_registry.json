@@ -29,32 +29,32 @@
   },
   "B2_direct_mc": {
     "method": "ch3_baseline_direct_mc",
-    "runtime_method": "ch3_stochastic_direct_mc",
+    "runtime_method": "ch3_baseline_direct_mc",
     "planner": "bser_joint",
     "controller": "residual_policy",
     "learning": true,
-    "learning_mode": "complete_mc_return",
-    "algorithm": "stochastic_direct_mc",
-    "residual_source": "trained_stochastic_policy",
+    "learning_mode": "offpolicy_maddpg",
+    "algorithm": "maddpg",
+    "residual_source": "trained_maddpg_policy",
     "training_required": true,
     "hgr": false,
     "default_evaluation_output": "outputs/chapter3/baselines/B2_direct_mc/collision_terminal/eval100_seed12729_v1",
     "training_config": "configs/chapter3/baselines/direct_mc_train.json",
-    "default_training_output": "outputs/chapter3/baselines/B2_direct_mc/collision_terminal/train_seed2729_v1"
+    "default_training_output": "outputs/chapter3/baselines/collision_terminal/B2_direct_mc_train_seed2729_v1"
   },
   "B3_direct_boundary": {
     "method": "ch3_baseline_direct_boundary",
-    "runtime_method": "ch3_direct_boundary_corrected",
+    "runtime_method": "ch3_baseline_direct_boundary",
     "planner": "bser_joint",
     "controller": "residual_policy",
     "learning": true,
-    "learning_mode": "current_boundary_value_correction",
-    "algorithm": "direct_boundary_corrected",
-    "residual_source": "trained_stochastic_policy",
+    "learning_mode": "boundary_conditioned_maddpg",
+    "algorithm": "direct_boundary_maddpg",
+    "residual_source": "trained_maddpg_policy",
     "training_required": true,
     "hgr": false,
     "default_evaluation_output": "outputs/chapter3/baselines/B3_direct_boundary/collision_terminal/eval100_seed12729_v1",
     "training_config": "configs/chapter3/baselines/direct_boundary_train.json",
-    "default_training_output": "outputs/chapter3/baselines/B3_direct_boundary/collision_terminal/train_seed2729_v1"
+    "default_training_output": "outputs/chapter3/baselines/collision_terminal/B3_direct_boundary_train_seed2729_v1"
   }
 }

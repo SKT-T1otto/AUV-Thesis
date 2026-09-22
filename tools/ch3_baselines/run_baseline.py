@@ -11,10 +11,11 @@ import traceback
 import torch
 
 from chapter3_bser.experiments.hgr import evaluation as native_evaluation
-from chapter3_bser.experiments.hgr.train import load_checkpoint, validated_output
-from chapter3_bser.experiments.hgr.provenance import require_source_match, checkout_identity
+from chapter3_bser.experiments.baselines.common.checkpoint import load_checkpoint, validated_output
+from chapter3_bser.experiments.hgr.provenance import checkout_identity
 from chapter3_bser.experiments.phase1c_prrac.task_metrics import validated_rows
 from . import evaluate as prior_evaluation
+from . import learned_evaluation
 from .basic_search_prior import BasicSearchPriorRuntime, baseline_environment_kwargs
 from .bser_prior import BSERPriorRuntime
 from .framework_provenance import framework_sources, verify_framework_sources
@@ -42,7 +43,7 @@ def unified_summary(rows, spec, episodes, *, finalized, wall_seconds, actual_ste
         # Prior runtimes assert zero each step; the native learned evaluator
         # does not expose a measured residual maximum.
         residual_action_max_abs=None if spec["learning"] else 0.0,
-        optimizer_update_count=0, training_update=False, evaluation_policy_mode="stochastic" if spec["learning"] else "prior_only",
+        optimizer_update_count=0, training_update=False, evaluation_policy_mode="deterministic" if spec["learning"] else "prior_only",
         completed_episode_environment_steps=sum(row["episode_length"] for row in rows),
         actual_environment_steps_complete=actual_steps is not None)
     return result
@@ -63,12 +64,13 @@ def evaluation_plan(baseline, manifest, output_dir, *, episodes=100, seed=12729,
         if checkpoint is None:
             raise ValueError(f"{baseline} requires its independently trained --checkpoint; an HGR checkpoint cannot be relabeled")
         checkpoint = Path(checkpoint).resolve()
-        payload = load_checkpoint(checkpoint)  # original strict schema/config/model checks
+        payload = load_checkpoint(checkpoint, expected_baseline=baseline)
         config = validate_method_config(spec, payload["config"], reference)
-        require_source_match(payload["source_identity"], sources["production"], context="baseline checkpoint")
+        if any(payload["source_identity"][key] != sources["production"][key] for key in ("files", "sha256")):
+            raise ValueError("baseline checkpoint production source mismatch")
         checkpoint_identity = dict(path=str(checkpoint), file_sha256=file_sha256(checkpoint),
             runtime_method=config["method"], algorithm=config["algorithm"],
-            config_hash=payload["config_hash"], completed_main=payload["completed_main"], cycle=payload["cycle"])
+            config_hash=payload["config_hash"], completed_main=payload["completed_main_trajectories"], optimizer_updates=payload["optimizer_updates"])
     elif checkpoint is not None:
         raise ValueError("B0/B1 do not accept a checkpoint")
     else:
@@ -78,7 +80,7 @@ def evaluation_plan(baseline, manifest, output_dir, *, episodes=100, seed=12729,
     effective = (baseline_environment_kwargs(config) if baseline == "B0_search_prior" else
                  native_evaluation.resolved_config(config, episodes, seed, "stochastic")["environment_config"])
     streams = dict(environment_innovation_seed="seed + zero_based_episode_index; production seed_innovations before construction and after reset",
-        seed=seed, policy_sampling="production independent action_rng" if spec["learning"] else "none",
+        seed=seed, policy_sampling="none; deterministic MADDPG actor" if spec["learning"] else "none",
         scope="same seeds do not guarantee identical random events along different trajectories")
     comparable = dict(common_task_conditions=conditions, selected_content_sha256=selected["selected_content_sha256"],
                       evaluation_seed=seed, episodes=episodes)
@@ -170,10 +172,8 @@ def evaluate(baseline, manifest, output_dir, *, episodes=100, seed=12729,
         save("running")
         with (output/"run_console.log").open("x", encoding="utf-8") as log:
             if spec["learning"]:
-                # Delegate the entire learned-policy evaluation, including
-                # original model/source checks, to the frozen native evaluator.
-                native_evaluation.evaluate(checkpoint, native, episodes=episodes, seed=seed,
-                                           policy_mode="stochastic", manifest=manifest)
+                learned_evaluation.evaluate(checkpoint, native, episodes=episodes, seed=seed,
+                                            policy_mode="deterministic", manifest=manifest)
                 verify()
                 harvest_native()
                 native_summary = json.loads((native/"summary.json").read_text(encoding="utf-8"))
@@ -222,9 +222,16 @@ def evaluate(baseline, manifest, output_dir, *, episodes=100, seed=12729,
                 harvest_native()
             except Exception as harvesting_error:
                 failure["native_harvest_error"] = str(harvesting_error)
-            # The native collector does not expose steps in the interrupted
-            # episode. Completed rows provide only a lower bound on cost.
             actual_steps = None
+            progress_path = native / "evaluation_progress.json"
+            if progress_path.exists():
+                try:
+                    progress = json.loads(progress_path.read_text(encoding="utf-8"))
+                    measured = progress.get("actual_environment_steps")
+                    if type(measured) is int and measured >= sum(r["episode_length"] for r in rows):
+                        actual_steps = measured
+                except (ValueError, OSError) as progress_error:
+                    failure["native_progress_error"] = str(progress_error)
         if (native/"evaluation_failure.json").exists():
             failure["native_failure"] = json.loads((native/"evaluation_failure.json").read_text(encoding="utf-8"))
         write_json(output/"evaluation_failure.json", failure)

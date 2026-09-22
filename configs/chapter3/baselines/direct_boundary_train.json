@@ -25,13 +25,12 @@
     "warmup_steps": 256,
     "update_frequency": 4,
     "updates_per_train": 2,
-    "policy_delay": 2,
     "gamma": 0.95,
     "tau": 0.005,
     "lr_actor": 0.001,
     "lr_critic": 0.0005,
     "hidden_dim": 128,
-    "residual_action_reg": 0.01
+    "residual_action_reg": 0.0
   },
   "execution_runtime": {
     "dynamic_public_target_enabled": true,
@@ -48,38 +47,17 @@
   "collision_terminal_reward": -2.0,
   "observation_dim": 28,
   "action_dim": 3,
-  "schema": "hgr.training.v1",
-  "algorithm": "direct_boundary_corrected",
-  "method": "ch3_direct_boundary_corrected",
-  "architecture_version": "hgr.isolated_tanh_gaussian.v1",
-  "checkpoint_schema": "hgr.complete_cycle.v1",
+  "schema": "ch3.baseline.training.v1",
+  "algorithm": "direct_boundary_maddpg",
+  "method": "ch3_baseline_direct_boundary",
+  "architecture_version": "ch3.baseline.boundary_maddpg.v1",
+  "checkpoint_schema": "ch3.baseline.maddpg.v1",
   "reward_objective": "team_mean_v1",
   "source_reward_revision": "execution_reward_v2_after_terminal_override_v1",
-  "output_dir": "outputs/chapter3/baselines/B3_direct_boundary/collision_terminal/train_seed2729_v1",
+  "output_dir": "outputs/chapter3/baselines/collision_terminal/B3_direct_boundary_train_seed2729_v1",
   "total_main_trajectories": 1000,
-  "main_prefix_batch_size": 16,
-  "suffix_training_episodes_per_cycle": 4,
-  "pilot_prefix_episodes_per_cycle": 8,
-  "correction_draws_per_cycle": 8,
   "checkpoint_interval": 100,
   "max_total_environment_steps": null,
-  "prefix_lr": 0.001,
-  "suffix_lr": 0.001,
-  "policy": {
-    "actor": {
-      "hidden_dim": 128,
-      "expert_hidden_dim": 128,
-      "router_temperature": 1.0,
-      "gate_initial_mean": 0.75,
-      "alignment_scale_init": 1.0
-    },
-    "initial_std": 0.12,
-    "mean_epsilon": 1e-06
-  },
-  "predictor": {
-    "hidden_dim": 64,
-    "updates": 50,
-    "lr": 0.001
-  },
-  "ablation": "none"
+  "ablation": "none",
+  "baseline": "B3_direct_boundary"
 }

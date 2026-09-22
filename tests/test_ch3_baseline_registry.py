@@ -17,7 +17,6 @@ from unittest.mock import patch
 import numpy as np
 import torch
 
-from chapter3_bser.experiments.hgr import train as native_train
 from chapter3_bser.experiments.hgr.provenance import fresh_source_identity
 from chapter3_bser.online import allocator as allocator_module
 from chapter3_bser.online.allocator import BSEROnlineAllocator
@@ -36,6 +35,13 @@ def forbid_learning():
                  "torch.optim.SGD.step", "torch.optim.Adam.step",
                  "chapter3_bser.models.hgr.estimator.BoundaryPredictor.forward"):
         stack.enter_context(patch(name, side_effect=AssertionError("forbidden learning call: " + name)))
+    return stack
+
+
+def forbid_training():
+    stack = ExitStack()
+    for name in ("DirectMCTrainer", "DirectBoundaryTrainer"):
+        stack.enter_context(patch.object(training, name, side_effect=AssertionError("no trainer in check-only/evaluation")))
     return stack
 
 
@@ -67,18 +73,22 @@ class RegistryTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 reg.training_config(key)
 
-    def test_B2_B3_are_native_independent_methods_with_only_declared_config_changes(self):
+    def test_B2_B3_are_independent_maddpg_methods_with_the_same_task(self):
         _, reference = reg.load_reference()
         conditions = reg.task_conditions(reference)
-        for baseline, algorithm in (("B2_direct_mc", "stochastic_direct_mc"), ("B3_direct_boundary", "direct_boundary_corrected")):
+        for baseline, algorithm in (("B2_direct_mc", "maddpg"), ("B3_direct_boundary", "direct_boundary_maddpg")):
             spec, _, config = reg.training_config(baseline)
             self.assertEqual(config["algorithm"], algorithm)
-            self.assertEqual(config["method"], "ch3_" + algorithm)
+            self.assertEqual(config["method"], spec["runtime_method"])
             self.assertEqual(spec["method"], reg.CONTRACTS[baseline][0])
-            self.assertEqual({k for k in config.keys() | reference.keys() if config.get(k) != reference.get(k)}, {"method", "algorithm", "output_dir"})
             self.assertEqual(reg.task_conditions(config), conditions)
-            self.assertEqual(config["policy"], reference["policy"])
-            self.assertEqual(config["rl"], reference["rl"])
+            for key in ("policy", "predictor", "prefix_lr", "suffix_lr", "main_prefix_batch_size",
+                        "suffix_training_episodes_per_cycle", "pilot_prefix_episodes_per_cycle", "correction_draws_per_cycle"):
+                self.assertNotIn(key, config)
+            expected_rl = {k: v for k, v in reference["rl"].items() if k != "policy_delay"}
+            expected_rl["residual_action_reg"] = 0.0
+            self.assertEqual(config["rl"], expected_rl)
+            self.assertEqual(config["checkpoint_schema"], "ch3.baseline.maddpg.v1")
             self.assertTrue(spec["training_required"])
             self.assertFalse(spec["hgr"])
             self.assertEqual(config["ablation"], "none")
@@ -103,45 +113,42 @@ class RegistryTests(unittest.TestCase):
             with patch.object(reg, "REGISTRY_PATH", path), self.assertRaises(ValueError):
                 reg.load_registry()
 
-    def test_actual_reference_training_plan_keeps_all_reference_parameters(self):
+    def test_actual_reference_training_plan_keeps_common_task_parameters(self):
         _, reference = reg.load_reference()
-        reference["policy"]["initial_std"] = 0.15  # hypothetical actual run, not repo config
+        reference["policy"]["initial_std"] = 0.15  # HGR-only settings must not leak into MADDPG.
+        reference["rl"]["lr_actor"] = 0.0007
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             path = root/"outputs/hgr/config.json"
             path.parent.mkdir(parents=True)
             write_json(path, reference)
-            with patch.object(training, "Trainer", side_effect=AssertionError("training must not start")):
+            with forbid_training():
                 for baseline in ("B2_direct_mc", "B3_direct_boundary"):
                     plan = training.train(baseline, reference_training_config=path,
                                           output_dir=root/"collision_terminal"/baseline, check_only=True)
                     self.assertFalse(plan["training_started"])
                     self.assertEqual(plan["reference_kind"], "run_config_reference")
-                    self.assertEqual(plan["config"]["policy"], reference["policy"])
+                    self.assertNotIn("policy", plan["config"])
+                    self.assertNotIn("predictor", plan["config"])
+                    self.assertEqual(plan["config"]["rl"]["lr_actor"], reference["rl"]["lr_actor"])
+                    self.assertEqual(reg.task_conditions(plan["config"]), reg.task_conditions(reference))
                     self.assertFalse(Path(plan["output_dir"]).exists())
 
-    def test_production_B3_label_does_not_request_old_suffix(self):
-        # Exercise only the existing label-selection function on an inert stub;
-        # no Trainer construction, simulator continuation or gradient update.
-        from types import SimpleNamespace
-        for method, expected_calls in (("hgr", 2), ("direct_boundary_corrected", 1)):
-            calls = []
-            def branch(trajectory, policy, purpose):
-                calls.append(purpose)
-                return {"G_plus": 5.0 if "new" in purpose else 2.0}
-            owner = SimpleNamespace(config={"algorithm": method, "max_steps": 400}, branch=branch, cycle=0, branches=[])
-            trajectory = dict(dataset_id="synthetic", snapshot=SimpleNamespace(sha256="synthetic"), tau=2, features=np.zeros(3))
-            label, row = native_train.Trainer.paired_label(owner, trajectory, object(), object(), "unit")
-            self.assertEqual(len(calls), expected_calls)
-            if method == "direct_boundary_corrected":
-                self.assertEqual(label, 5.0)
-                self.assertIsNone(row["old"])
-                self.assertIsNone(row["delta_hat"])
+    def test_B3_does_not_reuse_the_historical_hgr_method_identity(self):
+        config = reg.training_config("B3_direct_boundary")[2]
+        self.assertEqual(config["algorithm"], "direct_boundary_maddpg")
+        self.assertEqual(config["method"], "ch3_baseline_direct_boundary")
+        for legacy in ("hgr", "direct_boundary_corrected", "stochastic_direct_mc"):
+            with self.subTest(legacy=legacy), self.assertRaises(ValueError):
+                reg.validate_method_config(reg.method_spec("B3_direct_boundary"),
+                                           {**config, "algorithm": legacy}, reg.load_reference()[1])
 
     def test_B0_protected_sources_and_framework_script_inventory(self):
         before = framework_sources()
         verify_framework_sources(before)
-        self.assertEqual(len(before["production"]["files"]), 196)
+        frozen = json.loads((ROOT / "docs/chapter3/baselines/final_production_source.json").read_text(encoding="utf-8"))["production"]
+        self.assertEqual(len(frozen["files"]), 196)
+        self.assertTrue(set(frozen["files"]).issubset(before["production"]["files"]))
         self.assertIn("scripts/linux/train_ch3_direct_mc.sh", before["framework_entry_scripts"]["files"])
         altered = copy.deepcopy(before)
         altered["framework_entry_scripts"]["sha256"] = "changed"
@@ -158,7 +165,7 @@ class RegistryTests(unittest.TestCase):
                 def fake_trainer(config, destination):
                     destination.mkdir(parents=True)
                     return SimpleNamespace(run=lambda: {"completed_main_trajectories": completed})
-                with patch.object(training, "Trainer", side_effect=fake_trainer):
+                with patch.object(training, "DirectMCTrainer", side_effect=fake_trainer):
                     training.train("B2_direct_mc", output_dir=output)
                 identity = json.loads((output/"baseline_training_identity.json").read_text())
                 self.assertEqual(identity["training_complete"], completed == requested)
@@ -176,7 +183,8 @@ class EvaluationRoutingTests(unittest.TestCase):
             identities = []
             for baseline, spec in reg.load_registry().items():
                 config = reg.training_config(baseline)[2] if spec["learning"] else reg.load_reference()[1]
-                payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=native_train.digest(config), completed_main=1, cycle=1)
+                payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=digest(config),
+                               completed_main_trajectories=1, optimizer_updates=1)
                 with patch.object(run, "load_checkpoint", return_value=payload), forbid_learning():
                     plan = run.evaluation_plan(baseline, manifest, root/"collision_terminal"/baseline, episodes=1,
                                                checkpoint=checkpoint if spec["learning"] else None)
@@ -211,15 +219,16 @@ class EvaluationRoutingTests(unittest.TestCase):
             checkpoint.write_bytes(b"unit mocked loader input; never loaded as weights")
             for baseline in ("B2_direct_mc", "B3_direct_boundary"):
                 spec, _, config = reg.training_config(baseline)
-                payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=native_train.digest(config), completed_main=1, cycle=1)
+                payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=digest(config),
+                               completed_main_trajectories=1, optimizer_updates=1)
                 def evaluate_native(checkpoint, output, **kwargs):
                     self.assertEqual(kwargs["manifest"], manifest)
-                    self.assertEqual(kwargs["policy_mode"], "stochastic")
+                    self.assertEqual(kwargs["policy_mode"], "deterministic")
                     output.mkdir(parents=True)
                     write_json(output/"episodes.json", [native_row(config, spec["runtime_method"])])
                     write_json(output/"summary.json", {"evaluation_complete": True})
                 output = root/"collision_terminal"/baseline
-                with patch.object(run, "load_checkpoint", return_value=payload), patch.object(run.native_evaluation, "evaluate", side_effect=evaluate_native) as native, patch.object(training, "Trainer", side_effect=AssertionError("no training")):
+                with patch.object(run, "load_checkpoint", return_value=payload), patch.object(run.learned_evaluation, "evaluate", side_effect=evaluate_native) as native, forbid_training():
                     summary = run.evaluate(baseline, manifest, output, episodes=1, checkpoint=checkpoint)
                 native.assert_called_once()
                 self.assertTrue(summary["evaluation_complete"])
@@ -248,7 +257,8 @@ class EvaluationRoutingTests(unittest.TestCase):
             write_json(manifest, fixture())
             checkpoint.write_bytes(b"mock input only")
             spec, _, config = reg.training_config("B2_direct_mc")
-            payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=native_train.digest(config), completed_main=1, cycle=1)
+            payload = dict(config=config, source_identity=fresh_source_identity(), config_hash=digest(config),
+                           completed_main_trajectories=1, optimizer_updates=1)
             for corrupt in (False, True):
                 output = root/"collision_terminal"/str(corrupt)
                 def failed_native(checkpoint, output, **kwargs):
@@ -258,7 +268,7 @@ class EvaluationRoutingTests(unittest.TestCase):
                         row["optimizer_update_count"] = 1
                     write_json(output/"episodes.json", [row])
                     raise RuntimeError("original native failure")
-                with patch.object(run, "load_checkpoint", return_value=payload), patch.object(run.native_evaluation, "evaluate", side_effect=failed_native):
+                with patch.object(run, "load_checkpoint", return_value=payload), patch.object(run.learned_evaluation, "evaluate", side_effect=failed_native):
                     with self.assertRaisesRegex(RuntimeError, "original native failure"):
                         run.evaluate("B2_direct_mc", manifest, output, episodes=1, checkpoint=checkpoint)
                 failure = json.loads((output/"evaluation_failure.json").read_text())
@@ -361,7 +371,7 @@ class PriorRuntimeIntegrationTests(unittest.TestCase):
 
 class EntryTests(unittest.TestCase):
     def test_help_and_training_check_only_never_construct_trainer(self):
-        with patch.object(training, "Trainer", side_effect=AssertionError("no trainer in help/check-only")):
+        with forbid_training():
             for baseline in ("B2_direct_mc", "B3_direct_boundary"):
                 self.assertEqual(training.main(["--baseline", baseline, "--check-only"]), 0)
             with self.assertRaises(SystemExit) as raised:

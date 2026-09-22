@@ -9,6 +9,7 @@ from chapter3_bser.experiments.hgr.provenance import (
 
 ROOT = Path(__file__).resolve().parents[2]
 PIN = ROOT / "docs/chapter3/baselines/final_production_source.json"
+EVOLUTION_RELATIVE = "docs/provenance/baseline_maddpg_evolution.json"
 
 
 def file_sha256(path):
@@ -28,6 +29,18 @@ def baseline_source_identity(root=None):
     return dict(files=files, sha256=digest(files))
 
 
+def baseline_evolution():
+    """Explicit 2026-09-22 addition; historical production pins stay frozen."""
+    value = json.loads((ROOT / EVOLUTION_RELATIVE).read_text(encoding="utf-8"))
+    if (value.get("schema") != "ch3.baseline.maddpg_evolution.v1"
+            or value.get("sha256") != digest({k: v for k, v in value.items() if k != "sha256"})):
+        raise ValueError("invalid independent baseline evolution manifest")
+    added = value.get("added_production", {})
+    if not added or any(not name.startswith("chapter3_bser/experiments/baselines/") or not name.endswith(".py") for name in added):
+        raise ValueError("baseline evolution may only add independent training sources")
+    return value
+
+
 def production_sources():
     """Check exact reviewed checkout bytes without changing checkpoint identity.
 
@@ -40,6 +53,9 @@ def production_sources():
     if pin.get("schema") != "ch3.final_experiment.production.v1":
         raise ValueError("invalid CH3-final production manifest")
     final = validate_source_identity(pin["production"])
+    evolution = baseline_evolution()
+    if evolution["historical_production_sha256"] != final["sha256"]:
+        raise ValueError("baseline evolution historical production binding mismatch")
     production = fresh_source_identity()
     if set(pin["reviewed_worktree_profiles"]) != {"windows_existing"}:
         raise ValueError("invalid reviewed CH3-final worktree profiles")
@@ -47,11 +63,18 @@ def production_sources():
     for expected in profiles.values():
         validate_source_identity(expected)
     for name, expected in profiles.items():
-        if production == expected:
+        if set(expected["files"]) & set(evolution["added_production"]):
+            raise ValueError("baseline evolution cannot replace a historical production record")
+        evolved_files = {**expected["files"], **evolution["added_production"]}
+        evolved = dict(expected, files=evolved_files,
+                       sha256=hashlib.sha256(json.dumps(evolved_files, sort_keys=True).encode()).hexdigest())
+        validate_source_identity(evolved)
+        if production == evolved:
             return dict(experiment="ch3.final_experiment.v1",
                         production_source_sha256=final["sha256"],
-                        production_checkout_profile=name, production=production)
-    require_source_match(final, production, context="CH3-final source gate")
+                        production_checkout_profile=name, production=production,
+                        baseline_evolution_sha256=evolution["sha256"])
+    require_source_match(evolved, production, context="CH3-final source gate plus independent baselines")
 
 
 def capture_sources():

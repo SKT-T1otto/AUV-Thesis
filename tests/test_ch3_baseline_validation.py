@@ -37,7 +37,8 @@ def prohibit_learning():
         "chapter3_bser.models.hgr.estimator.BoundaryPredictor.forward",
         "torch.distributions.Normal.sample", "torch.distributions.Normal.rsample",
         "torch.optim.SGD.step", "torch.optim.Adam.step",
-        "tools.ch3_baselines.run_training.Trainer",
+        "tools.ch3_baselines.run_training.DirectMCTrainer",
+        "tools.ch3_baselines.run_training.DirectBoundaryTrainer",
     ):
         stack.enter_context(patch(name, side_effect=AssertionError("Forbidden learning call: " + name)))
     return stack
@@ -53,8 +54,8 @@ class ContractValidationTests(unittest.TestCase):
         expected = {
             "B0_search_prior": ("ch3_baseline_search_prior", "search_only", None),
             "B1_bser_prior": ("ch3_baseline_bser_prior", "bser_joint", None),
-            "B2_direct_mc": ("ch3_baseline_direct_mc", "bser_joint", "stochastic_direct_mc"),
-            "B3_direct_boundary": ("ch3_baseline_direct_boundary", "bser_joint", "direct_boundary_corrected"),
+            "B2_direct_mc": ("ch3_baseline_direct_mc", "bser_joint", "maddpg"),
+            "B3_direct_boundary": ("ch3_baseline_direct_boundary", "bser_joint", "direct_boundary_maddpg"),
         }
         self.assertEqual(set(entries), set(expected))
         for key, (method, planner, algorithm) in expected.items():
@@ -74,17 +75,22 @@ class ContractValidationTests(unittest.TestCase):
             task_protocol="collision_terminal_v1", collision_detection_revision="segment_closed_aabb_v1",
             terminal_reward_revision="team_failure_override_v1", collision_terminal_reward=-2.0,
             reward_objective="team_mean_v1", gamma=0.95, execution_runtime_revision="dynamic_public_intercept_v2_1")
-        for key, algorithm in (("B2_direct_mc", "stochastic_direct_mc"), ("B3_direct_boundary", "direct_boundary_corrected")):
+        for key, algorithm in (("B2_direct_mc", "maddpg"), ("B3_direct_boundary", "direct_boundary_maddpg")):
             with self.subTest(baseline=key):
                 config = registry.training_config(key)[2]
                 self.assertEqual(config["algorithm"], algorithm)
-                self.assertEqual(config["method"], "ch3_" + algorithm)
+                self.assertEqual(config["method"], registry.method_spec(key)["runtime_method"])
                 conditions = registry.task_conditions(config)
                 self.assertEqual({k: conditions[k] for k in expected}, expected)
                 self.assertEqual(conditions, registry.task_conditions(reference))
-                self.assertEqual(config["policy"], reference["policy"])
-                self.assertEqual({k for k in config.keys() | reference.keys() if config.get(k) != reference.get(k)},
-                                 {"algorithm", "method", "output_dir"})
+                for hgr_only in ("policy", "predictor", "prefix_lr", "suffix_lr", "correction_draws_per_cycle"):
+                    self.assertNotIn(hgr_only, config)
+                self.assertEqual(config["rl"]["residual_action_reg"], 0.0)
+                self.assertNotIn("policy_delay", config["rl"])
+                for field in ("gamma", "tau", "lr_actor", "lr_critic", "hidden_dim", "batch_size", "replay_size"):
+                    self.assertEqual(config["rl"][field], reference["rl"][field])
+                self.assertEqual((config["seed"], config["total_main_trajectories"], config["checkpoint_interval"]),
+                                 (2729, 1000, 100))
                 summary = run_baseline.unified_summary([], registry.method_spec(key), 1,
                     finalized=False, wall_seconds=0.0, actual_steps=None)
                 self.assertIn("residual_action_max_abs", summary)
@@ -177,7 +183,9 @@ class ContractValidationTests(unittest.TestCase):
 
     def test_frozen_production_and_baseline_source_gates(self):
         before = framework_sources()
-        self.assertEqual(len(before["production"]["files"]), 196)
+        frozen = json.loads((ROOT / "docs/chapter3/baselines/final_production_source.json").read_text(encoding="utf-8"))["production"]
+        self.assertEqual(len(frozen["files"]), 196)
+        self.assertTrue(set(frozen["files"]).issubset(before["production"]["files"]))
         self.assertEqual(before["production_source_sha256"], "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd")
         verify_framework_sources(before)
 
