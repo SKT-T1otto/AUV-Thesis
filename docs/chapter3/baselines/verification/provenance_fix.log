@@ -1,0 +1,41 @@
+VALIDATION_SMOKE_PROGRESS B0_search_prior steps=100
+[1/1] B0_search_prior scenario=basic_prior_synthetic_handoff_interface_only outcome=SUCCESS steps=161 wall=135.95s
+VALIDATION_SMOKE_RESULT {"baseline": "B0_search_prior", "task_outcome": "success", "steps": 161, "found_step": 1, "handoff_decision_step": 2, "program_failure": false, "summary_complete": true, "observations": {"search_only_solver_calls": 2, "physical_steps_checked": 161, "prior_max_abs": 1.2833333015441895}, "selected_content_sha256": "66ba13bf095ecef7fa3bcaeb113dd5a561444c3753604c0a0f8c31359906fdfe", "comparable_inputs_sha256": "4b9cbc06006a8a74152921fcd260c08f5b28f89ca8e03b9fbd3f735681b52a63", "summary_residual_scalar_present": true, "identity_direct_reference_present": true, "identity_direct_task_protocol_present": true}
+test_identity_directly_records_requested_reference_and_protocol (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_provenance_is_verifiable_through_linked_resolved_config (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_required_summary_and_artifacts (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_runtime_no_learning_and_zero_residual (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_summary_contains_requested_residual_scalar (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+VALIDATION_SMOKE_PROGRESS B1_bser_prior steps=100
+VALIDATION_SMOKE_PROGRESS B1_bser_prior steps=200
+VALIDATION_SMOKE_PROGRESS B1_bser_prior steps=300
+VALIDATION_SMOKE_PROGRESS B1_bser_prior steps=400
+[1/1] B1_bser_prior scenario=basic_prior_synthetic_handoff_interface_only outcome=TIMEOUT steps=400 wall=212.98s
+VALIDATION_SMOKE_RESULT {"baseline": "B1_bser_prior", "task_outcome": "timeout", "steps": 400, "found_step": 1, "handoff_decision_step": 2, "program_failure": false, "summary_complete": true, "observations": {"joint_solver_calls": 2, "physical_steps_checked": 400, "prior_max_abs": 1.2833333015441895}, "selected_content_sha256": "66ba13bf095ecef7fa3bcaeb113dd5a561444c3753604c0a0f8c31359906fdfe", "comparable_inputs_sha256": "4b9cbc06006a8a74152921fcd260c08f5b28f89ca8e03b9fbd3f735681b52a63", "summary_residual_scalar_present": true, "identity_direct_reference_present": true, "identity_direct_task_protocol_present": true}
+test_identity_directly_records_requested_reference_and_protocol (tests.test_ch3_baseline_validation.B1SmokeTests) ... ok
+test_provenance_is_verifiable_through_linked_resolved_config (tests.test_ch3_baseline_validation.B1SmokeTests) ... ok
+test_required_summary_and_artifacts (tests.test_ch3_baseline_validation.B1SmokeTests) ... ok
+test_runtime_no_learning_and_zero_residual (tests.test_ch3_baseline_validation.B1SmokeTests) ... ok
+test_summary_contains_requested_residual_scalar (tests.test_ch3_baseline_validation.B1SmokeTests) ... ok
+test_check_only_never_constructs_trainer_or_writes_outputs (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_direct_training_configs_preserve_the_common_task (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_entry_help_and_training_rejection_for_priors (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_frozen_production_and_baseline_source_gates (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_registry_module_and_exact_four_contracts (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+VALIDATION_PLANNING_PATHS {"B0": {"objective": 0.9045220923342497, "search_only_calls": 1, "joint_calls": 0, "standby_generation_calls": 0, "objective_search_only_flags": [true], "response_weight_reads": 0}, "B1": {"objective": 0.859134250382136, "search_only_calls": 0, "joint_calls": 1, "standby_generation_calls": 1, "objective_search_only_flags": [false], "response_weight_reads": 196}}
+test_same_planning_state_has_distinct_objective_and_standby_paths (tests.test_ch3_baseline_validation.ContractValidationTests) ... ok
+test_baseline_maddpg_evolution_exists_and_records_independent_methods (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_documentation_and_historical_metadata_are_not_runtime_inputs (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 419.182s
+
+OK

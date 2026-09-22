@@ -1,0 +1,78 @@
+{
+  "schema": "ch3.baseline.maddpg_evolution.v1",
+  "authorization": "2026-09-22 explicit user request to add the missing B2/B3 provenance evolution, preserve core and existing Chapter 3 code, validate the baseline suites, and commit the fix.",
+  "baselines": {
+    "B2_direct_mc": {
+      "algorithm": "maddpg",
+      "architecture_version": "ch3.baseline.maddpg.v1",
+      "independent_from": "hgr",
+      "trainer": "DirectMCTrainer"
+    },
+    "B3_direct_boundary": {
+      "algorithm": "direct_boundary_maddpg",
+      "architecture_version": "ch3.baseline.boundary_maddpg.v1",
+      "independent_from": "hgr",
+      "trainer": "DirectBoundaryTrainer",
+      "boundary_encoder": {
+        "schema": "ch3.baseline.boundary_encoder.v1"
+      }
+    }
+  },
+  "historical_production_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "historical_protected_sha256": "ea3777d6e51e0aa002f12669e4d431d3d8ffed0105511c14051fadebe2023d41",
+  "added_production": {
+    "chapter3_bser/experiments/baselines/__init__.py": "10e8fd4d5daccaf81b007c6e5b357e083108827992a418945e8924b504148203",
+    "chapter3_bser/experiments/baselines/common/__init__.py": "b4288743ee623c5bfe83f5cc2d1d263d00f9e053ab2845e0dd6016969c1cc7cf",
+    "chapter3_bser/experiments/baselines/common/checkpoint.py": "04b70ac7dbabe8b6750416337ac01a1e419fc620a926801d6152be7237cfbc2f",
+    "chapter3_bser/experiments/baselines/common/model.py": "85a5c7c216c2dc4ed3e77b9bf31fac07e21c0ec4f68d1a5f5e0462fbc6600172",
+    "chapter3_bser/experiments/baselines/common/runtime.py": "b2d555fbef8c7e9740a8a93dc9f0a9ca38de341610d9014d649047daec303bdc",
+    "chapter3_bser/experiments/baselines/common/train.py": "91f345da2955edd17daac54d0678ac6b050a7ec1f6020dc51d1397db263de30d",
+    "chapter3_bser/experiments/baselines/direct_boundary/__init__.py": "6a5fd0949875c68c34878a97ac49cd09c2fdad904d4213636d12f333633d03ae",
+    "chapter3_bser/experiments/baselines/direct_boundary/checkpoint.py": "b9a26edc3827ad7902a0131603a49c8b1ad61256f741d5a936612b600ef714b5",
+    "chapter3_bser/experiments/baselines/direct_boundary/runtime.py": "4d5da647e30a97d6ecbf9594835e17c460479acfad724ab0f1506481bf1e7ed3",
+    "chapter3_bser/experiments/baselines/direct_boundary/train.py": "0b496319e7ac515241359131f7bd02fdcd53a2c875c33edf5cdc25b619120495",
+    "chapter3_bser/experiments/baselines/direct_mc/__init__.py": "7c5011f034561cdacd5be1da146f569c784efdd5570543d0c3da2a2d91b8cc3e",
+    "chapter3_bser/experiments/baselines/direct_mc/checkpoint.py": "f88ebd1077dc31b81205cc210666da8e27e23ab34a43d49286ca3515df573163",
+    "chapter3_bser/experiments/baselines/direct_mc/runtime.py": "4aacfd19e96e9d51ad6416495ec2f2d5bf1d493b65c36dd7a368b3f952dad610",
+    "chapter3_bser/experiments/baselines/direct_mc/train.py": "dd9418e58cad1d2ad9ef1d6f4140e82f32606f8d22b04493e13ca5a22bebb444"
+  },
+  "protected_changes": {
+    "configs/chapter3/baselines/baseline_registry.json": {
+      "before": "c3b2ea63b74564d84782cc189f6b5034c3b4d9ab57b6fc5bb14317c648bd0241",
+      "after": "67a6e94fbe9c4610b1cc01f1ee3ef5c7e11ee9e45c5e5228846b9dc4eead4ad1"
+    },
+    "configs/chapter3/baselines/direct_boundary_train.json": {
+      "before": "cca9738a6c00900f1a6020be87f3d6b8a3ca25781f5d6aeb6640a40d80a4f399",
+      "after": "86b08a1e95415db1eb6763153438e2c42cdb04c08ded671aa43259b521fe7e53"
+    },
+    "configs/chapter3/baselines/direct_mc_train.json": {
+      "before": "64644a67c18da03c869d65114cd21a47bb235fcbcf327aec8571e55d1ce391b2",
+      "after": "c66030040f039a8d3450950fc6b94ebd08c213e81fe06322c5f325c075650b40"
+    },
+    "tools/ch3_baselines/framework_provenance.py": {
+      "before": "6a6c91ec8510ddff8b977abe86cefb97c89e991fc3a8287f305597f4d4fd76f5",
+      "after": "9030f7cf2f5176593afda0de81f819a0e2ab66fb9d27e8ca009706910bd324dd"
+    },
+    "tools/ch3_baselines/learned_evaluation.py": {
+      "before": null,
+      "after": "02ca3edff98841b597e7ce825e559bfcdc1cf220214520cb348bd46800e2daf4"
+    },
+    "tools/ch3_baselines/provenance.py": {
+      "before": "31ae9caf013781aa31a4aaa83d4160ca98b640be96973769a30f0a6b8095fed8",
+      "after": "3fe5700485a39368136aa1d5ec64b43ba68e88a1129796f8ac7a45fc81a4dab1"
+    },
+    "tools/ch3_baselines/registry.py": {
+      "before": "f7212e1f16c9ec47a04857083358af079ec3dda3ce3b6417f7c36f412816af9f",
+      "after": "38687bb804d14755d7ea25762fdcee70338154d4639a13a9fa67f195f83bcd2f"
+    },
+    "tools/ch3_baselines/run_baseline.py": {
+      "before": "fac1108388bb3060ea8e6357444fcee9d4eb053909f8c6a6a8154621616ddfd7",
+      "after": "0c68bbf680e0c2ab2fd792967558941fdf126a69dccc0cdab79f202d0294bdae"
+    },
+    "tools/ch3_baselines/run_training.py": {
+      "before": "ac12813edbac0f072ffc3d4d70e1e08bd955c543e805b09ab861e81fe08059f8",
+      "after": "9fcad6df2a18d0c734edb84fcaefd54de6d44575388f88dfc686345ad02c8f3b"
+    }
+  },
+  "sha256": "cebb6cfb70c8b011577509f289ef29c95aab0503447b997ccbb98986231b011f"
+}

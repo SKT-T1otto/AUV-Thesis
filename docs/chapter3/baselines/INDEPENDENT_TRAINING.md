@@ -5,10 +5,10 @@ The historical HGR-family `stochastic_direct_mc` and
 `direct_boundary_corrected` implementations remain untouched. Their checkpoints
 are not compatible with these baseline trainers.
 
-Source-gate activation is pending explicit approval of
-`docs/provenance/baseline_maddpg_evolution.json`. Until that record is approved
-and installed, the framework correctly refuses training/evaluation preflight.
-No historical source manifest is rewritten.
+The explicitly authorized source evolution is recorded in
+`docs/provenance/baseline_maddpg_evolution.json`, including independent method
+identities and exact production/framework hashes. The framework validates this
+record during training/evaluation preflight. Historical manifests stay frozen.
 
 ## New implementation files
 
@@ -61,8 +61,8 @@ Neither B2 nor B3 imports or calls an HGR model, estimator, trainer or runtime.
 
 ## Commands
 
-Run from the repository root in the AUV Python environment after source-gate
-approval. Preflight constructs no model and writes no output:
+Run from the repository root in the AUV Python environment. Preflight constructs
+no model and writes no output:
 
 ```sh
 python -B -m tools.ch3_baselines.run_training --baseline B2_direct_mc --check-only

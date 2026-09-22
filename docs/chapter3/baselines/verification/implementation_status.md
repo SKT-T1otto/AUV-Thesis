@@ -1,5 +1,9 @@
 # Latest recorded local verification — 2026-09-22
 
+Historical pre-manifest record: the missing-file blocker below is superseded by
+the explicitly authorized fix in [provenance_fix.md](provenance_fix.md). The
+earlier test outcomes are retained here unchanged.
+
 Status: implementation written; framework activation and complete acceptance
 remain blocked on explicit approval of the additional provenance evolution.
 This is local verification, not CI or formal experiment evidence.

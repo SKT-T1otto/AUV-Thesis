@@ -49,6 +49,26 @@ def final_checkout():
 
 
 class BaselineProvenanceTests(unittest.TestCase):
+    def test_baseline_maddpg_evolution_exists_and_records_independent_methods(self):
+        path = provenance.ROOT / "docs/provenance/baseline_maddpg_evolution.json"
+        self.assertTrue(path.is_file(), "B2/B3 provenance evolution must be included in the repository")
+        self.assertEqual(path, source_gate.ROOT / source_gate.EVOLUTION_RELATIVE)
+        evolution = source_gate.baseline_evolution()
+        expected = {
+            "B2_direct_mc": dict(algorithm="maddpg", architecture_version="ch3.baseline.maddpg.v1",
+                                 independent_from="hgr", trainer="DirectMCTrainer"),
+            "B3_direct_boundary": dict(algorithm="direct_boundary_maddpg",
+                architecture_version="ch3.baseline.boundary_maddpg.v1", independent_from="hgr",
+                trainer="DirectBoundaryTrainer", boundary_encoder=dict(schema="ch3.baseline.boundary_encoder.v1")),
+        }
+        self.assertEqual(evolution["baselines"], expected)
+        for baseline, config_name in (("B2_direct_mc", "direct_mc_train.json"),
+                                      ("B3_direct_boundary", "direct_boundary_train.json")):
+            config = json.loads((provenance.ROOT / "configs/chapter3/baselines" / config_name).read_text(encoding="utf-8"))
+            self.assertEqual(config["baseline"], baseline)
+            for field in ("algorithm", "architecture_version"):
+                self.assertEqual(evolution["baselines"][baseline][field], config[field])
+
     def test_linux_inventory_excludes_windows_bytes_but_launchers_still_run(self):
         sources = provenance.framework_sources()
         current = sources["protected_baseline"]
