@@ -1,0 +1,7 @@
+{
+  "schema": "hgr.phase2.source_builder.v1",
+  "evaluation_config": "configs/chapter3/hgr_phase2_gradient_efficiency.json",
+  "source_output_path": "outputs/chapter3/hgr_phase2/frozen_phase2_source.pt",
+  "scenario_seeds": [202609260, 202609261, 202609262, 202609263, 202609264, 202609265, 202609266, 202609267, 202609268, 202609269],
+  "policy_source_path": null
+}
