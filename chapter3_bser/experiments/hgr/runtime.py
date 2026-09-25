@@ -12,6 +12,7 @@ import importlib
 import io
 import pickle
 import random
+from contextlib import nullcontext
 from dataclasses import dataclass
 
 import numpy as np
@@ -27,15 +28,22 @@ from chapter3_bser.integration.rmaddpg_bridge import RMADDPGGuidanceBridge
 from chapter3_bser.online.config import load_phase1b2_config, execution_runtime_config
 from core.env.task_protocol import strict_terminal
 from .provenance import source_identity
+from chapter3_bser.models.hgr.phase1 import (
+    phase1_options, runtime_contract, behavior_identity, identical_behavior,
+    isolated_global_rng, audit_local_generators,
+)
 
 SNAPSHOT_SCHEMA = "hgr.full_decision_state.v1"
 FEATURE_DIM = 112 + 12 + 12 + 12 + 5
 
 
-def seed_innovations(seed):
+def seed_innovations(seed, *, cpu_only=False):
     random.seed(seed)
     np.random.seed(np.random.SeedSequence(seed).generate_state(4))
-    torch.manual_seed(seed)
+    if cpu_only:
+        torch.random.default_generator.manual_seed(seed)
+    else:
+        torch.manual_seed(seed)
 
 
 def rng_state():
@@ -105,14 +113,15 @@ class MissionRuntime:
     def __init__(self, config, scenario, *, seed, episode_id=0):
         self.config = copy.deepcopy(config)
         self.scenario = copy.deepcopy(scenario)
-        seed_innovations(seed)
+        phase1 = bool(phase1_options(config))
+        seed_innovations(seed, cpu_only=phase1)
         base = _make_base_env(config, device="cpu")
         guided = GuidedEnv(base, enabled=True)
         v2 = Phase1CV2TrainingEnv(guided, reward_config=config["reward"])
         self.env = PRRACTrainingEnv(v2, reward_objective_config=config, gamma=config["rl"]["gamma"])
         self.env.reset(scenario=scenario, episode_id=episode_id, episode_index=episode_id)
         # reset may use the scenario planner seed; future innovation seed is distinct.
-        seed_innovations(seed)
+        seed_innovations(seed, cpu_only=phase1)
         self.action_rng = torch.Generator().manual_seed(seed)
         phase_config = load_phase1b2_config()
         runtime_config = execution_runtime_config(config)
@@ -171,15 +180,19 @@ class MissionRuntime:
             raise ValueError("invalid public boundary features")
         return values
 
-    def advance(self, policy, *, deterministic=False):
+    def advance(self, policy, *, deterministic=False, standard_noise=None):
         if self.terminal:
             raise RuntimeError("cannot step a terminal mission")
         before = self.step
         suffix = self.suffix
+        phase1 = (self.config.get("phase1") or {}).get("enabled", False)
+        if phase1 and self.handoff_decision_step is not None and not suffix:
+            raise RuntimeError("executor knowledge regressed after reliable handoff")
         active = [not bool(x) for x in self.env.get_search_execution_state().agent_finished]
         observations = [torch.as_tensor(o).detach().cpu().numpy().copy() for o in self.observations]
+        optional_noise = {} if standard_noise is None else dict(standard_noise=standard_noise)
         actions, latents = policy.actions(observations, suffix=suffix, active=active,
-                                          generator=self.action_rng, deterministic=deterministic)
+                                          generator=self.action_rng, deterministic=deterministic, **optional_noise)
         step_obs, rewards, dones = self.env.step(actions)
         if self.terminal:
             self.observations = step_obs
@@ -194,9 +207,20 @@ class MissionRuntime:
         self._record_events()
         if self.step != before + 1 or self.terminal != all(bool(d) for d in dones):
             raise RuntimeError("mission clock/done contract mismatch")
-        return dict(t=before, observations=observations, actions=actions.cpu().numpy().copy(),
+        record = dict(t=before, observations=observations, actions=actions.cpu().numpy().copy(),
                     latents=latents, suffix=suffix, **copy.deepcopy(self.env.reward_accounting.last),
                     dones=list(dones), next_observations=[torch.as_tensor(o).cpu().numpy().copy() for o in self.observations])
+        if phase1:
+            for value in (record["observations"], record["next_observations"], record["actions"], record["team_reward"]):
+                if not np.isfinite(np.asarray(value)).all():
+                    raise ValueError("invalid raw runtime state/action/reward")
+            for i, latent in enumerate(latents):
+                if (latent is not None) != (active[i] and not deterministic):
+                    raise RuntimeError("active-agent latent score coverage mismatch")
+            state = self.env.get_agent_state()
+            record["public_positions"] = np.asarray(state.positions).copy()
+            record["public_velocities"] = np.asarray(state.velocities).copy()
+        return record
 
     def snapshot(self, policy_identity):
         if self.terminal or not self.suffix:
@@ -214,8 +238,11 @@ class MissionRuntime:
         payload = pickle.dumps(dict(classes=classes, graph=stream.getvalue(),
                                     source_sha256=source_identity()["sha256"],
                                     fields={name: sorted(state) for name, state in states.items()}), protocol=5)
+        identity = dict(policy_identity)
+        if phase1_options(self.config):
+            identity["phase1_boundary_features_sha256"] = hashlib.sha256(self.features().tobytes()).hexdigest()
         snapshot = DecisionSnapshot(SNAPSHOT_SCHEMA, hashlib.sha256(payload).hexdigest(), payload,
-                                    self.step, int(self.config["max_steps"]), dict(policy_identity))
+                                    self.step, int(self.config["max_steps"]), identity)
         snapshot.validate()
         return snapshot
 
@@ -249,7 +276,7 @@ class MissionRuntime:
         if innovation_seed is not None:
             # Deterministic target/flow process state stays intact. Only future
             # random innovations and policy samples receive a fresh child stream.
-            seed_innovations(innovation_seed)
+            seed_innovations(innovation_seed, cpu_only=bool(phase1_options(runtime.config)))
             runtime.action_rng.manual_seed(innovation_seed)
         return runtime
 
@@ -259,11 +286,25 @@ class MissionRuntime:
 
 def collect_trajectory(config, scenario, policy, *, seed, episode_id=0, stop_at_boundary=False,
                        deterministic=False):
+    options = phase1_options(config)
+    with isolated_global_rng() if options else nullcontext():
+        return _collect_trajectory(config, scenario, policy, seed=seed, episode_id=episode_id,
+                                   stop_at_boundary=stop_at_boundary, deterministic=deterministic,
+                                   phase1=bool(options))
+
+
+def _collect_trajectory(config, scenario, policy, *, seed, episode_id, stop_at_boundary,
+                        deterministic, phase1):
     from chapter3_bser.models.hgr.policy import weights_hash
     theta_hash = weights_hash(policy.theta_minus)
+    identity = {} if not phase1 else dict(
+        theta_behavior_sha256=behavior_identity(policy.theta_minus, runtime_contract(config)).sha256,
+        suffix_behavior_sha256=behavior_identity(policy.phi, runtime_contract(config)).sha256)
     runtime = MissionRuntime(config, scenario, seed=seed, episode_id=episode_id)
     records, boundary, features = [], None, None
     try:
+        if phase1:
+            audit_local_generators(runtime)
         while not runtime.terminal:
             if runtime.suffix and boundary is None:
                 boundary = runtime.snapshot(dict(theta=weights_hash(policy.theta_minus), phi=weights_hash(policy.phi)))
@@ -280,26 +321,70 @@ def collect_trajectory(config, scenario, policy, *, seed, episode_id=0, stop_at_
         return dict(records=records, rewards=[r["team_reward"] for r in records],
                     theta_hash=theta_hash, consumed=False,
                     tau=None if boundary is None else boundary.step, snapshot=boundary,
-                    features=features, summary=summary)
+                    features=features, summary=summary,
+                    **({**identity, "trajectory_complete": runtime.terminal} if phase1 else {}))
     finally:
         runtime.close()
 
 
-def continue_branch(snapshot, policy, *, seed=None, stream_id="restore_check", keep_records=False):
+def continue_branch(snapshot, policy, *, seed=None, stream_id="restore_check", keep_records=False,
+                    pair_noise=None):
+    if pair_noise is not None and seed is not None:
+        raise ValueError("pair_noise owns the branch innovation seeds")
+    with isolated_global_rng() if pair_noise is not None else nullcontext():
+        return _continue_branch(snapshot, policy, seed=seed, stream_id=stream_id,
+                                keep_records=keep_records, pair_noise=pair_noise)
+
+
+def _continue_branch(snapshot, policy, *, seed, stream_id, keep_records, pair_noise):
+    if pair_noise is not None:
+        seed = pair_noise.environment_seed
+        stream_id = pair_noise.public()["trace_id"]
     runtime = MissionRuntime.restore(snapshot, innovation_seed=seed)
     records, value, discount = [], 0.0, 1.0
     gamma = runtime.config["rl"]["gamma"]
     try:
+        noise = None
+        trace = hashlib.sha256()
+        extra = {}
+        if pair_noise is not None:
+            if phase1_options(runtime.config) is None:
+                raise ValueError("addressed branch noise requires an opt-in phase1 snapshot")
+            boundary_hash = hashlib.sha256(runtime.features().tobytes()).hexdigest()
+            if boundary_hash != snapshot.policy_identity.get("phase1_boundary_features_sha256"):
+                raise ValueError("restored legal boundary features differ from the captured decision")
+            noise = pair_noise.table(snapshot.step, snapshot.max_steps)
+            identity = behavior_identity(policy.phi, runtime_contract(runtime.config))
+            extra = dict(**pair_noise.public(), rng_inventory=audit_local_generators(runtime),
+                         suffix_behavior=identity.public(), original_deadline=snapshot.max_steps,
+                         initial_task_step=runtime.step, restored_boundary_features_sha256=boundary_hash)
         while not runtime.terminal:
-            record = runtime.advance(policy)
+            if noise is None:
+                record = runtime.advance(policy)
+            else:
+                record = runtime.advance(policy, standard_noise=noise[runtime.step - snapshot.step])
+                # Stable primitive-array trace, independent of pickle object IDs.
+                for key in ("t", "suffix", "actions", "observations", "next_observations",
+                            "team_reward", "dones", "public_positions", "public_velocities"):
+                    if key in record:
+                        array = np.asarray(record[key])
+                        trace.update(key.encode())
+                        trace.update(str((array.dtype, array.shape)).encode())
+                        trace.update(array.tobytes())
             value += discount * record["team_reward"]; discount *= gamma
             if keep_records:
                 records.append(record)
         from chapter3_bser.models.hgr.policy import weights_hash
+        if pair_noise is not None:
+            if not np.isfinite(value):
+                raise ValueError("nonfinite formal branch return")
+            if not identical_behavior(identity, behavior_identity(policy.phi, runtime_contract(runtime.config))):
+                raise RuntimeError("suffix behavior changed during branch")
+            extra["trajectory_trace_sha256"] = trace.hexdigest()
         return dict(G_plus=value, steps=runtime.step - snapshot.step,
                     termination_reason=runtime.env.get_episode_result()["termination_reason"],
                     policy_hash=weights_hash(policy.phi), snapshot_hash=snapshot.sha256,
                     random_stream_id=stream_id, random_seed=seed, gamma=gamma,
-                    terminal_step=runtime.step, records=records)
+                    terminal_step=runtime.step, records=records, **extra)
     finally:
         runtime.close()

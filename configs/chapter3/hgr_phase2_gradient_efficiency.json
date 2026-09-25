@@ -1,0 +1,14 @@
+{
+  "schema": "hgr.phase2.gradient_efficiency.v1",
+  "scope": "fresh_main",
+  "runtime_config": "configs/chapter3/hgr_phase1_zero.json",
+  "snapshot_source": null,
+  "snapshot_count": 10,
+  "repeat_count": 20,
+  "reference_rollouts": 1000,
+  "reference_budget_unit": "total_rollouts",
+  "random_source_revision": "hgr.phase1.named_streams.v1",
+  "seed": 2729,
+  "vector_storage": "npz",
+  "output_dir": "outputs/chapter3/hgr_phase2/collision_terminal/gradient_efficiency_01"
+}

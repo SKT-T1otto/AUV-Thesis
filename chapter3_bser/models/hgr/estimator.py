@@ -46,7 +46,7 @@ class BoundaryPredictor(nn.Module):
         return dict(updates=updates, mse=mse, samples=len(labels), optimizer=optimizer.state_dict())
 
 
-def prefix_losses(policy, trajectories, predictions, draws, *, gamma, method="hgr", ablation="none"):
+def prefix_losses(policy, trajectories, predictions, draws, *, gamma, method="hgr", ablation="none", bypass=None):
     """Each draw is (index, q_index, fresh branch label). N includes failures.
 
     The returned losses share one immutable theta and must be summed before the
@@ -55,7 +55,14 @@ def prefix_losses(policy, trajectories, predictions, draws, *, gamma, method="hg
     n, k = len(trajectories), len(draws)
     if n == 0 or len(predictions) != n:
         raise ValueError("empty or inconsistent main batch")
-    if method != "stochastic_direct_mc" and k == 0:
+    if bypass is not None:
+        from .phase1 import NoUpdateProof
+        if not isinstance(bypass, NoUpdateProof):
+            raise ValueError("unverified K=0 bypass")
+        if gamma != bypass.contract.get("gamma"):
+            raise ValueError("bypass discount contract mismatch")
+        bypass.validate(policy, trajectories, predictions, draws, method, ablation)
+    if method != "stochastic_direct_mc" and k == 0 and bypass is None:
         raise ValueError("corrected estimator requires positive K")
     zero = next(policy.theta_minus.parameters()).sum() * 0
     old, prediction, correction = zero, zero, zero
@@ -71,7 +78,7 @@ def prefix_losses(policy, trajectories, predictions, draws, *, gamma, method="hg
         old = old - sum((gamma ** t * log * float(returns[t]) for t, log in enumerate(logs)), zero) / n
         c = zero if tau is None else gamma ** tau * sum(logs, zero)
         boundary_scores.append(c)
-        if method != "stochastic_direct_mc":
+        if method != "stochastic_direct_mc" and bypass is None:
             prediction = prediction - c * float(predictions[e]) / n
     if method != "stochastic_direct_mc":
         for index, probability, label in draws:
@@ -94,7 +101,7 @@ def gradient_vector(loss, parameters, *, retain_graph=True):
     return torch.cat([(torch.zeros_like(p) if g is None else g).detach().reshape(-1) for p, g in zip(parameters, gradients)])
 
 
-def update_prefix(policy, optimizer, trajectories, predictions, draws, *, gamma, method, ablation="none"):
+def update_prefix(policy, optimizer, trajectories, predictions, draws, *, gamma, method, ablation="none", bypass=None):
     from .policy import weights_hash
     current_hash = weights_hash(policy.theta_minus)
     if any(t.get("consumed", False) or t.get("theta_hash", current_hash) != current_hash for t in trajectories):
@@ -102,7 +109,7 @@ def update_prefix(policy, optimizer, trajectories, predictions, draws, *, gamma,
     if not isinstance(optimizer, torch.optim.SGD) or any(group.get("momentum", 0) or group.get("weight_decay", 0) or group.get("maximize", False) for group in optimizer.param_groups):
         raise ValueError("score-matched prefix update requires plain SGD")
     parameters = list(policy.theta_minus.parameters())
-    losses = prefix_losses(policy, trajectories, predictions, draws, gamma=gamma, method=method, ablation=ablation)
+    losses = prefix_losses(policy, trajectories, predictions, draws, gamma=gamma, method=method, ablation=ablation, bypass=bypass)
     vectors = {name: -gradient_vector(loss, parameters) for name, loss in losses.items()}
     delta = vectors["prediction"] + vectors["correction"]
     full = vectors["old"] + delta

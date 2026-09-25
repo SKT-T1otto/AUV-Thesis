@@ -44,9 +44,15 @@ class TanhGaussianPolicy(nn.Module):
         return mu, std
 
     @torch.no_grad()
-    def sample_action(self, observation, *, generator=None):
+    def sample_action(self, observation, *, generator=None, standard_noise=None):
         mu, std = self.distribution_parameters(observation)
-        latent = mu + std * torch.randn(mu.shape, generator=generator, dtype=mu.dtype, device=mu.device)
+        if standard_noise is None:
+            latent = mu + std * torch.randn(mu.shape, generator=generator, dtype=mu.dtype, device=mu.device)
+        else:
+            noise = torch.as_tensor(standard_noise, dtype=mu.dtype, device=mu.device).detach()
+            if noise.numel() != mu.numel() or not bool(torch.isfinite(noise).all()):
+                raise ValueError("invalid supplied standard policy noise")
+            latent = mu + std * noise.reshape(mu.shape)
         return latent.tanh(), latent.detach().clone()
 
     def log_prob(self, observation, pre_tanh_latent):
@@ -85,7 +91,9 @@ class HandoffPolicy(nn.Module):
             seen.update(storage)
 
     @torch.no_grad()
-    def actions(self, observations, *, suffix, active, generator, deterministic=False):
+    def actions(self, observations, *, suffix, active, generator, deterministic=False, standard_noise=None):
+        if standard_noise is not None and tuple(standard_noise.shape) != (4, 3):
+            raise ValueError("branch policy noise must have shape (4,3)")
         actions, latents = [], []
         for i, observation in enumerate(observations):
             if not active[i]:
@@ -97,7 +105,10 @@ class HandoffPolicy(nn.Module):
             if deterministic:
                 actions.append(actor.deterministic_action(observation).reshape(3)); latents.append(None)
             else:
-                action, latent = actor.sample_action(observation, generator=generator)
+                if standard_noise is None:
+                    action, latent = actor.sample_action(observation, generator=generator)
+                else:
+                    action, latent = actor.sample_action(observation, generator=generator, standard_noise=standard_noise[i])
                 actions.append(action.reshape(3)); latents.append(latent.reshape(3).cpu().numpy().copy())
         return torch.stack(actions), latents
 

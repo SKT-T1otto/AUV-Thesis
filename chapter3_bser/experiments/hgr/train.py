@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import time
+import traceback
 
 import numpy as np
 import torch
@@ -15,6 +16,11 @@ from chapter3_bser.experiments.reward_objective import TEAM, objective_identity
 from chapter3_bser.models.hgr import ARCHITECTURE_VERSION, CHECKPOINT_SCHEMA, METHODS
 from chapter3_bser.models.hgr.policy import HandoffPolicy, weights_hash
 from chapter3_bser.models.hgr.estimator import BoundaryPredictor, update_prefix, update_suffix
+from chapter3_bser.models.hgr.stable_predictor import StablePredictor
+from chapter3_bser.models.hgr.phase1 import (
+    phase1_options, runtime_contract, behavior_identity, identical_behavior, NoUpdateProof,
+    named_seed, PairNoise, REVISION, STREAM_REVISION, PREDICTOR_REVISION, CHECKPOINT_PHASE1,
+)
 from chapter3_bser.experiments.hgr.runtime import FEATURE_DIM, collect_trajectory, continue_branch, seed_innovations
 from core.env.task_protocol import STRICT, protocol_identity, validate_task_config, require_protocol_output
 from core.registry.experiment_registry import assert_registered_ch3_method
@@ -44,6 +50,24 @@ def immutable_config(config):
     return {k: v for k, v in config.items() if k not in ("output_dir", "total_main_trajectories", "max_total_environment_steps")}
 
 
+def phase1_predictor_from_state(payload):
+    """Explicit revision construction, also usable for an in-memory state audit."""
+    options = phase1_options(payload["config"])
+    if (options is None or payload.get("phase1_revision") != REVISION
+            or payload.get("predictor_revision") != PREDICTOR_REVISION
+            or payload.get("random_source_revision") != STREAM_REVISION
+            or not isinstance(payload.get("named_counts"), dict)):
+        raise ValueError("phase1 checkpoint revisions/streams missing")
+    for key, count in payload["named_counts"].items():
+        if not isinstance(key, str) or isinstance(count, bool) or not isinstance(count, int) or count < 0:
+            raise ValueError("invalid phase1 named stream counter")
+    predictor = StablePredictor(FEATURE_DIM, options)
+    predictor.load_state_dict(payload["predictor"], strict=True)
+    if any(not bool(torch.isfinite(v).all()) for v in predictor.buffers()) or not bool((predictor.scale > 0).all()):
+        raise ValueError("invalid phase1 predictor checkpoint state")
+    return predictor
+
+
 def validated_output(config, output):
     """Read-only preflight, shared by direct APIs and every HGR-family entry."""
     path = Path(output).resolve()
@@ -62,6 +86,7 @@ def load_config(path):
 
 def validate_config(config):
     config = copy.deepcopy(dict(config))
+    options = phase1_options(config)
     if config.get("schema") != "hgr.training.v1":
         raise ValueError("unknown HGR training config schema")
     validate_task_config(config)
@@ -72,7 +97,7 @@ def validate_config(config):
     if config.get("method") != "ch3_" + config["algorithm"]:
         raise ValueError("registered method and algorithm mismatch")
     assert_registered_ch3_method(config["method"])
-    if config.get("architecture_version") != ARCHITECTURE_VERSION or config.get("checkpoint_schema") != CHECKPOINT_SCHEMA:
+    if config.get("architecture_version") != ARCHITECTURE_VERSION or config.get("checkpoint_schema") != (CHECKPOINT_PHASE1 if options else CHECKPOINT_SCHEMA):
         raise ValueError("HGR architecture or checkpoint schema mismatch")
     if config.get("observation_dim") != 28 or config.get("action_dim") != 3:
         raise ValueError("HGR local observation/action contract mismatch")
@@ -97,15 +122,19 @@ class Trainer:
             raise ValueError("resume and mean initialization are mutually exclusive")
         config = validate_config(config)
         self.config = copy.deepcopy(config)
+        self.phase1 = phase1_options(config)
+        self.named_counts = {}
+        self.behavior_contract = runtime_contract(config) if self.phase1 else None
         self.run_mode = "same_method_resume" if resume else "cross_architecture_mean_initialization" if mean_initialization else "from_scratch"
         self.resume_from = None if resume is None else str(Path(resume).resolve())
         self.source_identity = source_identity()
         self.output = validated_output(config, output)
         self.output.mkdir(parents=True, exist_ok=True)
-        seed_innovations(config["seed"])
+        seed_innovations(config["seed"], cpu_only=bool(self.phase1))
         torch.set_num_threads(1)
         self.policy = HandoffPolicy(config["policy"])
-        self.predictor = BoundaryPredictor(FEATURE_DIM, config["predictor"]["hidden_dim"])
+        self.predictor = (StablePredictor(FEATURE_DIM, self.phase1) if self.phase1
+                          else BoundaryPredictor(FEATURE_DIM, config["predictor"]["hidden_dim"]))
         self.prefix_optimizer = torch.optim.SGD(self.policy.theta_minus.parameters(), lr=config["prefix_lr"])
         self.suffix_optimizer = torch.optim.SGD(self.policy.phi.parameters(), lr=config["suffix_lr"])
         self.predictor_optimizer_state = None
@@ -139,6 +168,11 @@ class Trainer:
 
     def stream(self, purpose):
         self.stream_counter += 1
+        if self.phase1:
+            key = f"{self.cycle + 1}/{purpose}"
+            index = self.named_counts.get(key, 0)
+            self.named_counts[key] = index + 1
+            return named_seed(self.config["seed"], self.cycle + 1, purpose, index)
         identity = f"seed:{self.config['seed']}/stream:{self.stream_counter}/{purpose}"
         seed = int.from_bytes(hashlib.sha256(identity.encode()).digest()[:8], "big") & ((1 << 63) - 1)
         return identity, seed
@@ -159,7 +193,8 @@ class Trainer:
         dataset_id, _, scenario = self.scenario(purpose)
         stream_id, seed = self.stream(purpose + "/trajectory")
         trajectory = collect_trajectory(self.config, scenario, policy, seed=seed,
-                                         episode_id=self.stream_counter, stop_at_boundary=stop)
+                                         episode_id=seed % (2**31-1) if self.phase1 else self.stream_counter,
+                                         stop_at_boundary=stop)
         trajectory["dataset_id"] = dataset_id
         trajectory["stream_id"] = stream_id
         row = dict(trajectory["summary"])
@@ -171,17 +206,31 @@ class Trainer:
         self.episodes.append(row)
         return trajectory
 
-    def branch(self, trajectory, policy, purpose):
-        stream_id, seed = self.stream(purpose)
-        result = continue_branch(trajectory["snapshot"], policy, seed=seed, stream_id=stream_id)
+    def branch(self, trajectory, policy, purpose, *, pair_noise=None):
+        if pair_noise is None:
+            stream_id, seed = self.stream(purpose)
+            result = continue_branch(trajectory["snapshot"], policy, seed=seed, stream_id=stream_id)
+        else:
+            result = continue_branch(trajectory["snapshot"], policy, pair_noise=pair_noise)
         self.costs["snapshot_restore_count"] += 1
         self.costs[purpose + "_steps"] += result["steps"]
         return result
 
-    def paired_label(self, trajectory, old, new, purpose):
-        new_result = self.branch(trajectory, new, purpose + "_new_suffix")
-        old_result = self.branch(trajectory, old, purpose + "_old_suffix") if self.config["algorithm"] == "hgr" else None
+    def paired_label(self, trajectory, old, new, purpose, *, query_index=None):
+        if self.phase1:
+            if query_index is None:
+                raise ValueError("phase1 queries require an explicit draw/episode index")
+            noises = {role: PairNoise.make(self.config["seed"], self.cycle + 1, purpose,
+                       query_index, role, self.phase1["pairing"]) for role in ("old", "new")}
+            new_result = self.branch(trajectory, new, purpose + "_new_suffix", pair_noise=noises["new"])
+            old_result = (self.branch(trajectory, old, purpose + "_old_suffix", pair_noise=noises["old"])
+                          if self.config["algorithm"] == "hgr" else None)
+        else:
+            new_result = self.branch(trajectory, new, purpose + "_new_suffix")
+            old_result = self.branch(trajectory, old, purpose + "_old_suffix") if self.config["algorithm"] == "hgr" else None
         label = new_result["G_plus"] - old_result["G_plus"] if old_result is not None else new_result["G_plus"]
+        if self.phase1 and not np.isfinite(label):
+            raise ValueError("nonfinite raw paired label")
         row = dict(cycle=self.cycle + 1, dataset_id=trajectory["dataset_id"], purpose=purpose,
                    snapshot_hash=trajectory["snapshot"].sha256, tau=trajectory["tau"],
                    remaining_task_steps=self.config["max_steps"] - trajectory["tau"],
@@ -192,11 +241,88 @@ class Trainer:
         self.branches.append(row)
         return label, row
 
+    def phase1_estimates(self, main, old, method):
+        """Freeze all predictor information before any formal query is drawn."""
+        self.predictor.reset_fit()
+        left = behavior_identity(old.phi, self.behavior_contract)
+        right = behavior_identity(self.policy.phi, self.behavior_contract)
+        audit = dict(revision=REVISION, random_source_revision=STREAM_REVISION,
+                     phi0_behavior=left.public(), phi1_behavior=right.public(),
+                     K_requested=self.config["correction_draws_per_cycle"], skip_reason=None)
+        predictions, draws, pilot_ids = (0.,) * len(main), [], []
+        proof = None
+        fit = self.predictor.report(reason="requested_zero")
+        if method == "hgr" and self.phase1["zero_update_bypass"] and identical_behavior(left, right):
+            proof = NoUpdateProof.create(old.phi, self.policy.phi, self.behavior_contract)
+            # No predictor fit/inference, pilot collection or branch call here.
+            proof.validate(self.policy, main, predictions, draws, method, "none")
+            audit["skip_reason"] = "identical_suffix_behavior"
+            fit = self.predictor.report(reason="identical_suffix_behavior")
+        elif method != "stochastic_direct_mc":
+            if self.phase1["predictor_mode"] == "ridge":
+                pilots = [self.collect("pilot", old, stop=True)
+                          for _ in range(self.config["pilot_prefix_episodes_per_cycle"])]
+                self.costs["pilot_prefix_steps"] += sum(len(x["records"]) for x in pilots)
+                pilot_ids = [x["dataset_id"] for x in pilots]
+                features, labels, fit_ids = [], [], []
+                for i, trajectory in enumerate(pilots):
+                    if trajectory["tau"] is not None:
+                        label, _ = self.paired_label(trajectory, old, self.policy, "pilot", query_index=i)
+                        features.append(trajectory["features"]); labels.append(label)
+                        fit_ids.append(trajectory["dataset_id"])
+                fit = self.predictor.fit(features, labels, dataset_ids=fit_ids)
+                self.costs["predictor_updates"] += fit["updates"]
+                predictions, fallback = self.predictor.freeze_predictions(main)
+                if fallback:
+                    fit.update(effective_mode="zero", fallback_reason=fallback,
+                               scale_min=float(self.predictor.scale.min()),
+                               scale_max=float(self.predictor.scale.max()))
+            else:
+                # Validate boundary data even when no prediction is requested.
+                for trajectory in main:
+                    if trajectory["tau"] is not None:
+                        self.predictor._features(trajectory["features"])
+            frozen = behavior_identity(self.predictor, self.behavior_contract)
+            _, seed = named_seed(self.config["seed"], self.cycle + 1, "formal_selection")
+            indices = np.random.default_rng(seed).choice(
+                len(main), size=self.config["correction_draws_per_cycle"], replace=True)
+            audit["formal_selection_seed"] = seed
+            for draw_number, index in enumerate(indices):
+                index = int(index); trajectory = main[index]; label = 0.
+                if trajectory["tau"] is not None:
+                    label, row = self.paired_label(trajectory, old, self.policy, "correction", query_index=draw_number)
+                    row.update(draw_number=draw_number, main_index=index, q=1/len(main),
+                               prediction=predictions[index], residual=label-predictions[index],
+                               residual_sign=int(np.sign(label-predictions[index])))
+                # Do not redraw a no-handoff index. Duplicate indices get new pair IDs.
+                draws.append((index, 1/len(main), label))
+            if not identical_behavior(frozen, behavior_identity(self.predictor, self.behavior_contract)):
+                raise RuntimeError("formal queries changed predictor parameters/scales/lambda")
+        audit["K_actual"] = len(draws)
+        audit["frozen_predictions_sha256"] = digest(predictions)
+        return predictions, draws, pilot_ids, fit, proof, audit
+
     def run_cycle(self, n):
+        if not self.phase1:
+            return self._run_cycle(n)
+        try:
+            return self._run_cycle(n)
+        except Exception:
+            write_json(self.output / "phase1_failure.json", dict(
+                status="FAIL", cycle=self.cycle+1, revision=REVISION, error=traceback.format_exc(),
+                source_identity=getattr(self, "source_identity", None),
+                completed_call_costs=dict(self.costs),
+                failed_call_steps_unknown=True,
+                note="Fail-fast; no invalid labels replaced or trajectories dropped. Costs exclude any unfinished call."))
+            raise
+
+    def _run_cycle(self, n):
         start = time.perf_counter(); before_cost = dict(self.costs)
         theta_hash = weights_hash(self.policy.theta_minus)
         old = copy.deepcopy(self.policy)
         phi0_hash = weights_hash(old.phi)
+        behavior_before = (behavior_identity(self.policy.theta_minus, self.behavior_contract),
+                           behavior_identity(old.phi, self.behavior_contract)) if self.phase1 else None
         # Independent full initial-distribution data; suffix update includes
         # absolute discount and zero contributions from no-handoff trajectories.
         suffix_data = [self.collect("suffix_training", self.policy) for _ in range(self.config["suffix_training_episodes_per_cycle"])]
@@ -208,6 +334,10 @@ class Trainer:
         if weights_hash(self.policy.theta_minus) != theta_hash:
             raise RuntimeError("suffix update changed prefix behavior")
         phi1_hash = weights_hash(self.policy.phi)
+        if self.phase1:
+            if not identical_behavior(behavior_before[0], behavior_identity(self.policy.theta_minus, self.behavior_contract)):
+                raise RuntimeError("suffix update changed prefix forward attributes")
+            frozen_phi1 = behavior_identity(self.policy.phi, self.behavior_contract)
         method = self.config["algorithm"]
         main_policy = self.policy if method == "stochastic_direct_mc" else old
         main = [self.collect("main", main_policy, stop=method == "direct_boundary_corrected") for _ in range(n)]
@@ -219,7 +349,11 @@ class Trainer:
         predictions, draws, pilot_ids = [0.0] * n, [], []
         fit = dict(updates=0, mse=None, samples=0)
         ablation = self.config.get("ablation", "none")
-        if method != "stochastic_direct_mc":
+        bypass, phase_audit = None, None
+        if self.phase1:
+            predictions, draws, pilot_ids, fit, bypass, phase_audit = self.phase1_estimates(main, old, method)
+            predictor_hash = weights_hash(self.predictor)
+        elif method != "stochastic_direct_mc":
             pilots = [self.collect("pilot", old, stop=True) for _ in range(self.config["pilot_prefix_episodes_per_cycle"])]
             self.costs["pilot_prefix_steps"] += sum(len(x["records"]) for x in pilots)
             pilot_ids = [x["dataset_id"] for x in pilots]
@@ -253,12 +387,19 @@ class Trainer:
             predictor_hash = weights_hash(self.predictor)
         if weights_hash(self.policy.theta_minus) != theta_hash or weights_hash(old.phi) != phi0_hash or weights_hash(self.policy.phi) != phi1_hash:
             raise RuntimeError("policy version changed during formal collection")
+        if self.phase1:
+            for block, identity in ((self.policy.theta_minus, behavior_before[0]),
+                                    (old.phi, behavior_before[1]), (self.policy.phi, frozen_phi1)):
+                if not identical_behavior(identity, behavior_identity(block, self.behavior_contract)):
+                    raise RuntimeError("complete policy behavior changed during collection")
         update = update_prefix(self.policy, self.prefix_optimizer, main, predictions, draws,
-                               gamma=self.config["rl"]["gamma"], method=method, ablation=ablation)
+                               gamma=self.config["rl"]["gamma"], method=method, ablation=ablation, bypass=bypass)
         self.costs["prefix_actor_updates"] += 1
         if weights_hash(self.policy.phi) != phi1_hash:
             raise RuntimeError("prefix update changed frozen suffix")
         self.policy.assert_isolated()
+        if self.phase1 and not identical_behavior(frozen_phi1, behavior_identity(self.policy.phi, self.behavior_contract)):
+            raise RuntimeError("prefix update changed suffix forward attributes")
         self.completed_main += n; self.cycle += 1
         handoffs = sum(x["tau"] is not None for x in main)
         row = dict(cycle=self.cycle, completed_main_trajectories=self.completed_main, N=n,
@@ -274,6 +415,9 @@ class Trainer:
                    **update, costs={key: self.costs[key] - before_cost[key] for key in self.costs},
                    wall_seconds=time.perf_counter() - start, complete=True)
         row["actual_total_environment_steps"] = sum(row["costs"][key] for key in COST_FIELDS)
+        if self.phase1:
+            row["phase1"] = phase_audit
+            row["gfull_norm"] = update["g1_norm"]
         self.cycles.append(row)
         # Only compact evidence survives the update. No stale on-policy prefixes.
         del main, old
@@ -289,7 +433,7 @@ class Trainer:
         path = directory / f"hgr_main_{self.completed_main:06d}_cycle_{self.cycle:06d}.pt"
         if path.exists():
             raise FileExistsError(path)
-        payload = dict(schema=CHECKPOINT_SCHEMA, architecture_version=ARCHITECTURE_VERSION,
+        payload = dict(schema=self.config["checkpoint_schema"], architecture_version=ARCHITECTURE_VERSION,
                        run_mode=self.run_mode, resume_from=self.resume_from,
                        implementation_version=IMPLEMENTATION_VERSION, source_identity=self.source_identity,
                        config=self.config, config_hash=digest(self.config), immutable_config_hash=digest(immutable_config(self.config)),
@@ -301,6 +445,9 @@ class Trainer:
                        episodes=self.episodes, branches=self.branches, initialization=self.initialization,
                        cycle_complete=True, prefixes_valid=False, **objective_identity(self.config), **protocol_identity(self.config),
                        theta_hash=weights_hash(self.policy.theta_minus), phi_hash=weights_hash(self.policy.phi))
+        if self.phase1:
+            payload.update(phase1_revision=REVISION, predictor_revision=PREDICTOR_REVISION,
+                           random_source_revision=STREAM_REVISION, named_counts=self.named_counts)
         temporary = path.with_suffix(".tmp")
         torch.save(payload, temporary); temporary.replace(path)
         loaded = torch.load(path, map_location="cpu", weights_only=True)
@@ -319,6 +466,8 @@ class Trainer:
         self.prefix_optimizer.load_state_dict(payload["prefix_optimizer"])
         self.suffix_optimizer.load_state_dict(payload["suffix_optimizer"])
         self.predictor_optimizer_state = payload["predictor_optimizer"]
+        if self.phase1:
+            self.named_counts = copy.deepcopy(payload["named_counts"])
         for name in ("completed_main", "cycle", "stream_counter", "costs", "cycles", "episodes", "branches", "initialization"):
             setattr(self, name, copy.deepcopy(payload[name]))
         self.index_rng.bit_generator.state = payload["index_rng"]
@@ -354,7 +503,8 @@ class Trainer:
 
 def load_checkpoint(path):
     payload = torch.load(Path(path), map_location="cpu", weights_only=True)
-    if payload.get("schema") != CHECKPOINT_SCHEMA or payload.get("architecture_version") != ARCHITECTURE_VERSION:
+    options = phase1_options(payload.get("config", {}))
+    if payload.get("schema") != (CHECKPOINT_PHASE1 if options else CHECKPOINT_SCHEMA) or payload.get("architecture_version") != ARCHITECTURE_VERSION:
         raise ValueError("not a same-architecture HGR-family checkpoint")
     if payload.get("implementation_version") != IMPLEMENTATION_VERSION or not payload.get("source_identity", {}).get("sha256"):
         raise ValueError("HGR checkpoint implementation/source version missing")
@@ -384,6 +534,8 @@ def load_checkpoint(path):
             raise ValueError("checkpoint has nonfinite policy state")
         if weights_hash(policy.theta_minus) != payload["theta_hash"] or weights_hash(policy.phi) != payload["phi_hash"]:
             raise ValueError("checkpoint policy hash mismatch")
+        if options:
+            phase1_predictor_from_state(payload)
     return payload
 
 
