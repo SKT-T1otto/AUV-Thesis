@@ -245,7 +245,8 @@ class Phase2GradientEfficiencyTests(unittest.TestCase):
         self.assertEqual((cfg["scope"],cfg["snapshot_count"],cfg["repeat_count"],cfg["reference_rollouts"]),
                          ("fresh_main",10,20,1000))
         self.assertEqual(cfg["random_source_revision"],"hgr.phase1.named_streams.v1")
-        self.assertIsNone(cfg["snapshot_source"])
+        builder_config=json.loads((ROOT/"configs/chapter3/hgr_phase2_source_builder.json").read_text(encoding="utf-8"))
+        self.assertEqual(Path(cfg["snapshot_source"]), (ROOT/builder_config["source_output_path"]).resolve())
         backend=phase2.RuntimeBackend(); case=source(1).cases[0]; policy=source(1).old_policy
         noise=phase2.PairNoise.make(23,1,"unit_test",0,"new","policy_crn")
         with patch.object(phase2,"collect_trajectory",return_value="full") as collect:

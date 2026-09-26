@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "hgr-debug-efficiency",
+      "title": "本次 debug：MSE 接近，HGR 的续分支成本较高",
+      "queries": [
+        {
+          "id": "verified-method-comparison",
+          "source": {
+            "label": "HGR Phase2 debug：保存结果与梯度向量",
+            "files": [
+              {
+                "label": "phase2_results.json"
+              },
+              {
+                "label": "64 NPZ gradient files"
+              },
+              {
+                "label": "evidence.json"
+              }
+            ],
+            "metricDefinitions": [
+              {
+                "label": "梯度 MSE",
+                "definition": "各方法 20 个单样本梯度相对有限参考均值的平方欧氏误差，再取平均。"
+              },
+              {
+                "label": "成本归一误差",
+                "definition": "逐样本计算梯度 MSE 乘该样本环境步数，再取平均。"
+              }
+            ],
+            "filters": [
+              "固定场景：10",
+              "每场景每方法重复：2",
+              "参考完整轨迹：总计 20",
+              "HGR 固定 K：8",
+              "后级 predictor：zero"
+            ],
+            "caveats": [
+              "这是 debug 样本的描述性结果，不是显著性或算法总体有效性的结论。",
+              "每场景 reference 只有两条；参考均值的 RMS 标准误估计为 4.279，与参考梯度范数 4.677 接近。",
+              "方法成本不包括共享 reference 和历史来源准备；三方法实际使用的环境预算不同。"
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "保存结果复核",
+                "detail": "64 个 NPZ 的哈希、形状与有限性通过；60 条比较样本的误差、方差和环境成本均已重算一致。"
+              },
+              {
+                "kind": "calculation",
+                "title": "校正成本与信号",
+                "detail": "40 对续分支共 19,244 步，占 HGR 成本 82.63%。有效交接样本最大 correction-to-g0 范数比为 2.02e-9。"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "field": "method",
+              "label": "方法"
+            },
+            {
+              "field": "mean_mse",
+              "label": "平均单样本 MSE"
+            },
+            {
+              "field": "environment_steps",
+              "label": "方法环境步数"
+            },
+            {
+              "field": "mean_mse_times_steps",
+              "label": "平均 MSE×样本步数"
+            }
+          ],
+          "rows": [
+            {
+              "method": "direct_new_mc",
+              "mean_mse": 475.3125680018942,
+              "environment_steps": 3313,
+              "mean_mse_times_steps": 24389.88663471583
+            },
+            {
+              "method": "old_mc",
+              "mean_mse": 379.81669967504837,
+              "environment_steps": 4365,
+              "mean_mse_times_steps": 29341.857812427763
+            },
+            {
+              "method": "hgr",
+              "mean_mse": 475.886672623749,
+              "environment_steps": 23290,
+              "mean_mse_times_steps": 132355.9972108624
+            }
+          ],
+          "methods": [
+            {
+              "language": "calculation",
+              "code": "HGR / Direct New MC 环境步数 = 23290 / 3313 = 7.029882\nHGR / Direct New MC 平均 MSE×样本步数 = 132355.9972108624 / 24389.88663471583 = 5.426675\n续分支成本份额 = 19244 / 23290 = 82.6277%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

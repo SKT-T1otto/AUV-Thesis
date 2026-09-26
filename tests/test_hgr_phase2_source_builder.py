@@ -261,12 +261,17 @@ def test_existing_output_is_preserved(config, generator):
 
 def test_default_missing_source_status_and_cli(config, generator, tmp_path, capsys):
     defaults, runtime = builder._resolve_config(builder.load_config())
-    assert defaults["policy_source_path"] is None
+    assert defaults["policy_source_path"] == builder.ROOT/"outputs/chapter3/hgr_phase2/policy_pair_source.pt"
     assert defaults["source_output_path"] == builder.ROOT/"outputs/chapter3/hgr_phase2/frozen_phase2_source.pt"
+    evaluation = phase2.load_config(builder.ROOT/"configs/chapter3/hgr_phase2_gradient_efficiency.json")
+    assert Path(evaluation["snapshot_source"]) == defaults["source_output_path"]
     assert runtime["profile"] == builder.PROFILE and runtime["max_steps"] == 400
-    config["policy_source_path"] = None
+    config["policy_source_path"] = str(tmp_path/"awaiting_real_policy_pair.pt")
     config_path = tmp_path/"config.json"
     config_path.write_text(json.dumps(config), encoding="utf-8")
     assert builder.main(["--config", str(config_path)]) == 2
-    assert json.loads(capsys.readouterr().out)["status"] == "SOURCE_NOT_AVAILABLE"
+    result = json.loads(capsys.readouterr().out)
+    assert result["status"] == "SOURCE_NOT_AVAILABLE"
+    assert "missing" in result["reason"]
+    assert not Path(config["source_output_path"]).parent.exists()
     generator.assert_not_called()

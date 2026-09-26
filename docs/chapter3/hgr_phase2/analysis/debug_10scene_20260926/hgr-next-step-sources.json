@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "revised-research-order",
+      "title": "新结果要求在 v2 模块开发前增加信号与成本门槛",
+      "queries": [
+        {
+          "id": "proposal-and-review",
+          "source": {
+            "label": "HGR v2 方案与 GPT 修订意见",
+            "files": [
+              {
+                "label": "HGR_v2_改进方案与GPT评审材料.md"
+              },
+              {
+                "label": "已粘贴的文本.txt"
+              }
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "source",
+                "title": "首要研究问题",
+                "detail": "GPT 评审第10–21行要求优先回答：新后级策略已得到，为什么不直接用它采主轨迹；第544行要求完整 HGR 面对 Direct New MC 的成本—误差对照。"
+              },
+              {
+                "kind": "source",
+                "title": "需要后移的开发内容",
+                "detail": "GPT 评审第432行把 Bernoulli 纳入基础版，第578行建议继续跨版本研究；原方案第484–488行同时规定模块须有独立收益才启用。新实验不支持无条件按模块顺序开发。"
+              }
+            ]
+          },
+          "summary": "方案中的模块是候选研究路径，正确性通过不等于效率优势已经成立。"
+        },
+        {
+          "id": "phase2-evidence",
+          "source": {
+            "label": "cycle4 Phase2 debug",
+            "files": [
+              {
+                "label": "GPT_handoff.md"
+              },
+              {
+                "label": "evidence.json"
+              },
+              {
+                "label": "phase2_results.json"
+              }
+            ],
+            "filters": [
+              "策略对：真实 cycle4 更新",
+              "固定场景：10",
+              "HGR 主轨迹：20",
+              "真实交接：5",
+              "每条主轨迹：N=1、q=1、K=8"
+            ],
+            "caveats": [
+              "当前测量仅覆盖一个真实策略对，不能证明所有阶段均无 correction 信号。",
+              "参考梯度预算小；已测校正幅度与同样本改变量不能替代总体效率显著性结论。"
+            ]
+          },
+          "columns": [
+            {
+              "field": "metric",
+              "label": "指标"
+            },
+            {
+              "field": "value",
+              "label": "已记录结果"
+            }
+          ],
+          "rows": [
+            {
+              "metric": "最大相对校正",
+              "value": "2.02e-9"
+            },
+            {
+              "metric": "额外校正环境步",
+              "value": 19244
+            },
+            {
+              "metric": "同样本平均 MSE 变化",
+              "value": "-1.54e-8"
+            }
+          ]
+        },
+        {
+          "id": "single-index-predictor",
+          "source": {
+            "label": "HGR 有放回估计公式",
+            "files": [
+              {
+                "label": "estimator.py"
+              },
+              {
+                "label": "GPT_handoff.md"
+              }
+            ],
+            "caveats": [
+              "抵消结论针对 N=1、q=1、同一个冻结预测值和正 K 的当前抽样设置，不推广到部分边界查询的多轨迹主批次。"
+            ]
+          },
+          "methods": [
+            {
+              "language": "calculation",
+              "code": "Cf + (1/K) Σ[k=1..K] C(δ_k-f) = C · mean(δ_k)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next-diagnostic",
+      "title": "下一项工作应补足后级梯度与实际更新的观测",
+      "queries": [
+        {
+          "id": "gradient-path-review",
+          "source": {
+            "label": "训练源码与历史摘要",
+            "files": [
+              {
+                "label": "train.py"
+              },
+              {
+                "label": "policy.py"
+              },
+              {
+                "label": "estimator.py"
+              },
+              {
+                "label": "episodes.json"
+              },
+              {
+                "label": "checkpoint_3090_audit.md"
+              }
+            ],
+            "caveats": [
+              "本次是静态阅读，未运行环境、更新参数或重新执行测试；未发现明确梯度阻断不等于排除了所有数值问题。",
+              "历史任务摘要没有逐步 observation、latent、reward 及原始梯度，无法从 suffix loss 大小推出梯度范数。",
+              "参数差除以学习率只能描述实际生效更新，不能精确还原浮点更新前的梯度。"
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "静态路径",
+                "detail": "后级优化器接收 phi.parameters；update_suffix 对完整任务分母下的 suffix 记录求 score；score_log_prob 用固定已采样 latent 重新计算可求导密度。"
+              },
+              {
+                "kind": "source",
+                "title": "研究缺口",
+                "detail": "需要区分有效 score 步不足、绝对时间折扣衰减、梯度相消、原始梯度很小及浮点实际更新被舍入。后续只应记录这些量，不擅自改变目标或分母。"
+              }
+            ]
+          },
+          "summary": "下一步建议是有停止条件的学习信号诊断；短试验仅属后续设计，不代表本轮已获准训练。"
+        }
+      ]
+    }
+  ]
+}

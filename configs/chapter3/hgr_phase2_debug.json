@@ -3,12 +3,16 @@
   "scope": "fresh_main",
   "runtime_config": "configs/chapter3/hgr_phase1_zero.json",
   "snapshot_source": "outputs/chapter3/hgr_phase2/frozen_phase2_source.pt",
+
   "snapshot_count": 10,
-  "repeat_count": 20,
-  "reference_rollouts": 1000,
+  "repeat_count": 2,
+  "reference_rollouts": 20,
+
   "reference_budget_unit": "total_rollouts",
   "random_source_revision": "hgr.phase1.named_streams.v1",
   "seed": 2729,
+
   "vector_storage": "npz",
-  "output_dir": "outputs/chapter3/hgr_phase2/collision_terminal/gradient_efficiency_01"
+
+  "output_dir": "outputs/chapter3/hgr_phase2/collision_terminal/debug_gradient_efficiency_10scene"
 }

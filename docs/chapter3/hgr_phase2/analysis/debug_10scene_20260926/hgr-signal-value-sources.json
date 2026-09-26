@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "measured-correction",
+      "title": "当前真实策略对：校正幅度与额外成本",
+      "queries": [
+        {
+          "id": "cycle4-phase2",
+          "source": {
+            "label": "Phase2 debug 10scene",
+            "files": [
+              {
+                "label": "phase2_results.json"
+              },
+              {
+                "label": "evidence.json"
+              },
+              {
+                "label": "GPT_handoff.md"
+              },
+              {
+                "label": "checkpoint_3090_audit.md"
+              }
+            ],
+            "metricDefinitions": [
+              {
+                "label": "相对校正",
+                "definition": "相对校正是同一条 HGR 主轨迹的校正向量范数除以旧梯度范数。"
+              }
+            ],
+            "filters": [
+              "策略对：真实 cycle4 更新",
+              "场景：10 个固定初始场景",
+              "每方法每场景重复：2",
+              "HGR：N=1、K=8、zero predictor、policy CRN"
+            ],
+            "caveats": [
+              "只对 cycle4 策略对进行了当前 CRN 梯度测量；20 条 HGR 主轨迹中仅 5 条交接，不能排除罕见边界事件。",
+              "参考梯度每场景仅 2 条轨迹，不能可靠排序总体算法效率。",
+              "本次每条主轨迹查询 8 对分支，历史训练则按主批次分配 8 次查询；成本倍数不能直接外推到训练。"
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "同样本核验",
+                "detail": "已有后处理核验了 20 条 HGR 样本 g_full=g0+g_delta，并从已保存向量重算了校正前后误差。"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "field": "measure",
+              "label": "指标"
+            },
+            {
+              "field": "value",
+              "label": "结果"
+            }
+          ],
+          "rows": [
+            {
+              "measure": "最大相对校正",
+              "value": "2.0215066180300117e-9"
+            },
+            {
+              "measure": "额外校正环境步",
+              "value": 19244
+            },
+            {
+              "measure": "校正成本占 HGR",
+              "value": "82.6277%"
+            },
+            {
+              "measure": "同样本平均 MSE 改变量",
+              "value": "-1.5436777383931884e-8"
+            },
+            {
+              "measure": "HGR / Direct 总步数",
+              "value": "23290 / 3313"
+            }
+          ],
+          "methods": [
+            {
+              "language": "calculation",
+              "code": "同样本 MSE 改变量 = 2(g0-g_ref)·g_delta + ||g_delta||²\n校正成本占比 = 19244 / 23290"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "historical-signal-and-protocol",
+      "title": "历史大修正不能证明真实信号，当前训练未复用已付费旧梯度",
+      "queries": [
+        {
+          "id": "zero-update-cycles",
+          "source": {
+            "label": "HGR train100 七周期",
+            "files": [
+              {
+                "label": "cycles.json"
+              },
+              {
+                "label": "episodes.json"
+              },
+              {
+                "label": "branches.json"
+              }
+            ],
+            "metricDefinitions": [
+              {
+                "label": "零更新反例",
+                "definition": "cycle5 和 cycle6 的旧、新后级策略哈希相同，但旧估计器输出非零校正。"
+              }
+            ],
+            "filters": [
+              "训练：HGR-train100_seed2729_v1",
+              "范围：全部 7 个周期、100 条主轨迹"
+            ],
+            "caveats": [
+              "这是 Phase1 修复前的历史运行，不表示当前零更新旁路失效。",
+              "旧估计器输出幅度不能等同于真实新旧目标梯度差；有限样本噪声不自动证明有偏。"
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "身份与训练记录",
+                "detail": "cycle5/6 的 phi0_hash 和 phi1_hash 均相同；各周期 4 条后级训练轨迹均无交接，suffix_loss 为 -0.0。"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "field": "cycle",
+              "label": "周期"
+            },
+            {
+              "field": "same",
+              "label": "后级身份相同"
+            },
+            {
+              "field": "relative",
+              "label": "日志校正/旧梯度范数"
+            }
+          ],
+          "rows": [
+            {
+              "cycle": 5,
+              "same": true,
+              "relative": "42.8479%"
+            },
+            {
+              "cycle": 6,
+              "same": true,
+              "relative": "9.48487%"
+            }
+          ]
+        },
+        {
+          "id": "update-and-cost-code",
+          "source": {
+            "label": "HGR 训练与估计源码",
+            "files": [
+              {
+                "label": "estimator.py"
+              },
+              {
+                "label": "train.py"
+              }
+            ],
+            "caveats": [
+              "晚交接折扣提供机制解释；未进行修改折扣的因果对照，也不认定现有目标公式有误。"
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "source",
+                "title": "训练顺序",
+                "detail": "train.py 第322、328–348、395行：复制旧策略，独立更新后级，再重新采集完整旧策略主轨迹，估计校正，更新前级。未读取已付费的历史 g0。"
+              },
+              {
+                "kind": "source",
+                "title": "折扣位置",
+                "detail": "estimator.py 第141行对后级训练损失乘 gamma^t，第79行对前级交接修正乘 gamma^tau；这是两个不同环节。"
+              },
+              {
+                "kind": "result",
+                "title": "有效后级样本",
+                "detail": "历史 28 条后级训练轨迹中仅 7 条发生交接。"
+              }
+            ]
+          },
+          "summary": "当前实现重新支付旧策略主轨迹采样成本；历史数据中的后级学习贡献稀少且受绝对时间折扣影响。"
+        }
+      ]
+    }
+  ]
+}

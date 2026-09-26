@@ -1,0 +1,20 @@
+{
+  "schema": "hgr.decision_experiment.v1",
+  "runtime_config": "configs/chapter3/hgr_phase1_zero.json",
+  "snapshot_source": "outputs/chapter3/hgr_phase2/frozen_phase2_source.pt",
+  "starting_policy": "new_policy",
+  "snapshot_count": 10,
+  "update_replicas": 2,
+  "suffix_batch_size": 4,
+  "macro_repeats": 2,
+  "correction_draws": 8,
+  "random_source_revision": "hgr.phase1.named_streams.v1",
+  "seed": 92729,
+  "max_environment_steps": 60800,
+  "output_dir": "outputs/chapter3/hgr_decision/collision_terminal/decision_01",
+  "thresholds": {
+    "relative_signal_tolerance": 0.001,
+    "noise_scale_multiplier": 2.0,
+    "min_paired_queries_per_replica": 2
+  }
+}
