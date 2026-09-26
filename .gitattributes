@@ -26,3 +26,14 @@
 *.jpg  binary
 *.jpeg binary
 *.pdf  binary
+
+# Preserve the original bytes pinned by hgr.phase2.frozen_source.v1.
+# These six files contain historical CRLF/mixed endings. Normalizing them
+# changes the production source identity even though Python behavior is equal.
+# Keep them as text diffs, but disable Git's line-ending conversion both ways.
+chapter3_bser/controllers/action_adapter.py -text !eol
+chapter3_bser/experiments/phase1b1_pilot/run_pilot.py -text !eol
+chapter3_bser/hysteresis/policy.py -text !eol
+chapter3_bser/online/allocator.py -text !eol
+chapter3_bser/online/config.py -text !eol
+chapter3_bser/online/controller.py -text !eol

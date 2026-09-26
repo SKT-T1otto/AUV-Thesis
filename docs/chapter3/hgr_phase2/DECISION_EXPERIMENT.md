@@ -103,6 +103,34 @@
 
 ## 手动命令
 
+### Linux 克隆与冻结来源兼容性
+
+除已提交的代码和配置外，需要单独传输
+`outputs/chapter3/hgr_phase2/frozen_phase2_source.pt`。该文件被 Git 忽略，
+本实验不依赖历史 Trainer checkpoint 或中断运行的输出目录。
+现有文件 SHA256 为
+`4a60f4228ef8f8982f9f9ff0959a06574384fe043141e4dba6100e97d893278d`，
+绑定的生产源码身份为
+`100f369e2c1958a065905e379bd13ca63cdc7f76000352f2ee8fa267ff9aabca`。
+
+首次提交曾将六个历史 CRLF/混合换行源码文件规范化为 LF，使全新克隆的
+源码字节与冻结来源不一致。`.gitattributes` 现在仅对这六个精确路径禁用
+换行转换，并将原始字节纳入 Git；其余 Python 文件继续使用 LF。
+这保留现有来源身份，不修改算法、冻结文件或历史 provenance，也不放宽校验。
+后续 Linux 更新即可取得匹配的字节，无需逐个手动传输源码文件。
+
+在 Linux 仓库根目录执行（预检查不会启动 rollout）：
+
+```bash
+git pull --ff-only origin main
+conda activate AUV
+sha256sum outputs/chapter3/hgr_phase2/frozen_phase2_source.pt
+python -B -m scripts.hgr_decision_experiment --config configs/chapter3/hgr_decision_experiment.json
+```
+
+只有取得 `PREFLIGHT_PASS` 后才手动选择 `--execute`。输出目录必须为空或不存在；
+旧输出保留，不能覆盖。同一 Git 提交并不保证不同平台的浮点运算逐位一致。
+
 仓库根目录下，默认只做 preflight：
 
 ```powershell
