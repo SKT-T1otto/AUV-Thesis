@@ -72,6 +72,7 @@ codex_*.diff
 
 # Machine-specific runtime diagnostics
 3090/
+/3090结果/
 
 # Legacy preflight output path
 runtime/linux_preflight.json

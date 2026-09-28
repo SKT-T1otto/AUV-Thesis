@@ -1,0 +1,83 @@
+{
+  "date": "2026-09-28",
+  "type": "latest_recorded_local_verification",
+  "ci": false,
+  "command": "python -B -m unittest tests.test_search_failure_diagnostics tests.test_search_endpoint_diagnostic tests.test_repository_metadata -v",
+  "tests": {
+    "total": 29,
+    "passed": 29,
+    "diagnostic_tools": 22,
+    "endpoint_mechanism": 1,
+    "repository_metadata": 6,
+    "historical_provenance_records_preserved": 27
+  },
+  "input_hashes_checked": 27,
+  "inputs_unchanged": true,
+  "offline_reanalysis_exact_match": true,
+  "probes": [
+    {
+      "scenario_id": "unknown_validation_m20_0001",
+      "physical_steps_per_arm": 30,
+      "paired_physical_steps": 60,
+      "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+      "source_bytes_match": true,
+      "noninterference": {
+        "requested": true,
+        "equal_at_every_step": true,
+        "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+      },
+      "raw_trace_sha256": "b6b40864b58cce7ccc0cb721a964f28dd26c8d250d510d6f022ecd270cc3128f"
+    },
+    {
+      "scenario_id": "unknown_validation_m20_0004",
+      "physical_steps_per_arm": 18,
+      "paired_physical_steps": 36,
+      "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+      "source_bytes_match": true,
+      "noninterference": {
+        "requested": true,
+        "equal_at_every_step": true,
+        "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+      },
+      "raw_trace_sha256": "d3dbf253b341ff2ccef7f5c8d5cb69cea7233486922af643f25b9af7720f52ac"
+    },
+    {
+      "scenario_id": "unknown_validation_m20_0029",
+      "physical_steps_per_arm": 100,
+      "paired_physical_steps": 200,
+      "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+      "source_bytes_match": true,
+      "noninterference": {
+        "requested": true,
+        "equal_at_every_step": true,
+        "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+      },
+      "raw_trace_sha256": "42289c1ffbd666fc8b51bb86cc36f6f888c0a4c004fdef2d4ecc0b68c24d341a"
+    }
+  ],
+  "total_physical_steps": 296,
+  "production_modified": false,
+  "training": false,
+  "checkpoint_loaded": false,
+  "formal_evaluation": false,
+  "performance_passed": null,
+  "source_gate": {
+    "historical_probe_source_gate_passed": true,
+    "historical_commit": "a66c88defc55f0342588cbefecbb838ffb6eec5a",
+    "main_working_copy_baseline_gate_passed": false,
+    "main_existing_hgr_phase2_file_mismatches": 9,
+    "gate_bypassed": false
+  },
+  "diagnostic_script_sha256": {
+    "scripts/analyze_search_failures.py": "5968545c19d02029d772fcd33dc5540b1b6472c53a537e17f0b7da9899d1836d",
+    "scripts/search_diagnostic_observer.py": "b33cf0730752d3d1ca21cf7caa774e949c14782a0757d39512c5fd20c1e9e3af",
+    "scripts/run_search_diagnostic_probe.py": "05e8c4fef5de544501cf0d42f841950cb21dd7a97242f76378022021a241dd3e",
+    "scripts/summarize_search_trace.py": "bd9e0aa60b54da1fcfb8fa2f809ab7821add7e45822f5ccf741ab4dc9423f843"
+  },
+  "notes": [
+    "Scene 1 identity caveat text originally said source differs; authoritative file hashes and different_source_files=[] show equality. That raw metadata is retained unchanged. Later probes use corrected caveat wording.",
+    "The final observer adds a consumed-iterator logging safeguard after the three probes; its exact-result behavior is unit tested. Runtime query arguments in these probes were arrays/tuples.",
+    "Source equality and observer noninterference are not universal historical replay guarantees.",
+    "Production framework gate mismatch on main is pre-existing and was not waived or rewritten."
+  ]
+}

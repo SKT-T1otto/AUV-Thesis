@@ -1,0 +1,79 @@
+{
+  "schema": "ch3.search_trace_summary.v1",
+  "scenario_id": "unknown_validation_m20_0001",
+  "physical_steps": 30,
+  "terminal": false,
+  "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "recorded_source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "source_bytes_match": true,
+  "observer_noninterference": {
+    "requested": true,
+    "equal_at_every_step": true,
+    "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+  },
+  "search_candidate_query_counts": {
+    "reachable": 12
+  },
+  "all_query_counts": {
+    "reachable": 17
+  },
+  "search_candidate_queries_by_step": [
+    {
+      "step": 20,
+      "query_counts": {
+        "reachable": 12
+      }
+    }
+  ],
+  "atomic_reject_retained_allocation": [],
+  "controller_map_lag_steps": 28,
+  "collisions": [],
+  "telemetry": {
+    "schema": "ch3.search_transition_observer.v1",
+    "counts": {
+      "pre_found_exposure_steps": 30,
+      "query_count": 17
+    },
+    "agents": {
+      "0": {
+        "search_transitions": 30,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "1": {
+        "search_transitions": 30,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "2": {
+        "search_transitions": 30,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "3": {
+        "search_transitions": 30,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      }
+    },
+    "motion_stall_window_steps": 10,
+    "progress_epsilon": 0.1,
+    "displacement_epsilon": 0.1,
+    "effective_search_steps": null,
+    "limitations": [
+      "Motion stall proxy is not search-coverage stagnation.",
+      "Cached occupancy changes are not first sensor-observation timestamps.",
+      "No causal collision subtype is assigned without a bounded intervention."
+    ]
+  },
+  "sources": {
+    "identity.json": "9f152d52f94eeebbd574a077fd4dbeb808661359057404c366614a64627fc154",
+    "summary.json": "ec9f58d7301a982fe86157b94208f46aeb24ba77678e4c22f56582d58c2f3cdb",
+    "step_trace.jsonl": "b6b40864b58cce7ccc0cb721a964f28dd26c8d250d510d6f022ecd270cc3128f"
+  },
+  "limitations": [
+    "One bounded prefix does not quantify the cause distribution of 100 historical episodes.",
+    "Query counts exclude initialization, which is stored separately.",
+    "Candidate reachability failures are not necessarily physical disconnection."
+  ]
+}

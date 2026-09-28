@@ -1,0 +1,181 @@
+{
+  "schema": "ch3.search_trace_summary.v1",
+  "scenario_id": "unknown_validation_m20_0029",
+  "physical_steps": 100,
+  "terminal": false,
+  "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "recorded_source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "source_bytes_match": true,
+  "observer_noninterference": {
+    "requested": true,
+    "equal_at_every_step": true,
+    "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+  },
+  "search_candidate_query_counts": {
+    "reachable": 36,
+    "no_start_connector": 15181
+  },
+  "all_query_counts": {
+    "reachable": 63,
+    "no_start_connector": 15181
+  },
+  "search_candidate_queries_by_step": [
+    {
+      "step": 20,
+      "query_counts": {
+        "reachable": 12
+      }
+    },
+    {
+      "step": 40,
+      "query_counts": {
+        "reachable": 12
+      }
+    },
+    {
+      "step": 60,
+      "query_counts": {
+        "reachable": 12
+      }
+    },
+    {
+      "step": 63,
+      "query_counts": {
+        "no_start_connector": 799
+      }
+    },
+    {
+      "step": 68,
+      "query_counts": {
+        "no_start_connector": 1598
+      }
+    },
+    {
+      "step": 73,
+      "query_counts": {
+        "no_start_connector": 1598
+      }
+    },
+    {
+      "step": 78,
+      "query_counts": {
+        "no_start_connector": 1598
+      }
+    },
+    {
+      "step": 83,
+      "query_counts": {
+        "no_start_connector": 2397
+      }
+    },
+    {
+      "step": 88,
+      "query_counts": {
+        "no_start_connector": 2397
+      }
+    },
+    {
+      "step": 93,
+      "query_counts": {
+        "no_start_connector": 2397
+      }
+    },
+    {
+      "step": 98,
+      "query_counts": {
+        "no_start_connector": 2397
+      }
+    }
+  ],
+  "atomic_reject_retained_allocation": [
+    {
+      "step": 63,
+      "same_allocation": true
+    },
+    {
+      "step": 68,
+      "same_allocation": true
+    },
+    {
+      "step": 73,
+      "same_allocation": true
+    },
+    {
+      "step": 78,
+      "same_allocation": true
+    },
+    {
+      "step": 83,
+      "same_allocation": true
+    },
+    {
+      "step": 88,
+      "same_allocation": true
+    },
+    {
+      "step": 93,
+      "same_allocation": true
+    },
+    {
+      "step": 98,
+      "same_allocation": true
+    }
+  ],
+  "fresh_snapshot_blocked_by_cooldown_steps": [
+    80,
+    100
+  ],
+  "searcher_motion_stall_proxy_agent_steps": 34,
+  "any_searcher_motion_stall_proxy_steps": 16,
+  "controller_map_lag_steps": 90,
+  "collisions": [],
+  "telemetry": {
+    "schema": "ch3.search_transition_observer.v1",
+    "counts": {
+      "pre_found_exposure_steps": 100,
+      "query_count": 15244,
+      "query_failure:no_start_connector": 15181
+    },
+    "agents": {
+      "0": {
+        "search_transitions": 100,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 16
+      },
+      "1": {
+        "search_transitions": 100,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 13
+      },
+      "2": {
+        "search_transitions": 100,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 5
+      },
+      "3": {
+        "search_transitions": 100,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 52
+      }
+    },
+    "motion_stall_window_steps": 10,
+    "progress_epsilon": 0.1,
+    "displacement_epsilon": 0.1,
+    "effective_search_steps": null,
+    "limitations": [
+      "Motion stall proxy is not search-coverage stagnation.",
+      "Cached occupancy changes are not first sensor-observation timestamps.",
+      "No causal collision subtype is assigned without a bounded intervention."
+    ]
+  },
+  "sources": {
+    "identity.json": "da7251464a9c3d2d14c77140909da49d67cfde918896a53baf53d7f57e65eb93",
+    "summary.json": "d10a31deda11dd701d5519564d6b3726974cf01441568c28db9ef202d9d79452",
+    "step_trace.jsonl": "42289c1ffbd666fc8b51bb86cc36f6f888c0a4c004fdef2d4ecc0b68c24d341a"
+  },
+  "limitations": [
+    "One bounded prefix does not quantify the cause distribution of 100 historical episodes.",
+    "Query counts exclude initialization, which is stored separately.",
+    "Candidate reachability failures are not necessarily physical disconnection."
+  ]
+}

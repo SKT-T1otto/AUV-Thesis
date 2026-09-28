@@ -1,0 +1,262 @@
+{
+  "schema": "ch3.search_trace_summary.v1",
+  "scenario_id": "unknown_validation_m20_0004",
+  "physical_steps": 18,
+  "terminal": true,
+  "source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "recorded_source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "source_bytes_match": true,
+  "observer_noninterference": {
+    "requested": true,
+    "equal_at_every_step": true,
+    "signature_covers": "public physical state, observations, rewards, guidance, Python/NumPy/Torch RNG"
+  },
+  "search_candidate_query_counts": {},
+  "all_query_counts": {},
+  "search_candidate_queries_by_step": [],
+  "atomic_reject_retained_allocation": [],
+  "controller_map_lag_steps": 17,
+  "collisions": [
+    {
+      "step": 18,
+      "agent_id": 0,
+      "public_collision_cell": 114,
+      "first_recorded_occupied_cell_step": null,
+      "collision_cell_public_state_history": [
+        {
+          "step": 0,
+          "state": "known_free"
+        },
+        {
+          "step": 1,
+          "state": "known_free"
+        },
+        {
+          "step": 2,
+          "state": "known_free"
+        },
+        {
+          "step": 3,
+          "state": "known_free"
+        },
+        {
+          "step": 4,
+          "state": "known_free"
+        },
+        {
+          "step": 5,
+          "state": "known_free"
+        },
+        {
+          "step": 6,
+          "state": "known_free"
+        },
+        {
+          "step": 7,
+          "state": "known_free"
+        },
+        {
+          "step": 8,
+          "state": "known_free"
+        },
+        {
+          "step": 9,
+          "state": "known_free"
+        },
+        {
+          "step": 10,
+          "state": "known_free"
+        },
+        {
+          "step": 11,
+          "state": "known_free"
+        },
+        {
+          "step": 12,
+          "state": "known_free"
+        },
+        {
+          "step": 13,
+          "state": "known_free"
+        },
+        {
+          "step": 14,
+          "state": "known_free"
+        },
+        {
+          "step": 15,
+          "state": "known_free"
+        },
+        {
+          "step": 16,
+          "state": "known_free"
+        },
+        {
+          "step": 17,
+          "state": "unknown"
+        }
+      ],
+      "pre_collision_samples": [
+        {
+          "step": 12,
+          "speed": 0.9443856958321495,
+          "velocity_to_tracking_angle_deg": 30.876494096243317,
+          "cross_track_error": 0.6375297889674192,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 13,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        },
+        {
+          "step": 13,
+          "speed": 1.2246150987802444,
+          "velocity_to_tracking_angle_deg": 22.772482757981447,
+          "cross_track_error": 0.4011365581959987,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 14,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        },
+        {
+          "step": 14,
+          "speed": 1.4941886009126908,
+          "velocity_to_tracking_angle_deg": 18.066809020650073,
+          "cross_track_error": 0.17921668087391895,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 15,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        },
+        {
+          "step": 15,
+          "speed": 1.7089831520756364,
+          "velocity_to_tracking_angle_deg": 14.426580930106494,
+          "cross_track_error": 0.09843482235885138,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 16,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        },
+        {
+          "step": 16,
+          "speed": 1.8809405095892888,
+          "velocity_to_tracking_angle_deg": 11.336653129790212,
+          "cross_track_error": 0.0606197812500022,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 17,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        },
+        {
+          "step": 17,
+          "speed": 1.958813475908654,
+          "velocity_to_tracking_angle_deg": 9.69680072983165,
+          "cross_track_error": 0.07482798140280823,
+          "next_turn_angle_deg": 48.18968510422141,
+          "cached_map_revision": 1,
+          "live_map_revision": 18,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "tracking_waypoint": [
+            1.0,
+            7.0,
+            1.5
+          ]
+        }
+      ],
+      "limitation": "Occupied voxel timing is not exact obstacle-surface sensing time; trace does not establish a causal subtype."
+    }
+  ],
+  "telemetry": {
+    "schema": "ch3.search_transition_observer.v1",
+    "counts": {
+      "pre_found_exposure_steps": 18,
+      "query_count": 0
+    },
+    "agents": {
+      "0": {
+        "search_transitions": 18,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "1": {
+        "search_transitions": 18,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "2": {
+        "search_transitions": 18,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      },
+      "3": {
+        "search_transitions": 18,
+        "hold_steps": 0,
+        "motion_stall_proxy_steps": 0
+      }
+    },
+    "motion_stall_window_steps": 10,
+    "progress_epsilon": 0.1,
+    "displacement_epsilon": 0.1,
+    "effective_search_steps": null,
+    "limitations": [
+      "Motion stall proxy is not search-coverage stagnation.",
+      "Cached occupancy changes are not first sensor-observation timestamps.",
+      "No causal collision subtype is assigned without a bounded intervention."
+    ]
+  },
+  "sources": {
+    "identity.json": "b56f70419172c845b98128077cb6ab39155018ee40a22edc3cd829319de21496",
+    "summary.json": "4c05f7310e6c7fea511e49a43d0a0b20887c4c86a91c0ccb4917038888a101e3",
+    "step_trace.jsonl": "d3dbf253b341ff2ccef7f5c8d5cb69cea7233486922af643f25b9af7720f52ac",
+    "historical_episodes.json": "cbfc015a937b80ec5e2e899be6d5359e1a59cd0470895fb608ae662c32848f3b",
+    "historical_evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5"
+  },
+  "limitations": [
+    "One bounded prefix does not quantify the cause distribution of 100 historical episodes.",
+    "Query counts exclude initialization, which is stored separately.",
+    "Candidate reachability failures are not necessarily physical disconnection."
+  ],
+  "historical_terminal_comparison": {
+    "terminal_step_matches": true,
+    "collision_agent_obstacle_pairs_match": true,
+    "max_collision_coordinate_difference": 0.0,
+    "limitation": "Only exported terminal facts are compared; historical per-step trajectories were not saved."
+  },
+  "posthoc_planned_path_truth_audit": [
+    {
+      "agent_id": 0,
+      "obstacle_id": 0,
+      "planned_path_segment_indices_intersecting_truth": [
+        2
+      ],
+      "cross_track_error_before_collision": 0.07482798140280823,
+      "speed_before_collision": 1.958813475908654,
+      "information_boundary": "Post-hoc manifest truth; never passed to runtime guidance/control."
+    }
+  ]
+}

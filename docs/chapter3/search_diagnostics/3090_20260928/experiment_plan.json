@@ -1,0 +1,980 @@
+{
+  "schema": "ch3.safe_search.experiment_plan.v1",
+  "status": "planned_not_implemented_or_executed",
+  "date": "2026-09-28",
+  "is_runner_config": false,
+  "auto_execute": false,
+  "training": false,
+  "checkpoint_loading": false,
+  "formal_thesis_test": false,
+  "baseline_reference_commit": "a66c88defc55f0342588cbefecbb838ffb6eec5a",
+  "baseline_recorded_production_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+  "source_gate": {
+    "current_main_baseline_gate_passed": false,
+    "profile": "windows_existing",
+    "existing_differences": [
+      {
+        "path": "chapter3_bser/experiments/hgr/build_phase2_source.py",
+        "kind": "added",
+        "expected_sha256": null,
+        "actual_sha256": "4a7378d3c9eb0235e59279b795174f64477efa83af6c3379dea68aaac9929e9c"
+      },
+      {
+        "path": "chapter3_bser/experiments/hgr/phase1_acceptance.py",
+        "kind": "added",
+        "expected_sha256": null,
+        "actual_sha256": "88f8d3d4889a607d6952c46d9374e46e57247e7a321af6f7938f09b8d45fc7e4"
+      },
+      {
+        "path": "chapter3_bser/experiments/hgr/phase2_gradient_efficiency.py",
+        "kind": "added",
+        "expected_sha256": null,
+        "actual_sha256": "ae8669eea0be61a583a9830213eeac39543cc4f8095ebc6eeb05e8554555dc97"
+      },
+      {
+        "path": "chapter3_bser/experiments/hgr/runtime.py",
+        "kind": "changed",
+        "expected_sha256": "27c6273dc55d06303e4ad96d338b7e30d0a227368fb33b8e1a47d83033ee8ce6",
+        "actual_sha256": "b3dfa615b438b101cc47fc74715dcd9a1ab9fc04ab4bb23bc38022ba4a5ab19d"
+      },
+      {
+        "path": "chapter3_bser/experiments/hgr/train.py",
+        "kind": "changed",
+        "expected_sha256": "4297e1249b5956ee5039f9da057dc1a7f26502e99180ef915b2da5197f0dc40e",
+        "actual_sha256": "f43c7dd91d0adc51bdcd687a04cbfe2328fd8998d5dae38f465c2c5ff78f5edf"
+      },
+      {
+        "path": "chapter3_bser/models/hgr/estimator.py",
+        "kind": "changed",
+        "expected_sha256": "063d3513cc714608a97b42a5087195d424f7a6439c3a3969de4198849743c17c",
+        "actual_sha256": "e5a63ffe1de3aec9d320da6b270e16c7c287121f43b57b03dfb70f936f5ec1b4"
+      },
+      {
+        "path": "chapter3_bser/models/hgr/phase1.py",
+        "kind": "added",
+        "expected_sha256": null,
+        "actual_sha256": "06d711e1e04a68b458ebdcca6c8299823b2ed3968bba390dec754615d8d09bbc"
+      },
+      {
+        "path": "chapter3_bser/models/hgr/policy.py",
+        "kind": "changed",
+        "expected_sha256": "c0e49c0af4f46e93c47a2d7e810398b14a067941c7b8aed7390d0bcb1e9f83d6",
+        "actual_sha256": "f572bbed8ea9d0b5e755761f56ef42d5bf0a1fba59f202f62d1bcc1fbb10a7d8"
+      },
+      {
+        "path": "chapter3_bser/models/hgr/stable_predictor.py",
+        "kind": "added",
+        "expected_sha256": null,
+        "actual_sha256": "0a3d64833218a1955cbcb45aae42eee2af0e24ee12206b117155053ee08233a8"
+      }
+    ],
+    "action": "Review exact changes; retain historical pins and add explicit narrowly scoped evolution for new experiment. No exemptions."
+  },
+  "source_files": {
+    "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+    "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/resolved_config.json": "9e9abe8b2d44086d6f2735f3b404849ef22bb5369ab5edbdda809ef01b0be274",
+    "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/identity.json": "665fd61ebbe41eafe0f8b1b6952755525ad2d2889411fc70515d558cc33dac49",
+    "3090结果/collision_terminal/B1_bser_prior_eval100_seed12729_v1/evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+    "3090结果/collision_terminal/B1_bser_prior_eval100_seed12729_v1/resolved_config.json": "523c49afb657d60a284ae7ff1a2d78aa18d30657365908bf607fc9e02f7b3578",
+    "3090结果/collision_terminal/B1_bser_prior_eval100_seed12729_v1/identity.json": "28cab1304e3122d473865bcaef3d0d7896dd862853a98814a85ea2827962c8d4"
+  },
+  "comparable_inputs_sha256": "900171e1d019ae4dad11eef6f87713b2c683d38465b504b442d69fe736e916ce",
+  "fixed_conditions": {
+    "profile": "M20_MOVING_UNKNOWN_MULTI",
+    "task_protocol": "collision_terminal_v1",
+    "full_episode_max_steps": 400,
+    "collection_mode": "serial",
+    "device": "cpu",
+    "cpu_threads_per_arm": 1,
+    "optimizer_updates": 0,
+    "residual_source": "zeros_4x3",
+    "initial_clearance": "scenario.planner_obstacle_clearance; no first-round tuning",
+    "information_boundary": "public occupancy and public agent/task state; no truth geometry online",
+    "environment_seed_rule": "12729 + original zero-based manifest episode index; never reindex a subset"
+  },
+  "scope": "pre_found_searchers_only; restore original post_found execution; preserve executor standby in first round",
+  "variants": [
+    {
+      "id": "V0",
+      "planning_state_consistency": false,
+      "failure_policy": false,
+      "path_safety": false
+    },
+    {
+      "id": "V1",
+      "planning_state_consistency": true,
+      "failure_policy": false,
+      "path_safety": false
+    },
+    {
+      "id": "V2",
+      "planning_state_consistency": true,
+      "failure_policy": true,
+      "path_safety": false
+    },
+    {
+      "id": "V3",
+      "planning_state_consistency": false,
+      "failure_policy": false,
+      "path_safety": true
+    },
+    {
+      "id": "V4",
+      "planning_state_consistency": true,
+      "failure_policy": true,
+      "path_safety": true
+    }
+  ],
+  "stages": [
+    {
+      "id": "D1",
+      "methods": [
+        "B0"
+      ],
+      "split": "mechanism",
+      "variants": [
+        "V0",
+        "V1",
+        "V2",
+        "V3",
+        "V4"
+      ],
+      "scenario_count": 3,
+      "max_physical_steps_per_run": 100,
+      "max_episode_runs": 15,
+      "max_physical_steps": 1500,
+      "additional_disabled_equivalence_reference_max_steps": 300,
+      "cutoff_classification": "budget_cutoff_not_task_timeout"
+    },
+    {
+      "id": "D2",
+      "methods": [
+        "B0"
+      ],
+      "split": "development",
+      "variants": [
+        "V0",
+        "V1",
+        "V2",
+        "V3",
+        "V4"
+      ],
+      "scenario_count": 20,
+      "max_physical_steps_per_run": 400,
+      "max_episode_runs": 100,
+      "max_physical_steps": 40000
+    },
+    {
+      "id": "D3",
+      "methods": [
+        "B0"
+      ],
+      "split": "heldout",
+      "variants": [
+        "V0",
+        "LOCKED_VARIANT_FROM_D2"
+      ],
+      "scenario_count": 80,
+      "max_physical_steps_per_run": 400,
+      "max_episode_runs": 160,
+      "max_physical_steps": 64000
+    },
+    {
+      "id": "D4",
+      "methods": [
+        "B1"
+      ],
+      "split": "heldout",
+      "variants": [
+        "V0",
+        "LOCKED_VARIANT_FROM_D2"
+      ],
+      "scenario_count": 80,
+      "max_physical_steps_per_run": 400,
+      "max_episode_runs": 160,
+      "max_physical_steps": 64000
+    }
+  ],
+  "splits": {
+    "rule": "Forced known diagnostic indices 0,3,28 plus 17 lowest SHA256(selection_seed + pipe + scenario_id); remainder held out from further tuning",
+    "selection_seed": "safe_search_v1_development_split_20260928",
+    "mechanism": [
+      {
+        "source_episode_index": 0,
+        "scenario_id": "unknown_validation_m20_0001",
+        "scenario_seed": 12729,
+        "environment_innovation_seed": 12729,
+        "scene_content_sha256": "515e08c484d6c70a311d4d1490d33a57c0bbb3dc3af94cc09237423a85c84861"
+      },
+      {
+        "source_episode_index": 3,
+        "scenario_id": "unknown_validation_m20_0004",
+        "scenario_seed": 12732,
+        "environment_innovation_seed": 12732,
+        "scene_content_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2"
+      },
+      {
+        "source_episode_index": 28,
+        "scenario_id": "unknown_validation_m20_0029",
+        "scenario_seed": 12757,
+        "environment_innovation_seed": 12757,
+        "scene_content_sha256": "22922065c9b1b8d153cd2ed7e98a723206bd9134e28ee9d44877a905d3f1cb32"
+      }
+    ],
+    "development": [
+      {
+        "source_episode_index": 0,
+        "scenario_id": "unknown_validation_m20_0001",
+        "scenario_seed": 12729,
+        "environment_innovation_seed": 12729,
+        "scene_content_sha256": "515e08c484d6c70a311d4d1490d33a57c0bbb3dc3af94cc09237423a85c84861"
+      },
+      {
+        "source_episode_index": 3,
+        "scenario_id": "unknown_validation_m20_0004",
+        "scenario_seed": 12732,
+        "environment_innovation_seed": 12732,
+        "scene_content_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2"
+      },
+      {
+        "source_episode_index": 7,
+        "scenario_id": "unknown_validation_m20_0008",
+        "scenario_seed": 12736,
+        "environment_innovation_seed": 12736,
+        "scene_content_sha256": "8caebd3a1d90fb2cd461c5953a6bd4f745edaf05d0f383bdd1cb5d875952c330"
+      },
+      {
+        "source_episode_index": 10,
+        "scenario_id": "unknown_validation_m20_0011",
+        "scenario_seed": 12739,
+        "environment_innovation_seed": 12739,
+        "scene_content_sha256": "443e09b367da553b8f43081a2d1dfa305b3caeab2203662bbb190fc2c9ce0426"
+      },
+      {
+        "source_episode_index": 22,
+        "scenario_id": "unknown_validation_m20_0023",
+        "scenario_seed": 12751,
+        "environment_innovation_seed": 12751,
+        "scene_content_sha256": "36286b3a479db71a1deed9cec700829eb704612955f788beb6474c76e514a4cd"
+      },
+      {
+        "source_episode_index": 28,
+        "scenario_id": "unknown_validation_m20_0029",
+        "scenario_seed": 12757,
+        "environment_innovation_seed": 12757,
+        "scene_content_sha256": "22922065c9b1b8d153cd2ed7e98a723206bd9134e28ee9d44877a905d3f1cb32"
+      },
+      {
+        "source_episode_index": 31,
+        "scenario_id": "unknown_validation_m20_0032",
+        "scenario_seed": 12760,
+        "environment_innovation_seed": 12760,
+        "scene_content_sha256": "94695774ea116d7c40823a73b4d0847ca1210e3e920f2215ad47a8a76f7d73f4"
+      },
+      {
+        "source_episode_index": 40,
+        "scenario_id": "unknown_validation_m20_0041",
+        "scenario_seed": 12769,
+        "environment_innovation_seed": 12769,
+        "scene_content_sha256": "20ee12c7b234b3330f8aabe37b015a9799f148db74526ed9a5651aeddad75015"
+      },
+      {
+        "source_episode_index": 42,
+        "scenario_id": "unknown_validation_m20_0043",
+        "scenario_seed": 12771,
+        "environment_innovation_seed": 12771,
+        "scene_content_sha256": "27bc5dca394f1a593ebf4664c935fb81c337f290ff2dfae1abb883ae3e66139f"
+      },
+      {
+        "source_episode_index": 46,
+        "scenario_id": "unknown_validation_m20_0047",
+        "scenario_seed": 12775,
+        "environment_innovation_seed": 12775,
+        "scene_content_sha256": "4a78faf64ced4a255342a495e40c4d5cf7eb0f35b56be139266e87375d953a00"
+      },
+      {
+        "source_episode_index": 62,
+        "scenario_id": "unknown_validation_m20_0063",
+        "scenario_seed": 12791,
+        "environment_innovation_seed": 12791,
+        "scene_content_sha256": "c3779d96a34878f0e9be206fb7f39b6a189fc4cbd7a5b0260f8b18a2ac46e1da"
+      },
+      {
+        "source_episode_index": 63,
+        "scenario_id": "unknown_validation_m20_0064",
+        "scenario_seed": 12792,
+        "environment_innovation_seed": 12792,
+        "scene_content_sha256": "dbc2b15d69ffe87d4371f8524baf644f08a57e35fb59dc8f0966ac8d7362311b"
+      },
+      {
+        "source_episode_index": 67,
+        "scenario_id": "unknown_validation_m20_0068",
+        "scenario_seed": 12796,
+        "environment_innovation_seed": 12796,
+        "scene_content_sha256": "fa5343d6da3613827d511921669d03ea6ad18da95cc094dd3432b90b67307a4b"
+      },
+      {
+        "source_episode_index": 76,
+        "scenario_id": "unknown_validation_m20_0077",
+        "scenario_seed": 12805,
+        "environment_innovation_seed": 12805,
+        "scene_content_sha256": "f245ca7cf3725501db7933300694212a1e33be00328079208ff5c00dade48574"
+      },
+      {
+        "source_episode_index": 77,
+        "scenario_id": "unknown_validation_m20_0078",
+        "scenario_seed": 12806,
+        "environment_innovation_seed": 12806,
+        "scene_content_sha256": "5e81ea52342f5fec605523b9b0f2d958d04f025dd436eab1f7d6e3d593a7d584"
+      },
+      {
+        "source_episode_index": 78,
+        "scenario_id": "unknown_validation_m20_0079",
+        "scenario_seed": 12807,
+        "environment_innovation_seed": 12807,
+        "scene_content_sha256": "4a497471b1a5086018e0895db1743c337b3beb41be7575f3b276d895b43a706d"
+      },
+      {
+        "source_episode_index": 86,
+        "scenario_id": "unknown_validation_m20_0087",
+        "scenario_seed": 12815,
+        "environment_innovation_seed": 12815,
+        "scene_content_sha256": "b1187dfcd4256ae13cf37e6e1d1ae7aeee2a69dcffd19f649bee813c7a4dc146"
+      },
+      {
+        "source_episode_index": 91,
+        "scenario_id": "unknown_validation_m20_0092",
+        "scenario_seed": 12820,
+        "environment_innovation_seed": 12820,
+        "scene_content_sha256": "64d41eb56e2a61b26888064b1d774b37bf57f644de04d8c219196dd3d02a21ae"
+      },
+      {
+        "source_episode_index": 95,
+        "scenario_id": "unknown_validation_m20_0096",
+        "scenario_seed": 12824,
+        "environment_innovation_seed": 12824,
+        "scene_content_sha256": "a1e97c904a38a88d9fd6f41a328d6706960dd0819d4b6f1bf3698efbc41d4036"
+      },
+      {
+        "source_episode_index": 97,
+        "scenario_id": "unknown_validation_m20_0098",
+        "scenario_seed": 12826,
+        "environment_innovation_seed": 12826,
+        "scene_content_sha256": "3c01615442d348f3919bec6b66f656e1b5e4768986739bdd48740a94e4757ada"
+      }
+    ],
+    "heldout": [
+      {
+        "source_episode_index": 1,
+        "scenario_id": "unknown_validation_m20_0002",
+        "scenario_seed": 12730,
+        "environment_innovation_seed": 12730,
+        "scene_content_sha256": "b90b398ec61762a805067c21cb2c6a58cb1b58e5dff8bebc85a08a8ed366a28d"
+      },
+      {
+        "source_episode_index": 2,
+        "scenario_id": "unknown_validation_m20_0003",
+        "scenario_seed": 12731,
+        "environment_innovation_seed": 12731,
+        "scene_content_sha256": "cc33c31ff49f35e923cc649ccea7250cbd19462b4ff30e65b374258f5c63cda9"
+      },
+      {
+        "source_episode_index": 4,
+        "scenario_id": "unknown_validation_m20_0005",
+        "scenario_seed": 12733,
+        "environment_innovation_seed": 12733,
+        "scene_content_sha256": "800648344df27d0e16dcc7be773a930ca452abaf8a38a043f32e84f365ddab30"
+      },
+      {
+        "source_episode_index": 5,
+        "scenario_id": "unknown_validation_m20_0006",
+        "scenario_seed": 12734,
+        "environment_innovation_seed": 12734,
+        "scene_content_sha256": "89bb2c12fad21c6a225063eef55f74691ea72e7eba44082cce72220f04f6b90e"
+      },
+      {
+        "source_episode_index": 6,
+        "scenario_id": "unknown_validation_m20_0007",
+        "scenario_seed": 12735,
+        "environment_innovation_seed": 12735,
+        "scene_content_sha256": "e86e0ab15fac5742c4d2dac6b5dea3034b9c06b77f7ef354ea0376f646cec5ca"
+      },
+      {
+        "source_episode_index": 8,
+        "scenario_id": "unknown_validation_m20_0009",
+        "scenario_seed": 12737,
+        "environment_innovation_seed": 12737,
+        "scene_content_sha256": "610c567a6f0790179f0bfb88f17bfe092b4d5d6b2f1f06e9d9758de6641858f8"
+      },
+      {
+        "source_episode_index": 9,
+        "scenario_id": "unknown_validation_m20_0010",
+        "scenario_seed": 12738,
+        "environment_innovation_seed": 12738,
+        "scene_content_sha256": "e739fb9b07be43b4cf53370a9bd9b7c19bfdfdb78750e6ee5898df1498e700f6"
+      },
+      {
+        "source_episode_index": 11,
+        "scenario_id": "unknown_validation_m20_0012",
+        "scenario_seed": 12740,
+        "environment_innovation_seed": 12740,
+        "scene_content_sha256": "3568fa86f0c0c1a5c986d4b1aedd9a86332a8371afb2eae081875efb5d15f824"
+      },
+      {
+        "source_episode_index": 12,
+        "scenario_id": "unknown_validation_m20_0013",
+        "scenario_seed": 12741,
+        "environment_innovation_seed": 12741,
+        "scene_content_sha256": "baeb9cf90f9bdcab6c8f2423851cb4e819ebc8517c273c49b6fb7a9a647f5866"
+      },
+      {
+        "source_episode_index": 13,
+        "scenario_id": "unknown_validation_m20_0014",
+        "scenario_seed": 12742,
+        "environment_innovation_seed": 12742,
+        "scene_content_sha256": "04508174510b9941da53131ca77116dea82da6eb807d7961ac7d58f40abed8a5"
+      },
+      {
+        "source_episode_index": 14,
+        "scenario_id": "unknown_validation_m20_0015",
+        "scenario_seed": 12743,
+        "environment_innovation_seed": 12743,
+        "scene_content_sha256": "86bed50d5f5069a6a60938ecae710458ae8685f440632308822c1492b28e8b76"
+      },
+      {
+        "source_episode_index": 15,
+        "scenario_id": "unknown_validation_m20_0016",
+        "scenario_seed": 12744,
+        "environment_innovation_seed": 12744,
+        "scene_content_sha256": "e9969c9bada5cc7b1bc8a658bf53f547ab03faf8a745cb1157167892cf8ad34c"
+      },
+      {
+        "source_episode_index": 16,
+        "scenario_id": "unknown_validation_m20_0017",
+        "scenario_seed": 12745,
+        "environment_innovation_seed": 12745,
+        "scene_content_sha256": "b8281a28a835c22bc77730f5a578af6dc2f5751e5a0c75a8e9c88c7de8f27fd6"
+      },
+      {
+        "source_episode_index": 17,
+        "scenario_id": "unknown_validation_m20_0018",
+        "scenario_seed": 12746,
+        "environment_innovation_seed": 12746,
+        "scene_content_sha256": "8c0d8d5d50558389ab5489831f0719b3a619a2ca858de98ea14d90925ea81832"
+      },
+      {
+        "source_episode_index": 18,
+        "scenario_id": "unknown_validation_m20_0019",
+        "scenario_seed": 12747,
+        "environment_innovation_seed": 12747,
+        "scene_content_sha256": "0eb0f1e7c9ae94928a9d75ae19461f5814032959b19ba9804fb6b845416dee6f"
+      },
+      {
+        "source_episode_index": 19,
+        "scenario_id": "unknown_validation_m20_0020",
+        "scenario_seed": 12748,
+        "environment_innovation_seed": 12748,
+        "scene_content_sha256": "7d00445dcd0c2f97831ce2e30ddd98b983aaf6f1caea9982b71bd5d22bf6b8d6"
+      },
+      {
+        "source_episode_index": 20,
+        "scenario_id": "unknown_validation_m20_0021",
+        "scenario_seed": 12749,
+        "environment_innovation_seed": 12749,
+        "scene_content_sha256": "657028cf7dd49b2853a3639b8e4c1dc78fb1ee98784f1526910d6eaa97e7be64"
+      },
+      {
+        "source_episode_index": 21,
+        "scenario_id": "unknown_validation_m20_0022",
+        "scenario_seed": 12750,
+        "environment_innovation_seed": 12750,
+        "scene_content_sha256": "559caa2175a2b05da4092545b3dae90503bd7ac589d61748bc625d032377fe33"
+      },
+      {
+        "source_episode_index": 23,
+        "scenario_id": "unknown_validation_m20_0024",
+        "scenario_seed": 12752,
+        "environment_innovation_seed": 12752,
+        "scene_content_sha256": "7e48d99c79b421689b19d00e6d5c27a719fbfff183d33a4c4fc92a0b9260dd19"
+      },
+      {
+        "source_episode_index": 24,
+        "scenario_id": "unknown_validation_m20_0025",
+        "scenario_seed": 12753,
+        "environment_innovation_seed": 12753,
+        "scene_content_sha256": "3235f98b9892480f6b53849fde5796c079024e718bacb042cc5d334d7d17b085"
+      },
+      {
+        "source_episode_index": 25,
+        "scenario_id": "unknown_validation_m20_0026",
+        "scenario_seed": 12754,
+        "environment_innovation_seed": 12754,
+        "scene_content_sha256": "f99347d4557ea5f8322400a0cbe2dbfc3dd2425f2d64d7908fd6b10e66e53a74"
+      },
+      {
+        "source_episode_index": 26,
+        "scenario_id": "unknown_validation_m20_0027",
+        "scenario_seed": 12755,
+        "environment_innovation_seed": 12755,
+        "scene_content_sha256": "30d77ce76593fe30910e4487e59768e88468602adeedb67f1964002f666c445a"
+      },
+      {
+        "source_episode_index": 27,
+        "scenario_id": "unknown_validation_m20_0028",
+        "scenario_seed": 12756,
+        "environment_innovation_seed": 12756,
+        "scene_content_sha256": "c759de3a466f8527a41065e57e6b8182f2dbddc4525b730fb8f499d89b88a906"
+      },
+      {
+        "source_episode_index": 29,
+        "scenario_id": "unknown_validation_m20_0030",
+        "scenario_seed": 12758,
+        "environment_innovation_seed": 12758,
+        "scene_content_sha256": "da06577d718b8f57c1453f390998a24ac23c1ab95f9aa4b3564af62976327f97"
+      },
+      {
+        "source_episode_index": 30,
+        "scenario_id": "unknown_validation_m20_0031",
+        "scenario_seed": 12759,
+        "environment_innovation_seed": 12759,
+        "scene_content_sha256": "3b8f35689a8a9263eb53b68d6251f62e23bb283345aebe5e8578da33d05c182b"
+      },
+      {
+        "source_episode_index": 32,
+        "scenario_id": "unknown_validation_m20_0033",
+        "scenario_seed": 12761,
+        "environment_innovation_seed": 12761,
+        "scene_content_sha256": "5ff1d4af22ac70506704fd8b9cf52da102f127f395ec5b4389c7642abcfe2d48"
+      },
+      {
+        "source_episode_index": 33,
+        "scenario_id": "unknown_validation_m20_0034",
+        "scenario_seed": 12762,
+        "environment_innovation_seed": 12762,
+        "scene_content_sha256": "63f4e50e6ced8c16c687083070c0a769347f846a881bbff38daf28667d62843d"
+      },
+      {
+        "source_episode_index": 34,
+        "scenario_id": "unknown_validation_m20_0035",
+        "scenario_seed": 12763,
+        "environment_innovation_seed": 12763,
+        "scene_content_sha256": "306f31980e7151fe4214e7f212d0e90cb551c88ab188bd5db2c46996afa5cb0e"
+      },
+      {
+        "source_episode_index": 35,
+        "scenario_id": "unknown_validation_m20_0036",
+        "scenario_seed": 12764,
+        "environment_innovation_seed": 12764,
+        "scene_content_sha256": "48c8226fc4be25ac32a2200b0d00245f07425e7ecddbae757312a802791e437c"
+      },
+      {
+        "source_episode_index": 36,
+        "scenario_id": "unknown_validation_m20_0037",
+        "scenario_seed": 12765,
+        "environment_innovation_seed": 12765,
+        "scene_content_sha256": "4756c6da9eec0a75704ef42a4ae1d5b607f34e3d0c8cce141a89d6269562227e"
+      },
+      {
+        "source_episode_index": 37,
+        "scenario_id": "unknown_validation_m20_0038",
+        "scenario_seed": 12766,
+        "environment_innovation_seed": 12766,
+        "scene_content_sha256": "f056500f58cd84423fd1b9efa142fe869d147c0064940c22b83777f2df95c75d"
+      },
+      {
+        "source_episode_index": 38,
+        "scenario_id": "unknown_validation_m20_0039",
+        "scenario_seed": 12767,
+        "environment_innovation_seed": 12767,
+        "scene_content_sha256": "e7803638057bddd0ac3b1da1d44150562bdf9f1732818089f0298347720dce39"
+      },
+      {
+        "source_episode_index": 39,
+        "scenario_id": "unknown_validation_m20_0040",
+        "scenario_seed": 12768,
+        "environment_innovation_seed": 12768,
+        "scene_content_sha256": "142efb578ead03ae9dab2c269003d979d5941eb09b759daf1456412d491a179e"
+      },
+      {
+        "source_episode_index": 41,
+        "scenario_id": "unknown_validation_m20_0042",
+        "scenario_seed": 12770,
+        "environment_innovation_seed": 12770,
+        "scene_content_sha256": "80076399dd7f329898e449a0afac71af5a925a2586d3caea310bd895954cbf70"
+      },
+      {
+        "source_episode_index": 43,
+        "scenario_id": "unknown_validation_m20_0044",
+        "scenario_seed": 12772,
+        "environment_innovation_seed": 12772,
+        "scene_content_sha256": "e4da7b265602ba37b0a0b93348e5d6e78731ae2cf7c09eefb2e1ed7f050373a0"
+      },
+      {
+        "source_episode_index": 44,
+        "scenario_id": "unknown_validation_m20_0045",
+        "scenario_seed": 12773,
+        "environment_innovation_seed": 12773,
+        "scene_content_sha256": "af5e4d4acab4a5047bc056d0f4f9977d614a46bd96c131fba48d22dac84c1c1a"
+      },
+      {
+        "source_episode_index": 45,
+        "scenario_id": "unknown_validation_m20_0046",
+        "scenario_seed": 12774,
+        "environment_innovation_seed": 12774,
+        "scene_content_sha256": "c7be627a6a4e29a147ee1e7e270b45f3b1920779938662d7c71252c29aabc238"
+      },
+      {
+        "source_episode_index": 47,
+        "scenario_id": "unknown_validation_m20_0048",
+        "scenario_seed": 12776,
+        "environment_innovation_seed": 12776,
+        "scene_content_sha256": "7edf7ca4c05ca84ba06958ff9f91a700ee0b02c1c40b2a0c76a770fc8e36698d"
+      },
+      {
+        "source_episode_index": 48,
+        "scenario_id": "unknown_validation_m20_0049",
+        "scenario_seed": 12777,
+        "environment_innovation_seed": 12777,
+        "scene_content_sha256": "70d8da16764e5eb4e00a9f72d33f77a2d58849a98b0a5f71aa80ae9df9d61139"
+      },
+      {
+        "source_episode_index": 49,
+        "scenario_id": "unknown_validation_m20_0050",
+        "scenario_seed": 12778,
+        "environment_innovation_seed": 12778,
+        "scene_content_sha256": "d4342c7f2d49dfb96aef878dee73ccc96368de125cc89c60192ad749e4060e65"
+      },
+      {
+        "source_episode_index": 50,
+        "scenario_id": "unknown_validation_m20_0051",
+        "scenario_seed": 12779,
+        "environment_innovation_seed": 12779,
+        "scene_content_sha256": "fbd2f90495b8d5cdacf6ec86ce3539f937c82e0bdcec47296299fb386860a029"
+      },
+      {
+        "source_episode_index": 51,
+        "scenario_id": "unknown_validation_m20_0052",
+        "scenario_seed": 12780,
+        "environment_innovation_seed": 12780,
+        "scene_content_sha256": "bbe03cedb6e01595369c210773af1e5fe459e521a31ecd934a4d556ee4aae08d"
+      },
+      {
+        "source_episode_index": 52,
+        "scenario_id": "unknown_validation_m20_0053",
+        "scenario_seed": 12781,
+        "environment_innovation_seed": 12781,
+        "scene_content_sha256": "6fd304bd575ba7c2d488dd75e4459f3b1d44b278f32d05c10c75f029094464a7"
+      },
+      {
+        "source_episode_index": 53,
+        "scenario_id": "unknown_validation_m20_0054",
+        "scenario_seed": 12782,
+        "environment_innovation_seed": 12782,
+        "scene_content_sha256": "0f18dcd2b0d7a44acc8e501e45668453bba15a37b437762e9e4795f9bc81988c"
+      },
+      {
+        "source_episode_index": 54,
+        "scenario_id": "unknown_validation_m20_0055",
+        "scenario_seed": 12783,
+        "environment_innovation_seed": 12783,
+        "scene_content_sha256": "e3e78310624c35e65aa831dccf24b11d96eff7e03f4281efb477768ff3f26c1f"
+      },
+      {
+        "source_episode_index": 55,
+        "scenario_id": "unknown_validation_m20_0056",
+        "scenario_seed": 12784,
+        "environment_innovation_seed": 12784,
+        "scene_content_sha256": "335b59a4ee83899f60f6f1d84d98298077d997985f046e38bc786d995da8a449"
+      },
+      {
+        "source_episode_index": 56,
+        "scenario_id": "unknown_validation_m20_0057",
+        "scenario_seed": 12785,
+        "environment_innovation_seed": 12785,
+        "scene_content_sha256": "9ca36be343e45ac317f1b3a38d7eaac28f8d3854a182d1b2f703910ea59127f9"
+      },
+      {
+        "source_episode_index": 57,
+        "scenario_id": "unknown_validation_m20_0058",
+        "scenario_seed": 12786,
+        "environment_innovation_seed": 12786,
+        "scene_content_sha256": "ad614556f0ed54ad5d0d041821541b50fa93688ac259d0e7f335607d0b66b9c6"
+      },
+      {
+        "source_episode_index": 58,
+        "scenario_id": "unknown_validation_m20_0059",
+        "scenario_seed": 12787,
+        "environment_innovation_seed": 12787,
+        "scene_content_sha256": "5d212887621fbb5b0b896ac967e6f4f41b6c87de671313536cc8b796e383ad58"
+      },
+      {
+        "source_episode_index": 59,
+        "scenario_id": "unknown_validation_m20_0060",
+        "scenario_seed": 12788,
+        "environment_innovation_seed": 12788,
+        "scene_content_sha256": "75d8bbf85612903fff89fd959b5be4b3fc9e5a6259d34fdfe863706a23ff2db4"
+      },
+      {
+        "source_episode_index": 60,
+        "scenario_id": "unknown_validation_m20_0061",
+        "scenario_seed": 12789,
+        "environment_innovation_seed": 12789,
+        "scene_content_sha256": "783cfbba8b87376429770023e50e3809f2de1ed2e439316a95e6703bb47aba16"
+      },
+      {
+        "source_episode_index": 61,
+        "scenario_id": "unknown_validation_m20_0062",
+        "scenario_seed": 12790,
+        "environment_innovation_seed": 12790,
+        "scene_content_sha256": "145ca5a91fdfa11bf32011b18bfcf842f43ea2caf02e9ba00e1863c8fd569c05"
+      },
+      {
+        "source_episode_index": 64,
+        "scenario_id": "unknown_validation_m20_0065",
+        "scenario_seed": 12793,
+        "environment_innovation_seed": 12793,
+        "scene_content_sha256": "42e06fce8b68f6d89f8e822f7014a6c59fe0ddf154eccc4b71e778f2161cd563"
+      },
+      {
+        "source_episode_index": 65,
+        "scenario_id": "unknown_validation_m20_0066",
+        "scenario_seed": 12794,
+        "environment_innovation_seed": 12794,
+        "scene_content_sha256": "52d8494d09810f2dde6da709458699a5170eab618ecceb826db2c27daead29e1"
+      },
+      {
+        "source_episode_index": 66,
+        "scenario_id": "unknown_validation_m20_0067",
+        "scenario_seed": 12795,
+        "environment_innovation_seed": 12795,
+        "scene_content_sha256": "b0a666b06093e841d391cf80f0cb7177d13129bf4f4f89830dd53c250d0bb6ee"
+      },
+      {
+        "source_episode_index": 68,
+        "scenario_id": "unknown_validation_m20_0069",
+        "scenario_seed": 12797,
+        "environment_innovation_seed": 12797,
+        "scene_content_sha256": "239891f5f19d928ddc0c4432d8bc947ca77db17ed0deb5d9ee2f664e5bffc448"
+      },
+      {
+        "source_episode_index": 69,
+        "scenario_id": "unknown_validation_m20_0070",
+        "scenario_seed": 12798,
+        "environment_innovation_seed": 12798,
+        "scene_content_sha256": "a1d1d6a169336482102ee2ed16f815ae4008c10e8e1a078988f8505210d3fd96"
+      },
+      {
+        "source_episode_index": 70,
+        "scenario_id": "unknown_validation_m20_0071",
+        "scenario_seed": 12799,
+        "environment_innovation_seed": 12799,
+        "scene_content_sha256": "403338ea5385f3966ae5a5bb56d68760b6fbcbac6e3f3b55cdd32dd00d60f59e"
+      },
+      {
+        "source_episode_index": 71,
+        "scenario_id": "unknown_validation_m20_0072",
+        "scenario_seed": 12800,
+        "environment_innovation_seed": 12800,
+        "scene_content_sha256": "b8f7f46ff7309297432fde08049965465e294fb14b808ec8adc0123818ecc1a4"
+      },
+      {
+        "source_episode_index": 72,
+        "scenario_id": "unknown_validation_m20_0073",
+        "scenario_seed": 12801,
+        "environment_innovation_seed": 12801,
+        "scene_content_sha256": "20e43ab1ba8d3955e6ae7a605826b6859fa71a307503de94d47d3c51e7871879"
+      },
+      {
+        "source_episode_index": 73,
+        "scenario_id": "unknown_validation_m20_0074",
+        "scenario_seed": 12802,
+        "environment_innovation_seed": 12802,
+        "scene_content_sha256": "fde831e9a3a1106a9f3e509e9aea2257b83412a3f3f6240471e526400823deff"
+      },
+      {
+        "source_episode_index": 74,
+        "scenario_id": "unknown_validation_m20_0075",
+        "scenario_seed": 12803,
+        "environment_innovation_seed": 12803,
+        "scene_content_sha256": "5f3dbb0a4ce8e37cf78c97c21460dfd91b5be8959b004fe6cc7eb82fbd729048"
+      },
+      {
+        "source_episode_index": 75,
+        "scenario_id": "unknown_validation_m20_0076",
+        "scenario_seed": 12804,
+        "environment_innovation_seed": 12804,
+        "scene_content_sha256": "96a0ef76116672dc347d5eacf91de3035e9840a82e764356a10bf336def5fbce"
+      },
+      {
+        "source_episode_index": 79,
+        "scenario_id": "unknown_validation_m20_0080",
+        "scenario_seed": 12808,
+        "environment_innovation_seed": 12808,
+        "scene_content_sha256": "9d6a700b5d94058674eec4ec7c3d1d7512a2f43c48633245a9136b216f14ba75"
+      },
+      {
+        "source_episode_index": 80,
+        "scenario_id": "unknown_validation_m20_0081",
+        "scenario_seed": 12809,
+        "environment_innovation_seed": 12809,
+        "scene_content_sha256": "de8498c05b9b1e77472ff3fd9054de31323daaef8f304dfb7dc6b218f37ef620"
+      },
+      {
+        "source_episode_index": 81,
+        "scenario_id": "unknown_validation_m20_0082",
+        "scenario_seed": 12810,
+        "environment_innovation_seed": 12810,
+        "scene_content_sha256": "876cb3682a9a95632050e1bd8fc91ab776dca07f46a10bc2f73e1be7eb84075d"
+      },
+      {
+        "source_episode_index": 82,
+        "scenario_id": "unknown_validation_m20_0083",
+        "scenario_seed": 12811,
+        "environment_innovation_seed": 12811,
+        "scene_content_sha256": "82e5d7a17c9abe9e9e31982f4a678ab0052702394983a5bd36f14f5bf2eab1f9"
+      },
+      {
+        "source_episode_index": 83,
+        "scenario_id": "unknown_validation_m20_0084",
+        "scenario_seed": 12812,
+        "environment_innovation_seed": 12812,
+        "scene_content_sha256": "6d181239165d303478abe71ebe76c658e4aea6c7ec9e5933e08ed5437d1d3a41"
+      },
+      {
+        "source_episode_index": 84,
+        "scenario_id": "unknown_validation_m20_0085",
+        "scenario_seed": 12813,
+        "environment_innovation_seed": 12813,
+        "scene_content_sha256": "8bab656e67ee9d38079b49c7acc8d5689640c08b4ce5aa32037e6b722e256fd9"
+      },
+      {
+        "source_episode_index": 85,
+        "scenario_id": "unknown_validation_m20_0086",
+        "scenario_seed": 12814,
+        "environment_innovation_seed": 12814,
+        "scene_content_sha256": "f1ade932cfcd5f03f749d6e37cef933cf7ec2a164d88d62fe1bdde6c31d76a22"
+      },
+      {
+        "source_episode_index": 87,
+        "scenario_id": "unknown_validation_m20_0088",
+        "scenario_seed": 12816,
+        "environment_innovation_seed": 12816,
+        "scene_content_sha256": "e7e9de31f917771f4672495d5449f3962dd35de66338de925fa81ddfc1ee8794"
+      },
+      {
+        "source_episode_index": 88,
+        "scenario_id": "unknown_validation_m20_0089",
+        "scenario_seed": 12817,
+        "environment_innovation_seed": 12817,
+        "scene_content_sha256": "ecfd1fece96385d55255c840669648462c0d03018ce2f913fb39923f2e4aeaf6"
+      },
+      {
+        "source_episode_index": 89,
+        "scenario_id": "unknown_validation_m20_0090",
+        "scenario_seed": 12818,
+        "environment_innovation_seed": 12818,
+        "scene_content_sha256": "dbff68c2ac03104c22d91d3d7a873ea5792527c6b77b7698458e583bb3a3c77e"
+      },
+      {
+        "source_episode_index": 90,
+        "scenario_id": "unknown_validation_m20_0091",
+        "scenario_seed": 12819,
+        "environment_innovation_seed": 12819,
+        "scene_content_sha256": "6d51cc8877673b56bbf8e913e52a4375e40747b12dc1aa40c0851704c3dc3339"
+      },
+      {
+        "source_episode_index": 92,
+        "scenario_id": "unknown_validation_m20_0093",
+        "scenario_seed": 12821,
+        "environment_innovation_seed": 12821,
+        "scene_content_sha256": "629090ac210caa8e4c0ebe276cabd13b363bb9c1c275799ab7fcabadd15a306d"
+      },
+      {
+        "source_episode_index": 93,
+        "scenario_id": "unknown_validation_m20_0094",
+        "scenario_seed": 12822,
+        "environment_innovation_seed": 12822,
+        "scene_content_sha256": "d80e2faa7dc3127e37bf2712db8a44a5479e9158a688e4ab21f2eb1ef038856c"
+      },
+      {
+        "source_episode_index": 94,
+        "scenario_id": "unknown_validation_m20_0095",
+        "scenario_seed": 12823,
+        "environment_innovation_seed": 12823,
+        "scene_content_sha256": "e03aa9730f701a27f5483e29be7e6e696032f554ce6a81cc2b55e8b3c326fa4f"
+      },
+      {
+        "source_episode_index": 96,
+        "scenario_id": "unknown_validation_m20_0097",
+        "scenario_seed": 12825,
+        "environment_innovation_seed": 12825,
+        "scene_content_sha256": "c44efeb7c5b7cc4ed45a073df313f255ce70a72515b72f928ee0cd6266a7e8be"
+      },
+      {
+        "source_episode_index": 98,
+        "scenario_id": "unknown_validation_m20_0099",
+        "scenario_seed": 12827,
+        "environment_innovation_seed": 12827,
+        "scene_content_sha256": "767ad37036ce93fe0b110f18039a2a58edb8fca85cee9ff660770c153d5396f3"
+      },
+      {
+        "source_episode_index": 99,
+        "scenario_id": "unknown_validation_m20_0100",
+        "scenario_seed": 12828,
+        "environment_innovation_seed": 12828,
+        "scene_content_sha256": "4bc3891634206bfafd2ac6737f7c24ed4954250c69a43d88a81496a3c8bf00f4"
+      }
+    ],
+    "limitation": "Existing validation scenes already inspected in aggregate; remaining 80 are not a new independent formal test set."
+  },
+  "preliminary_engineering_gate": {
+    "found_count": ">= V0",
+    "pre_found_collision_count": "<= V0",
+    "searcher_motion_stall_fraction": "<= V0",
+    "strict_improvement": "At least one primary outcome; all D1 mechanism tests must pass",
+    "selection_order": [
+      "fewer_pre_found_collisions",
+      "more_found",
+      "lower_stall_fraction",
+      "lower_wall_seconds",
+      "fewer_enabled_changes"
+    ],
+    "meaning": "Development selection only, not proof of statistical improvement"
+  },
+  "metric_parameters": {
+    "motion_stall_window_steps": 10,
+    "path_progress_epsilon": 0.1,
+    "net_displacement_epsilon": 0.1,
+    "target_revisit_gap_steps": 30,
+    "effective_observation_metric": "Proxy based on actual target-observation footprint; null until instrumentation is verified; do not substitute obstacle coverage or survival time"
+  },
+  "statistics": {
+    "unit": "paired scenario",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "confidence_level": 0.95,
+    "report": [
+      "paired_found_difference",
+      "paired_pre_found_collision_difference",
+      "discordant_pairs",
+      "stall_and_coverage",
+      "planning_cost_and_wall_time"
+    ],
+    "exclude_failed_program_runs_from_success_denominator": false,
+    "require_complete_pairs_for_stage_verdict": true,
+    "incomplete_pair_policy": "Report program errors separately; retain scheduled identities; no complete-stage performance verdict until every scheduled pair finishes. Do not classify errors as physical collision or task timeout."
+  },
+  "output_policy": {
+    "raw_new_directory_template": "runs/safe_search_v1/{stage}/{method}/{variant}/{unique_run_id}",
+    "compact_evidence_directory": "docs/chapter3/search_diagnostics/safe_search_v1_evidence",
+    "overwrite": false,
+    "preserve_imported_results": true
+  },
+  "required_deliverables": [
+    "source evolution review and exact provenance tests",
+    "new opt-in runtime and five variants",
+    "disabled equality and geometry/endpoint/failure/braking tests",
+    "three-scene bounded ablation report",
+    "D2 readiness decision based on evidence"
+  ]
+}

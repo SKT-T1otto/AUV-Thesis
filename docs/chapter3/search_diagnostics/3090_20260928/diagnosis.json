@@ -1,0 +1,2321 @@
+{
+  "schema": "ch3.search_failure_diagnosis.v1",
+  "source_root": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\3090结果\\collision_terminal",
+  "runs": [
+    {
+      "run": "B0_search_prior_eval100_seed12729_v1",
+      "method": "ch3_baseline_search_prior",
+      "label": "B0",
+      "population": "validation_evaluation",
+      "n": 100,
+      "raw_episode_rows": 100,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 100
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 38,
+        "not_found_timeout": 23,
+        "found_success": 6,
+        "found_collision": 1,
+        "found_timeout": 32
+      },
+      "found_rate": 0.39,
+      "pre_found_collision_rate": 0.38,
+      "pre_found_collision_agent_counts": {
+        "0": 15,
+        "1": 10,
+        "2": 12,
+        "3": 1
+      },
+      "pre_found_collision_searcher_episodes": 37,
+      "pre_found_collision_executor_episodes": 1,
+      "pre_found_collision_step": {
+        "n": 38,
+        "min": 12,
+        "median": 42.5,
+        "mean": 82.44736842105263,
+        "max": 371
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 13,
+        "21-50": 9,
+        "51-100": 8,
+        "101-200": 2,
+        "201-400": 6
+      },
+      "found_step": {
+        "n": 39,
+        "min": 1,
+        "median": 64,
+        "mean": 112.74358974358974,
+        "max": 361
+      },
+      "pre_found_exposure_steps": 16730,
+      "completed_collision_free_search_steps": 16692,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 38,
+          "buckets": {
+            "not_found_collision": 38,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 38,
+              "total": 391181
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 38,
+              "total": 494
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 21,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 18,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 38,
+            "total": 275
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 38,
+            "min": 5,
+            "median": 19.5,
+            "mean": 23.710526315789473,
+            "max": 54
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 23,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 23,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 23,
+              "total": 2204545
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 23,
+              "total": 2772
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 23,
+              "total": 1367
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 23,
+              "total": 97
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 23,
+            "total": 1248
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 23,
+            "min": 16,
+            "median": 40,
+            "mean": 93.47826086956522,
+            "max": 400
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 6,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 6,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 6,
+              "total": 53402
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 6,
+              "total": 67
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 4,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 3,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 6,
+            "total": 33
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 6,
+            "min": 4,
+            "median": 13.5,
+            "mean": 13.666666666666666,
+            "max": 23
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 1,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 1,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 1,
+              "total": 0
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 1,
+              "total": 0
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 1,
+              "total": 2
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 1,
+              "total": 0
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 1,
+            "total": 0
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 1,
+            "min": 22,
+            "median": 22,
+            "mean": 22,
+            "max": 22
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 32,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 32
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 32,
+              "total": 773699
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 32,
+              "total": 971
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 24,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 23,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 32,
+            "total": 499
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 32,
+            "min": 3,
+            "median": 17.0,
+            "mean": 29.5625,
+            "max": 189
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 24,
+          "n": 25,
+          "found": 9,
+          "buckets": {
+            "not_found_timeout": 5,
+            "found_timeout": 7,
+            "found_success": 2,
+            "not_found_collision": 11
+          }
+        },
+        {
+          "first_selected_index": 25,
+          "last_selected_index": 49,
+          "n": 25,
+          "found": 9,
+          "buckets": {
+            "found_timeout": 7,
+            "found_success": 2,
+            "not_found_timeout": 6,
+            "not_found_collision": 10
+          }
+        },
+        {
+          "first_selected_index": 50,
+          "last_selected_index": 74,
+          "n": 25,
+          "found": 7,
+          "buckets": {
+            "not_found_timeout": 8,
+            "not_found_collision": 10,
+            "found_timeout": 5,
+            "found_collision": 1,
+            "found_success": 1
+          }
+        },
+        {
+          "first_selected_index": 75,
+          "last_selected_index": 99,
+          "n": 25,
+          "found": 14,
+          "buckets": {
+            "found_success": 1,
+            "found_timeout": 13,
+            "not_found_collision": 7,
+            "not_found_timeout": 4
+          }
+        }
+      ],
+      "source_files": {
+        "B0_search_prior_eval100_seed12729_v1/summary.json": "6b5a3b105df864780404c0153b69a8820a0a77b523642664592846bc6f676d95",
+        "B0_search_prior_eval100_seed12729_v1/episodes.json": "cbfc015a937b80ec5e2e899be6d5359e1a59cd0470895fb608ae662c32848f3b",
+        "B0_search_prior_eval100_seed12729_v1/resolved_config.json": "9e9abe8b2d44086d6f2735f3b404849ef22bb5369ab5edbdda809ef01b0be274",
+        "B0_search_prior_eval100_seed12729_v1/controller_diagnostics.json": "fb304f2a12f1187a1296d18680621d8e15dd3901ac58066fb31fc0added6bbd9",
+        "B0_search_prior_eval100_seed12729_v1/evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+        "B0_search_prior_eval100_seed12729_v1/identity.json": "665fd61ebbe41eafe0f8b1b6952755525ad2d2889411fc70515d558cc33dac49"
+      },
+      "summary_checks": {
+        "kind": "recomputed_from_episode_rows",
+        "checked_fields": {
+          "n_valid_episodes": 100,
+          "n_success": 6,
+          "n_collision_failure": 39,
+          "n_timeout": 55,
+          "found_rate": 0.39
+        }
+      },
+      "manifest": {
+        "selected_content_sha256": "b269eed7e800636e5859b80aa78a895129dc9a8a1390d7b4e51cb48924bcd86a",
+        "actual_scenarios_sha256": "b269eed7e800636e5859b80aa78a895129dc9a8a1390d7b4e51cb48924bcd86a"
+      },
+      "comparable_inputs_sha256": "900171e1d019ae4dad11eef6f87713b2c683d38465b504b442d69fe736e916ce",
+      "recorded_production_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+      "current_source_comparison": {
+        "matching_recorded_files": 186,
+        "recorded_file_count": 196,
+        "changed_or_missing_recorded_files": [
+          "chapter3_bser/controllers/action_adapter.py",
+          "chapter3_bser/experiments/hgr/runtime.py",
+          "chapter3_bser/experiments/hgr/train.py",
+          "chapter3_bser/experiments/phase1b1_pilot/run_pilot.py",
+          "chapter3_bser/hysteresis/policy.py",
+          "chapter3_bser/models/hgr/estimator.py",
+          "chapter3_bser/models/hgr/policy.py",
+          "chapter3_bser/online/allocator.py",
+          "chapter3_bser/online/config.py",
+          "chapter3_bser/online/controller.py"
+        ],
+        "meaning": "Byte comparison only; no historical replay or provenance exemption."
+      }
+    },
+    {
+      "run": "B1_bser_prior_eval100_seed12729_v1",
+      "method": "ch3_baseline_bser_prior",
+      "label": "B1",
+      "population": "validation_evaluation",
+      "n": 100,
+      "raw_episode_rows": 100,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 100
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 36,
+        "not_found_timeout": 25,
+        "found_success": 4,
+        "found_collision": 3,
+        "found_timeout": 32
+      },
+      "found_rate": 0.39,
+      "pre_found_collision_rate": 0.36,
+      "pre_found_collision_agent_counts": {
+        "0": 11,
+        "1": 11,
+        "2": 10,
+        "3": 4
+      },
+      "pre_found_collision_searcher_episodes": 32,
+      "pre_found_collision_executor_episodes": 4,
+      "pre_found_collision_step": {
+        "n": 36,
+        "min": 12,
+        "median": 47.0,
+        "mean": 86.52777777777777,
+        "max": 368
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 13,
+        "21-50": 6,
+        "51-100": 7,
+        "101-200": 4,
+        "201-400": 6
+      },
+      "found_step": {
+        "n": 39,
+        "min": 1,
+        "median": 77,
+        "mean": 117.74358974358974,
+        "max": 392
+      },
+      "pre_found_exposure_steps": 17707,
+      "completed_collision_free_search_steps": 17671,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 36,
+          "buckets": {
+            "not_found_collision": 36,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 36,
+            "min": 5,
+            "median": 19.0,
+            "mean": 22.36111111111111,
+            "max": 54
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 25,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 25,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 25,
+            "min": 16,
+            "median": 97,
+            "mean": 124.24,
+            "max": 400
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 4,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 4,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 4,
+            "min": 8,
+            "median": 11.0,
+            "mean": 10.75,
+            "max": 13
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 3,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 3,
+            "min": 3,
+            "median": 5,
+            "mean": 6.333333333333333,
+            "max": 11
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 32,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 32
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 32,
+            "min": 1,
+            "median": 13.5,
+            "mean": 38.75,
+            "max": 194
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 24,
+          "n": 25,
+          "found": 9,
+          "buckets": {
+            "not_found_timeout": 6,
+            "not_found_collision": 10,
+            "found_timeout": 8,
+            "found_success": 1
+          }
+        },
+        {
+          "first_selected_index": 25,
+          "last_selected_index": 49,
+          "n": 25,
+          "found": 11,
+          "buckets": {
+            "found_collision": 2,
+            "found_timeout": 9,
+            "not_found_timeout": 4,
+            "not_found_collision": 10
+          }
+        },
+        {
+          "first_selected_index": 50,
+          "last_selected_index": 74,
+          "n": 25,
+          "found": 6,
+          "buckets": {
+            "not_found_timeout": 9,
+            "not_found_collision": 10,
+            "found_success": 1,
+            "found_timeout": 4,
+            "found_collision": 1
+          }
+        },
+        {
+          "first_selected_index": 75,
+          "last_selected_index": 99,
+          "n": 25,
+          "found": 13,
+          "buckets": {
+            "found_timeout": 11,
+            "not_found_collision": 6,
+            "not_found_timeout": 6,
+            "found_success": 2
+          }
+        }
+      ],
+      "source_files": {
+        "B1_bser_prior_eval100_seed12729_v1/summary.json": "2bf1dc105873eee58662a3826bfd2001a104a98d2fd0951750bdeea5f00d7ae4",
+        "B1_bser_prior_eval100_seed12729_v1/episodes.json": "26c6ddc537381262299c0a03cd0c825d8b990352821b28b23872dee7fa337023",
+        "B1_bser_prior_eval100_seed12729_v1/resolved_config.json": "523c49afb657d60a284ae7ff1a2d78aa18d30657365908bf607fc9e02f7b3578",
+        "B1_bser_prior_eval100_seed12729_v1/controller_diagnostics.json": "b268df0a029faf7a4f08522958b735d164473d35d190c9b20c522063d27f8626",
+        "B1_bser_prior_eval100_seed12729_v1/evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+        "B1_bser_prior_eval100_seed12729_v1/identity.json": "28cab1304e3122d473865bcaef3d0d7896dd862853a98814a85ea2827962c8d4"
+      },
+      "summary_checks": {
+        "kind": "recomputed_from_episode_rows",
+        "checked_fields": {
+          "n_valid_episodes": 100,
+          "n_success": 4,
+          "n_collision_failure": 39,
+          "n_timeout": 57,
+          "found_rate": 0.39
+        }
+      },
+      "manifest": {
+        "selected_content_sha256": "b269eed7e800636e5859b80aa78a895129dc9a8a1390d7b4e51cb48924bcd86a",
+        "actual_scenarios_sha256": "b269eed7e800636e5859b80aa78a895129dc9a8a1390d7b4e51cb48924bcd86a"
+      },
+      "comparable_inputs_sha256": "900171e1d019ae4dad11eef6f87713b2c683d38465b504b442d69fe736e916ce",
+      "recorded_production_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+      "current_source_comparison": {
+        "matching_recorded_files": 186,
+        "recorded_file_count": 196,
+        "changed_or_missing_recorded_files": [
+          "chapter3_bser/controllers/action_adapter.py",
+          "chapter3_bser/experiments/hgr/runtime.py",
+          "chapter3_bser/experiments/hgr/train.py",
+          "chapter3_bser/experiments/phase1b1_pilot/run_pilot.py",
+          "chapter3_bser/hysteresis/policy.py",
+          "chapter3_bser/models/hgr/estimator.py",
+          "chapter3_bser/models/hgr/policy.py",
+          "chapter3_bser/online/allocator.py",
+          "chapter3_bser/online/config.py",
+          "chapter3_bser/online/controller.py"
+        ],
+        "meaning": "Byte comparison only; no historical replay or provenance exemption."
+      }
+    },
+    {
+      "run": "B2_direct_mc_train100_seed2729_v1",
+      "method": "ch3_baseline_direct_mc",
+      "label": "B2",
+      "population": "training_main",
+      "n": 100,
+      "raw_episode_rows": 100,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 100
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 19,
+        "not_found_timeout": 42,
+        "found_success": 10,
+        "found_collision": 3,
+        "found_timeout": 26
+      },
+      "found_rate": 0.39,
+      "pre_found_collision_rate": 0.19,
+      "pre_found_collision_agent_counts": {
+        "0": 6,
+        "1": 6,
+        "2": 4,
+        "3": 3
+      },
+      "pre_found_collision_searcher_episodes": 16,
+      "pre_found_collision_executor_episodes": 3,
+      "pre_found_collision_step": {
+        "n": 19,
+        "min": 18,
+        "median": 43,
+        "mean": 69.47368421052632,
+        "max": 266
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 1,
+        "21-50": 11,
+        "51-100": 3,
+        "101-200": 3,
+        "201-400": 1
+      },
+      "found_step": {
+        "n": 39,
+        "min": 1,
+        "median": 37,
+        "mean": 101.43589743589743,
+        "max": 397
+      },
+      "pre_found_exposure_steps": 22076,
+      "completed_collision_free_search_steps": 22057,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 19,
+          "buckets": {
+            "not_found_collision": 19,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 42,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 42,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 10,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 10,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 3,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 26,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 26
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 24,
+          "n": 25,
+          "found": 9,
+          "buckets": {
+            "not_found_collision": 9,
+            "found_success": 1,
+            "found_timeout": 8,
+            "not_found_timeout": 7
+          }
+        },
+        {
+          "first_selected_index": 25,
+          "last_selected_index": 49,
+          "n": 25,
+          "found": 10,
+          "buckets": {
+            "not_found_timeout": 12,
+            "found_success": 3,
+            "not_found_collision": 3,
+            "found_timeout": 6,
+            "found_collision": 1
+          }
+        },
+        {
+          "first_selected_index": 50,
+          "last_selected_index": 74,
+          "n": 25,
+          "found": 9,
+          "buckets": {
+            "found_timeout": 7,
+            "not_found_timeout": 11,
+            "found_success": 2,
+            "not_found_collision": 5
+          }
+        },
+        {
+          "first_selected_index": 75,
+          "last_selected_index": 99,
+          "n": 25,
+          "found": 11,
+          "buckets": {
+            "not_found_timeout": 12,
+            "found_success": 4,
+            "found_timeout": 5,
+            "not_found_collision": 2,
+            "found_collision": 2
+          }
+        }
+      ],
+      "source_files": {
+        "B2_direct_mc_train100_seed2729_v1/summary.json": "d6297b6445774fee22a0c5d11fbdfe62f6f3593753abb219791ea318fba2b00c",
+        "B2_direct_mc_train100_seed2729_v1/episodes.json": "cbdca132106dddbe76603fd5967e412da4eeaf81f6830d38168de920f2395348",
+        "B2_direct_mc_train100_seed2729_v1/config.json": "4774a4689d6565d4b7ec58ae0da5328309b73926f0c2f0a355af5aa37fda61bd"
+      },
+      "summary_checks": {
+        "kind": "training summary: no evaluation-rate claim"
+      },
+      "manifest": null,
+      "comparable_inputs_sha256": null,
+      "recorded_production_sha256": "767b1232abb19e3d4a1d9d2d4c173d0cc3417b0b17a893e23514e78d3db2608c"
+    },
+    {
+      "run": "B2_direct_mc_smoke_seed2729_v1",
+      "method": "ch3_baseline_direct_mc",
+      "label": "B2",
+      "population": "training_smoke",
+      "n": 10,
+      "raw_episode_rows": 10,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 10
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 3,
+        "not_found_timeout": 2,
+        "found_success": 1,
+        "found_collision": 0,
+        "found_timeout": 4
+      },
+      "found_rate": 0.5,
+      "pre_found_collision_rate": 0.3,
+      "pre_found_collision_agent_counts": {
+        "0": 1,
+        "1": 1,
+        "2": 1
+      },
+      "pre_found_collision_searcher_episodes": 3,
+      "pre_found_collision_executor_episodes": 0,
+      "pre_found_collision_step": {
+        "n": 3,
+        "min": 18,
+        "median": 142,
+        "mean": 142,
+        "max": 266
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 1,
+        "21-50": 0,
+        "51-100": 0,
+        "101-200": 1,
+        "201-400": 1
+      },
+      "found_step": {
+        "n": 5,
+        "min": 1,
+        "median": 37,
+        "mean": 39.2,
+        "max": 97
+      },
+      "pre_found_exposure_steps": 1422,
+      "completed_collision_free_search_steps": 1419,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 3,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 2,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 2,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 1,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 1,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 0,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 4,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 4
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 9,
+          "n": 10,
+          "found": 5,
+          "buckets": {
+            "not_found_collision": 3,
+            "found_success": 1,
+            "found_timeout": 4,
+            "not_found_timeout": 2
+          }
+        }
+      ],
+      "source_files": {
+        "B2_direct_mc_smoke_seed2729_v1/summary.json": "1c228e5902b219f12bfd70f734692ae2e48ad63c3bd9db9de4bb80deaa421878",
+        "B2_direct_mc_smoke_seed2729_v1/episodes.json": "78edb1bcad524968206cda32c3a5d9621bfa8e0494dc2917f4772a96d9fe448e",
+        "B2_direct_mc_smoke_seed2729_v1/config.json": "6f9b97bf1981f528349e53fe24e188ec5d66d998dd017706b04d00186cb31296"
+      },
+      "summary_checks": {
+        "kind": "training summary: no evaluation-rate claim"
+      },
+      "manifest": null,
+      "comparable_inputs_sha256": null,
+      "recorded_production_sha256": "767b1232abb19e3d4a1d9d2d4c173d0cc3417b0b17a893e23514e78d3db2608c"
+    },
+    {
+      "run": "B3_direct_boundary_train100_seed2729_v1",
+      "method": "ch3_baseline_direct_boundary",
+      "label": "B3",
+      "population": "training_main",
+      "n": 100,
+      "raw_episode_rows": 100,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 100
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 22,
+        "not_found_timeout": 42,
+        "found_success": 3,
+        "found_collision": 3,
+        "found_timeout": 30
+      },
+      "found_rate": 0.36,
+      "pre_found_collision_rate": 0.22,
+      "pre_found_collision_agent_counts": {
+        "0": 6,
+        "1": 8,
+        "2": 5,
+        "3": 3
+      },
+      "pre_found_collision_searcher_episodes": 19,
+      "pre_found_collision_executor_episodes": 3,
+      "pre_found_collision_step": {
+        "n": 22,
+        "min": 17,
+        "median": 39.5,
+        "mean": 64.86363636363636,
+        "max": 360
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 2,
+        "21-50": 13,
+        "51-100": 4,
+        "101-200": 2,
+        "201-400": 1
+      },
+      "found_step": {
+        "n": 36,
+        "min": 1,
+        "median": 40.0,
+        "mean": 106.19444444444444,
+        "max": 388
+      },
+      "pre_found_exposure_steps": 22050,
+      "completed_collision_free_search_steps": 22028,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 22,
+          "buckets": {
+            "not_found_collision": 22,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 42,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 42,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 3,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 3,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 30,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 30
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 24,
+          "n": 25,
+          "found": 8,
+          "buckets": {
+            "not_found_collision": 7,
+            "found_success": 1,
+            "found_timeout": 6,
+            "not_found_timeout": 10,
+            "found_collision": 1
+          }
+        },
+        {
+          "first_selected_index": 25,
+          "last_selected_index": 49,
+          "n": 25,
+          "found": 8,
+          "buckets": {
+            "found_timeout": 7,
+            "not_found_timeout": 10,
+            "not_found_collision": 7,
+            "found_collision": 1
+          }
+        },
+        {
+          "first_selected_index": 50,
+          "last_selected_index": 74,
+          "n": 25,
+          "found": 8,
+          "buckets": {
+            "not_found_collision": 6,
+            "found_timeout": 7,
+            "not_found_timeout": 11,
+            "found_success": 1
+          }
+        },
+        {
+          "first_selected_index": 75,
+          "last_selected_index": 99,
+          "n": 25,
+          "found": 12,
+          "buckets": {
+            "not_found_timeout": 11,
+            "found_timeout": 10,
+            "not_found_collision": 2,
+            "found_success": 1,
+            "found_collision": 1
+          }
+        }
+      ],
+      "source_files": {
+        "B3_direct_boundary_train100_seed2729_v1/summary.json": "fd9d72807ee31e0f1575f30e342648caa450ed5b097d76421d9e0b32f6df6133",
+        "B3_direct_boundary_train100_seed2729_v1/episodes.json": "0795fc041a287cacf1c4ac26b63683fbc661821083de1d153443881e61946371",
+        "B3_direct_boundary_train100_seed2729_v1/config.json": "eaee739b92d303a3e7a4d803358bd7931d190d7ad7783045519d7ceb8cf5162c"
+      },
+      "summary_checks": {
+        "kind": "training summary: no evaluation-rate claim"
+      },
+      "manifest": null,
+      "comparable_inputs_sha256": null,
+      "recorded_production_sha256": "767b1232abb19e3d4a1d9d2d4c173d0cc3417b0b17a893e23514e78d3db2608c"
+    },
+    {
+      "run": "B3_direct_boundary_smoke_seed2729_v1",
+      "method": "ch3_baseline_direct_boundary",
+      "label": "B3",
+      "population": "training_smoke",
+      "n": 10,
+      "raw_episode_rows": 10,
+      "excluded_non_main_rows": 0,
+      "raw_purposes": {
+        "unspecified": 10
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 3,
+        "not_found_timeout": 3,
+        "found_success": 1,
+        "found_collision": 0,
+        "found_timeout": 3
+      },
+      "found_rate": 0.4,
+      "pre_found_collision_rate": 0.3,
+      "pre_found_collision_agent_counts": {
+        "0": 1,
+        "1": 1,
+        "2": 1
+      },
+      "pre_found_collision_searcher_episodes": 3,
+      "pre_found_collision_executor_episodes": 0,
+      "pre_found_collision_step": {
+        "n": 3,
+        "min": 18,
+        "median": 142,
+        "mean": 173.33333333333334,
+        "max": 360
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 1,
+        "21-50": 0,
+        "51-100": 0,
+        "101-200": 1,
+        "201-400": 1
+      },
+      "found_step": {
+        "n": 4,
+        "min": 1,
+        "median": 30.5,
+        "mean": 42.75,
+        "max": 109
+      },
+      "pre_found_exposure_steps": 1891,
+      "completed_collision_free_search_steps": 1888,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 3,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 3,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 1,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 1,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 0,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 3,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 3
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 9,
+          "n": 10,
+          "found": 4,
+          "buckets": {
+            "not_found_collision": 3,
+            "found_success": 1,
+            "found_timeout": 3,
+            "not_found_timeout": 3
+          }
+        }
+      ],
+      "source_files": {
+        "B3_direct_boundary_smoke_seed2729_v1/summary.json": "e1db41f08fb9b23d7a50152f25f6aa50d1873b7d8495ff54c223bcd6142224da",
+        "B3_direct_boundary_smoke_seed2729_v1/episodes.json": "4d7225d0b3888445e1ba3528151e39aadbdd1a0d4a7dace6e21e7468310dc0bf",
+        "B3_direct_boundary_smoke_seed2729_v1/config.json": "075bc19405aa5abb06a931eb878d5e9857cc78f27f0483dec456db8815dc8ad4"
+      },
+      "summary_checks": {
+        "kind": "training summary: no evaluation-rate claim"
+      },
+      "manifest": null,
+      "comparable_inputs_sha256": null,
+      "recorded_production_sha256": "767b1232abb19e3d4a1d9d2d4c173d0cc3417b0b17a893e23514e78d3db2608c"
+    },
+    {
+      "run": "HGR-train100_seed2729_v1",
+      "method": "ch3_hgr",
+      "label": "HGR",
+      "population": "training_main",
+      "n": 100,
+      "raw_episode_rows": 184,
+      "excluded_non_main_rows": 84,
+      "raw_purposes": {
+        "suffix_training": 28,
+        "main": 100,
+        "pilot": 56
+      },
+      "horizon": 400,
+      "buckets": {
+        "not_found_collision": 23,
+        "not_found_timeout": 31,
+        "found_success": 12,
+        "found_collision": 2,
+        "found_timeout": 32
+      },
+      "found_rate": 0.46,
+      "pre_found_collision_rate": 0.23,
+      "pre_found_collision_agent_counts": {
+        "0": 10,
+        "1": 4,
+        "2": 5,
+        "3": 4
+      },
+      "pre_found_collision_searcher_episodes": 19,
+      "pre_found_collision_executor_episodes": 4,
+      "pre_found_collision_step": {
+        "n": 23,
+        "min": 10,
+        "median": 31,
+        "mean": 47.869565217391305,
+        "max": 202
+      },
+      "pre_found_collision_by_step_bin": {
+        "1-20": 9,
+        "21-50": 9,
+        "51-100": 2,
+        "101-200": 2,
+        "201-400": 1
+      },
+      "found_step": {
+        "n": 46,
+        "min": 1,
+        "median": 75.0,
+        "mean": 107.19565217391305,
+        "max": 375
+      },
+      "pre_found_exposure_steps": 18432,
+      "completed_collision_free_search_steps": 18409,
+      "effective_search_steps": null,
+      "stagnant_steps": null,
+      "missing_measurements": {
+        "stagnant_steps": "No step positions, route progress and sensing footprints in these episode exports.",
+        "effective_search_steps": "Survival/exposure is not productive search time.",
+        "search_query_failure_reason_breakdown": "B0 generator aggregates unreachable queries without preserving their causes.",
+        "turn_inertia_collision_count": "No pre-collision velocity, route tangent and tracking-error sequence.",
+        "obstacle_detection_to_braking_delay": "No synchronized sensing and control trace."
+      },
+      "groups": {
+        "not_found_collision": {
+          "n": 23,
+          "buckets": {
+            "not_found_collision": 23,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "not_found_timeout": {
+          "n": 31,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 31,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": true
+        },
+        "found_success": {
+          "n": 12,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 12,
+            "found_collision": 0,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_collision": {
+          "n": 2,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 2,
+            "found_timeout": 0
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        },
+        "found_timeout": {
+          "n": 32,
+          "buckets": {
+            "not_found_collision": 0,
+            "not_found_timeout": 0,
+            "found_success": 0,
+            "found_collision": 0,
+            "found_timeout": 32
+          },
+          "allocation_counts_whole_episode": {
+            "unreachable_search_queries": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "candidate_shortage_events": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_allocation_attempts": {
+              "observed_episodes": 0,
+              "total": null
+            },
+            "partial_search_proposals": {
+              "observed_episodes": 0,
+              "total": null
+            }
+          },
+          "missing_route_atomic_rejections": {
+            "observed_episodes": 0,
+            "total": null
+          },
+          "steps_since_last_accepted_replan": {
+            "n": 0,
+            "min": null,
+            "median": null,
+            "mean": null,
+            "max": null
+          },
+          "all_allocation_counts_are_pre_found": false
+        }
+      },
+      "descriptive_blocks_of_25": [
+        {
+          "first_selected_index": 0,
+          "last_selected_index": 24,
+          "n": 25,
+          "found": 10,
+          "buckets": {
+            "not_found_collision": 6,
+            "found_timeout": 9,
+            "not_found_timeout": 9,
+            "found_success": 1
+          }
+        },
+        {
+          "first_selected_index": 25,
+          "last_selected_index": 49,
+          "n": 25,
+          "found": 10,
+          "buckets": {
+            "found_timeout": 8,
+            "not_found_timeout": 11,
+            "not_found_collision": 4,
+            "found_success": 2
+          }
+        },
+        {
+          "first_selected_index": 50,
+          "last_selected_index": 74,
+          "n": 25,
+          "found": 16,
+          "buckets": {
+            "found_timeout": 12,
+            "found_success": 4,
+            "not_found_collision": 3,
+            "not_found_timeout": 6
+          }
+        },
+        {
+          "first_selected_index": 75,
+          "last_selected_index": 99,
+          "n": 25,
+          "found": 10,
+          "buckets": {
+            "not_found_collision": 10,
+            "found_timeout": 3,
+            "found_success": 5,
+            "found_collision": 2,
+            "not_found_timeout": 5
+          }
+        }
+      ],
+      "source_files": {
+        "HGR-train100_seed2729_v1/summary.json": "cf594ca0e2f5a77c78ee3224bd762e0f16443f7d1d36f86b86d96e44e5f7d385",
+        "HGR-train100_seed2729_v1/episodes.json": "67124c82aa6d3cd0fa56993f7ce9d7a9410d8ad5d6d59af372bd6ead564e1af7",
+        "HGR-train100_seed2729_v1/config.json": "1765581dd66f21420ae4d7b00ec95abb826d50e514b4437fc3546c74dfcfd53c"
+      },
+      "summary_checks": {
+        "kind": "training summary: no evaluation-rate claim"
+      },
+      "manifest": null,
+      "comparable_inputs_sha256": null,
+      "recorded_production_sha256": "767b1232abb19e3d4a1d9d2d4c173d0cc3417b0b17a893e23514e78d3db2608c"
+    }
+  ],
+  "duplicates": [
+    {
+      "duplicate": ".",
+      "canonical": "HGR-train100_seed2729_v1",
+      "reason": "identical summary, episodes and config bytes"
+    }
+  ],
+  "paired_evaluations": [
+    {
+      "left": "B0",
+      "right": "B1",
+      "comparable_task_scene_inputs": true,
+      "identical_exogenous_trajectory_events_guaranteed": false,
+      "found_transitions": {
+        "0->0": 54,
+        "1->0": 7,
+        "1->1": 32,
+        "0->1": 7
+      },
+      "outcome_transitions": {
+        "not_found_timeout -> not_found_timeout": 13,
+        "found_timeout -> not_found_collision": 2,
+        "found_success -> found_timeout": 6,
+        "not_found_collision -> not_found_collision": 30,
+        "found_timeout -> found_timeout": 20,
+        "found_timeout -> not_found_timeout": 4,
+        "not_found_timeout -> found_timeout": 5,
+        "not_found_collision -> not_found_timeout": 7,
+        "found_timeout -> found_success": 3,
+        "not_found_collision -> found_timeout": 1,
+        "found_timeout -> found_collision": 3,
+        "not_found_timeout -> not_found_collision": 4,
+        "not_found_timeout -> found_success": 1,
+        "found_collision -> not_found_timeout": 1
+      }
+    }
+  ],
+  "interpretation_limits": [
+    "B0/B1 validation evaluations must not be ranked against B2/B3/HGR changing-policy training returns.",
+    "HGR main only; auxiliary and prefix-only trajectories are not additional main episodes.",
+    "Discovery and collision are competing events; more exposure alone is not better performance.",
+    "Whole-episode allocation counters for found episodes include the post-found period.",
+    "Terminal-segment geometry cannot identify inertia or obstacle-discovery timing.",
+    "Only current-state traces and bounded mechanism checks can attribute specific query failures."
+  ]
+}
