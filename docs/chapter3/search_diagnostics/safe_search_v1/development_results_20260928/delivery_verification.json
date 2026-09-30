@@ -1,0 +1,32 @@
+{
+  "schema": "ch3.safe_search.development_delivery_verification.v1",
+  "date": "2026-09-28",
+  "platform": "Windows local; not CI",
+  "source_and_input_verification_passed": true,
+  "current_source_equals_run_before_and_after": true,
+  "protected_files": 336,
+  "historical_provenance_records": 27,
+  "source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c",
+  "source_evolution_canonical_sha256": "6e8247919258eb35f96d0307dde93d9e1cbab3530b9b8bf02083737399207bec",
+  "experiment_complete": true,
+  "independent_scenarios": 20,
+  "terminal_arms": 100,
+  "program_failures": 0,
+  "main_report_links_checked": 10,
+  "figure_png_visually_reviewed": true,
+  "latest_recorded_local_tests": 69,
+  "full_repository_ci_claimed": false,
+  "training": false,
+  "checkpoint_loaded": false,
+  "heldout_scenarios_executed": 0,
+  "formal_thesis_evaluation": false,
+  "performance_passed": false,
+  "files_sha256": {
+    "report.md": "df94b690123a2f1908d5a64969827f9c22b6ff2c8583268bf688ffc9479a6c99",
+    "compact_evidence.json": "8ea90d8c27241f23b4b17b4ca3b91f953baf3d872470acc7912919bf5329b540",
+    "baseline_audit.json": "0d5dbe3e01f756a5b8c57687a026c1bd0549d56da56c65cd22e36d7590ca0a10",
+    "figures/development_diagnostics.png": "769fbf23c891a6df527c9c34e2d201afe5a99d49635d39199cd9c456e3bb0041",
+    "figures/development_diagnostics.pdf": "8d106411918672f61b567ba74d258768f031af0e3bc785e6f8784f9f0a376f39",
+    "figures/sources.json": "2d473d4a7af73b93a60f11627f4528e07008a336a56b6f9c1bf9ed3b1e932e21"
+  }
+}

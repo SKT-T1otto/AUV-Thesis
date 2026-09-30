@@ -27,6 +27,9 @@ def baseline_protected_identity(root=None):
 
 
 def framework_sources():
+    if (ROOT / "docs/provenance/d2_v1_evolution.json").exists():
+        from chapter3_bser.experiments.d2_v1.provenance import baseline_sources
+        return baseline_sources()
     result = production_sources()
     protected = json.loads(PROTECTED_BASELINE.read_text(encoding="utf-8"))
     if (protected.get("schema") != "ch3.final_experiment.protected_baseline.v1"

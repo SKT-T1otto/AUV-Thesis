@@ -1,0 +1,78 @@
+{
+  "schema": "ch3.safe_search.b1_independent_numeric_audit.v1",
+  "passed": true,
+  "recomputed_variants": [
+    {
+      "baseline": "B0",
+      "variant": "V0",
+      "found": 5,
+      "success": 0,
+      "pre_found_collision": 9,
+      "exposure": 3852,
+      "stall": 4723,
+      "hold": 0,
+      "effective": 1055
+    },
+    {
+      "baseline": "B0",
+      "variant": "V3",
+      "found": 7,
+      "success": 1,
+      "pre_found_collision": 5,
+      "exposure": 5014,
+      "stall": 5627,
+      "hold": 698,
+      "effective": 1425
+    },
+    {
+      "baseline": "B0",
+      "variant": "V5",
+      "found": 8,
+      "success": 1,
+      "pre_found_collision": 5,
+      "exposure": 4857,
+      "stall": 925,
+      "hold": 673,
+      "effective": 2065
+    },
+    {
+      "baseline": "B1",
+      "variant": "V0",
+      "found": 5,
+      "success": 0,
+      "pre_found_collision": 9,
+      "exposure": 4176,
+      "stall": 5342,
+      "hold": 0,
+      "effective": 1022
+    },
+    {
+      "baseline": "B1",
+      "variant": "V3",
+      "found": 5,
+      "success": 1,
+      "pre_found_collision": 4,
+      "exposure": 5624,
+      "stall": 7281,
+      "hold": 754,
+      "effective": 1372
+    },
+    {
+      "baseline": "B1",
+      "variant": "V5",
+      "found": 7,
+      "success": 1,
+      "pre_found_collision": 10,
+      "exposure": 4451,
+      "stall": 682,
+      "hold": 1210,
+      "effective": 1840
+    }
+  ],
+  "b1_complete_episodes": 60,
+  "independent_scenarios": 20,
+  "b1_physical_steps": 17216,
+  "development_gate": false,
+  "analysis_sha256": "664637f78c3ac0553c8c14b717fe6354b2978e870e3c40d2ebc4350997fbe97f",
+  "audit_code_sha256": "ee0bb4b4a1f80886e552e949e19e64417f8f13b34e8cd49466c69ea555493932"
+}

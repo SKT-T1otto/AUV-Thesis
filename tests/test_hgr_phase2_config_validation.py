@@ -190,10 +190,17 @@ def test_supplied_configs_and_existing_frozen_source_read_only(name, repeats, bu
     probe_config = dict(config, output_dir=str(probe_output))
     probe_path = tmp_path / name
     probe_path.write_text(json.dumps(probe_config), encoding="utf-8")
-    result = preflight.validate_phase2_config(probe_path)
-    assert result["status"] == "PREFLIGHT_PASS"
-    assert result["source_scenario_count"] == 10
-    assert result["snapshot_source_sha256"] == hashlib.sha256(before).hexdigest()
+    # A retained historical source must not become valid after D2 evolves the
+    # production inventory. Verify rejection rather than relabeling/resealing it.
+    payload = torch.load(frozen, map_location="cpu", weights_only=True)
+    if payload["source_identity"] != phase2.fresh_source_identity():
+        with pytest.raises(preflight.Phase2ConfigError, match="production source mismatch"):
+            preflight.validate_phase2_config(probe_path)
+    else:
+        result = preflight.validate_phase2_config(probe_path)
+        assert result["status"] == "PREFLIGHT_PASS"
+        assert result["source_scenario_count"] == 10
+        assert result["snapshot_source_sha256"] == hashlib.sha256(before).hexdigest()
     assert frozen.read_bytes() == before
     assert not probe_output.exists()
 

@@ -2,6 +2,7 @@
 * text=auto
 
 # Source code / configs / docs
+.gitattributes text eol=lf
 *.py   text eol=lf
 *.json text eol=lf
 *.md   text eol=lf
@@ -37,3 +38,13 @@ chapter3_bser/hysteresis/policy.py -text !eol
 chapter3_bser/online/allocator.py -text !eol
 chapter3_bser/online/config.py -text !eol
 chapter3_bser/online/controller.py -text !eol
+
+# Historical SafeSearch successor seals bind these original CRLF bytes.
+# Preserve them across clones; never rewrite the historical parent hashes.
+docs/provenance/safe_search_v1_evolution.json -text !eol
+docs/provenance/safe_search_v2_evolution.json -text !eol
+
+# Historical SafeSearch successor seals bind these original CRLF bytes.
+# Preserve them across clones; never rewrite the historical parent hashes.
+docs/provenance/safe_search_v1_evolution.json -text !eol
+docs/provenance/safe_search_v2_evolution.json -text !eol

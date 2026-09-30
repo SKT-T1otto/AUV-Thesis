@@ -1,0 +1,52 @@
+{
+  "initial_states": 20,
+  "environment_steps": 0,
+  "means": {
+    "search_only_fixed": {
+      "detection": 0.19601213143007581,
+      "objective": 0.10189664770302179,
+      "response_time": 12.4498796939774,
+      "standby_move_time": 0.0
+    },
+    "weighted_fixed": {
+      "detection": 0.19335836568693238,
+      "objective": 0.10222260289338299,
+      "response_time": 12.178390371950801,
+      "standby_move_time": 0.0
+    },
+    "search_only_optimized_standby": {
+      "detection": 0.19601213143007581,
+      "objective": 0.12673167520786366,
+      "response_time": 8.137039065555815,
+      "standby_move_time": 9.615713476387386
+    },
+    "joint": {
+      "detection": 0.19621386821060743,
+      "objective": 0.12697951856456255,
+      "response_time": 8.117303503101542,
+      "standby_move_time": 9.615713476387386
+    }
+  },
+  "joint_search_same_as_pure": 17,
+  "standby_same_sequential_joint": 20,
+  "greedy_exact_count": 17,
+  "greedy_max_relative_gap": 0.0005101885288637315,
+  "joint_extra_over_sequential_fraction": 0.0019556543878425092,
+  "audit_sha256": "d8656a71e304772d8572ef9299057a4ef0b85e704705f9dd80741c91fa35f64e",
+  "standby": {
+    "B0_search_prior": {
+      "mean_pre_found_travelled": 1.5933027413363305,
+      "near_goal_step_fraction": 0.922791846819024,
+      "found_with_standby_gap_below_075": 8,
+      "found_n": 8,
+      "mean_last_pre_found_standby_gap": 0.26156292696500283
+    },
+    "B1_bser_prior": {
+      "mean_pre_found_travelled": 8.004047007675492,
+      "near_goal_step_fraction": 0.7410387710314558,
+      "found_with_standby_gap_below_075": 5,
+      "found_n": 8,
+      "mean_last_pre_found_standby_gap": 1.9373170077656403
+    }
+  }
+}

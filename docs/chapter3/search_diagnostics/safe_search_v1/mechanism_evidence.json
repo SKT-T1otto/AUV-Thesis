@@ -1,0 +1,976 @@
+{
+  "schema": "ch3.safe_search.bounded_repair_evidence.v1",
+  "date": "2026-09-28",
+  "verification_platform": "Windows AUV Python; not Linux execution or CI",
+  "code_status": "implemented_and_bounded_mechanisms_verified",
+  "development_evaluation_ready": true,
+  "formal_evaluation_complete": false,
+  "performance_passed": null,
+  "training": false,
+  "checkpoint_loaded": false,
+  "effective_search_observation_footprint_implemented": false,
+  "runs": [
+    {
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "source_and_input_verification_passed": true,
+      "evolution_sha256": "65274e65a4d3b29b1018f76caa2af1ec6723c2d771287ae987d9abbbb3b04787",
+      "inventory_sha256": "05a15381e5ccaee3f199aba162ef78954960b88541bdcbadecdeaacfb5d8310d",
+      "identity_file_sha256": "597561c1c369ea3fb07f84d81dc191ab3835ea894e45236f017afcc74e1f6940",
+      "selected": [
+        {
+          "original_episode_index": 0,
+          "scenario_id": "unknown_validation_m20_0001",
+          "scenario_seed": 12729,
+          "environment_innovation_seed": 12729,
+          "scenario_sha256": "515e08c484d6c70a311d4d1490d33a57c0bbb3dc3af94cc09237423a85c84861"
+        }
+      ]
+    },
+    {
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "source_and_input_verification_passed": true,
+      "evolution_sha256": "65274e65a4d3b29b1018f76caa2af1ec6723c2d771287ae987d9abbbb3b04787",
+      "inventory_sha256": "05a15381e5ccaee3f199aba162ef78954960b88541bdcbadecdeaacfb5d8310d",
+      "identity_file_sha256": "c4db9f177ab8fecd60e5b41309bff437d2abb1ac103e59b4acefbfa0836db075",
+      "selected": [
+        {
+          "original_episode_index": 3,
+          "scenario_id": "unknown_validation_m20_0004",
+          "scenario_seed": 12732,
+          "environment_innovation_seed": 12732,
+          "scenario_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2"
+        }
+      ]
+    },
+    {
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "source_and_input_verification_passed": true,
+      "evolution_sha256": "65274e65a4d3b29b1018f76caa2af1ec6723c2d771287ae987d9abbbb3b04787",
+      "inventory_sha256": "05a15381e5ccaee3f199aba162ef78954960b88541bdcbadecdeaacfb5d8310d",
+      "identity_file_sha256": "70ab2117ce7f47fbe832382b108848cb67edb7a49d63b37e6364143ca07ddc56",
+      "selected": [
+        {
+          "original_episode_index": 28,
+          "scenario_id": "unknown_validation_m20_0029",
+          "scenario_seed": 12757,
+          "environment_innovation_seed": 12757,
+          "scenario_sha256": "22922065c9b1b8d153cd2ed7e98a723206bd9134e28ee9d44877a905d3f1cb32"
+        }
+      ]
+    },
+    {
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "source_and_input_verification_passed": true,
+      "evolution_sha256": "65274e65a4d3b29b1018f76caa2af1ec6723c2d771287ae987d9abbbb3b04787",
+      "inventory_sha256": "05a15381e5ccaee3f199aba162ef78954960b88541bdcbadecdeaacfb5d8310d",
+      "identity_file_sha256": "417bb5dc50a6ec95506fe71de920e9f5c17e15ea78705b85520c1d383ddbf7ea",
+      "selected": [
+        {
+          "original_episode_index": 3,
+          "scenario_id": "unknown_validation_m20_0004",
+          "scenario_seed": 12732,
+          "environment_innovation_seed": 12732,
+          "scenario_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2"
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V0",
+      "original_episode_index": 0,
+      "scenario_id": "unknown_validation_m20_0001",
+      "environment_innovation_seed": 12729,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "34581cf628a3c2b094495e0a666c342f3cd3f794aa7073f27d3391f3fa5b9bd4",
+      "v0_matches_original_at_every_step": true,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "step_query_reasons": {
+        "reachable": 88
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 66.10439233511464,
+      "candidate_shortage_events": 0,
+      "safe_search": null,
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "2626d69c5807428772c22b5a7afd4a0085b9f7ce0b29b4b0cb98f40651895fe3"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V1",
+      "original_episode_index": 0,
+      "scenario_id": "unknown_validation_m20_0001",
+      "environment_innovation_seed": 12729,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "34581cf628a3c2b094495e0a666c342f3cd3f794aa7073f27d3391f3fa5b9bd4",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "step_query_reasons": {
+        "reachable": 108
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 66.10439233511464,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V1",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": false,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "1b36ea9d0b484fc32d3126976cd8a12c51144c928bc4f4a96208076fd2dcf9d2"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V2",
+      "original_episode_index": 0,
+      "scenario_id": "unknown_validation_m20_0001",
+      "environment_innovation_seed": 12729,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "34581cf628a3c2b094495e0a666c342f3cd3f794aa7073f27d3391f3fa5b9bd4",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "step_query_reasons": {
+        "reachable": 108
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 66.10439233511464,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V2",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "1b36ea9d0b484fc32d3126976cd8a12c51144c928bc4f4a96208076fd2dcf9d2"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V3",
+      "original_episode_index": 0,
+      "scenario_id": "unknown_validation_m20_0001",
+      "environment_innovation_seed": 12729,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "34581cf628a3c2b094495e0a666c342f3cd3f794aa7073f27d3391f3fa5b9bd4",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "step_query_reasons": {
+        "reachable": 108
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 66.10439233511464,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V3",
+        "options": {
+          "planning_state_consistency": false,
+          "failure_policy": false,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 303
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "1b36ea9d0b484fc32d3126976cd8a12c51144c928bc4f4a96208076fd2dcf9d2"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V4",
+      "original_episode_index": 0,
+      "scenario_id": "unknown_validation_m20_0001",
+      "environment_innovation_seed": 12729,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "34581cf628a3c2b094495e0a666c342f3cd3f794aa7073f27d3391f3fa5b9bd4",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene1",
+      "step_query_reasons": {
+        "reachable": 108
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 66.10439233511464,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V4",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 303
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "1b36ea9d0b484fc32d3126976cd8a12c51144c928bc4f4a96208076fd2dcf9d2"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V0",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+      "v0_matches_original_at_every_step": true,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": 0,
+      "safe_search": null,
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "8b0789591071b47d9768edd741c237e87e9a55b9abe0dfe7942c1fcd5590d8e3"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V1",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V1",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": false,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "8b0789591071b47d9768edd741c237e87e9a55b9abe0dfe7942c1fcd5590d8e3"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V2",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V2",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "8b0789591071b47d9768edd741c237e87e9a55b9abe0dfe7942c1fcd5590d8e3"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V3",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 9,
+      "searcher_hold_agent_steps": 13,
+      "effective_search_steps": null,
+      "signature_sha256": "4520cdb8560ed421010c82598fc2579cff6493232347ad998588ea7ccc854815",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "step_query_reasons": {
+        "reachable": 77,
+        "no_start_connector": 5577,
+        "invalid_start": 798
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 51.633761573524424,
+      "candidate_shortage_events": 8,
+      "safe_search": {
+        "variant": "V3",
+        "options": {
+          "planning_state_consistency": false,
+          "failure_policy": false,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 6362,
+          "candidate_shortage_events": 8,
+          "path_safety_checks": 303,
+          "unsafe_search_paths": 13,
+          "safety_route_queries": 13,
+          "safety_route_failures": 13,
+          "safety_route_failure:no_start_connector": 12,
+          "safety_braking_agent_steps": 13,
+          "safety_route_failure:invalid_start": 1
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "87f5c52a6bbd3fc1107ed123b3e9c13360bb74e6f8d9b6ed54f67f71f2a0c7a3"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V4",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 11,
+      "effective_search_steps": null,
+      "signature_sha256": "ea2f2f9afce47cf17dbfe15bd2488de002d2e7fc5af476107eb0dd22b2687e4e",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene4",
+      "step_query_reasons": {
+        "reachable": 145,
+        "invalid_start": 5,
+        "no_start_connector": 8
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 53.629008456500046,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V4",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 303,
+          "forced_planning_refreshes": 6,
+          "start_preflight:invalid_start": 3,
+          "short_circuited_candidate_pools": 3,
+          "unsafe_search_paths": 11,
+          "safety_route_queries": 11,
+          "safety_route_failures": 11,
+          "safety_route_failure:invalid_start": 3,
+          "safety_braking_agent_steps": 11,
+          "safety_route_failure:no_start_connector": 8,
+          "recovery_failure:ATOMIC_REJECT_MISSING_SEARCH_ROUTE": 1
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "69035f1c93035c589552815c0378f2294878a1030359704db64ebbb0d04a5a80"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V0",
+      "original_episode_index": 28,
+      "scenario_id": "unknown_validation_m20_0029",
+      "environment_innovation_seed": 12757,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 34,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "51214d557a9d6610c7bd2e38e9e6abccd503b70f5a292c4dac79a21e7f11f080",
+      "v0_matches_original_at_every_step": true,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "step_query_reasons": {
+        "reachable": 63,
+        "no_start_connector": 15181
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 45.767191578213755,
+      "candidate_shortage_events": 19,
+      "safe_search": null,
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "15516fb2e4c42cdfd6ae80c7fcceb8f431a088c8307d0b1a5d8c1f7a24fc7b9a"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V1",
+      "original_episode_index": 28,
+      "scenario_id": "unknown_validation_m20_0029",
+      "environment_innovation_seed": 12757,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "14452c29310fc7a42a66852ffe3b0abba64c40f506f7026e8563c1700bd21b4f",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "step_query_reasons": {
+        "reachable": 144
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 61.969215475817876,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V1",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": false,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "forced_planning_refreshes": 5
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "8c8fa3e58ae09501d04422b0190cd9b0220981c91ef3fdb270a09c61264d159a"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V2",
+      "original_episode_index": 28,
+      "scenario_id": "unknown_validation_m20_0029",
+      "environment_innovation_seed": 12757,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "625ffc148a258ae9c9b93decd1843d9fdb138f97c7a5e44d76dc519432704e08",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "step_query_reasons": {
+        "reachable": 140
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 62.60527373801908,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V2",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "forced_planning_refreshes": 4
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "128cae2ad97d6482a93d82201e0853b406ffa7eb3bfa31f7b64cfdc3dfd19c9c"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V3",
+      "original_episode_index": 28,
+      "scenario_id": "unknown_validation_m20_0029",
+      "environment_innovation_seed": 12757,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 34,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "51214d557a9d6610c7bd2e38e9e6abccd503b70f5a292c4dac79a21e7f11f080",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "step_query_reasons": {
+        "reachable": 83,
+        "no_start_connector": 15181
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 45.767191578213755,
+      "candidate_shortage_events": 19,
+      "safe_search": {
+        "variant": "V3",
+        "options": {
+          "planning_state_consistency": false,
+          "failure_policy": false,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 15181,
+          "candidate_shortage_events": 19,
+          "path_safety_checks": 303
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "ef253efbf139d890bc0d49140ef06198c72ab170495fc2da6c4bdb0d36bcf36c"
+    },
+    {
+      "baseline": "B0_search_prior",
+      "variant": "V4",
+      "original_episode_index": 28,
+      "scenario_id": "unknown_validation_m20_0029",
+      "environment_innovation_seed": 12757,
+      "physical_steps": 100,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 100,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "625ffc148a258ae9c9b93decd1843d9fdb138f97c7a5e44d76dc519432704e08",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/mechanism_B0_20260928_r2_scene29",
+      "step_query_reasons": {
+        "reachable": 140
+      },
+      "initial_query_count": 13,
+      "searcher_displacement_sum": 62.60527373801908,
+      "candidate_shortage_events": 0,
+      "safe_search": {
+        "variant": "V4",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 303,
+          "forced_planning_refreshes": 4
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 100,
+      "trace_sha256": "128cae2ad97d6482a93d82201e0853b406ffa7eb3bfa31f7b64cfdc3dfd19c9c"
+    },
+    {
+      "baseline": "B1_bser_prior",
+      "variant": "V0",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9a98301b6f3ef7329d54faf6fbed138f583c4c8649fa2e1d514602e74c66f115",
+      "v0_matches_original_at_every_step": true,
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 16,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": null,
+      "safe_search": null,
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "7808ffa153b257c085395693ea784ada86d0eb9ad2b90b4daf48775c7595616c"
+    },
+    {
+      "baseline": "B1_bser_prior",
+      "variant": "V1",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9a98301b6f3ef7329d54faf6fbed138f583c4c8649fa2e1d514602e74c66f115",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 16,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": null,
+      "safe_search": {
+        "variant": "V1",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": false,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "7808ffa153b257c085395693ea784ada86d0eb9ad2b90b4daf48775c7595616c"
+    },
+    {
+      "baseline": "B1_bser_prior",
+      "variant": "V2",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 18,
+      "stop_reason": "obstacle_collision",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": true,
+      "pre_found_exposure_steps": 18,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "9a98301b6f3ef7329d54faf6fbed138f583c4c8649fa2e1d514602e74c66f115",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "step_query_reasons": {},
+      "initial_query_count": 16,
+      "searcher_displacement_sum": 9.351841137803985,
+      "candidate_shortage_events": null,
+      "safe_search": {
+        "variant": "V2",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": false
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {},
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 18,
+      "trace_sha256": "7808ffa153b257c085395693ea784ada86d0eb9ad2b90b4daf48775c7595616c"
+    },
+    {
+      "baseline": "B1_bser_prior",
+      "variant": "V3",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 20,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 20,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "b00890833285714a4a8b00bff975d592107a133bd73a2cb6866d0cdc1bc695d2",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "step_query_reasons": {
+        "reachable": 22
+      },
+      "initial_query_count": 16,
+      "searcher_displacement_sum": 11.039851177136118,
+      "candidate_shortage_events": null,
+      "safe_search": {
+        "variant": "V3",
+        "options": {
+          "planning_state_consistency": false,
+          "failure_policy": false,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 63
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 20,
+      "trace_sha256": "7ce55e54331c1b14a056570e03f20c1a5f5d3528ac0210c04b646dd504da1412"
+    },
+    {
+      "baseline": "B1_bser_prior",
+      "variant": "V4",
+      "original_episode_index": 3,
+      "scenario_id": "unknown_validation_m20_0004",
+      "environment_innovation_seed": 12732,
+      "physical_steps": 20,
+      "stop_reason": "budget_cutoff",
+      "found_within_budget": false,
+      "found_step": null,
+      "pre_found_collision": false,
+      "pre_found_exposure_steps": 20,
+      "searcher_motion_stall_proxy_agent_steps": 0,
+      "searcher_hold_agent_steps": 0,
+      "effective_search_steps": null,
+      "signature_sha256": "b00890833285714a4a8b00bff975d592107a133bd73a2cb6866d0cdc1bc695d2",
+      "v0_matches_original_at_every_step": null,
+      "run": "runs/safe_search_v1/integration_B1_20260928_r2_scene4",
+      "step_query_reasons": {
+        "reachable": 22
+      },
+      "initial_query_count": 16,
+      "searcher_displacement_sum": 11.039851177136118,
+      "candidate_shortage_events": null,
+      "safe_search": {
+        "variant": "V4",
+        "options": {
+          "planning_state_consistency": true,
+          "failure_policy": true,
+          "path_safety": true
+        },
+        "counts": {
+          "search_candidate_unreachable_queries": 0,
+          "candidate_shortage_events": 0,
+          "path_safety_checks": 63
+        },
+        "unresolved_searcher_ids": [],
+        "safety_status": {
+          "0": "SAFE",
+          "1": "SAFE",
+          "2": "SAFE"
+        },
+        "information_boundary": "public occupancy only; no truth obstacles or hidden target",
+        "zero_residual_required": true
+      },
+      "zero_residual_checked_steps": 20,
+      "trace_sha256": "7ce55e54331c1b14a056570e03f20c1a5f5d3528ac0210c04b646dd504da1412"
+    }
+  ],
+  "historical_v0_prefix_checks": [
+    {
+      "scene": 1,
+      "steps": 30,
+      "all_shared_telemetry_fields_exact": true,
+      "excluded_schema_additions": [
+        "new planned_path diagnostic"
+      ]
+    },
+    {
+      "scene": 4,
+      "steps": 18,
+      "all_shared_telemetry_fields_exact": true,
+      "excluded_schema_additions": [
+        "historical live_public_map diagnostic"
+      ]
+    },
+    {
+      "scene": 29,
+      "steps": 100,
+      "all_shared_telemetry_fields_exact": true,
+      "excluded_schema_additions": []
+    }
+  ],
+  "physical_step_accounting": {
+    "b0_arms": 1254,
+    "b0_direct_references": 218,
+    "b1_arms": 94,
+    "b1_direct_reference": 18
+  },
+  "interrupted_prior_revision": {
+    "run": "runs/safe_search_v1/mechanism_B0_20260928_r1",
+    "included_in_final_comparison": false,
+    "reason": "stopped to repair initial-missing-assignment recovery revealed by synthetic tests; original partial evidence retained"
+  },
+  "limitations": [
+    "All final B0 prefixes were not Found; no formal Found-rate improvement established.",
+    "Nonterminal 100-step prefixes are budget cutoffs, not task timeouts.",
+    "Motion stall and hold are movement proxies, not effective sensing coverage.",
+    "Holding requests braking from unchanged dynamics; no verified stopping-distance or collision-avoidance guarantee.",
+    "Concurrent CPU probes are not a wall-clock performance benchmark.",
+    "Legacy baseline source gate intentionally remains restrictive; use the new independent entry."
+  ]
+}

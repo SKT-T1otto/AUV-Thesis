@@ -1,0 +1,25 @@
+{
+  "schema": "ch3.safe_search.b1_preflight.v1",
+  "passed": true,
+  "task_tests_passed": 146,
+  "offline_analysis_tests_passed": 3,
+  "original_indices": [
+    3,
+    28
+  ],
+  "variants": [
+    "V0",
+    "V3",
+    "V5"
+  ],
+  "recorded_arms": 6,
+  "physical_steps": 168,
+  "v0_native_replay_steps": 48,
+  "v0_native_equal_at_every_step": true,
+  "zero_learning_and_residuals": true,
+  "excluded_from_main_denominator": true,
+  "identity_sha256": "d23c883eee7ea0861e446a0f12c70362bf09cc81033dbb8e9ef20b63f6529d39",
+  "episodes_sha256": "54d8ee2753750c4bfbae4a1ba3b31dfa574c8cd593a846ba365abbee7eac29d0",
+  "source_inventory_sha256": "f0f91fb821b138aa4f09c59bc3132b13d2567c086c59d4bd3d8ac5ea076de1ba",
+  "receipt_note": "Initial receipt assertion incorrectly required substring BSER in wrapper class name. Corrected to exact native BSEROnlineAllocator / safe SafeJointAllocator names after inspecting existing class hierarchy; no simulation, source or result was changed. Main scheduler started after actual prefix completion, before corrected receipt was saved."
+}

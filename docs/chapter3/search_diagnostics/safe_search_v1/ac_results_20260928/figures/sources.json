@@ -1,0 +1,168 @@
+{
+  "schema": "ch3.safe_search.ac_figure_sources.v1",
+  "input_sha256": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\ac_results_20260928\\analysis.json": "d87ad77594954abd26c62e09b023cff70b0671bee375c98ff877e1830b3e05fd"
+  },
+  "script_sha256": "6ad3c8c0db37d57d69ee2291f3539a34bf56a6615fb2122bcc121ff1aa8177e6",
+  "analysis_content_sha256": "648322751f843c47a2319ae05b9d4dcc87e39077774502de6be470e25b7d9db9",
+  "matplotlib_version": "3.10.8",
+  "backend": "Agg",
+  "plotted_field_paths": [
+    "variants.<variant>.n",
+    "variants.<variant>.outcome_partition",
+    "variants.<variant>.found_count",
+    "variants.<variant>.success_count",
+    "variants.<variant>.pre_found_collision_count",
+    "variants.<variant>.pre_found_exposure_steps",
+    "variants.<variant>.searcher_motion_stall_proxy_agent_steps",
+    "variants.<variant>.searcher_hold_agent_steps",
+    "variants.<variant>.searcher_motion_stall_proxy_fraction",
+    "variants.<variant>.searcher_hold_fraction",
+    "paired_v5_minus_reference.<reference>.scenario_pairs",
+    "source_comparability.passed",
+    "sources.all_inputs_unchanged",
+    "sources.new_source_inventory_sha256",
+    "sources.reference_source_inventory_sha256"
+  ],
+  "plotted_data": {
+    "variants": [
+      "V0",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5"
+    ],
+    "scenario_count": 20,
+    "episode_count": 120,
+    "outcome_counts": {
+      "V0": {
+        "pre_found_collision": 9,
+        "no_found_timeout": 6,
+        "success": 0,
+        "post_found_failure": 5
+      },
+      "V1": {
+        "pre_found_collision": 7,
+        "no_found_timeout": 5,
+        "success": 0,
+        "post_found_failure": 8
+      },
+      "V2": {
+        "pre_found_collision": 10,
+        "no_found_timeout": 2,
+        "success": 0,
+        "post_found_failure": 8
+      },
+      "V3": {
+        "pre_found_collision": 5,
+        "no_found_timeout": 8,
+        "success": 1,
+        "post_found_failure": 6
+      },
+      "V4": {
+        "pre_found_collision": 7,
+        "no_found_timeout": 5,
+        "success": 1,
+        "post_found_failure": 7
+      },
+      "V5": {
+        "pre_found_collision": 5,
+        "no_found_timeout": 7,
+        "success": 1,
+        "post_found_failure": 7
+      }
+    },
+    "found_counts": {
+      "V0": 5,
+      "V1": 8,
+      "V2": 8,
+      "V3": 7,
+      "V4": 8,
+      "V5": 8
+    },
+    "motion": {
+      "V0": {
+        "pre_found_exposure_steps": 3852,
+        "denominator_search_agent_steps": 11556,
+        "stall_agent_steps": 4723,
+        "hold_agent_steps": 0,
+        "stall_fraction": 0.408705434406369,
+        "hold_fraction": 0.0,
+        "combined_fraction": 0.408705434406369
+      },
+      "V1": {
+        "pre_found_exposure_steps": 3618,
+        "denominator_search_agent_steps": 10854,
+        "stall_agent_steps": 442,
+        "hold_agent_steps": 0,
+        "stall_fraction": 0.04072231435415515,
+        "hold_fraction": 0.0,
+        "combined_fraction": 0.04072231435415515
+      },
+      "V2": {
+        "pre_found_exposure_steps": 3116,
+        "denominator_search_agent_steps": 9348,
+        "stall_agent_steps": 1,
+        "hold_agent_steps": 0,
+        "stall_fraction": 0.0001069747539580659,
+        "hold_fraction": 0.0,
+        "combined_fraction": 0.0001069747539580659
+      },
+      "V3": {
+        "pre_found_exposure_steps": 5014,
+        "denominator_search_agent_steps": 15042,
+        "stall_agent_steps": 5627,
+        "hold_agent_steps": 698,
+        "stall_fraction": 0.3740858928333998,
+        "hold_fraction": 0.046403403802685816,
+        "combined_fraction": 0.42048929663608564
+      },
+      "V4": {
+        "pre_found_exposure_steps": 4114,
+        "denominator_search_agent_steps": 12342,
+        "stall_agent_steps": 25,
+        "hold_agent_steps": 398,
+        "stall_fraction": 0.002025603629881705,
+        "hold_fraction": 0.03224760978771674,
+        "combined_fraction": 0.034273213417598446
+      },
+      "V5": {
+        "pre_found_exposure_steps": 4857,
+        "denominator_search_agent_steps": 14571,
+        "stall_agent_steps": 925,
+        "hold_agent_steps": 673,
+        "stall_fraction": 0.06348225928213574,
+        "hold_fraction": 0.046187632969597145,
+        "combined_fraction": 0.10966989225173289
+      }
+    },
+    "source_identity": {
+      "new_source_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496",
+      "reference_source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c"
+    },
+    "synthetic_test": false
+  },
+  "definitions": {
+    "outcomes": "Mutually exclusive terminal partition; collision at Found takes pre-Found precedence.",
+    "found": "Count of episodes with any non-null Found step; distinct from success.",
+    "motion_denominator": "Three searchers times pooled pre-Found exposure, including the Found transition.",
+    "stall": "Existing 10-step stable-assignment low-motion proxy; excludes Hold and unreachable assignments.",
+    "hold": "Pre-Found search-agent steps whose before-step guidance is Hold; disjoint from the stall proxy.",
+    "zero_exposure": "Undefined rates are null and rendered NA, never zero.",
+    "aggregation": "Ratio of pooled counts, not a mean of per-episode rates.",
+    "interpretation": "Descriptive development counts/rates; no statistical superiority or independent test claim."
+  },
+  "validation": {
+    "complete_analysis_schema": true,
+    "fixed20_by6_pair_partition_reconciled": true,
+    "found_counts_reconciled": true,
+    "disjoint_motion_bounds_and_pooled_rates_reconciled": true,
+    "raw_traces_reaudited_by_figure": false,
+    "raw_trace_authority": "analyze_ac_development input verification"
+  },
+  "output_sha256": {
+    "ac_development_diagnostics.png": "04d39bc8fc55f12d12b463e73d424952b1a7b02417099c5d18e3a0716a4ff500",
+    "ac_development_diagnostics.pdf": "c1ccc653568ae1ebd79d4e95fc031d3253f1a189c6452a439fc0f92e551dc795"
+  }
+}

@@ -1,0 +1,21 @@
+test_both_parent_and_repaired_runtime_contracts_and_nominal_prediction (tests.test_found_search_v2_integration.BoundedRuntimeTests) ... 
+======================================================================
+ERROR: test_both_parent_and_repaired_runtime_contracts_and_nominal_prediction (tests.test_found_search_v2_integration.BoundedRuntimeTests) (baseline='B0_search_prior', arm='R0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_found_search_v2_integration.py", line 51, in test_both_parent_and_repaired_runtime_contracts_and_nominal_prediction
+    np.testing.assert_array_equal(record["actions"], np.zeros((4,3)))
+KeyError: 'actions'
+
+======================================================================
+ERROR: test_both_parent_and_repaired_runtime_contracts_and_nominal_prediction (tests.test_found_search_v2_integration.BoundedRuntimeTests) (baseline='B0_search_prior', arm='R4')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_found_search_v2_integration.py", line 51, in test_both_parent_and_repaired_runtime_contracts_and_nominal_prediction
+    np.testing.assert_array_equal(record["actions"], np.zeros((4,3)))
+KeyError: 'actions'
+
+----------------------------------------------------------------------
+Ran 1 test in 76.619s
+
+FAILED (errors=2)

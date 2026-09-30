@@ -1,0 +1,59 @@
+{
+  "schema": "ch3.safe_search.ac_preflight_verification.v1",
+  "date": "2026-09-28",
+  "platform": "Windows local AUV Python; not CI",
+  "tests_run": 140,
+  "tests_passed": 140,
+  "test_seconds": 18.459,
+  "test_log": "runs/safe_search_v1/ac_preparation_20260928_v1/tests_all_safe_search.txt",
+  "source_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496",
+  "source_evolution_canonical_sha256": "a5438f681bad3a1ebf895de53a5708a8c220a6887cf2889cfe48bf0130d20ca8",
+  "protected_files": 337,
+  "historical_records": 27,
+  "controls_source_comparability_passed": true,
+  "controls_file": "runs\\safe_search_v1\\ac_source_controls_20260928_v1\\comparability.json",
+  "controls_sha256": "63efc42de175298c7102a98dec46b44c20e8108351ad673f68358fa2b330a246",
+  "controls_physical_steps": 800,
+  "mechanism_prefixes": [
+    {
+      "original_episode_index": 3,
+      "variant": "V5",
+      "physical_steps": 30,
+      "stop_reason": "budget_cutoff",
+      "options": {
+        "planning_state_consistency": true,
+        "failure_policy": false,
+        "path_safety": true
+      },
+      "counts": {
+        "search_candidate_unreachable_queries": 0,
+        "candidate_shortage_events": 0,
+        "path_safety_checks": 93
+      },
+      "zero_residual_action": true,
+      "zero_physical_residual": true
+    },
+    {
+      "original_episode_index": 28,
+      "variant": "V5",
+      "physical_steps": 30,
+      "stop_reason": "budget_cutoff",
+      "options": {
+        "planning_state_consistency": true,
+        "failure_policy": false,
+        "path_safety": true
+      },
+      "counts": {
+        "search_candidate_unreachable_queries": 0,
+        "candidate_shortage_events": 0,
+        "path_safety_checks": 93
+      },
+      "zero_residual_action": true,
+      "zero_physical_residual": true
+    }
+  ],
+  "mechanism_prefixes_included_in_V5_denominator": false,
+  "old_controls_included_in_V5_denominator": false,
+  "training": false,
+  "checkpoint_loaded": false
+}

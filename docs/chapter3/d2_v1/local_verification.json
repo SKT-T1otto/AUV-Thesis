@@ -1,0 +1,110 @@
+{
+  "schema": "ch3.d2.local_verification.v1",
+  "recorded_at": "2026-09-30T12:41:38.229604+08:00",
+  "status": "passed_after_targeted_rechecks",
+  "verification_kind": "latest recorded local verification; not CI or performance evidence",
+  "planner_protocol": "d2_v1",
+  "source_inventory_sha256": "0081ce1eb1c4d88c0e243d3dd200f8e810d6c583daf3fa0e954483341e5dd15a",
+  "source_inventory_files": 376,
+  "checkout_profile": "windows_existing",
+  "historical_migration_records": 27,
+  "formal_experiment_started": false,
+  "formal_performance_established": false,
+  "commit_or_push_performed": false,
+  "test_coverage": {
+    "unittest_distinct_cases": 371,
+    "pytest_distinct_cases": 96,
+    "total_distinct_cases": 467,
+    "missing_cases": [],
+    "basis": "Current unittest collection audited against successful per-case logs, targeted class/module rechecks, and four direct tool-captured D2 smoke passes; 96 pytest cases including two historical-artifact rejection rechecks."
+  },
+  "d2_runtime_checks": {
+    "reference_zero_actions": "Four transitions per reference D2, new HGR and independent baseline runtime; forced replan events; exact positions, velocities, allocations and observations",
+    "learned_actions": "Nonzero baseline actor commands reach physical residual acceleration",
+    "b2_b3_updates": "One four-step synthetic episode each; three real optimizer updates each; independent HGR-call prohibition passes",
+    "handoff_snapshot": "Eight-step synthetic HGR scene; owner identities preserved; local and fresh spawned-process continuation agree exactly"
+  },
+  "portability": {
+    "source_profiles": [
+      "git_lf",
+      "windows_existing",
+      "git_clone_preserved"
+    ],
+    "reference_profiles": [
+      "original Windows bytes",
+      "complete Git LF bytes"
+    ],
+    "historical_manifest_bytes_preserved": true,
+    "attributes_file_explicit_lf": true,
+    "fresh_process_copied_git_checkout_passed": true,
+    "actual_clean_git_clone_performed": false
+  },
+  "rerun_notes": [
+    "Initial direct D2 trainer smoke used an incorrect test import name; corrected the test and both trainers passed.",
+    "Historical transition assertions now compare each immutable historical seal with its parent, while the full current successor chain is separately verified. No source check was deleted or broadly exempted.",
+    "Some broad-run assertions loaded before test/seal edits were superseded by successful targeted fresh-process rechecks.",
+    "The stdin-launched broad harness became stuck during Windows multiprocessing cleanup. Only that verified test PID was stopped. The same snapshot tests passed via python -m unittest, and all remaining modules passed using that standard entrypoint.",
+    "Two retained historical HGR Phase2 artifacts are intentionally rejected by current source identity checks; their files were not modified. Tests now assert that required rejection."
+  ],
+  "retained_artifacts_unchanged": [
+    "Historical migration/provenance manifests",
+    "D2/F0 historical algorithms and evidence",
+    "User-retained outputs, checkpoints and raw 3090 results"
+  ],
+  "logs": {
+    "regression_initial.log": {
+      "path": "docs/chapter3/d2_v1/regression_initial.log",
+      "sha256": "00dab6a4585047720e02ff551a6b8a06190a14b821d820a88d93ffee5262a4b1"
+    },
+    "provenance_regression.log": {
+      "path": "docs/chapter3/d2_v1/provenance_regression.log",
+      "sha256": "e49c4788580625104ae7f67364a0f1c1fba32d106a5375f1dfcd3170cb657e02"
+    },
+    "baseline_gate_regression.log": {
+      "path": "docs/chapter3/d2_v1/baseline_gate_regression.log",
+      "sha256": "7ded7e6ae07795428852b49c869a9c79a2fd8273cd18b14460747060b7931ef2"
+    },
+    "final_verification.log": {
+      "path": "docs/chapter3/d2_v1/final_verification.log",
+      "sha256": "a83768c4ada1ab6604edc0e24d32593940a40391b70e07526a2b74d8ab77340a"
+    },
+    "runtime_recheck.log": {
+      "path": "docs/chapter3/d2_v1/runtime_recheck.log",
+      "sha256": "54b77f4802b526c1c6055cffc4c384e1c81ba9ade44f61f0ea252e97056b12f0"
+    },
+    "snapshot_recheck.log": {
+      "path": "docs/chapter3/d2_v1/snapshot_recheck.log",
+      "sha256": "bf778d2b514cc4dc745738f04615219f4f2ec1d120781ea015ef967f8a9a2f17"
+    },
+    "historical_evolution_recheck.log": {
+      "path": "docs/chapter3/d2_v1/historical_evolution_recheck.log",
+      "sha256": "152dd8dff7023bd71160268e6ab09b181a777fb267db51d93c34b1cbfdb3b504"
+    },
+    "hgr_remaining.log": {
+      "path": "docs/chapter3/d2_v1/hgr_remaining.log",
+      "sha256": "c7cfbef8e4487cd1386650059ae391afa00e8d1bbd0320f9062ddb4a3488676d"
+    },
+    "remaining_regression.log": {
+      "path": "docs/chapter3/d2_v1/remaining_regression.log",
+      "sha256": "97c1d8c21cf148127915c1bdeff350bdcc1e717de668726886b8cfe3298d23a6"
+    },
+    "pytest_regression.log": {
+      "path": "docs/chapter3/d2_v1/pytest_regression.log",
+      "sha256": "ca3a7ab1da682e9ca95755af596610c0ade94e7c344d9303bb82cc52a89fe61e"
+    },
+    "phase2_config_recheck.log": {
+      "path": "docs/chapter3/d2_v1/phase2_config_recheck.log",
+      "sha256": "220d5b3e94e21fc0ae0257b962494e0bca58131c1710bec9fac80973c157aff2"
+    },
+    "final_checkout_recheck.log": {
+      "path": "docs/chapter3/d2_v1/final_checkout_recheck.log",
+      "sha256": "e76afe318a805550e9f855fe334ce3e0604ee389574a82d956b1639e9988ecc8"
+    }
+  },
+  "direct_tool_captured_passes": [
+    "test_seal_defaults_and_planner_mismatch",
+    "test_original_d2_and_both_runtime_paths_match_with_zero_actions",
+    "test_learned_baseline_actions_reach_physics",
+    "test_both_trainers_do_bounded_real_updates_on_d2"
+  ]
+}

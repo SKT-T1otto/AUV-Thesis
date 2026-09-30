@@ -1,0 +1,71 @@
+{
+  "schema": "ch3.d2_suite_pipeline.local_verification.v1",
+  "status": "passed",
+  "recorded_utc": "2026-09-30T12:30:21.109155+00:00",
+  "context": "latest recorded local verification, not CI",
+  "platform": "Windows native Python and Git Bash; no native Linux run",
+  "command": "python -B -m unittest -v tests.test_d2_suite_pipeline tests.test_safe_search_provenance tests.test_repository_metadata tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_provenance_platform_independent tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_evolution_preserves_all_historical_records_and_exact_new_hashes",
+  "tests_passed": 22,
+  "seconds": 281.392,
+  "test_ids": [
+    "tests.test_d2_suite_pipeline.PipelineTests.test_cli_requires_explicit_execution",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_default_nine_training_ten_evaluation_preview_writes_nothing",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_entire_phase_order_lock_and_new_reports_on_repeat",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_missing_training_receipts_block_even_d2_before_evaluation",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_native_smoke_all_training_precedes_d2_and_learning_evaluation",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_new_source_scope_and_unused_profile_are_protected",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_partial_summary_cannot_mark_pipeline_complete",
+    "tests.test_d2_suite_pipeline.PipelineTests.test_training_or_evaluation_error_stops_later_phases_and_records_failure",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_changed_removed_added_files_rejected_in_every_scope",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_current_exact_inventory_and_no_source_normalization",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_d2_mainline_uses_exact_successor_without_rewriting_old_gate",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_historical_manifests_and_all_27_records_are_frozen",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_manifest_hash_scope_before_records_and_unused_profiles_checked",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_provenance_platform_independent",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_evolution_preserves_all_historical_records_and_exact_new_hashes"
+  ],
+  "log": "docs/chapter3/d2_suite_v1/pipeline/local_tests.txt",
+  "log_sha256": "83d4850ad9415ff189eebbdcfd9b644f2fc5779f3d64c247ffbeb2ecfa805e04",
+  "source_sha256": "7991e09d8f5fdecaffed3f2446ce5c38ee2235a0c45f28fdb6e417f1b0469f0e",
+  "source_file_count": 398,
+  "historical_records": 27,
+  "evolution_manifest_sha256": "5918f1297de315c12ca021988424113b131f6d2b35b4104f3876311eed5f2e49",
+  "frozen_parent_manifest_sha256": "600795a0a4f4cc344332d456ebeb90a7e9961adb08a123ff87fb4bfa3a944c74",
+  "bounded_smoke": {
+    "training_seeds": [
+      17
+    ],
+    "training_environment_step_budget": 1,
+    "train_scenes": 1,
+    "eval_scenes": 1,
+    "max_steps_per_runtime": 3,
+    "method": "forced collision with native temporary checkpoints",
+    "verified": [
+      "all training finishes before D2 evaluation",
+      "D2 checkpoint is None",
+      "learning evaluation receives own checkpoint",
+      "automatic complete paired summary",
+      "repeat skips verified completed jobs"
+    ]
+  },
+  "shell_checks": {
+    "script": "scripts/linux/run_d2_full_suite.sh",
+    "syntax": true,
+    "help": true,
+    "documentation_bash_blocks": 4
+  },
+  "limitations": [
+    "Formal training/evaluation not started.",
+    "No native Linux execution.",
+    "Smoke metrics are not performance evidence.",
+    "Default budget and CPU device unchanged.",
+    "All earlier source seals and verification evidence remain frozen."
+  ]
+}

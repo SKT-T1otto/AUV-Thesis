@@ -1,0 +1,2039 @@
+{
+  "schema": "ch3.safe_search.development_baseline_audit.v1",
+  "audit_complete": true,
+  "all_requested_comparisons_equal": true,
+  "current_complete_arm_count": 100,
+  "current_independent_scene_count": 20,
+  "current_source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c",
+  "current_environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "numpy": "2.2.6",
+    "torch": "2.11.0+cu126",
+    "torch_num_threads": 1,
+    "omp_num_threads": "1",
+    "mkl_num_threads": "1"
+  },
+  "baseline_mechanisms": {
+    "scope": "V0 only, complete fixed development selection; diagnostic outcome strata are descriptive",
+    "n_scenarios": 20,
+    "found_count": 5,
+    "found_rate": 0.25,
+    "success_count": 0,
+    "success_rate": 0.0,
+    "outcome_partition": {
+      "no_found_timeout": 6,
+      "pre_found_collision_searcher": 9,
+      "post_found_timeout": 5
+    },
+    "first_collisions": [
+      {
+        "original_episode_index": 3,
+        "first_collision_step": 18,
+        "first_collision_agent_ids": [
+          0
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 7,
+        "first_collision_step": 44,
+        "first_collision_agent_ids": [
+          1
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 40,
+        "first_collision_step": 14,
+        "first_collision_agent_ids": [
+          2
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 46,
+        "first_collision_step": 243,
+        "first_collision_agent_ids": [
+          0
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 62,
+        "first_collision_step": 50,
+        "first_collision_agent_ids": [
+          1
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 67,
+        "first_collision_step": 36,
+        "first_collision_agent_ids": [
+          0
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 77,
+        "first_collision_step": 22,
+        "first_collision_agent_ids": [
+          1
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 78,
+        "first_collision_step": 92,
+        "first_collision_agent_ids": [
+          0
+        ],
+        "role": "searcher",
+        "pre_found": true
+      },
+      {
+        "original_episode_index": 86,
+        "first_collision_step": 19,
+        "first_collision_agent_ids": [
+          0
+        ],
+        "role": "searcher",
+        "pre_found": true
+      }
+    ],
+    "pre_found_collision_roles": {
+      "searcher": 9,
+      "executor": 0,
+      "mixed": 0
+    },
+    "all_V0_pre_found_query_reasons": {
+      "reachable": 4727,
+      "no_start_connector": 847158,
+      "invalid_start": 24833
+    },
+    "no_found_timeouts": {
+      "n_scenarios": 6,
+      "original_episode_indices": [
+        0,
+        28,
+        31,
+        42,
+        63,
+        91
+      ],
+      "partial_allocation_attempts": 373,
+      "atomic_missing_search_route_rejections": 345,
+      "atomic_rejection_fraction": 0.9249329758713136,
+      "partial_search_proposals": 28,
+      "candidate_shortage_agent_generation_records": 766,
+      "actual_query_bearing_atomic_rejection_steps": 345,
+      "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 345,
+      "atomic_label_steps_without_queries_excluded": 2,
+      "query_reasons": {
+        "reachable": 3142,
+        "no_start_connector": 587826,
+        "invalid_start": 22460
+      },
+      "endpoint_diagnostic_samples": [
+        {
+          "reason": "invalid_start",
+          "start_endpoint_present": true,
+          "sample_count": 590
+        },
+        {
+          "reason": "no_start_connector",
+          "start_endpoint_present": false,
+          "sample_count": 7792
+        }
+      ],
+      "final100": {
+        "first_step": 301,
+        "last_step": 400,
+        "episode_count": 6,
+        "episodes_with_search_exposure": 6,
+        "pre_found_exposure_steps": 600,
+        "coverage_available": true,
+        "coverage_unavailable_steps": 0,
+        "searcher_motion_distance": 73.62068058087168,
+        "searcher_stall_agent_steps": 1345,
+        "searcher_assignment_id_switches": 7,
+        "searcher_semantic_waypoint_switches": 7,
+        "new_cell_observations": 99,
+        "aged_revisit_cell_observations": 206,
+        "effective_observation_steps": 90,
+        "observation_calls": 300,
+        "target_update_call_steps": 300,
+        "observation_update_steps": 300,
+        "repeated_cell_observations": 10899,
+        "searcher_stall_agent_fraction": 0.7472222222222222,
+        "effective_observation_fraction": 0.15
+      },
+      "final100_without_new_or_aged_evidence_count": 1,
+      "final100_coverage_available_count": 6,
+      "episodes": [
+        {
+          "original_episode_index": 0,
+          "partial_allocation_attempts": 49,
+          "atomic_missing_search_route_rejections": 47,
+          "partial_search_proposals": 2,
+          "candidate_shortage_agent_generation_records": 92,
+          "query_reasons": {
+            "reachable": 663,
+            "no_start_connector": 53450,
+            "invalid_start": 20075
+          },
+          "actual_query_bearing_atomic_rejection_steps": 47,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 47,
+          "atomic_label_steps_without_queries_excluded": 1,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 0,
+            "aged_revisit_cell_observations": 0,
+            "effective_observation_steps": 0,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 1600,
+            "searcher_motion_distance": 1.1920928955078125e-06,
+            "searcher_stall_agent_steps": 300,
+            "searcher_assignment_id_switches": 0,
+            "searcher_semantic_waypoint_switches": 0,
+            "searcher_stall_agent_fraction": 1.0,
+            "effective_observation_fraction": 0.0
+          },
+          "trailing_steps_without_new_or_aged_evidence": 198,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 140,
+            "1": 140,
+            "2": 140
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 1.1920928955078125e-06,
+            "1": 0.0,
+            "2": 0.0
+          }
+        },
+        {
+          "original_episode_index": 28,
+          "partial_allocation_attempts": 56,
+          "atomic_missing_search_route_rejections": 53,
+          "partial_search_proposals": 3,
+          "candidate_shortage_agent_generation_records": 140,
+          "query_reasons": {
+            "reachable": 372,
+            "no_start_connector": 111787
+          },
+          "actual_query_bearing_atomic_rejection_steps": 53,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 53,
+          "atomic_label_steps_without_queries_excluded": 0,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 23,
+            "aged_revisit_cell_observations": 52,
+            "effective_observation_steps": 16,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 1733,
+            "searcher_motion_distance": 21.76762652226323,
+            "searcher_stall_agent_steps": 183,
+            "searcher_assignment_id_switches": 3,
+            "searcher_semantic_waypoint_switches": 3,
+            "searcher_stall_agent_fraction": 0.61,
+            "effective_observation_fraction": 0.16
+          },
+          "trailing_steps_without_new_or_aged_evidence": 0,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 362,
+            "1": 362,
+            "2": 362
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 8.580773979324688,
+            "1": 6.147118927867403,
+            "2": 7.039733615071135
+          }
+        },
+        {
+          "original_episode_index": 31,
+          "partial_allocation_attempts": 72,
+          "atomic_missing_search_route_rejections": 65,
+          "partial_search_proposals": 7,
+          "candidate_shortage_agent_generation_records": 133,
+          "query_reasons": {
+            "reachable": 537,
+            "no_start_connector": 104519,
+            "invalid_start": 793
+          },
+          "actual_query_bearing_atomic_rejection_steps": 65,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 65,
+          "atomic_label_steps_without_queries_excluded": 1,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 29,
+            "aged_revisit_cell_observations": 45,
+            "effective_observation_steps": 26,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 2052,
+            "searcher_motion_distance": 20.2594618837619,
+            "searcher_stall_agent_steps": 174,
+            "searcher_assignment_id_switches": 0,
+            "searcher_semantic_waypoint_switches": 0,
+            "searcher_stall_agent_fraction": 0.58,
+            "effective_observation_fraction": 0.26
+          },
+          "trailing_steps_without_new_or_aged_evidence": 42,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 300,
+            "1": 183,
+            "2": 300
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 12.04813007336413,
+            "1": 0.0003261523583630612,
+            "2": 8.211005658039406
+          }
+        },
+        {
+          "original_episode_index": 42,
+          "partial_allocation_attempts": 61,
+          "atomic_missing_search_route_rejections": 57,
+          "partial_search_proposals": 4,
+          "candidate_shortage_agent_generation_records": 138,
+          "query_reasons": {
+            "reachable": 569,
+            "no_start_connector": 110201
+          },
+          "actual_query_bearing_atomic_rejection_steps": 57,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 57,
+          "atomic_label_steps_without_queries_excluded": 0,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 7,
+            "aged_revisit_cell_observations": 36,
+            "effective_observation_steps": 7,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 1498,
+            "searcher_motion_distance": 10.586298690894738,
+            "searcher_stall_agent_steps": 249,
+            "searcher_assignment_id_switches": 3,
+            "searcher_semantic_waypoint_switches": 3,
+            "searcher_stall_agent_fraction": 0.83,
+            "effective_observation_fraction": 0.07
+          },
+          "trailing_steps_without_new_or_aged_evidence": 0,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 384,
+            "1": 384,
+            "2": 384
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 4.607868646354129,
+            "1": 3.4789082355198415,
+            "2": 2.499521809020765
+          }
+        },
+        {
+          "original_episode_index": 63,
+          "partial_allocation_attempts": 66,
+          "atomic_missing_search_route_rejections": 62,
+          "partial_search_proposals": 4,
+          "candidate_shortage_agent_generation_records": 132,
+          "query_reasons": {
+            "reachable": 478,
+            "no_start_connector": 105398
+          },
+          "actual_query_bearing_atomic_rejection_steps": 62,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 62,
+          "atomic_label_steps_without_queries_excluded": 0,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 23,
+            "aged_revisit_cell_observations": 23,
+            "effective_observation_steps": 18,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 1994,
+            "searcher_motion_distance": 8.707183088609098,
+            "searcher_stall_agent_steps": 227,
+            "searcher_assignment_id_switches": 0,
+            "searcher_semantic_waypoint_switches": 0,
+            "searcher_stall_agent_fraction": 0.7566666666666667,
+            "effective_observation_fraction": 0.18
+          },
+          "trailing_steps_without_new_or_aged_evidence": 52,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 223,
+            "1": 260,
+            "2": 300
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 0.019175031067689374,
+            "1": 0.7391418266823288,
+            "2": 7.948866230859078
+          }
+        },
+        {
+          "original_episode_index": 91,
+          "partial_allocation_attempts": 69,
+          "atomic_missing_search_route_rejections": 61,
+          "partial_search_proposals": 8,
+          "candidate_shortage_agent_generation_records": 131,
+          "query_reasons": {
+            "reachable": 523,
+            "no_start_connector": 102471,
+            "invalid_start": 1592
+          },
+          "actual_query_bearing_atomic_rejection_steps": 61,
+          "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 61,
+          "atomic_label_steps_without_queries_excluded": 0,
+          "final100": {
+            "first_step": 301,
+            "last_step": 400,
+            "pre_found_exposure_steps": 100,
+            "coverage_available": true,
+            "coverage_unavailable_steps": 0,
+            "new_cell_observations": 17,
+            "aged_revisit_cell_observations": 50,
+            "effective_observation_steps": 23,
+            "observation_calls": 50,
+            "target_update_call_steps": 50,
+            "observation_update_steps": 50,
+            "repeated_cell_observations": 2022,
+            "searcher_motion_distance": 12.30010920324981,
+            "searcher_stall_agent_steps": 212,
+            "searcher_assignment_id_switches": 1,
+            "searcher_semantic_waypoint_switches": 1,
+            "searcher_stall_agent_fraction": 0.7066666666666667,
+            "effective_observation_fraction": 0.23
+          },
+          "trailing_steps_without_new_or_aged_evidence": 6,
+          "last_semantic_goal_change_step_by_searcher": {
+            "0": 223,
+            "1": 223,
+            "2": 360
+          },
+          "final100_motion_distance_by_searcher": {
+            "0": 0.0030630630034136318,
+            "1": 0.14932415674477326,
+            "2": 12.147721983501619
+          }
+        }
+      ]
+    },
+    "scene0_example": {
+      "original_episode_index": 0,
+      "partial_allocation_attempts": 49,
+      "atomic_missing_search_route_rejections": 47,
+      "partial_search_proposals": 2,
+      "candidate_shortage_agent_generation_records": 92,
+      "query_reasons": {
+        "reachable": 663,
+        "no_start_connector": 53450,
+        "invalid_start": 20075
+      },
+      "actual_query_bearing_atomic_rejection_steps": 47,
+      "atomic_rejection_steps_with_all_searcher_semantic_goals_unchanged": 47,
+      "atomic_label_steps_without_queries_excluded": 1,
+      "final100": {
+        "first_step": 301,
+        "last_step": 400,
+        "pre_found_exposure_steps": 100,
+        "coverage_available": true,
+        "coverage_unavailable_steps": 0,
+        "new_cell_observations": 0,
+        "aged_revisit_cell_observations": 0,
+        "effective_observation_steps": 0,
+        "observation_calls": 50,
+        "target_update_call_steps": 50,
+        "observation_update_steps": 50,
+        "repeated_cell_observations": 1600,
+        "searcher_motion_distance": 1.1920928955078125e-06,
+        "searcher_stall_agent_steps": 300,
+        "searcher_assignment_id_switches": 0,
+        "searcher_semantic_waypoint_switches": 0,
+        "searcher_stall_agent_fraction": 1.0,
+        "effective_observation_fraction": 0.0
+      },
+      "trailing_steps_without_new_or_aged_evidence": 198,
+      "last_semantic_goal_change_step_by_searcher": {
+        "0": 140,
+        "1": 140,
+        "2": 140
+      },
+      "final100_motion_distance_by_searcher": {
+        "0": 1.1920928955078125e-06,
+        "1": 0.0,
+        "2": 0.0
+      },
+      "trailing_steps_without_target_update_call": 0,
+      "trailing_steps_without_nonempty_footprint_update": 0,
+      "unique_observed_cells": 246,
+      "grid_cell_count": 800,
+      "accepted_replan_steps": [
+        0,
+        20,
+        60,
+        80,
+        120,
+        140
+      ]
+    },
+    "file_sha256": [
+      {
+        "original_episode_index": 0,
+        "terminal_summary_sha256": "dbe4bbffd0ba4f41ca697d5bca90ba2146b04f500de3b6dac45ce47b1b0fe127",
+        "trace_sha256": "aea3859bc41d7dec8ad2f7e82d0877758ee9e705ceff5120bfb711ab33072baf"
+      },
+      {
+        "original_episode_index": 3,
+        "terminal_summary_sha256": "1cf7e914e5fec72079507901bc03eceddaae02ab26f49d03502af83f6b3140b5",
+        "trace_sha256": "789ceb8bf5ed4d9ea061a580a4903c95db57e6c87013746ee294b17bfe46ad16"
+      },
+      {
+        "original_episode_index": 7,
+        "terminal_summary_sha256": "2f5b2fef42fd654a136f5be189b49e26a0ebb66348c4b82b3edf2476379367f0",
+        "trace_sha256": "0431fe0131b6fe47d85f32699fb2d261d40d75bb4b7bcd1b11d8ccd141c95b6d"
+      },
+      {
+        "original_episode_index": 10,
+        "terminal_summary_sha256": "fe484df79af5feb87b74b9d0acae0687e135b87b1570980d080b141a46f85728",
+        "trace_sha256": "24cca2bd7f5181c8aa6e146f100cad7c36bfa9e30304338ef1c3c1bd25fe6b21"
+      },
+      {
+        "original_episode_index": 22,
+        "terminal_summary_sha256": "b6c97d0a527dce2e77765a6efbef50f854ca5ec33969c188a83fada10c275d9d",
+        "trace_sha256": "7aaf2c5ef8814da38b539a16c185e0ebf3b0222eb9b0c5bcc6db2507f0b2533f"
+      },
+      {
+        "original_episode_index": 28,
+        "terminal_summary_sha256": "31761d4dc0f99e566d9edb521a2d791c44468c6a8d45f60752e5c8637edfc2de",
+        "trace_sha256": "1946cc58296e1b49e1ce00fc0e01763c2b457c5634358f1c4b2162136d8a93ec"
+      },
+      {
+        "original_episode_index": 31,
+        "terminal_summary_sha256": "40591e26ee5a07753530173ca6396e25fd3c829924011b5ea508bb5c238813bf",
+        "trace_sha256": "988c6fe0aaf36a40011a845d74231f16a2e4b47bef988258943ecf7fe62aa43c"
+      },
+      {
+        "original_episode_index": 40,
+        "terminal_summary_sha256": "efcc710c76d28a19b20077f49a66ae30b8f183fef7793489bff230987cc8375e",
+        "trace_sha256": "b32f2d77d4d214afb00c5ce37f08d6aae6b68011772bde753a77e8daeab119a3"
+      },
+      {
+        "original_episode_index": 42,
+        "terminal_summary_sha256": "fc92390530010393bd73a1ba2c366db27084a290725e40574100d1bcadb93dda",
+        "trace_sha256": "b9958de016fbfdbae2f36f4daa27903e4bff58b61b4a2c20e83650029728d247"
+      },
+      {
+        "original_episode_index": 46,
+        "terminal_summary_sha256": "773271daa178a2171a2a4b087c9cd35637095c9e44034d52d7610a15860051d6",
+        "trace_sha256": "e7a554d39a0c4ef244e4152b4b2b25ea61d2155be80b5e5093b960c1a4d6c915"
+      },
+      {
+        "original_episode_index": 62,
+        "terminal_summary_sha256": "fd808eafbc077c6f3761e62df3578af6f3066a0c95daed634bc7cbd0d65950ee",
+        "trace_sha256": "99d8ace8195e4a5bf60f103cc63d83a1dc08a40ae8df188b30d6768862a14928"
+      },
+      {
+        "original_episode_index": 63,
+        "terminal_summary_sha256": "abf085d8d625c6693bab643b968b02284c7da3e065e919bb5e9144ae51a0e9af",
+        "trace_sha256": "296fad413d9a46b7d270709c6b97e81b968b78d13c719222f23055c89d22b283"
+      },
+      {
+        "original_episode_index": 67,
+        "terminal_summary_sha256": "d122420ddef81d5d0ed55eb3f69cb293d8508562a29b5a3acbf3d7b5590725b4",
+        "trace_sha256": "4cc496b13de8681241514d89983bc40a1ca1acff78738c6117014556ccfb0320"
+      },
+      {
+        "original_episode_index": 76,
+        "terminal_summary_sha256": "02834a9d45dcaa2e9898e6b824c68a5ce0d50a46144ae45b139eb5f571eff01d",
+        "trace_sha256": "0275066209dbfd7d565d2f3c2a438b4f4bcc5d410c87dc7f312af7699978fda8"
+      },
+      {
+        "original_episode_index": 77,
+        "terminal_summary_sha256": "6beb13133c864d78e883d6d6942c2b8d7d48d96fb326fa6d6363da64fd36f871",
+        "trace_sha256": "1be7cc4ea060c86ceae3ae72e11a29f2f5a16142f908931ea31d57b87b440dfc"
+      },
+      {
+        "original_episode_index": 78,
+        "terminal_summary_sha256": "8d18cf610b2f5d03149c9180f71bff488338a1f0c0b27f8b8e7f70e83979c4d1",
+        "trace_sha256": "afc7b681fe869f944028de50f4235dd2af756557266e1d8aab13c51e920f99cc"
+      },
+      {
+        "original_episode_index": 86,
+        "terminal_summary_sha256": "c1a7c9c6cf7e2c8ecafcf53e0515e8efd1dde6e9fbc7b5e58facd12725c245bc",
+        "trace_sha256": "9ecbfd58822a58e7e42c8305ebc01fe855c20b59015988a4cffdf8badc9c22bb"
+      },
+      {
+        "original_episode_index": 91,
+        "terminal_summary_sha256": "cb213d6db8d1bd8a4171fffe77f905ba1f24b8c79d28de316df5d0169e83bbc1",
+        "trace_sha256": "70396254a874169faf84c0247358d9da66f7018408ac4ef85222d803c59966b7"
+      },
+      {
+        "original_episode_index": 95,
+        "terminal_summary_sha256": "4c820c87beb9a48703cde339e73a82d5be92fa95b90d2b04ad0c2969dbd3677a",
+        "trace_sha256": "42359f9afaad353bba596f0d79646e96000c31c14fdcf5d5d84228282c686847"
+      },
+      {
+        "original_episode_index": 97,
+        "terminal_summary_sha256": "24563270ae1960bb827c9e8c05cc763b1381cfe39417aa48d7227a330dc700ed",
+        "trace_sha256": "b4d254792a23890bb724496b5b3b5aa44fe7961b266e8e06a0eabdeeebf858d2"
+      }
+    ],
+    "definitions": {
+      "atomic": "Count steps with an actual recorded query and ATOMIC_REJECT_MISSING_SEARCH_ROUTE after the step; labels inherited by a query-free terminal step are excluded.",
+      "candidate_shortage": "Agent-level candidate-generation shortage records, not episodes or independent failure events.",
+      "samples": "Capped diagnostic sample entries, distinct from complete query counters and not independent trials.",
+      "goal_retention": "Exact equality of all three public semantic waypoints across the query-bearing rejection transition.",
+      "final100": "Physical transitions 301..400 in no-Found timeouts; stall denominator is three searchers times exposure.",
+      "aged": "Repeat cell evidence after the configured revisit age; effective means a step with new or aged evidence, not target detection probability."
+    },
+    "limitations": [
+      "Timeout-only strata are selected by the outcome and do not estimate overall treatment effects.",
+      "An absent cached start connector does not establish physical map unreachability.",
+      "No new or aged evidence is not zero observation calls or zero repeated evidence.",
+      "Goal retention and stalls support a failure mechanism but do not establish that fixing it will cause Found."
+    ]
+  },
+  "historical_baseline": {
+    "n_selected_pairs": 20,
+    "added_to_current_denominator": 0,
+    "all_key_outcomes_equal": true,
+    "all_scene_contents_equal": true,
+    "all_native_configs_and_task_conditions_equal": true,
+    "all_manifests_json_equal": true,
+    "historical_identity_sha256": "665fd61ebbe41eafe0f8b1b6952755525ad2d2889411fc70515d558cc33dac49",
+    "historical_checkout": {
+      "head": "a66c88defc55f0342588cbefecbb838ffb6eec5a",
+      "dirty": false,
+      "status": ""
+    },
+    "historical_production_source_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd",
+    "historical_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913",
+    "historical_config_file_sha256": "9e9abe8b2d44086d6f2735f3b404849ef22bb5369ab5edbdda809ef01b0be274",
+    "historical_manifest_file_sha256": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+    "historical_manifest_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00",
+    "config_comparisons": [
+      {
+        "original_episode_index": 0,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 3,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 7,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 10,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 22,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 28,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 31,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 40,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 42,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 46,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 62,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 63,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 67,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 76,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 77,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 78,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 86,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 91,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 95,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      },
+      {
+        "original_episode_index": 97,
+        "native_runtime_config_json_equal": true,
+        "common_task_conditions_json_equal": true,
+        "current_file_sha256": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+        "current_native_config_object_sha256": "8023abd5731379d38fbb0da4c5a23fa156a54ed74b9497858714e9d31dc80913"
+      }
+    ],
+    "manifest_comparisons": [
+      {
+        "original_episode_index": 0,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 3,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 7,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 10,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 22,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 28,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 31,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 40,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 42,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 46,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 62,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 63,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 67,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 76,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 77,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 78,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 86,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 91,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 95,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      },
+      {
+        "original_episode_index": 97,
+        "json_equal": true,
+        "current_file_sha256": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+        "current_object_sha256": "6070400058e4e20721fce842861b60c971bc7a73a4f558e67406c0f154262d00"
+      }
+    ],
+    "outcome_comparisons": [
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 0,
+          "scenario_id": "unknown_validation_m20_0001",
+          "scenario_seed": 12729,
+          "environment_innovation_seed": 12729,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 0,
+          "scenario_id": "unknown_validation_m20_0001",
+          "scenario_seed": 12729,
+          "environment_innovation_seed": 12729,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 0,
+        "historical_scene_sha256": "515e08c484d6c70a311d4d1490d33a57c0bbb3dc3af94cc09237423a85c84861",
+        "current_scene_sha256": "515e08c484d6c70a311d4d1490d33a57c0bbb3dc3af94cc09237423a85c84861",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 3,
+          "scenario_id": "unknown_validation_m20_0004",
+          "scenario_seed": 12732,
+          "environment_innovation_seed": 12732,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 18,
+          "episode_length": 18,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 18,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "current": {
+          "episode_index": 3,
+          "scenario_id": "unknown_validation_m20_0004",
+          "scenario_seed": 12732,
+          "environment_innovation_seed": 12732,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 18,
+          "episode_length": 18,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 18,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "original_episode_index": 3,
+        "historical_scene_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2",
+        "current_scene_sha256": "f775cb889dee82ba64970054c80dd18ec285d44d4ee390d8d16bba0500d42af2",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 7,
+          "scenario_id": "unknown_validation_m20_0008",
+          "scenario_seed": 12736,
+          "environment_innovation_seed": 12736,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 44,
+          "episode_length": 44,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 44,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "current": {
+          "episode_index": 7,
+          "scenario_id": "unknown_validation_m20_0008",
+          "scenario_seed": 12736,
+          "environment_innovation_seed": 12736,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 44,
+          "episode_length": 44,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 44,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "original_episode_index": 7,
+        "historical_scene_sha256": "8caebd3a1d90fb2cd461c5953a6bd4f745edaf05d0f383bdd1cb5d875952c330",
+        "current_scene_sha256": "8caebd3a1d90fb2cd461c5953a6bd4f745edaf05d0f383bdd1cb5d875952c330",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 10,
+          "scenario_id": "unknown_validation_m20_0011",
+          "scenario_seed": 12739,
+          "environment_innovation_seed": 12739,
+          "found": true,
+          "found_step": 281,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 10,
+          "scenario_id": "unknown_validation_m20_0011",
+          "scenario_seed": 12739,
+          "environment_innovation_seed": 12739,
+          "found": true,
+          "found_step": 281,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 10,
+        "historical_scene_sha256": "443e09b367da553b8f43081a2d1dfa305b3caeab2203662bbb190fc2c9ce0426",
+        "current_scene_sha256": "443e09b367da553b8f43081a2d1dfa305b3caeab2203662bbb190fc2c9ce0426",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 22,
+          "scenario_id": "unknown_validation_m20_0023",
+          "scenario_seed": 12751,
+          "environment_innovation_seed": 12751,
+          "found": true,
+          "found_step": 23,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 22,
+          "scenario_id": "unknown_validation_m20_0023",
+          "scenario_seed": 12751,
+          "environment_innovation_seed": 12751,
+          "found": true,
+          "found_step": 23,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 22,
+        "historical_scene_sha256": "36286b3a479db71a1deed9cec700829eb704612955f788beb6474c76e514a4cd",
+        "current_scene_sha256": "36286b3a479db71a1deed9cec700829eb704612955f788beb6474c76e514a4cd",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 28,
+          "scenario_id": "unknown_validation_m20_0029",
+          "scenario_seed": 12757,
+          "environment_innovation_seed": 12757,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 28,
+          "scenario_id": "unknown_validation_m20_0029",
+          "scenario_seed": 12757,
+          "environment_innovation_seed": 12757,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 28,
+        "historical_scene_sha256": "22922065c9b1b8d153cd2ed7e98a723206bd9134e28ee9d44877a905d3f1cb32",
+        "current_scene_sha256": "22922065c9b1b8d153cd2ed7e98a723206bd9134e28ee9d44877a905d3f1cb32",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 31,
+          "scenario_id": "unknown_validation_m20_0032",
+          "scenario_seed": 12760,
+          "environment_innovation_seed": 12760,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 31,
+          "scenario_id": "unknown_validation_m20_0032",
+          "scenario_seed": 12760,
+          "environment_innovation_seed": 12760,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 31,
+        "historical_scene_sha256": "94695774ea116d7c40823a73b4d0847ca1210e3e920f2215ad47a8a76f7d73f4",
+        "current_scene_sha256": "94695774ea116d7c40823a73b4d0847ca1210e3e920f2215ad47a8a76f7d73f4",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 40,
+          "scenario_id": "unknown_validation_m20_0041",
+          "scenario_seed": 12769,
+          "environment_innovation_seed": 12769,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 14,
+          "episode_length": 14,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 14,
+          "first_collision_agent_ids": [
+            2
+          ]
+        },
+        "current": {
+          "episode_index": 40,
+          "scenario_id": "unknown_validation_m20_0041",
+          "scenario_seed": 12769,
+          "environment_innovation_seed": 12769,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 14,
+          "episode_length": 14,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 14,
+          "first_collision_agent_ids": [
+            2
+          ]
+        },
+        "original_episode_index": 40,
+        "historical_scene_sha256": "20ee12c7b234b3330f8aabe37b015a9799f148db74526ed9a5651aeddad75015",
+        "current_scene_sha256": "20ee12c7b234b3330f8aabe37b015a9799f148db74526ed9a5651aeddad75015",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 42,
+          "scenario_id": "unknown_validation_m20_0043",
+          "scenario_seed": 12771,
+          "environment_innovation_seed": 12771,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 42,
+          "scenario_id": "unknown_validation_m20_0043",
+          "scenario_seed": 12771,
+          "environment_innovation_seed": 12771,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 42,
+        "historical_scene_sha256": "27bc5dca394f1a593ebf4664c935fb81c337f290ff2dfae1abb883ae3e66139f",
+        "current_scene_sha256": "27bc5dca394f1a593ebf4664c935fb81c337f290ff2dfae1abb883ae3e66139f",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 46,
+          "scenario_id": "unknown_validation_m20_0047",
+          "scenario_seed": 12775,
+          "environment_innovation_seed": 12775,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 243,
+          "episode_length": 243,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 243,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "current": {
+          "episode_index": 46,
+          "scenario_id": "unknown_validation_m20_0047",
+          "scenario_seed": 12775,
+          "environment_innovation_seed": 12775,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 243,
+          "episode_length": 243,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 243,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "original_episode_index": 46,
+        "historical_scene_sha256": "4a78faf64ced4a255342a495e40c4d5cf7eb0f35b56be139266e87375d953a00",
+        "current_scene_sha256": "4a78faf64ced4a255342a495e40c4d5cf7eb0f35b56be139266e87375d953a00",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 62,
+          "scenario_id": "unknown_validation_m20_0063",
+          "scenario_seed": 12791,
+          "environment_innovation_seed": 12791,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 50,
+          "episode_length": 50,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 50,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "current": {
+          "episode_index": 62,
+          "scenario_id": "unknown_validation_m20_0063",
+          "scenario_seed": 12791,
+          "environment_innovation_seed": 12791,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 50,
+          "episode_length": 50,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 50,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "original_episode_index": 62,
+        "historical_scene_sha256": "c3779d96a34878f0e9be206fb7f39b6a189fc4cbd7a5b0260f8b18a2ac46e1da",
+        "current_scene_sha256": "c3779d96a34878f0e9be206fb7f39b6a189fc4cbd7a5b0260f8b18a2ac46e1da",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 63,
+          "scenario_id": "unknown_validation_m20_0064",
+          "scenario_seed": 12792,
+          "environment_innovation_seed": 12792,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 63,
+          "scenario_id": "unknown_validation_m20_0064",
+          "scenario_seed": 12792,
+          "environment_innovation_seed": 12792,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 63,
+        "historical_scene_sha256": "dbc2b15d69ffe87d4371f8524baf644f08a57e35fb59dc8f0966ac8d7362311b",
+        "current_scene_sha256": "dbc2b15d69ffe87d4371f8524baf644f08a57e35fb59dc8f0966ac8d7362311b",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 67,
+          "scenario_id": "unknown_validation_m20_0068",
+          "scenario_seed": 12796,
+          "environment_innovation_seed": 12796,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 36,
+          "episode_length": 36,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 36,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "current": {
+          "episode_index": 67,
+          "scenario_id": "unknown_validation_m20_0068",
+          "scenario_seed": 12796,
+          "environment_innovation_seed": 12796,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 36,
+          "episode_length": 36,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 36,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "original_episode_index": 67,
+        "historical_scene_sha256": "fa5343d6da3613827d511921669d03ea6ad18da95cc094dd3432b90b67307a4b",
+        "current_scene_sha256": "fa5343d6da3613827d511921669d03ea6ad18da95cc094dd3432b90b67307a4b",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 76,
+          "scenario_id": "unknown_validation_m20_0077",
+          "scenario_seed": 12805,
+          "environment_innovation_seed": 12805,
+          "found": true,
+          "found_step": 215,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 76,
+          "scenario_id": "unknown_validation_m20_0077",
+          "scenario_seed": 12805,
+          "environment_innovation_seed": 12805,
+          "found": true,
+          "found_step": 215,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 76,
+        "historical_scene_sha256": "f245ca7cf3725501db7933300694212a1e33be00328079208ff5c00dade48574",
+        "current_scene_sha256": "f245ca7cf3725501db7933300694212a1e33be00328079208ff5c00dade48574",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 77,
+          "scenario_id": "unknown_validation_m20_0078",
+          "scenario_seed": 12806,
+          "environment_innovation_seed": 12806,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 22,
+          "episode_length": 22,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 22,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "current": {
+          "episode_index": 77,
+          "scenario_id": "unknown_validation_m20_0078",
+          "scenario_seed": 12806,
+          "environment_innovation_seed": 12806,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 22,
+          "episode_length": 22,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 22,
+          "first_collision_agent_ids": [
+            1
+          ]
+        },
+        "original_episode_index": 77,
+        "historical_scene_sha256": "5e81ea52342f5fec605523b9b0f2d958d04f025dd436eab1f7d6e3d593a7d584",
+        "current_scene_sha256": "5e81ea52342f5fec605523b9b0f2d958d04f025dd436eab1f7d6e3d593a7d584",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 78,
+          "scenario_id": "unknown_validation_m20_0079",
+          "scenario_seed": 12807,
+          "environment_innovation_seed": 12807,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 92,
+          "episode_length": 92,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 92,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "current": {
+          "episode_index": 78,
+          "scenario_id": "unknown_validation_m20_0079",
+          "scenario_seed": 12807,
+          "environment_innovation_seed": 12807,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 92,
+          "episode_length": 92,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 92,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "original_episode_index": 78,
+        "historical_scene_sha256": "4a497471b1a5086018e0895db1743c337b3beb41be7575f3b276d895b43a706d",
+        "current_scene_sha256": "4a497471b1a5086018e0895db1743c337b3beb41be7575f3b276d895b43a706d",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 86,
+          "scenario_id": "unknown_validation_m20_0087",
+          "scenario_seed": 12815,
+          "environment_innovation_seed": 12815,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 19,
+          "episode_length": 19,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 19,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "current": {
+          "episode_index": 86,
+          "scenario_id": "unknown_validation_m20_0087",
+          "scenario_seed": 12815,
+          "environment_innovation_seed": 12815,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 19,
+          "episode_length": 19,
+          "termination_reason": "obstacle_collision",
+          "first_collision_step": 19,
+          "first_collision_agent_ids": [
+            0
+          ]
+        },
+        "original_episode_index": 86,
+        "historical_scene_sha256": "b1187dfcd4256ae13cf37e6e1d1ae7aeee2a69dcffd19f649bee813c7a4dc146",
+        "current_scene_sha256": "b1187dfcd4256ae13cf37e6e1d1ae7aeee2a69dcffd19f649bee813c7a4dc146",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 91,
+          "scenario_id": "unknown_validation_m20_0092",
+          "scenario_seed": 12820,
+          "environment_innovation_seed": 12820,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 91,
+          "scenario_id": "unknown_validation_m20_0092",
+          "scenario_seed": 12820,
+          "environment_innovation_seed": 12820,
+          "found": false,
+          "found_step": null,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 91,
+        "historical_scene_sha256": "64d41eb56e2a61b26888064b1d774b37bf57f644de04d8c219196dd3d02a21ae",
+        "current_scene_sha256": "64d41eb56e2a61b26888064b1d774b37bf57f644de04d8c219196dd3d02a21ae",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 95,
+          "scenario_id": "unknown_validation_m20_0096",
+          "scenario_seed": 12824,
+          "environment_innovation_seed": 12824,
+          "found": true,
+          "found_step": 273,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 95,
+          "scenario_id": "unknown_validation_m20_0096",
+          "scenario_seed": 12824,
+          "environment_innovation_seed": 12824,
+          "found": true,
+          "found_step": 273,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 95,
+        "historical_scene_sha256": "a1e97c904a38a88d9fd6f41a328d6706960dd0819d4b6f1bf3698efbc41d4036",
+        "current_scene_sha256": "a1e97c904a38a88d9fd6f41a328d6706960dd0819d4b6f1bf3698efbc41d4036",
+        "scene_content_equal": true
+      },
+      {
+        "equal": true,
+        "differing_fields": [],
+        "historical": {
+          "episode_index": 97,
+          "scenario_id": "unknown_validation_m20_0098",
+          "scenario_seed": 12826,
+          "environment_innovation_seed": 12826,
+          "found": true,
+          "found_step": 122,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "current": {
+          "episode_index": 97,
+          "scenario_id": "unknown_validation_m20_0098",
+          "scenario_seed": 12826,
+          "environment_innovation_seed": 12826,
+          "found": true,
+          "found_step": 122,
+          "success": false,
+          "actual_length": 400,
+          "episode_length": 400,
+          "termination_reason": "timeout",
+          "first_collision_step": null,
+          "first_collision_agent_ids": []
+        },
+        "original_episode_index": 97,
+        "historical_scene_sha256": "3c01615442d348f3919bec6b66f656e1b5e4768986739bdd48740a94e4757ada",
+        "current_scene_sha256": "3c01615442d348f3919bec6b66f656e1b5e4768986739bdd48740a94e4757ada",
+        "scene_content_equal": true
+      }
+    ],
+    "historical_software_versions": null,
+    "limitation": "Historical Python, NumPy and Torch versions were not recorded; equal selected outcomes do not establish cross-platform stepwise or RNG equivalence. Config file hashes compare a historical wrapper to a native config; use native JSON-object equality."
+  },
+  "previous_failed_development": {
+    "n_complete_terminal_arm_pairs": 25,
+    "added_to_current_denominator": 0,
+    "previous_stage_complete": false,
+    "previous_failure_type": "RuntimeError",
+    "previous_identity_sha256": "df6667f62cc93752c63928f822b51090ec003360483ac126d157d44b0d02bb86",
+    "previous_failure_sha256": "c4f019df79b19b947ad104a2f38296cb4637f67565eb88ea482ed1d112c30756",
+    "all_completed_arm_signatures_equal": true,
+    "pairs": [
+      {
+        "original_episode_index": 0,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "abf532b529c8bada900560b0a4ba175de0f767bb2ffbb37826d6cbcc73e2e1d3",
+        "previous_signature_sha256": "f0076cfcac2e123c251285001d3f28720e5a8158ed52d92027f21c27d076c7ee",
+        "current_signature_sha256": "f0076cfcac2e123c251285001d3f28720e5a8158ed52d92027f21c27d076c7ee",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 0,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "4cfe54911e4511ac05d8a9fbc65a9881c6bf4389f878597a661052c9654daf9c",
+        "previous_signature_sha256": "e330318c28029d376e6ffd66fccf213e0b63f385bdc08104d1e9e5ead46f88bd",
+        "current_signature_sha256": "e330318c28029d376e6ffd66fccf213e0b63f385bdc08104d1e9e5ead46f88bd",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 0,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "f5de4b3fcd3f27eed384717367f0a3dae0afb115752218121d64ac5cd9dce1b2",
+        "previous_signature_sha256": "2130c88ea66a78565537c388bf30d3777f0760a1894d75c66e4fbe5783cd2245",
+        "current_signature_sha256": "2130c88ea66a78565537c388bf30d3777f0760a1894d75c66e4fbe5783cd2245",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 393
+      },
+      {
+        "original_episode_index": 0,
+        "variant": "V3",
+        "same_identity": true,
+        "previous_summary_sha256": "deca26c7f91319b966fe7ab05506a3e75157f1fcd3eb78774e027a5bdaf119c7",
+        "previous_signature_sha256": "cd0c787ec5df9b8be20c33979e2781b2e4363624d121b8a783013d5afc60d345",
+        "current_signature_sha256": "cd0c787ec5df9b8be20c33979e2781b2e4363624d121b8a783013d5afc60d345",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 229
+      },
+      {
+        "original_episode_index": 0,
+        "variant": "V4",
+        "same_identity": true,
+        "previous_summary_sha256": "bd07749ec32874c86170daef957d92961557b614020fe43ed1f1f36a4d05b93c",
+        "previous_signature_sha256": "2130c88ea66a78565537c388bf30d3777f0760a1894d75c66e4fbe5783cd2245",
+        "current_signature_sha256": "2130c88ea66a78565537c388bf30d3777f0760a1894d75c66e4fbe5783cd2245",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 393
+      },
+      {
+        "original_episode_index": 3,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "6369dea944680b776f3d04ddda326323d07e4e3334bf2605be254993eda6acf7",
+        "previous_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "current_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 18
+      },
+      {
+        "original_episode_index": 3,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "aa73098a8d6b5a6de581b330c255a13cf1d329eeb0a4766a71f176956223f910",
+        "previous_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "current_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 18
+      },
+      {
+        "original_episode_index": 3,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "868a9ebf0cefc2e396c0aa9eda695668986abad089f2f8cd8dd5f1dfb7075ded",
+        "previous_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "current_signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 18
+      },
+      {
+        "original_episode_index": 3,
+        "variant": "V3",
+        "same_identity": true,
+        "previous_summary_sha256": "8049013ac6e4893b5477c0356c18179d29addcd6cc6a2ab38d38661b8e95dffa",
+        "previous_signature_sha256": "aa6bb1fa99fc13e1c34048d5a4732a6f28db6ab3ecc1b3de27de53c132262fb4",
+        "current_signature_sha256": "aa6bb1fa99fc13e1c34048d5a4732a6f28db6ab3ecc1b3de27de53c132262fb4",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 3,
+        "variant": "V4",
+        "same_identity": true,
+        "previous_summary_sha256": "8d14c079f1b9a8543cf8d18269830cda50fc98f274552e81f7da25955cf712ee",
+        "previous_signature_sha256": "093c6fb1bfa2105310b7e37cdb4489781e977f385f917c2ab3eaa5067e8aa180",
+        "current_signature_sha256": "093c6fb1bfa2105310b7e37cdb4489781e977f385f917c2ab3eaa5067e8aa180",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 7,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "2685a108ced691368de51c8fbb32701a63088d4ab13ffe24be6a11b056ce8456",
+        "previous_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "current_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 44
+      },
+      {
+        "original_episode_index": 7,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "5e8924f907bd0fab20682c6edad9fa2a9a6997ec51dc8c6f8b05b31fc4ec5abb",
+        "previous_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "current_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 44
+      },
+      {
+        "original_episode_index": 7,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "4ece2a583acd022bad58939723de5d329c84f1fc0a3d525a45da373012c6e7cc",
+        "previous_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "current_signature_sha256": "52f439bc61a94546eaee4b9c0654ab6f6ceb1feb7391826389eb2d55450891ab",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 44
+      },
+      {
+        "original_episode_index": 7,
+        "variant": "V3",
+        "same_identity": true,
+        "previous_summary_sha256": "a361fb7f16cb2fda5926215abfa7f6b0fc2b6241785fba7a7ac9adb7485628ce",
+        "previous_signature_sha256": "7eff07d4d0d66fbd20fa1856f748f0d796fff8c6c064bf5f9904f67944b8be13",
+        "current_signature_sha256": "7eff07d4d0d66fbd20fa1856f748f0d796fff8c6c064bf5f9904f67944b8be13",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 105
+      },
+      {
+        "original_episode_index": 7,
+        "variant": "V4",
+        "same_identity": true,
+        "previous_summary_sha256": "d47569debcba1becd8e30ad16be8a9d448238c8ab60e66a11ae00f8829d1fbef",
+        "previous_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+        "current_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 84
+      },
+      {
+        "original_episode_index": 10,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "92f0badb01c38bebeb0e88fae8bfa6d36d6c60314488ddaa2cfe484366ca70f6",
+        "previous_signature_sha256": "546635829b8e2645bc17f8ee2358905d00c2c5c75f50348b1bee72162ddc18d2",
+        "current_signature_sha256": "546635829b8e2645bc17f8ee2358905d00c2c5c75f50348b1bee72162ddc18d2",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 10,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "b339ed73c5caecadb29cccba0a4c7bed563fa311615da599df62fafc7f2a811d",
+        "previous_signature_sha256": "271c2acc964c759283f655fb25e8170a69fe8f30378d3bf4f033d3b00e1ec918",
+        "current_signature_sha256": "271c2acc964c759283f655fb25e8170a69fe8f30378d3bf4f033d3b00e1ec918",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 10,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "e90865a2243f0586f5ad32319db1c6f6e22d5264ba753d3c3bd633bf15b5380e",
+        "previous_signature_sha256": "ee5bd7f23c0ceebbbb7014b65480c2c783c35ce8147fe2d0c262449893c13148",
+        "current_signature_sha256": "ee5bd7f23c0ceebbbb7014b65480c2c783c35ce8147fe2d0c262449893c13148",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 22,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "752700eae3b6bb6fc67e5a62fb5d2fe8e0aa6a75a7db50e2360474aeb0f979b6",
+        "previous_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "current_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 22,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "f9fc644e3f0d550c3d3a52800bdb33c1df9c77826366e31ee40f1181f7617f0d",
+        "previous_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "current_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 22,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "b05d40a80e9a8907d944ceaaef685a9b7fef22d1417b0fcb7ec6db3298baeeaa",
+        "previous_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "current_signature_sha256": "c7b693cab18e95460ac0d7b0200d161b2c27458f155c62f3612c6c04fc1739dd",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 28,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "a220303066ecd3096a2f70817b20fac9ac0e0996fab5fef64506ab049b0d0c9e",
+        "previous_signature_sha256": "097514f4a468149a90fdc84420a2bb86f9240e599ef68658e67f29d77c74d281",
+        "current_signature_sha256": "097514f4a468149a90fdc84420a2bb86f9240e599ef68658e67f29d77c74d281",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 28,
+        "variant": "V1",
+        "same_identity": true,
+        "previous_summary_sha256": "73ca88d66f67e651b22ce4117534f4b022d6552bf469b7237bbcdc4ba408ad98",
+        "previous_signature_sha256": "19cb484272900de5f91837b5f1b0fe6865bcf22392cfbd6e9c20f628e9bd0cc9",
+        "current_signature_sha256": "19cb484272900de5f91837b5f1b0fe6865bcf22392cfbd6e9c20f628e9bd0cc9",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 28,
+        "variant": "V2",
+        "same_identity": true,
+        "previous_summary_sha256": "c10255047b0d3b7d9b5b4e40d6b648def6bff24fe5abd5b75b625d74ba048ec2",
+        "previous_signature_sha256": "918a8578b58ac0dcb8bf9f975e17befb800edaadf28dcf040968474774e8c01d",
+        "current_signature_sha256": "918a8578b58ac0dcb8bf9f975e17befb800edaadf28dcf040968474774e8c01d",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      },
+      {
+        "original_episode_index": 31,
+        "variant": "V0",
+        "same_identity": true,
+        "previous_summary_sha256": "68d1a064bb714e94fb78b794abf11400cf364e6a26eaa83b2616e8b6b0bdc14f",
+        "previous_signature_sha256": "6f86e84cf0eb3f5f61d4a43ed43b79213c8228e0fd9c9e5fa0f9549ba2daa946",
+        "current_signature_sha256": "6f86e84cf0eb3f5f61d4a43ed43b79213c8228e0fd9c9e5fa0f9549ba2daa946",
+        "equal_ordered_signature_digest": true,
+        "equal_key_outcome": true,
+        "physical_steps": 400
+      }
+    ],
+    "excluded_summaries": [],
+    "limitation": "Only complete terminal arms are compared. The failed scene10/V3 prefix is not evidence of old full-episode reward or RNG equivalence."
+  },
+  "telemetry_equivalence_scene10_V3": {
+    "original_episode_index": 10,
+    "variant": "V3",
+    "added_to_current_denominator": 0,
+    "observed_and_unobserved_signature_lists_equal": true,
+    "signature_count": 401,
+    "current_signature_sha256": "7c0c5f8df3d0be42171fd880299271dc4a03ee501b6b3f81d8ccc331a3045397",
+    "observed_signature_sha256": "7c0c5f8df3d0be42171fd880299271dc4a03ee501b6b3f81d8ccc331a3045397",
+    "unobserved_signature_sha256": "7c0c5f8df3d0be42171fd880299271dc4a03ee501b6b3f81d8ccc331a3045397",
+    "current_matches_both_signatures": true,
+    "current_matches_both_key_outcomes": true,
+    "old_failed_public_prefix": {
+      "compared_steps": 280,
+      "equal": true,
+      "first_mismatching_step": null,
+      "old_public_prefix_sha256": "bbd5abf11a7706ebc8875256ca0bccc8d713f0d7f59db1aaf0f6d0785aa6f09f",
+      "new_public_prefix_sha256": "bbd5abf11a7706ebc8875256ca0bccc8d713f0d7f59db1aaf0f6d0785aa6f09f",
+      "agent_fields": [
+        "agent_id",
+        "role",
+        "position",
+        "velocity",
+        "assignment_id",
+        "assignment_kind",
+        "semantic_waypoint",
+        "tracking_waypoint",
+        "hold",
+        "reachable",
+        "planned_path"
+      ],
+      "snapshot_fields": [
+        "step",
+        "found",
+        "executor_knows_target",
+        "allocation_hash",
+        "decision_reason",
+        "cached_map_revision",
+        "live_map_revision",
+        "last_full_refresh_step",
+        "full_refresh",
+        "replan_count",
+        "replan_steps"
+      ],
+      "includes_old_reward_or_rng": false,
+      "limitation": "The failed old arm has no complete reward/RNG signature sequence; this is public prefix equality only."
+    },
+    "equivalence_identity_sha256": "a309ca7b1d835d33d17d1b40ca2f101d1cba606d5257fbb14199ad154417e20f",
+    "equivalence_summary_sha256": "97b2f0ea43534294b0790b95f46c89ae4fd3564ef5e165acea2ad44292c13167"
+  },
+  "public_map_replay_scene7_V4": {
+    "original_episode_index": 7,
+    "variant": "V4",
+    "added_to_current_denominator": 0,
+    "case_file_sha256": "2b65ea23284a5c0293b83a447e3228109b3beb69975fee5e6b85025785c7764a",
+    "current_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+    "reference_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+    "replay_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+    "current_matches_reference_and_replay": true,
+    "counts_match": true,
+    "physical_steps": 84
+  },
+  "sources": {
+    "run_directory": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B0_20260928_v2",
+    "historical_directory": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\3090结果\\collision_terminal\\B0_search_prior_eval100_seed12729_v1",
+    "previous_directory": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B0_20260928_v1",
+    "equivalence_directory": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\telemetry_equivalence_scene10_V3_20260928_v2",
+    "audited_file_count": 269,
+    "audited_path_hash_inventory_sha256": "9b41cf9a675dcdd5b9a1d063cdce00698de87896f438dcd7300a28b2acff7c20",
+    "audit_script_sha256": "bad4b68420df7ce728c72798619717c05c5b5c6d82a46cbf964bd8d27de581ca",
+    "all_audited_files_unchanged": true
+  },
+  "limitations": [
+    "This fixed, selected development set has 20 paired scenes; 100 arms are not 100 independent scenes.",
+    "Historical baseline and diagnostic replays add zero episodes to current evaluation denominators.",
+    "Historical Linux key-outcome reproduction is weaker than stepwise physical/RNG equivalence.",
+    "Signature equality checks deterministic replay consistency; it does not establish performance or causal attribution."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "ch3.d2_suite.v1",
+  "arms": ["D2", "D2_B2", "D2_B3", "D2_HGR"],
+  "training_seeds": [2729, 3729, 4729],
+  "training_environment_steps": 400000,
+  "checkpoint_interval": 100,
+  "evaluation_episodes": 100,
+  "evaluation_seed": 12729,
+  "hgr_policy_mode": "stochastic",
+  "stagnation_distance_per_step": 0.02,
+  "generated_train_count": 200,
+  "generated_train_seed": 82729,
+  "generated_eval_seed": 92729,
+  "templates": {
+    "D2": "configs/chapter3/d2_v1/hgr_train.json",
+    "D2_B2": "configs/chapter3/d2_v1/direct_mc_train.json",
+    "D2_B3": "configs/chapter3/d2_v1/direct_boundary_train.json",
+    "D2_HGR": "configs/chapter3/d2_v1/hgr_train.json"
+  }
+}

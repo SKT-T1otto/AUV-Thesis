@@ -1,0 +1,92 @@
+{
+  "schema": "ch3.d2_suite_linux_evaluation.local_verification.v1",
+  "status": "passed",
+  "recorded_utc": "2026-09-30T11:43:45.990732+00:00",
+  "context": "latest recorded local verification, not CI",
+  "platform": "Windows native Python; Git Bash syntax/help; no native Linux execution",
+  "python": "D:/anaconda/anaconda/envs/AUV/python.exe",
+  "command": "python -B -m unittest -v tests.test_d2_suite_linux_evaluation tests.test_d2_suite_linux tests.test_safe_search_provenance tests.test_repository_metadata tests.test_ch3_baseline_provenance",
+  "tests_passed": 38,
+  "seconds": 419.602,
+  "test_ids": [
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_cli_dispatch_and_default_preview",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_missing_training_fails_before_any_evaluation_or_launch_log",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_native_bounded_reference_train_evaluate_summary_and_skip",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_new_source_scope_and_unused_profile_reject_corruption",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_previews_select_reference_or_learning_jobs_without_writing",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_scope_and_seed_validation",
+    "tests.test_d2_suite_linux_evaluation.EvaluationEntryTests.test_training_receipt_verifies_checkpoint_bytes_before_evaluation",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_bad_stage_d2_training_and_unknown_seed_cannot_launch",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_cli_evaluation_and_check_dispatch",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_cli_rejects_training_d2_with_nonzero_exit",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_explicit_launch_logs_both_streams_and_uses_only_selected_stage",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_failed_launch_retains_traceback_and_propagates_error",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_lock_conflict_release_on_failure_and_foreign_ownership",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_native_preflight_and_previews_preserve_plan_and_start_nothing",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_new_provenance_scope_review_and_unused_profile_are_protected",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_relocated_plan_cannot_execute_but_can_be_summarized",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_changed_removed_added_files_rejected_in_every_scope",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_current_exact_inventory_and_no_source_normalization",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_d2_mainline_uses_exact_successor_without_rewriting_old_gate",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_historical_manifests_and_all_27_records_are_frozen",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_manifest_hash_scope_before_records_and_unused_profiles_checked",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_baseline_maddpg_evolution_exists_and_records_independent_methods",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_changed_removed_and_added_baseline_inputs_are_rejected",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_evolution_preserves_all_historical_records_and_exact_new_hashes",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_final_pin_integrity_and_native_checkpoint_identity_are_retained",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_invalid_manifest_or_changed_production_binding_is_rejected",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_inventory_excludes_windows_bytes_but_launchers_still_run",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_provenance_platform_independent",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_real_source_inventory_changes_fail_for_every_protected_directory",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen"
+  ],
+  "log": "docs/chapter3/d2_suite_v1/linux_evaluation/local_tests.txt",
+  "log_sha256": "29ee5ae80ea2b377dfa2273d470ca6b1c203cbe7343fd2b56ee9125d7072aa19",
+  "source_sha256": "f3c8feffef29bfebfe98c6bc6aa71c44529e47c39419ca583fbb3a736604fbe1",
+  "source_file_count": 395,
+  "historical_records": 27,
+  "evolution_manifest_sha256": "600795a0a4f4cc344332d456ebeb90a7e9961adb08a123ff87fb4bfa3a944c74",
+  "frozen_parent_manifest_sha256": "ddef800f8c2c7071c0a6499710853b6575f2635256f6b1292c83e7afaf06d5e2",
+  "bounded_smoke": {
+    "training_seeds": [
+      17
+    ],
+    "training_environment_step_budget": 1,
+    "scenario_counts": {
+      "train": 1,
+      "evaluation": 1
+    },
+    "max_steps_per_runtime": 3,
+    "method": "synthetic forced collision; native temporary checkpoints; no formal evidence",
+    "sequence": [
+      "D2 reference evaluation",
+      "three native minimal-budget training jobs",
+      "three post-training evaluations",
+      "four-arm summary",
+      "verified completed-evaluation skip"
+    ]
+  },
+  "shell_checks": {
+    "syntax_and_help_passed": [
+      "evaluate_d2_reference.sh",
+      "evaluate_d2_trained.sh",
+      "summarize_d2_suite.sh"
+    ],
+    "documentation_bash_syntax_blocks": 6
+  },
+  "limitations": [
+    "No formal experiments started.",
+    "No native Linux run; only local Windows smoke and Git Bash entry checks.",
+    "Synthetic collision results are not performance evidence.",
+    "Training remains CPU; no GPU behavior changed.",
+    "Prior verification files and historical provenance remain unchanged."
+  ]
+}

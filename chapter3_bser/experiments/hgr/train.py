@@ -28,7 +28,7 @@ from core.scenarios.ch3_generator_impl import build_scenario_manifests
 from .provenance import source_identity, IMPLEMENTATION_VERSION, validate_source_identity
 
 ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG = ROOT / "configs/chapter3/hgr_train.json"
+DEFAULT_CONFIG = ROOT / "configs/chapter3/d2_v1/hgr_train.json"
 COST_FIELDS = ("main_prefix_steps", "old_reference_suffix_steps", "main_current_suffix_steps",
                "suffix_policy_training_steps", "pilot_prefix_steps", "pilot_old_suffix_steps",
                "pilot_new_suffix_steps", "correction_old_suffix_steps", "correction_new_suffix_steps")
@@ -86,6 +86,8 @@ def load_config(path):
 
 def validate_config(config):
     config = copy.deepcopy(dict(config))
+    from chapter3_bser.experiments.d2_v1.contract import planner_protocol
+    planner_protocol(config)
     options = phase1_options(config)
     if config.get("schema") != "hgr.training.v1":
         raise ValueError("unknown HGR training config schema")
@@ -121,6 +123,8 @@ class Trainer:
         if resume and mean_initialization:
             raise ValueError("resume and mean initialization are mutually exclusive")
         config = validate_config(config)
+        from chapter3_bser.experiments.d2_v1.provenance import verify_if_enabled
+        verify_if_enabled(config)
         self.config = copy.deepcopy(config)
         self.phase1 = phase1_options(config)
         self.named_counts = {}

@@ -1,0 +1,10 @@
+{
+  "purpose": "Read-only B0 references retained; combined episode files include B1 and are also preserved. No outputs are copied or rewritten.",
+  "sha256": {
+    "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/episodes.json": "cbfc015a937b80ec5e2e899be6d5359e1a59cd0470895fb608ae662c32848f3b",
+    "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/summary.json": "6b5a3b105df864780404c0153b69a8820a0a77b523642664592846bc6f676d95",
+    "runs/safe_search_v1/development_AC_20260928_v1/episodes.json": "fcfca0dadade721bb5b855b6598b733a1b706b1910f04a7dad302ea9dbcb884d",
+    "runs/found_search_v2/development_20260929_v1/episodes.json": "267749ee6d1f0c4a0831111dbe19f931a55dd2d85083842a89bdb841160c469b",
+    "docs/chapter3/search_diagnostics/safe_search_v1/b1_remaining_results_20260929/analysis.json": "c02632c7933564b631df26e02a133b9f6e405fbc960a1a765e7d4e5ecf8d6363"
+  }
+}

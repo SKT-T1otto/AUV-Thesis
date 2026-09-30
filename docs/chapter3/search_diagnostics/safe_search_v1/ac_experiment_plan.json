@@ -1,0 +1,83 @@
+{
+  "schema": "ch3.safe_search.ac_plan.v1",
+  "date": "2026-09-28",
+  "user_request": "Run one additional A+C fixed20 full-episode development experiment.",
+  "variant": "V5",
+  "options": {
+    "planning_state_consistency": true,
+    "failure_policy": false,
+    "path_safety": true
+  },
+  "development_indices": [
+    0,
+    3,
+    7,
+    10,
+    22,
+    28,
+    31,
+    40,
+    42,
+    46,
+    62,
+    63,
+    67,
+    76,
+    77,
+    78,
+    86,
+    91,
+    95,
+    97
+  ],
+  "seed": 12729,
+  "max_steps": 400,
+  "reference_identity_sha256": "246e3ae55c2c7f8c1c662992371c6c413de521d5074470ad6f6ee96f54eec03e",
+  "reference_episodes_sha256": "ee149254f1e4a17dfb84dcea32e67226b56d243cf4cd1d7d0867188968dde56b",
+  "reference_source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c",
+  "primary_reference": "V3",
+  "secondary_references": [
+    "V0",
+    "V4"
+  ],
+  "additional_descriptive_references": [
+    "V1",
+    "V2"
+  ],
+  "statistics": {
+    "unit": "paired_original_scenario",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "interval": "percentile_95",
+    "multiplicity_adjustment": false
+  },
+  "development_gate": {
+    "comparator": "V3",
+    "found_count_not_lower": true,
+    "pre_found_collision_count_not_higher": true,
+    "stall_plus_hold_fraction_strictly_lower": true,
+    "effective_observation_fraction_not_lower": true,
+    "note": "Separate A+C development hypothesis gate; does not replace original V0--V4 selection or establish statistical superiority."
+  },
+  "source_comparability": {
+    "require_reviewed_exact_source_diff": true,
+    "old_arm_replay_controls": [
+      {
+        "original_episode_index": 3,
+        "variant": "V3"
+      },
+      {
+        "original_episode_index": 28,
+        "variant": "V4"
+      }
+    ],
+    "compare": "full ordered physical signature digest and terminal outcome",
+    "require_all_selected_controls_equal": true
+  },
+  "training": false,
+  "checkpoint_loaded": false,
+  "heldout_scenarios_executed": 0,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null,
+  "reference_analysis_sha256": "f0e169d6e8643b02a94777302fd7df03cfa763a80c700cddcf1aa27a64d3b2a9"
+}

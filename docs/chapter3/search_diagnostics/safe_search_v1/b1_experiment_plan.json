@@ -1,0 +1,130 @@
+{
+  "schema": "ch3.safe_search.b1_plan.v1",
+  "date": "2026-09-28",
+  "user_request": "Modify code and run B1 paired experiments to diagnose failures and test transfer of B0 repairs.",
+  "baseline": "B1_bser_prior",
+  "variants": [
+    "V0",
+    "V3",
+    "V5"
+  ],
+  "options": {
+    "V0": {
+      "planning_state_consistency": false,
+      "failure_policy": false,
+      "path_safety": false
+    },
+    "V3": {
+      "planning_state_consistency": false,
+      "failure_policy": false,
+      "path_safety": true
+    },
+    "V5": {
+      "planning_state_consistency": true,
+      "failure_policy": false,
+      "path_safety": true
+    }
+  },
+  "development_indices": [
+    0,
+    3,
+    7,
+    10,
+    22,
+    28,
+    31,
+    40,
+    42,
+    46,
+    62,
+    63,
+    67,
+    76,
+    77,
+    78,
+    86,
+    91,
+    95,
+    97
+  ],
+  "seed": 12729,
+  "max_steps": 400,
+  "planned_episode_runs": 60,
+  "training": false,
+  "checkpoint_loaded": false,
+  "heldout_scenarios_executed": 0,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null,
+  "primary_comparison": [
+    "V5",
+    "V3"
+  ],
+  "secondary_comparisons": [
+    [
+      "V5",
+      "V0"
+    ],
+    [
+      "V3",
+      "V0"
+    ]
+  ],
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20260928,
+  "reference_hashes": {
+    "B0_D2": {
+      "identity_sha256": "246e3ae55c2c7f8c1c662992371c6c413de521d5074470ad6f6ee96f54eec03e",
+      "episodes_sha256": "ee149254f1e4a17dfb84dcea32e67226b56d243cf4cd1d7d0867188968dde56b",
+      "source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c"
+    },
+    "B0_AC": {
+      "identity_sha256": "2b221ea0f9714b2b6ffdce17e05d251c94de11f5893d0f218648f1500b9c7da8",
+      "episodes_sha256": "fcfca0dadade721bb5b855b6598b733a1b706b1910f04a7dad302ea9dbcb884d",
+      "source_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496"
+    }
+  },
+  "development_gate": {
+    "comparator": "V3",
+    "found_count_not_lower": true,
+    "pre_found_collision_count_not_higher": true,
+    "stall_plus_hold_fraction_strictly_lower": true,
+    "effective_observation_fraction_not_lower": true
+  },
+  "analysis": {
+    "unit": "paired_original_scenario",
+    "rates": "pooled counts / pooled exposure",
+    "intervals": "paired per-scene mean differences; percentile 95%; descriptive, no multiplicity correction",
+    "transfer": "report B1 paired differences alongside B0; difference of those per-scene changes is descriptive effect heterogeneity, not an independent causal claim",
+    "collision_roles": "report searcher and executor separately",
+    "metrics": [
+      "Found",
+      "mission_success",
+      "pre_found_collision",
+      "stall_plus_hold",
+      "effective_observation",
+      "query_failure_reasons",
+      "executor_motion",
+      "event_scheduling",
+      "post_found_completion"
+    ]
+  },
+  "preflight": {
+    "original_indices": [
+      3,
+      28
+    ],
+    "variants": [
+      "V0",
+      "V3",
+      "V5"
+    ],
+    "steps": 30,
+    "verify_v0": true,
+    "excluded_from_60_episode_denominator": true
+  },
+  "restrictions": [
+    "Do not tune A/C while this experiment runs.",
+    "Preserve all existing B0 results and frozen Phase1B implementations.",
+    "No checkpoint loading, training, HGR run or remaining80 evaluation."
+  ]
+}

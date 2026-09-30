@@ -1,0 +1,12 @@
+test_all_profiles_parent_before_scope_and_sources_checked (tests.test_bser_effect_runner.SourceTests) ... ok
+test_exact_evolution_preserves_all_old_runtime_bytes (tests.test_bser_effect_runner.SourceTests) ... ok
+test_all_profiles_parent_and_source_corruption_rejected (tests.test_bser_final_runner.SourceTests) ... ok
+test_only_new_namespace_and_exact_dispatch_hook_changed (tests.test_bser_final_runner.SourceTests) ... ok
+test_exact_additive_profile_preserves_all_old_runtime_files (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_new_sources_and_review_document_are_not_exempted (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_recomputed_manifest_cannot_change_scope_or_before_binding (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 13.500s
+
+OK

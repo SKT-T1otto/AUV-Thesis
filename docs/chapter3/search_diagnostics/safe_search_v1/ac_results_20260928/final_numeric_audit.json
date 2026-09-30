@@ -1,0 +1,351 @@
+{
+  "schema": "ch3.safe_search.ac_final_numeric_audit.v1",
+  "audit_passed": true,
+  "new_V5_complete_episodes": 20,
+  "reference_complete_episodes": 100,
+  "independent_paired_scenarios": 20,
+  "new_program_failures": 0,
+  "variants": {
+    "V0": {
+      "n": 20,
+      "found_count": 5,
+      "success_count": 0,
+      "pre_found_collision_count": 9,
+      "outcome_partition": {
+        "no_found_timeout": 6,
+        "pre_found_collision_searcher": 9,
+        "post_found_timeout": 5
+      },
+      "pre_found_exposure_steps": 3852,
+      "searcher_motion_stall_proxy_agent_steps": 4723,
+      "searcher_hold_agent_steps": 0,
+      "searcher_motion_stall_proxy_fraction": 0.408705434406369,
+      "searcher_hold_fraction": 0.0,
+      "pooled_stall_plus_hold_fraction": 0.408705434406369,
+      "effective_observation_steps": 1055,
+      "pooled_effective_observation_fraction": 0.273883696780893,
+      "found_time_restricted_mean_400": 345.7,
+      "total_physical_steps": 4938
+    },
+    "V1": {
+      "n": 20,
+      "found_count": 8,
+      "success_count": 0,
+      "pre_found_collision_count": 7,
+      "outcome_partition": {
+        "no_found_timeout": 5,
+        "pre_found_collision_searcher": 7,
+        "post_found_timeout": 8
+      },
+      "pre_found_exposure_steps": 3618,
+      "searcher_motion_stall_proxy_agent_steps": 442,
+      "searcher_hold_agent_steps": 0,
+      "searcher_motion_stall_proxy_fraction": 0.04072231435415515,
+      "searcher_hold_fraction": 0.0,
+      "pooled_stall_plus_hold_fraction": 0.04072231435415515,
+      "effective_observation_steps": 1582,
+      "pooled_effective_observation_fraction": 0.43725815367606413,
+      "found_time_restricted_mean_400": 310.75,
+      "total_physical_steps": 5403
+    },
+    "V2": {
+      "n": 20,
+      "found_count": 8,
+      "success_count": 0,
+      "pre_found_collision_count": 10,
+      "outcome_partition": {
+        "pre_found_collision_searcher": 10,
+        "no_found_timeout": 2,
+        "post_found_timeout": 8
+      },
+      "pre_found_exposure_steps": 3116,
+      "searcher_motion_stall_proxy_agent_steps": 1,
+      "searcher_hold_agent_steps": 0,
+      "searcher_motion_stall_proxy_fraction": 0.0001069747539580659,
+      "searcher_hold_fraction": 0.0,
+      "pooled_stall_plus_hold_fraction": 0.0001069747539580659,
+      "effective_observation_steps": 1425,
+      "pooled_effective_observation_fraction": 0.4573170731707317,
+      "found_time_restricted_mean_400": 307.05,
+      "total_physical_steps": 4975
+    },
+    "V3": {
+      "n": 20,
+      "found_count": 7,
+      "success_count": 1,
+      "pre_found_collision_count": 5,
+      "outcome_partition": {
+        "pre_found_collision_searcher": 5,
+        "post_found_timeout": 6,
+        "no_found_timeout": 8,
+        "success": 1
+      },
+      "pre_found_exposure_steps": 5014,
+      "searcher_motion_stall_proxy_agent_steps": 5627,
+      "searcher_hold_agent_steps": 698,
+      "searcher_motion_stall_proxy_fraction": 0.3740858928333998,
+      "searcher_hold_fraction": 0.046403403802685816,
+      "pooled_stall_plus_hold_fraction": 0.42048929663608564,
+      "effective_observation_steps": 1425,
+      "pooled_effective_observation_fraction": 0.28420422816114876,
+      "found_time_restricted_mean_400": 314.35,
+      "total_physical_steps": 6447
+    },
+    "V4": {
+      "n": 20,
+      "found_count": 8,
+      "success_count": 1,
+      "pre_found_collision_count": 7,
+      "outcome_partition": {
+        "pre_found_collision_searcher": 7,
+        "no_found_timeout": 5,
+        "post_found_timeout": 7,
+        "success": 1
+      },
+      "pre_found_exposure_steps": 4114,
+      "searcher_motion_stall_proxy_agent_steps": 25,
+      "searcher_hold_agent_steps": 398,
+      "searcher_motion_stall_proxy_fraction": 0.002025603629881705,
+      "searcher_hold_fraction": 0.03224760978771674,
+      "pooled_stall_plus_hold_fraction": 0.034273213417598446,
+      "effective_observation_steps": 1859,
+      "pooled_effective_observation_fraction": 0.45187165775401067,
+      "found_time_restricted_mean_400": 290.35,
+      "total_physical_steps": 6027
+    },
+    "V5": {
+      "n": 20,
+      "found_count": 8,
+      "success_count": 1,
+      "pre_found_collision_count": 5,
+      "outcome_partition": {
+        "no_found_timeout": 7,
+        "post_found_timeout": 7,
+        "pre_found_collision_searcher": 5,
+        "success": 1
+      },
+      "pre_found_exposure_steps": 4857,
+      "searcher_motion_stall_proxy_agent_steps": 925,
+      "searcher_hold_agent_steps": 673,
+      "searcher_motion_stall_proxy_fraction": 0.06348225928213574,
+      "searcher_hold_fraction": 0.046187632969597145,
+      "pooled_stall_plus_hold_fraction": 0.10966989225173289,
+      "effective_observation_steps": 2065,
+      "pooled_effective_observation_fraction": 0.425159563516574,
+      "found_time_restricted_mean_400": 313.1,
+      "total_physical_steps": 6315
+    }
+  },
+  "paired_V5_minus_reference": {
+    "V3": {
+      "found": {
+        "mean_delta": 0.05,
+        "bootstrap_95_percentile_ci": [
+          -0.15,
+          0.25
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 3,
+        "discordant_1_to_0": 2,
+        "indices_0_to_1": [
+          42,
+          63,
+          86
+        ],
+        "indices_1_to_0": [
+          10,
+          97
+        ]
+      },
+      "pre_found_collision": {
+        "mean_delta": 0.0,
+        "bootstrap_95_percentile_ci": [
+          -0.15,
+          0.15
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 1,
+        "discordant_1_to_0": 1,
+        "indices_0_to_1": [
+          77
+        ],
+        "indices_1_to_0": [
+          0
+        ]
+      },
+      "success": {
+        "mean_delta": 0.0,
+        "bootstrap_95_percentile_ci": [
+          0.0,
+          0.0
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 0,
+        "discordant_1_to_0": 0,
+        "indices_0_to_1": [],
+        "indices_1_to_0": []
+      }
+    },
+    "V0": {
+      "found": {
+        "mean_delta": 0.15,
+        "bootstrap_95_percentile_ci": [
+          -0.1,
+          0.4
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 5,
+        "discordant_1_to_0": 2,
+        "indices_0_to_1": [
+          3,
+          31,
+          42,
+          63,
+          86
+        ],
+        "indices_1_to_0": [
+          10,
+          97
+        ]
+      },
+      "pre_found_collision": {
+        "mean_delta": -0.2,
+        "bootstrap_95_percentile_ci": [
+          -0.4,
+          0.0
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 1,
+        "discordant_1_to_0": 5,
+        "indices_0_to_1": [
+          91
+        ],
+        "indices_1_to_0": [
+          3,
+          62,
+          67,
+          78,
+          86
+        ]
+      },
+      "success": {
+        "mean_delta": 0.05,
+        "bootstrap_95_percentile_ci": [
+          0.0,
+          0.15
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 1,
+        "discordant_1_to_0": 0,
+        "indices_0_to_1": [
+          31
+        ],
+        "indices_1_to_0": []
+      }
+    },
+    "V4": {
+      "found": {
+        "mean_delta": 0.0,
+        "bootstrap_95_percentile_ci": [
+          -0.2,
+          0.2
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 2,
+        "discordant_1_to_0": 2,
+        "indices_0_to_1": [
+          3,
+          95
+        ],
+        "indices_1_to_0": [
+          67,
+          77
+        ]
+      },
+      "pre_found_collision": {
+        "mean_delta": -0.1,
+        "bootstrap_95_percentile_ci": [
+          -0.3,
+          0.1
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 1,
+        "discordant_1_to_0": 3,
+        "indices_0_to_1": [
+          77
+        ],
+        "indices_1_to_0": [
+          0,
+          62,
+          95
+        ]
+      },
+      "success": {
+        "mean_delta": 0.0,
+        "bootstrap_95_percentile_ci": [
+          0.0,
+          0.0
+        ],
+        "n_pairs": 20,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260928,
+        "discordant_0_to_1": 0,
+        "discordant_1_to_0": 0,
+        "indices_0_to_1": [],
+        "indices_1_to_0": []
+      }
+    }
+  },
+  "independently_recomputed_ac_gate_checks": {
+    "found_count_not_lower": true,
+    "pre_found_collision_count_not_higher": true,
+    "stall_plus_hold_fraction_strictly_lower": true,
+    "effective_observation_fraction_not_lower": true
+  },
+  "ac_gate_passed": true,
+  "original_registered_selected_variant": "V3",
+  "original_registered_selection_unchanged": true,
+  "new_identity_sources_before_after_equal": true,
+  "new_current_source_file_count": 337,
+  "new_current_source_files_all_match_final_inventory": true,
+  "new_input_hashes_all_match": true,
+  "all_recorded_analysis_input_hashes_match": true,
+  "recorded_analysis_input_file_count": 465,
+  "new_source_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496",
+  "reference_source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c",
+  "primary_audited_files_sha256": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\ac_results_20260928\\analysis.json": "d87ad77594954abd26c62e09b023cff70b0671bee375c98ff877e1830b3e05fd",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\ac_experiment_plan.json": "5124d9228d850eec473737e4e2b0cfda4a43df4138a117fa18663aa244b03091",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_analysis_B0_20260928_v2\\analysis.json": "f0e169d6e8643b02a94777302fd7df03cfa763a80c700cddcf1aa27a64d3b2a9",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B0_20260928_v2\\identity.json": "246e3ae55c2c7f8c1c662992371c6c413de521d5074470ad6f6ee96f54eec03e",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B0_20260928_v2\\episodes.json": "ee149254f1e4a17dfb84dcea32e67226b56d243cf4cd1d7d0867188968dde56b",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_AC_20260928_v1\\identity.json": "2b221ea0f9714b2b6ffdce17e05d251c94de11f5893d0f218648f1500b9c7da8",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_AC_20260928_v1\\episodes.json": "fcfca0dadade721bb5b855b6598b733a1b706b1910f04a7dad302ea9dbcb884d",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_AC_20260928_v1\\summary.json": "0fef317f98d988a830ecff7f4109c7a29e0bdc0e996acf9c61185429baf6dcdf",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_AC_20260928_v1\\progress.json": "56f020d1086fd61ffb06a3e8ca55a54190dd628f6e0c784cb432521d1673f955"
+  },
+  "all_primary_files_unchanged_during_audit": true,
+  "method": "Independent arithmetic from raw root episode records; strict separate collectors validate new20/old100 and new trace hashes; independent random.Random(20260928) scenario-paired percentile bootstrap with10000 samples for all three binary metrics versusV3,V0,V4. No simulator or model loaded.",
+  "limitations": [
+    "The A+C gate is a separate development decision and does not replace the original registered V3 selection.",
+    "Pooled rate checks here are not the per-episode rate-difference CIs reported separately by the analyzer.",
+    "Old reference current-source hashes are intentionally not required to match the new source.",
+    "Independent 20-scene developer cohort; no statistical superiority or generalization conclusion."
+  ]
+}

@@ -1,0 +1,1012 @@
+{
+  "schema": "ch3.safe_search.ac_case7_audit.v1",
+  "scope": "single completed original-index-7 case only; no V5 cohort rate or aggregate verdict",
+  "original_episode_index": 7,
+  "display_scene_number": 8,
+  "inputs": {
+    "V3_summary.json": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V3/summary.json",
+      "sha256": "276d07e15342708b0d941990f7b21bb5cf6c67d0aa68f3b1aa92a0651400f131"
+    },
+    "V3_step_trace.jsonl": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V3/step_trace.jsonl",
+      "sha256": "bc00604f00e177ef9ed1674f8d30deb3aa0d8e13423b9b58d0a9f95ffa6795b0"
+    },
+    "V3_child_identity": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/identity.json",
+      "sha256": "54342793c918ec693d439c9d2d34c37695a3ebd5ac8865125148a077216c4ae4"
+    },
+    "V4_summary.json": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V4/summary.json",
+      "sha256": "934e0359f1ab00c113b62f4434a6d38b5ee5d1557d884145d5e985871d245af4"
+    },
+    "V4_step_trace.jsonl": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V4/step_trace.jsonl",
+      "sha256": "809f36ea3c41f5b3894700fc61a5127aa1ba6da6a6f6ce93ba2e6328fb118506"
+    },
+    "V4_child_identity": {
+      "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/identity.json",
+      "sha256": "54342793c918ec693d439c9d2d34c37695a3ebd5ac8865125148a077216c4ae4"
+    },
+    "V5_summary.json": {
+      "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0007/episode_0007/V5/summary.json",
+      "sha256": "80276c82aed1b841b2ce230cce99929c0c709b9b277c40d8fe614fca06ff44dc"
+    },
+    "V5_step_trace.jsonl": {
+      "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0007/episode_0007/V5/step_trace.jsonl",
+      "sha256": "1fe90d4dec6f09bc434055a2e608f73f5d1e51fef695fca351bc570290d1f006"
+    },
+    "V5_child_identity": {
+      "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0007/identity.json",
+      "sha256": "b70d0f26490b3f786171858b27a31828db3b0cd59055a5636018268367826131"
+    }
+  },
+  "outcomes": {
+    "V3": {
+      "physical_steps": 105,
+      "stop_reason": "obstacle_collision",
+      "found_step": null,
+      "searcher_motion_stall_proxy_agent_steps": 29,
+      "searcher_hold_agent_steps": 82,
+      "effective_search_steps": 42,
+      "signature_sha256": "7eff07d4d0d66fbd20fa1856f748f0d796fff8c6c064bf5f9904f67944b8be13",
+      "collision_agent_ids": [
+        1
+      ],
+      "forced_planning_refreshes": 0,
+      "candidate_unreachable_queries": 11801,
+      "candidate_shortage_events": 15,
+      "safety_route_replacements": 1,
+      "hold_intervals_by_agent": {
+        "0": [
+          [
+            18,
+            19
+          ],
+          [
+            37,
+            39
+          ],
+          [
+            41,
+            43
+          ]
+        ],
+        "1": [
+          [
+            15,
+            19
+          ],
+          [
+            28,
+            71
+          ],
+          [
+            75,
+            99
+          ]
+        ],
+        "2": []
+      },
+      "unique_observed_cells": 158
+    },
+    "V4": {
+      "physical_steps": 84,
+      "stop_reason": "obstacle_collision",
+      "found_step": null,
+      "searcher_motion_stall_proxy_agent_steps": 9,
+      "searcher_hold_agent_steps": 59,
+      "effective_search_steps": 36,
+      "signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+      "collision_agent_ids": [
+        1
+      ],
+      "forced_planning_refreshes": 14,
+      "candidate_unreachable_queries": 0,
+      "candidate_shortage_events": 0,
+      "safety_route_replacements": 1,
+      "hold_intervals_by_agent": {
+        "0": [
+          [
+            35,
+            37
+          ]
+        ],
+        "1": [
+          [
+            24,
+            77
+          ],
+          [
+            82,
+            83
+          ]
+        ],
+        "2": []
+      },
+      "unique_observed_cells": 146
+    },
+    "V5": {
+      "physical_steps": 84,
+      "stop_reason": "obstacle_collision",
+      "found_step": null,
+      "searcher_motion_stall_proxy_agent_steps": 9,
+      "searcher_hold_agent_steps": 56,
+      "effective_search_steps": 37,
+      "signature_sha256": "770501e7446d63b3dafd7de31f9dc2cbf0264529cbc389f8fabfaec7766ef00a",
+      "collision_agent_ids": [
+        1
+      ],
+      "forced_planning_refreshes": 58,
+      "candidate_unreachable_queries": 11808,
+      "candidate_shortage_events": 15,
+      "safety_route_replacements": 3,
+      "hold_intervals_by_agent": {
+        "0": [],
+        "1": [
+          [
+            24,
+            77
+          ],
+          [
+            82,
+            83
+          ]
+        ],
+        "2": []
+      },
+      "unique_observed_cells": 146
+    }
+  },
+  "comparison_method": "Exact Python equality of persisted numeric/vector/route fields, using before states 0..83 plus terminal after state84; old V3 is compared only on the shared 0..84 prefix. Full signature digests are retained separately and are not inferred from these trace fields.",
+  "pair_comparisons": {
+    "V3_vs_V5": {
+      "compared_state_range": [
+        0,
+        84
+      ],
+      "compared_state_count": 85,
+      "per_agent_fields": {
+        "0": {
+          "position": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "velocity": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "hold": {
+            "first_different_state": 18,
+            "different_state_count": 8
+          },
+          "semantic_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 10
+          },
+          "tracking_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 26
+          },
+          "assignment_id": {
+            "first_different_state": 15,
+            "different_state_count": 10
+          },
+          "planned_path": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "path_index": {
+            "first_different_state": 15,
+            "different_state_count": 29
+          }
+        },
+        "1": {
+          "position": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "velocity": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "hold": {
+            "first_different_state": 15,
+            "different_state_count": 16
+          },
+          "semantic_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "tracking_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "assignment_id": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "planned_path": {
+            "first_different_state": 15,
+            "different_state_count": 20
+          },
+          "path_index": {
+            "first_different_state": 15,
+            "different_state_count": 12
+          }
+        },
+        "2": {
+          "position": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "velocity": {
+            "first_different_state": 16,
+            "different_state_count": 69
+          },
+          "hold": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "semantic_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "tracking_waypoint": {
+            "first_different_state": 15,
+            "different_state_count": 69
+          },
+          "assignment_id": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "planned_path": {
+            "first_different_state": 15,
+            "different_state_count": 70
+          },
+          "path_index": {
+            "first_different_state": 15,
+            "different_state_count": 62
+          }
+        },
+        "3": {
+          "position": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "velocity": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "hold": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "semantic_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "tracking_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "assignment_id": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "planned_path": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "path_index": {
+            "first_different_state": null,
+            "different_state_count": 0
+          }
+        }
+      },
+      "public_summary_first_difference": {
+        "allocation_hash": 15,
+        "decision_reason": 15,
+        "cached_map_revision": 15,
+        "live_map_revision": 84,
+        "cached_known_cells": 15,
+        "cached_occupied_cells": 15,
+        "last_full_refresh_step": 15,
+        "full_refresh": 15,
+        "replan_steps": 15
+      },
+      "first_query_record_difference_step_after": 15
+    },
+    "V4_vs_V5": {
+      "compared_state_range": [
+        0,
+        84
+      ],
+      "compared_state_count": 85,
+      "per_agent_fields": {
+        "0": {
+          "position": {
+            "first_different_state": 36,
+            "different_state_count": 49
+          },
+          "velocity": {
+            "first_different_state": 36,
+            "different_state_count": 49
+          },
+          "hold": {
+            "first_different_state": 35,
+            "different_state_count": 3
+          },
+          "semantic_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "tracking_waypoint": {
+            "first_different_state": 35,
+            "different_state_count": 3
+          },
+          "assignment_id": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "planned_path": {
+            "first_different_state": 35,
+            "different_state_count": 50
+          },
+          "path_index": {
+            "first_different_state": 35,
+            "different_state_count": 3
+          }
+        },
+        "1": {
+          "position": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "velocity": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "hold": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "semantic_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "tracking_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "assignment_id": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "planned_path": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "path_index": {
+            "first_different_state": null,
+            "different_state_count": 0
+          }
+        },
+        "2": {
+          "position": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "velocity": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "hold": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "semantic_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "tracking_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "assignment_id": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "planned_path": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "path_index": {
+            "first_different_state": null,
+            "different_state_count": 0
+          }
+        },
+        "3": {
+          "position": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "velocity": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "hold": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "semantic_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "tracking_waypoint": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "assignment_id": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "planned_path": {
+            "first_different_state": null,
+            "different_state_count": 0
+          },
+          "path_index": {
+            "first_different_state": null,
+            "different_state_count": 0
+          }
+        }
+      },
+      "public_summary_first_difference": {
+        "allocation_hash": 25,
+        "decision_reason": 25,
+        "cached_map_revision": 25,
+        "live_map_revision": null,
+        "cached_known_cells": 26,
+        "cached_occupied_cells": 26,
+        "last_full_refresh_step": 25,
+        "full_refresh": 25,
+        "replan_steps": null
+      },
+      "first_query_record_difference_step_after": 24
+    }
+  },
+  "first_divergence_examples": {
+    "V3_vs_V5_state15": {
+      "V3": {
+        "step": 15,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 1,
+        "live_map_revision": 16,
+        "cached_known_cells": 177,
+        "cached_occupied_cells": 6,
+        "last_full_refresh_step": 0,
+        "full_refresh": false,
+        "replan_steps": [
+          0
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              10.848868370056152,
+              15.129150390625,
+              2.48964262008667
+            ],
+            "velocity": [
+              0.01541120745241642,
+              -1.678357481956482,
+              -0.01999123953282833
+            ],
+            "hold": false,
+            "semantic_waypoint": [
+              3.0,
+              3.0,
+              4.5
+            ],
+            "tracking_waypoint": [
+              11.0,
+              13.0,
+              2.5
+            ],
+            "path_index": 4,
+            "path_point_count": 12
+          },
+          "1": {
+            "position": [
+              15.58594799041748,
+              2.8459770679473877,
+              6.692607402801514
+            ],
+            "velocity": [
+              -0.6290649175643921,
+              0.028842471539974213,
+              -0.25695863366127014
+            ],
+            "hold": true,
+            "semantic_waypoint": [
+              1.0,
+              1.0,
+              0.5
+            ],
+            "tracking_waypoint": [
+              15.58594799041748,
+              2.8459770679473877,
+              6.692607402801514
+            ],
+            "path_index": 3,
+            "path_point_count": 0
+          }
+        },
+        "agent_route_queries_at_state": [
+          {
+            "step": 15,
+            "agent_id": 1,
+            "caller": "compile_guidance",
+            "reason": "no_start_connector",
+            "map_revision": 1,
+            "count": 1
+          }
+        ]
+      },
+      "V5": {
+        "step": 15,
+        "decision_reason": "ACCEPT_OBSTACLE_DISCOVERED",
+        "cached_map_revision": 16,
+        "live_map_revision": 16,
+        "cached_known_cells": 282,
+        "cached_occupied_cells": 12,
+        "last_full_refresh_step": 15,
+        "full_refresh": true,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              10.848868370056152,
+              15.129150390625,
+              2.48964262008667
+            ],
+            "velocity": [
+              0.01541120745241642,
+              -1.678357481956482,
+              -0.01999123953282833
+            ],
+            "hold": false,
+            "semantic_waypoint": [
+              17.0,
+              11.0,
+              1.5
+            ],
+            "tracking_waypoint": [
+              11.0,
+              15.0,
+              2.5
+            ],
+            "path_index": 1,
+            "path_point_count": 5
+          },
+          "1": {
+            "position": [
+              15.58594799041748,
+              2.8459770679473877,
+              6.692607402801514
+            ],
+            "velocity": [
+              -0.6290649175643921,
+              0.028842471539974213,
+              -0.25695863366127014
+            ],
+            "hold": false,
+            "semantic_waypoint": [
+              13.0,
+              19.0,
+              2.5
+            ],
+            "tracking_waypoint": [
+              15.0,
+              3.0,
+              6.5
+            ],
+            "path_index": 1,
+            "path_point_count": 12
+          }
+        },
+        "agent_route_queries_at_state": []
+      }
+    },
+    "V4_vs_V5_metadata_state25": {
+      "V4": {
+        "step": 25,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 25,
+        "live_map_revision": 26,
+        "cached_known_cells": 318,
+        "cached_occupied_cells": 13,
+        "last_full_refresh_step": 24,
+        "full_refresh": false,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {},
+        "agent_route_queries_at_state": []
+      },
+      "V5": {
+        "step": 25,
+        "decision_reason": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE",
+        "cached_map_revision": 26,
+        "live_map_revision": 26,
+        "cached_known_cells": 318,
+        "cached_occupied_cells": 13,
+        "last_full_refresh_step": 25,
+        "full_refresh": true,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {},
+        "agent_route_queries_at_state": []
+      }
+    },
+    "V4_vs_V5_agent0_guidance_state35": {
+      "V4": {
+        "step": 35,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 35,
+        "live_map_revision": 36,
+        "cached_known_cells": 343,
+        "cached_occupied_cells": 12,
+        "last_full_refresh_step": 34,
+        "full_refresh": false,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              14.914107322692871,
+              13.269834518432617,
+              1.754927635192871
+            ],
+            "velocity": [
+              0.8223207592964172,
+              -0.877118706703186,
+              -0.43201687932014465
+            ],
+            "hold": true,
+            "semantic_waypoint": [
+              17.0,
+              11.0,
+              1.5
+            ],
+            "tracking_waypoint": [
+              14.914107322692871,
+              13.269834518432617,
+              1.754927635192871
+            ],
+            "path_index": 2,
+            "path_point_count": 0
+          }
+        },
+        "agent_route_queries_at_state": [
+          {
+            "step": 35,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "no_start_connector",
+            "map_revision": 35,
+            "count": 1
+          }
+        ]
+      },
+      "V5": {
+        "step": 35,
+        "decision_reason": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE",
+        "cached_map_revision": 36,
+        "live_map_revision": 36,
+        "cached_known_cells": 346,
+        "cached_occupied_cells": 12,
+        "last_full_refresh_step": 35,
+        "full_refresh": true,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              14.914107322692871,
+              13.269834518432617,
+              1.754927635192871
+            ],
+            "velocity": [
+              0.8223207592964172,
+              -0.877118706703186,
+              -0.43201687932014465
+            ],
+            "hold": false,
+            "semantic_waypoint": [
+              17.0,
+              11.0,
+              1.5
+            ],
+            "tracking_waypoint": [
+              15.0,
+              13.0,
+              1.5
+            ],
+            "path_index": 1,
+            "path_point_count": 3
+          }
+        },
+        "agent_route_queries_at_state": [
+          {
+            "step": 35,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "reachable",
+            "map_revision": 36,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "V4_vs_V5_agent0_motion_state36": {
+      "V4": {
+        "step": 36,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 35,
+        "live_map_revision": 37,
+        "cached_known_cells": 343,
+        "cached_occupied_cells": 12,
+        "last_full_refresh_step": 34,
+        "full_refresh": false,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              15.03856372833252,
+              13.128610610961914,
+              1.6880168914794922
+            ],
+            "velocity": [
+              0.622283399105072,
+              -0.7061197757720947,
+              -0.33455386757850647
+            ],
+            "hold": true,
+            "semantic_waypoint": [
+              17.0,
+              11.0,
+              1.5
+            ],
+            "tracking_waypoint": [
+              15.03856372833252,
+              13.128610610961914,
+              1.6880168914794922
+            ],
+            "path_index": 2,
+            "path_point_count": 0
+          }
+        },
+        "agent_route_queries_at_state": [
+          {
+            "step": 36,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "no_start_connector",
+            "map_revision": 35,
+            "count": 1
+          }
+        ]
+      },
+      "V5": {
+        "step": 36,
+        "decision_reason": "REJECT_EVENT_COOLDOWN",
+        "cached_map_revision": 37,
+        "live_map_revision": 37,
+        "cached_known_cells": 346,
+        "cached_occupied_cells": 12,
+        "last_full_refresh_step": 36,
+        "full_refresh": true,
+        "replan_steps": [
+          0,
+          15
+        ],
+        "agents": {
+          "0": {
+            "position": [
+              15.042884826660156,
+              13.115036010742188,
+              1.6781461238861084
+            ],
+            "velocity": [
+              0.6438882350921631,
+              -0.773992121219635,
+              -0.38390785455703735
+            ],
+            "hold": false,
+            "semantic_waypoint": [
+              17.0,
+              11.0,
+              1.5
+            ],
+            "tracking_waypoint": [
+              15.0,
+              13.0,
+              1.5
+            ],
+            "path_index": 1,
+            "path_point_count": 3
+          }
+        },
+        "agent_route_queries_at_state": [
+          {
+            "step": 36,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "reachable",
+            "map_revision": 37,
+            "count": 1
+          }
+        ]
+      }
+    }
+  },
+  "fatal_agent": {
+    "agent_id": 1,
+    "same_persisted_motion_and_guidance_fields_as_V4_for_all_85_states": true,
+    "fields_compared": [
+      "position",
+      "velocity",
+      "hold",
+      "semantic_waypoint",
+      "tracking_waypoint",
+      "assignment_id",
+      "planned_path",
+      "path_index"
+    ],
+    "hold_action_state_intervals": [
+      [
+        24,
+        77
+      ],
+      [
+        82,
+        83
+      ]
+    ],
+    "hold_release_state": 78,
+    "braking_restart_state": 82,
+    "collision_step": 84,
+    "final_safety_status": "UNVERIFIED_BRAKING",
+    "collision_record_exactly_equal_to_V4": true,
+    "collision_record": {
+      "agent_id": 1,
+      "obstacle_id": 0,
+      "position_before": [
+        15.535433769226074,
+        1.6136037111282349,
+        5.058866500854492
+      ],
+      "candidate_position": [
+        15.50156307220459,
+        1.6583473682403564,
+        5.019140243530273
+      ],
+      "first_hit_point": [
+        15.526909585033911,
+        1.6248642758108207,
+        5.048868657158447
+      ],
+      "hit_fraction": 0.25166840194507184
+    }
+  },
+  "atomic_coupling_case_evidence": {
+    "agent0_tracker_completed_and_within_old_goal_threshold_states": [
+      44,
+      79
+    ],
+    "old_goal": [
+      17.0,
+      11.0,
+      1.5
+    ],
+    "new_goal_received_state": 80,
+    "new_goal": [
+      11.0,
+      19.0,
+      4.5
+    ],
+    "successful_agent_candidates_rejected_with_invalid_agent_queries": [
+      {
+        "state": 44,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 786,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 45,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 786,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 50,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 787,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 55,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 787,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 60,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 787,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 65,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 787,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 70,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 788,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      },
+      {
+        "state": 75,
+        "agent0_reachable_candidates": 4,
+        "agent1_invalid_start_queries": 788,
+        "decision": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE"
+      }
+    ],
+    "agent1_total_invalid_start_candidate_queries": 11808,
+    "all_variants_replanning_logic_still_requires_atomic_partial_acceptance": true
+  },
+  "mechanism_conclusions": [
+    {
+      "status": "observed",
+      "statement": "Against V4, V5 first changes cached-planning metadata/decision at state25; first recorded motion divergence is agent0 state36, after fresh state35 endpoint reroute avoids the V4 no_start_connector hold at states35..37."
+    },
+    {
+      "status": "observed",
+      "statement": "The fatal agent1 trajectory and hold release/re-entry sequence are exactly equal in the persisted V4/V5 fields, despite unequal full-team physical signature digests."
+    },
+    {
+      "status": "observed_and_source_supported",
+      "statement": "Agent0 has completed its old route and has four reachable candidate queries at eight rejected allocation states; agent1 has only invalid_start queries at those states. Atomic missing-route rejection retains the completed agent0 old task until state80."
+    },
+    {
+      "status": "source_supported_and_observed",
+      "statement": "With failure_policy disabled, geometry_pending can cause fresh planning snapshots each step during hold; V5 has58 forced refreshes versus V4 14 and11808 invalid-start candidate queries versus V4 zero. More refresh/query work does not resolve this fatal trajectory."
+    }
+  ],
+  "limitations": [
+    "No new simulator or public-map replay was executed. No hidden target or ground-truth obstacle data was read for this audit.",
+    "V5 full signature differs from V4; the prior V4 public-map replay cannot be claimed globally equivalent to V5.",
+    "Identical fatal-agent motion does not prove identical shared occupancy cells; agent0 motion differs from state36 and all agents contribute observations.",
+    "Cached known/occupied counts and revision numbers are summaries, not per-cell probability evidence. Their equality or difference cannot establish the V5 cell573/cell565 classification sequence.",
+    "The repeated hold-release-brake-collision sequence is observed; precise occupied-to-unknown/free flips in V5 remain unverified without new authorized equivalent public-map evidence.",
+    "This case does not establish cohort Found, safety, effectiveness, or query-cost rates. Static/repeated observation can still detect a moving target."
+  ],
+  "production_sources_modified": false,
+  "simulator_runs_started": 0
+}

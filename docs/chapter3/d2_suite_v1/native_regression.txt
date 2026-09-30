@@ -1,0 +1,89 @@
+[B2_direct_mc] episode=1/1 steps=4 total_steps=4 updates=3
+[B3_direct_boundary] episode=1/1 steps=4 total_steps=4 updates=3
+test_both_trainers_do_bounded_real_updates_on_d2 (tests.test_d2_v1.D2Integration) ... ok
+test_hgr_real_handoff_snapshot_preserves_d2_owners_and_continuation (tests.test_d2_v1.D2Integration) ... ok
+test_learned_baseline_actions_reach_physics (tests.test_d2_v1.D2Integration) ... ok
+test_original_d2_and_both_runtime_paths_match_with_zero_actions (tests.test_d2_v1.D2Integration) ... ok
+test_seal_defaults_and_planner_mismatch (tests.test_d2_v1.D2Integration) ... ok
+[B2_direct_mc] episode=1/1 steps=4 total_steps=4 updates=3
+[B3_direct_boundary] episode=1/1 steps=4 total_steps=4 updates=3
+test_b2_checkpoint_identity (tests.test_ch3_baseline_training.IndependentTrainingTests) ... ok
+test_b2_has_independent_trainer (tests.test_ch3_baseline_training.IndependentTrainingTests) ... ok
+test_b3_has_boundary_encoder (tests.test_ch3_baseline_training.IndependentTrainingTests) ... ok
+test_boundary_features_condition_current_and_target_actions (tests.test_ch3_baseline_training.IndependentTrainingTests) ... ok
+test_real_checkpoints_evaluate_without_optimizer_updates (tests.test_ch3_baseline_training.IndependentTrainingTests)
+Exercise the real learned evaluator and source gate with saved weights. ... ok
+test_b0_b1_unchanged (tests.test_ch3_baseline_training.TrainingEntryTests) ... ok
+test_evaluation_rejects_hgr_checkpoint (tests.test_ch3_baseline_training.TrainingEntryTests) ... ok
+test_training_check_only (tests.test_ch3_baseline_training.TrainingEntryTests) ... ok
+test_help_and_training_check_only_never_construct_trainer (tests.test_ch3_baseline_registry.EntryTests) ... ok
+test_windows_scripts_help_and_error_exit_from_other_directory (tests.test_ch3_baseline_registry.EntryTests) ... ok
+test_checkpoint_is_required_and_cannot_be_relabelled_from_HGR_or_other_baseline (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_native_failure_keeps_original_error_and_unknown_interrupted_cost (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_native_learned_evaluator_dispatch_and_uniform_outputs (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_output_and_manifest_guards_run_before_training_or_runtime_creation (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_partial_summary_rates_stay_null_and_updates_cannot_be_hidden (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_same_manifest_but_historical_and_d2_planners_have_distinct_identity (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_B0_and_B1_same_task_two_steps_zero_residual_B1_uses_joint_BSER (tests.test_ch3_baseline_registry.PriorRuntimeIntegrationTests) ... ok
+{
+  "baseline": "B2_direct_mc",
+  "method": "ch3_baseline_direct_mc",
+  "runtime_method": "ch3_baseline_direct_mc",
+  "algorithm": "maddpg",
+  "output_dir": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\outputs\\chapter3\\d2_v1\\collision_terminal\\B2_direct_mc_train_seed2729_v1",
+  "reference_kind": "default_config_reference",
+  "training_started": false
+}
+{
+  "baseline": "B3_direct_boundary",
+  "method": "ch3_baseline_direct_boundary",
+  "runtime_method": "ch3_baseline_direct_boundary",
+  "algorithm": "direct_boundary_maddpg",
+  "output_dir": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\outputs\\chapter3\\d2_v1\\collision_terminal\\B3_direct_boundary_train_seed2729_v1",
+  "reference_kind": "default_config_reference",
+  "training_started": false
+}
+usage: python.exe -m unittest [-h] --baseline
+                              {B0_search_prior,B1_bser_prior,B2_direct_mc,B3_direct_boundary}
+                              --manifest MANIFEST [--episodes EPISODES]
+                              [--seed SEED] --output-dir OUTPUT_DIR
+                              [--reference-training-config REFERENCE_TRAINING_CONFIG]
+                              [--checkpoint CHECKPOINT]
+
+Unified B0--B3 evaluation. Training is never dispatched from this entry.
+
+options:
+  -h, --help            show this help message and exit
+  --baseline {B0_search_prior,B1_bser_prior,B2_direct_mc,B3_direct_boundary}
+  --manifest MANIFEST   Existing frozen validation manifest; never generated
+  --episodes EPISODES
+  --seed SEED
+  --output-dir OUTPUT_DIR
+                        New/empty directory with a collision_terminal path
+                        component
+  --reference-training-config REFERENCE_TRAINING_CONFIG
+                        Actual HGR run config preferred; omitted uses labeled
+                        default_config_reference
+  --checkpoint CHECKPOINT
+                        Required for B2/B3, forbidden for B0/B1; native method
+                        must match
+[1/1] B1_bser_prior scenario=basic_prior_synthetic_handoff_interface_only outcome=TIMEOUT steps=400 wall=102.59s
+B1 synthetic full-task interface evidence: {"episode_length": 400, "termination_reason": "timeout", "found_step": 1, "handoff_event_step": 1, "handoff_decision_step": 2, "executor_target_received_step": 2, "optimizer_update_count": 0}
+test_B1_full_task_through_unified_evaluator_without_learning (tests.test_ch3_baseline_registry.PriorRuntimeIntegrationTests) ... ok
+test_zero_source_does_not_consume_policy_generator (tests.test_ch3_baseline_registry.PriorRuntimeIntegrationTests) ... ok
+test_B0_B1_planning_and_zero_residual_contracts (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B0_protected_sources_and_framework_script_inventory (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B2_B3_are_independent_maddpg_methods_with_the_same_task (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B3_does_not_reuse_the_historical_hgr_method_identity (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_actual_reference_training_plan_keeps_common_task_parameters (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_four_methods_cannot_change_collision_protocol_or_horizon (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_registry_tampering_is_rejected (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_training_sidecar_does_not_claim_budget_stop_is_completion (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+VALIDATION_SMOKE_PROGRESS B0_search_prior steps=100
+[1/1] B0_search_prior scenario=basic_prior_synthetic_handoff_interface_only outcome=SUCCESS steps=161 wall=66.89s
+VALIDATION_SMOKE_RESULT {"baseline": "B0_search_prior", "task_outcome": "success", "steps": 161, "found_step": 1, "handoff_decision_step": 2, "program_failure": false, "summary_complete": true, "observations": {"search_only_solver_calls": 2, "physical_steps_checked": 161, "prior_max_abs": 1.2833333015441895}, "selected_content_sha256": "66ba13bf095ecef7fa3bcaeb113dd5a561444c3753604c0a0f8c31359906fdfe", "comparable_inputs_sha256": "7f97fbae31c1bae15541d969c2fc8dac5bb58519f283626deacad9a5c0c0d66a", "summary_residual_scalar_present": true, "identity_direct_reference_present": true, "identity_direct_task_protocol_present": true}
+test_identity_directly_records_requested_reference_and_protocol (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_provenance_is_verifiable_through_linked_resolved_config (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_required_summary_and_artifacts (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_runtime_no_learning_and_zero_residual (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok
+test_summary_contains_requested_residual_scalar (tests.test_ch3_baseline_validation.B0SmokeTests) ... ok

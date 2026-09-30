@@ -1,0 +1,217 @@
+{
+  "complete": true,
+  "exploratory": true,
+  "cases": [
+    {
+      "index": 63,
+      "arms": {
+        "V5": {
+          "found_step": null,
+          "terminal_step": 387,
+          "reason": "obstacle_collision",
+          "pre_found_exposure_steps": 387,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 794,
+            "candidate_shortage_events": 1,
+            "path_safety_checks": 1161,
+            "forced_planning_refreshes": 17,
+            "unsafe_search_paths": 1,
+            "safety_route_queries": 1,
+            "safety_route_failures": 1,
+            "safety_route_failure:invalid_start": 1,
+            "safety_braking_agent_steps": 1
+          },
+          "observed_recovery_transitions": []
+        },
+        "V4": {
+          "found_step": 187,
+          "terminal_step": 400,
+          "reason": "timeout",
+          "pre_found_exposure_steps": 187,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 0,
+            "candidate_shortage_events": 0,
+            "path_safety_checks": 561,
+            "forced_planning_refreshes": 10,
+            "unsafe_search_paths": 5,
+            "safety_route_queries": 5,
+            "safety_route_failures": 5,
+            "safety_route_failure:invalid_goal": 5,
+            "safety_braking_agent_steps": 5
+          },
+          "observed_recovery_transitions": []
+        }
+      },
+      "first_physical_difference": {
+        "step": 92,
+        "max_agent_position_difference": 0.034134864807128906
+      }
+    },
+    {
+      "index": 67,
+      "arms": {
+        "V5": {
+          "found_step": null,
+          "terminal_step": 227,
+          "reason": "obstacle_collision",
+          "pre_found_exposure_steps": 227,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 16713,
+            "candidate_shortage_events": 21,
+            "path_safety_checks": 681,
+            "forced_planning_refreshes": 82,
+            "unsafe_search_paths": 86,
+            "safety_route_queries": 86,
+            "safety_route_failures": 80,
+            "safety_route_failure:invalid_start": 80,
+            "safety_braking_agent_steps": 80,
+            "safety_route_replacements": 6
+          },
+          "observed_recovery_transitions": []
+        },
+        "V4": {
+          "found_step": 125,
+          "terminal_step": 400,
+          "reason": "timeout",
+          "pre_found_exposure_steps": 125,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 0,
+            "candidate_shortage_events": 0,
+            "path_safety_checks": 375,
+            "forced_planning_refreshes": 12,
+            "start_preflight:invalid_start": 12,
+            "short_circuited_candidate_pools": 12,
+            "unsafe_search_paths": 65,
+            "safety_route_queries": 65,
+            "safety_route_failures": 65,
+            "safety_route_failure:invalid_start": 15,
+            "safety_braking_agent_steps": 65,
+            "safety_route_failure:no_start_connector": 50,
+            "recovery_replans": 1
+          },
+          "observed_recovery_transitions": [
+            {
+              "step": 45,
+              "reason": "SAFE_SEARCH_RECOVERY",
+              "found_after": false,
+              "agents_after": [
+                {
+                  "agent_id": 0,
+                  "semantic_waypoint": [
+                    9.0,
+                    19.0,
+                    1.5
+                  ],
+                  "hold": false,
+                  "reachable": true
+                },
+                {
+                  "agent_id": 1,
+                  "semantic_waypoint": [
+                    11.0,
+                    3.0,
+                    2.5
+                  ],
+                  "hold": false,
+                  "reachable": true
+                },
+                {
+                  "agent_id": 2,
+                  "semantic_waypoint": [
+                    13.0,
+                    1.0,
+                    7.5
+                  ],
+                  "hold": false,
+                  "reachable": true
+                },
+                {
+                  "agent_id": 3,
+                  "semantic_waypoint": [
+                    11.0,
+                    5.0,
+                    4.5
+                  ],
+                  "hold": false,
+                  "reachable": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "first_physical_difference": {
+        "step": 43,
+        "max_agent_position_difference": 0.009265336721979371
+      }
+    },
+    {
+      "index": 77,
+      "arms": {
+        "V5": {
+          "found_step": null,
+          "terminal_step": 337,
+          "reason": "obstacle_collision",
+          "pre_found_exposure_steps": 337,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 36482,
+            "candidate_shortage_events": 46,
+            "path_safety_checks": 1011,
+            "forced_planning_refreshes": 192,
+            "unsafe_search_paths": 185,
+            "safety_route_queries": 185,
+            "safety_route_replacements": 5,
+            "safety_route_failures": 180,
+            "safety_route_failure:invalid_start": 180,
+            "safety_braking_agent_steps": 180
+          },
+          "observed_recovery_transitions": []
+        },
+        "V4": {
+          "found_step": 130,
+          "terminal_step": 400,
+          "reason": "timeout",
+          "pre_found_exposure_steps": 130,
+          "safe_counts": {
+            "search_candidate_unreachable_queries": 0,
+            "candidate_shortage_events": 0,
+            "path_safety_checks": 390,
+            "forced_planning_refreshes": 16,
+            "unsafe_search_paths": 60,
+            "safety_route_queries": 60,
+            "safety_route_replacements": 4,
+            "start_preflight:invalid_start": 11,
+            "short_circuited_candidate_pools": 11,
+            "safety_route_failures": 56,
+            "safety_route_failure:invalid_start": 11,
+            "safety_braking_agent_steps": 56,
+            "safety_route_failure:no_start_connector": 45,
+            "recovery_failure:ATOMIC_REJECT_MISSING_SEARCH_ROUTE": 1
+          },
+          "observed_recovery_transitions": []
+        }
+      },
+      "first_physical_difference": {
+        "step": 22,
+        "max_agent_position_difference": 0.06380912567646563
+      }
+    }
+  ],
+  "source_hashes": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_remaining_gain_audit.py": "217d26384753e555123001ff04deb34c8105c4c4b94df2da8cde19e318dd3ea7",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_remaining_results_20260929\\analysis.json": "c02632c7933564b631df26e02a133b9f6e405fbc960a1a765e7d4e5ecf8d6363",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\episodes.json": "7f225be6dfa3927e0ea9ae0e47d607542321cdea46b8c66b82d209133732a7da",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_remaining_20260929_v1\\episodes.json": "d7c0ff43d744cef22af6da7db2e7b77ff4a7ec6b618f6c08d8174717699dbd5a",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0063_V5\\episode_0063\\V5\\step_trace.jsonl": "0e8dde422c309ec9c7b2a9ca02989280e3eb60a047c1fd150801946d7682b08f",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_remaining_20260929_v1\\scene_0063_V4\\episode_0063\\V4\\step_trace.jsonl": "3e88a5c095efdf531a5cea23adc205bb6a9274d564496d1f77e2c0243390c32e",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0067_V5\\episode_0067\\V5\\step_trace.jsonl": "81fa3eb2d4bb2fdea3a54d6b700ab29c441c74d5da6a65bcfb6828d3b12a3e33",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_remaining_20260929_v1\\scene_0067_V4\\episode_0067\\V4\\step_trace.jsonl": "dbf0ad1635a8b859707e9993f24a1daf73a354c25b291b6777fe845dd0c9ffc7",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0077_V5\\episode_0077\\V5\\step_trace.jsonl": "b28c3bb268ae19d1a989e0b0bc174282f13189d4696560c700e56e9482953bf2",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_remaining_20260929_v1\\scene_0077_V4\\episode_0077\\V4\\step_trace.jsonl": "0196cff8a935755f30210c2c44a0ebc3ab25e334d28cb61434fad7525f55831a"
+  },
+  "limitations": [
+    "Cases selected after observing gains, not an independent effect estimate.",
+    "Raw counts cover different pre-Found exposure lengths and are not direct query-efficiency comparisons.",
+    "Recovery timing and final outcome are observed; one event is not proven to explain the whole episode."
+  ]
+}

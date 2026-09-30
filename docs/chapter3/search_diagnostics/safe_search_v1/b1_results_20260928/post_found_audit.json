@@ -1,0 +1,325 @@
+{
+  "schema": "ch3.safe_search.b1_post_found_audit.v1",
+  "complete": true,
+  "variant": "V5",
+  "found_episode_count": 7,
+  "post_found_timeout_count": 6,
+  "episodes": [
+    {
+      "index": 3,
+      "found_step": 153,
+      "outcome": "timeout",
+      "post_found_steps": 247,
+      "unreachable_steps": 226,
+      "query_callers": {
+        "detect:reachable": 741,
+        "_assignment:reachable": 1,
+        "_assignment:no_start_connector": 19,
+        "evaluate:reachable": 4
+      },
+      "first_no_start_connector": {
+        "step_before": 173,
+        "step_after": 174,
+        "cached_map_revision": 161,
+        "live_map_revision": 168,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 174,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 161,
+            "start": [
+              17.052881240844727,
+              2.756452798843384,
+              5.533613204956055
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              17.0,
+              3.0,
+              4.5
+            ],
+            "goal_endpoint_present": true
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 22,
+      "found_step": 23,
+      "outcome": "timeout",
+      "post_found_steps": 377,
+      "unreachable_steps": 356,
+      "query_callers": {
+        "detect:reachable": 1130,
+        "evaluate:reachable": 12,
+        "_assignment:reachable": 1,
+        "_assignment:no_start_connector": 35
+      },
+      "first_no_start_connector": {
+        "step_before": 43,
+        "step_after": 44,
+        "cached_map_revision": 41,
+        "live_map_revision": 45,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 44,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 41,
+            "start": [
+              7.191591739654541,
+              7.083217144012451,
+              5.533790588378906
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              9.0,
+              5.0,
+              5.5
+            ],
+            "goal_endpoint_present": true
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 31,
+      "found_step": 18,
+      "outcome": "success",
+      "post_found_steps": 80,
+      "unreachable_steps": 3,
+      "query_callers": {
+        "detect:reachable": 239,
+        "_assignment:reachable": 4,
+        "_assignment:no_start_connector": 3,
+        "evaluate:reachable": 12
+      },
+      "first_no_start_connector": {
+        "step_before": 38,
+        "step_after": 39,
+        "cached_map_revision": 21,
+        "live_map_revision": 40,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 39,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 21,
+            "start": [
+              13.123674392700195,
+              10.800317764282227,
+              5.466378688812256
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              13.0,
+              11.0,
+              6.5
+            ],
+            "goal_endpoint_present": false
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 42,
+      "found_step": 355,
+      "outcome": "timeout",
+      "post_found_steps": 45,
+      "unreachable_steps": 24,
+      "query_callers": {
+        "detect:reachable": 135,
+        "_assignment:reachable": 1,
+        "_assignment:no_start_connector": 4
+      },
+      "first_no_start_connector": {
+        "step_before": 375,
+        "step_after": 376,
+        "cached_map_revision": 342,
+        "live_map_revision": 343,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 376,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 342,
+            "start": [
+              11.119721412658691,
+              12.766423225402832,
+              3.619062662124634
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              9.0,
+              13.0,
+              2.5
+            ],
+            "goal_endpoint_present": false
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 76,
+      "found_step": 190,
+      "outcome": "timeout",
+      "post_found_steps": 210,
+      "unreachable_steps": 189,
+      "query_callers": {
+        "detect:reachable": 629,
+        "_assignment:reachable": 1,
+        "evaluate:reachable": 8,
+        "_assignment:no_start_connector": 19
+      },
+      "first_no_start_connector": {
+        "step_before": 210,
+        "step_after": 211,
+        "cached_map_revision": 185,
+        "live_map_revision": 192,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 211,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 185,
+            "start": [
+              11.706450462341309,
+              6.757785320281982,
+              3.8109021186828613
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              13.0,
+              7.0,
+              4.5
+            ],
+            "goal_endpoint_present": false
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 95,
+      "found_step": 268,
+      "outcome": "timeout",
+      "post_found_steps": 132,
+      "unreachable_steps": 111,
+      "query_callers": {
+        "detect:reachable": 395,
+        "_assignment:reachable": 1,
+        "evaluate:reachable": 12,
+        "_assignment:no_start_connector": 12
+      },
+      "first_no_start_connector": {
+        "step_before": 288,
+        "step_after": 289,
+        "cached_map_revision": 267,
+        "live_map_revision": 268,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 289,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 267,
+            "start": [
+              5.264382839202881,
+              6.9810590744018555,
+              2.5313985347747803
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              5.0,
+              9.0,
+              2.5
+            ],
+            "goal_endpoint_present": false
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    },
+    {
+      "index": 97,
+      "found_step": 63,
+      "outcome": "timeout",
+      "post_found_steps": 337,
+      "unreachable_steps": 316,
+      "query_callers": {
+        "detect:reachable": 1010,
+        "_assignment:reachable": 1,
+        "evaluate:reachable": 4,
+        "_assignment:no_start_connector": 27
+      },
+      "first_no_start_connector": {
+        "step_before": 83,
+        "step_after": 84,
+        "cached_map_revision": 78,
+        "live_map_revision": 78,
+        "decision_after": "EXECUTOR_PUBLIC_TARGET_UPDATED",
+        "query_samples": [
+          {
+            "step": 84,
+            "agent_id": 3,
+            "caller": "_assignment",
+            "reason": "no_start_connector",
+            "map_revision": 78,
+            "start": [
+              11.131192207336426,
+              6.950357913970947,
+              4.44969367980957
+            ],
+            "start_endpoint_present": false,
+            "goal": [
+              13.0,
+              5.0,
+              5.5
+            ],
+            "goal_endpoint_present": false
+          }
+        ],
+        "executor_reachable_before": true,
+        "executor_reachable_after": false
+      }
+    }
+  ],
+  "timeout_post_found_steps": 1348,
+  "timeout_unreachable_steps": 1222,
+  "timeout_unreachable_fraction": 0.9065281899109793,
+  "source_hashes": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_post_found_audit.py": "1495d1da2f4b40bee32112383af5ad59bc1cd4f1b0dbc82289cd6b285ebb4ff8",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\episodes.json": "7f225be6dfa3927e0ea9ae0e47d607542321cdea46b8c66b82d209133732a7da",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0003_V5\\episode_0003\\V5\\step_trace.jsonl": "abe6ef92a00edb91d109b23e7dee669cc6589a1a8c8a76e8054874b2937d130f",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0022_V5\\episode_0022\\V5\\step_trace.jsonl": "3aa465325a4918ed19f9da12571988ebc7d1a5941e48a72e1ef0cf91dfcdacad",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0031_V5\\episode_0031\\V5\\step_trace.jsonl": "28b3eb383dda7914d2c6553ad25ba98c454dacf18964efbea83adb538e6cab78",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0042_V5\\episode_0042\\V5\\step_trace.jsonl": "1022782325306712917f270ac63d6b3eca7d3fb1f37292c89b7bfa75aa2a1e89",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0076_V5\\episode_0076\\V5\\step_trace.jsonl": "82b28513def480e528dcae3c2d515034608ddb8c503903cba27f32971382de59",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0095_V5\\episode_0095\\V5\\step_trace.jsonl": "9c625d3f33ad590b082c326db2b189bb4093970bfe0344b5b6bb410b2dc729fc",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0097_V5\\episode_0097\\V5\\step_trace.jsonl": "49e8b4f1141145556019d5603d07988d6672a8d6bda87db4025405c9b23a34dc"
+  },
+  "scope": "All B1 V5 Found episodes; only transitions whose before state is Found. Query samples use recorded public endpoints.",
+  "limitation": "The recorded no_start_connector and absent start endpoint establish planning-connection failure; they do not establish physical goal unreachability or test a repair."
+}

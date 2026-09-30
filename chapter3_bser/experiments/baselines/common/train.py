@@ -32,6 +32,8 @@ class BaselineTrainer:
 
     def __init__(self, config, output):
         self.config = validate_config(config, self.baseline)
+        from chapter3_bser.experiments.d2_v1.provenance import verify_if_enabled
+        verify_if_enabled(self.config)
         self.output = validated_output(self.config, output)
         self.config["output_dir"] = str(self.output)
         self.source_identity = fresh_source_identity()
@@ -72,7 +74,7 @@ class BaselineTrainer:
                     or scenario.get("scenario_split") not in ("train", "smoke_train")
                     or scenario.get("scenario_role") != scenario.get("scenario_split")
                     or scenario.get("max_steps") != self.config["max_steps"]
-                    or scenario.get("protocol") != "CH3_UNKNOWN_MAP_V1"):
+                    or scenario.get("protocol") not in ("ch3_unknown_map_v1", "CH3_UNKNOWN_MAP_V1")):
                 raise ValueError("training scenario identity/profile/role/horizon/protocol mismatch")
         if len(set(identifiers)) != len(identifiers) or manifest.get("scenario_count", len(scenarios)) != len(scenarios):
             raise ValueError("training manifest has duplicate scenario IDs or a count mismatch")

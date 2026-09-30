@@ -1,0 +1,149 @@
+{
+  "schema": "ch3.safe_search.b1_hold_drift_audit.v1",
+  "passed": true,
+  "original_episode_index": 46,
+  "variant": "V5",
+  "agent_id": 0,
+  "parameters": {
+    "dt": 0.2,
+    "prior_kv_xy": 1.1,
+    "prior_strength_search": 1.0,
+    "agent_id": 0,
+    "drag_xy": 0.1,
+    "a_xy_max": 1.3,
+    "flow_gain": 0.18,
+    "flow_phase_x": 0.0,
+    "flow_phase_y": 0.0
+  },
+  "no_simulator_episode_executed": true,
+  "source_hashes": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_hold_drift_audit.py": "011ce1e52d0222999aa5ea5da31a94a55d8cbcdc37ca3c599e32b61f8e381eab",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\core\\env\\uav_env.py": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\core\\env\\mission_env.py": "e4d853fe143764ef4197cba472ebd045fbd0d03fae956cf539aae491f946657f",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\integration\\guided_env.py": "34fa427cdd0c0b5dc90b49376c98308381967ec5999c6b6ce9f7c90e92edf366",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\experiments\\safe_search_v1\\safe_guidance.py": "dde5e31e9da634294249a441c338855f3adbd8c2f8598d4285c0d40287877cb8",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0046_V5\\resolved_config.json": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0046_V5\\evaluation_manifest.json": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B1_20260928_v1\\scene_0046_V5\\episode_0046\\V5\\step_trace.jsonl": "5f669e416a05c02b25874122ed5aece447cc582bba0617f42568121354330d53"
+  },
+  "transitions": [
+    {
+      "step_before": 305,
+      "step_after": 306,
+      "speed_before": 0.2027723187776961,
+      "actual_speed_after": 0.20298740936471424,
+      "flow_xy": [
+        0.16334921507743683,
+        -0.17576570103372302
+      ],
+      "prior_acceleration_xy": [
+        -0.1501432314515114,
+        0.16494881659746172
+      ],
+      "predicted_next_velocity_xy": [
+        0.13700573948961037,
+        -0.14977757239501707
+      ],
+      "recorded_next_velocity_xy": [
+        0.1370057314634323,
+        -0.14977756142616272
+      ],
+      "max_abs_velocity_error": 1.0968854352588764e-08
+    },
+    {
+      "step_before": 306,
+      "step_after": 307,
+      "speed_before": 0.20298740936471424,
+      "actual_speed_after": 0.20319371809142778,
+      "flow_xy": [
+        0.16391086898268445,
+        -0.17552853818203049
+      ],
+      "prior_acceleration_xy": [
+        -0.15070630460977555,
+        0.164755317568779
+      ],
+      "predicted_next_velocity_xy": [
+        0.13750935492718455,
+        -0.14959567559056486
+      ],
+      "recorded_next_velocity_xy": [
+        0.13750934600830078,
+        -0.14959567785263062
+      ],
+      "max_abs_velocity_error": 8.91888377041461e-09
+    },
+    {
+      "step_before": 307,
+      "step_after": 308,
+      "speed_before": 0.20319371809142778,
+      "actual_speed_after": 0.20339117238371904,
+      "flow_xy": [
+        0.1644626675521209,
+        -0.1752840864674124
+      ],
+      "prior_acceleration_xy": [
+        -0.15126028060913088,
+        0.1645552456378937
+      ],
+      "predicted_next_velocity_xy": [
+        0.1380046775991693,
+        -0.14940775344403331
+      ],
+      "recorded_next_velocity_xy": [
+        0.13800467550754547,
+        -0.149407759308815
+      ],
+      "max_abs_velocity_error": 5.864781688069698e-09
+    },
+    {
+      "step_before": 308,
+      "step_after": 309,
+      "speed_before": 0.20339117238371904,
+      "actual_speed_after": 0.2035796902815411,
+      "flow_xy": [
+        0.16500458756961625,
+        -0.17503230165382888
+      ],
+      "prior_acceleration_xy": [
+        -0.15180514305830003,
+        0.1643485352396965
+      ],
+      "predicted_next_velocity_xy": [
+        0.138491691471891,
+        -0.14921375154642397
+      ],
+      "recorded_next_velocity_xy": [
+        0.138491690158844,
+        -0.1492137461900711
+      ],
+      "max_abs_velocity_error": 5.356352861252134e-09
+    },
+    {
+      "step_before": 309,
+      "step_after": 310,
+      "speed_before": 0.2035796902815411,
+      "actual_speed_after": 0.20375922241860894,
+      "flow_xy": [
+        0.16553661670564868,
+        -0.17477314147159795
+      ],
+      "prior_acceleration_xy": [
+        -0.1523408591747284,
+        0.16413512080907822
+      ],
+      "predicted_next_velocity_xy": [
+        0.13897037129855008,
+        -0.14901361588200993
+      ],
+      "recorded_next_velocity_xy": [
+        0.13897037506103516,
+        -0.14901360869407654
+      ],
+      "max_abs_velocity_error": 7.187933387386991e-09
+    }
+  ],
+  "max_abs_velocity_error": 1.0968854352588764e-08,
+  "finding": "Moving-current-position Hold has zero position error. Its velocity feedback balances nonzero flow at nonzero velocity; it is not station keeping.",
+  "limits": "Five recorded nonterminal transitions are reconciled, not a new closed-loop counterfactual experiment. Terminal collision remains the actual step-311 result."
+}

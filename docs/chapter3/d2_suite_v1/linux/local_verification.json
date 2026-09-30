@@ -1,0 +1,72 @@
+{
+  "schema": "ch3.d2_suite_linux.local_verification.v1",
+  "status": "passed",
+  "recorded_utc": "2026-09-30T11:22:07.780083+00:00",
+  "context": "latest recorded local verification, not CI",
+  "platform": "Windows; Git Bash launcher syntax/help; no native Linux execution",
+  "python": "D:/anaconda/anaconda/envs/AUV/python.exe",
+  "command": "python -B -m unittest -v tests.test_d2_suite_linux tests.test_safe_search_provenance tests.test_repository_metadata tests.test_ch3_baseline_provenance tests.test_d2_suite.SuiteTests.test_preparation_preview_partial_summary_and_mutation_gate tests.test_d2_suite.SuiteTests.test_explicit_scene_generation_freezes_disjoint_inputs tests.test_d2_suite.SuiteTests.test_new_source_scope_and_unused_profile_are_protected",
+  "tests_passed": 34,
+  "seconds": 207.5,
+  "test_ids": [
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_bad_stage_d2_training_and_unknown_seed_cannot_launch",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_cli_evaluation_and_check_dispatch",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_cli_rejects_training_d2_with_nonzero_exit",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_explicit_launch_logs_both_streams_and_uses_only_selected_stage",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_failed_launch_retains_traceback_and_propagates_error",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_lock_conflict_release_on_failure_and_foreign_ownership",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_native_preflight_and_previews_preserve_plan_and_start_nothing",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_new_provenance_scope_review_and_unused_profile_are_protected",
+    "tests.test_d2_suite_linux.LinuxLaunchTests.test_relocated_plan_cannot_execute_but_can_be_summarized",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_changed_removed_added_files_rejected_in_every_scope",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_current_exact_inventory_and_no_source_normalization",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_d2_mainline_uses_exact_successor_without_rewriting_old_gate",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_historical_manifests_and_all_27_records_are_frozen",
+    "tests.test_safe_search_provenance.SafeSearchProvenanceTests.test_manifest_hash_scope_before_records_and_unused_profiles_checked",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_baseline_maddpg_evolution_exists_and_records_independent_methods",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_changed_removed_and_added_baseline_inputs_are_rejected",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_evolution_preserves_all_historical_records_and_exact_new_hashes",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_final_pin_integrity_and_native_checkpoint_identity_are_retained",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_invalid_manifest_or_changed_production_binding_is_rejected",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_inventory_excludes_windows_bytes_but_launchers_still_run",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_linux_provenance_platform_independent",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_real_source_inventory_changes_fail_for_every_protected_directory",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol",
+    "tests.test_ch3_baseline_provenance.BaselineProvenanceTests.test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen",
+    "tests.test_d2_suite.SuiteTests.test_preparation_preview_partial_summary_and_mutation_gate",
+    "tests.test_d2_suite.SuiteTests.test_explicit_scene_generation_freezes_disjoint_inputs",
+    "tests.test_d2_suite.SuiteTests.test_new_source_scope_and_unused_profile_are_protected"
+  ],
+  "log": "docs/chapter3/d2_suite_v1/linux/local_tests.txt",
+  "log_sha256": "b7b186372aa0dcf30a0b4514b1eb897e71b15d04a55ae0e522450c813b0444da",
+  "source_sha256": "2d9b0eac3ad04c943836dd2239dc56cd84bd423b4f529575c8c4b4113b15602c",
+  "source_file_count": 390,
+  "historical_records": 27,
+  "linux_manifest_sha256": "ddef800f8c2c7071c0a6499710853b6575f2635256f6b1292c83e7afaf06d5e2",
+  "frozen_parent_manifest_sha256": "0d8720831248cf6e3a5cd81d049c4dd378e3e46c3013d09deb629fe87b21372a",
+  "shell_checks": {
+    "shell": "E:/git/Git/bin/bash.exe",
+    "syntax_passed": [
+      "scripts/linux/train_d2_suite.sh",
+      "scripts/linux/evaluate_d2_suite.sh"
+    ],
+    "help_passed": [
+      "train_d2_suite.sh --help",
+      "evaluate_d2_suite.sh --help"
+    ]
+  },
+  "limitations": [
+    "No formal training or evaluation started.",
+    "No new native algorithm training smoke in this task; explicit-launch execution tests use stubs.",
+    "Actual Linux platform and performance remain unverified.",
+    "Training remains CPU; CUDA availability is informational.",
+    "Previous parent local_verification.json is retained as historical verification."
+  ]
+}

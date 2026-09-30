@@ -1,0 +1,126 @@
+{
+  "schema": "ch3.safe_search.ac_source_diff_review.v1",
+  "review_date": "2026-09-28",
+  "reviewer": "independent coverage_observer subagent",
+  "review_passed": true,
+  "review_scope": "Exact source-diff and static runner/comparability review, plus mocked runner tests; no simulator or training executed by this reviewer.",
+  "new_source_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496",
+  "reference_source_inventory_sha256": "8220c352e2b605c74e275701094195d77fbee53777e5554091f59556d157a33c",
+  "reference_source_count": 336,
+  "new_source_count": 337,
+  "exact_changed_paths": [
+    "chapter3_bser/experiments/safe_search_v1/run_paired.py",
+    "chapter3_bser/experiments/safe_search_v1/runtime.py",
+    "docs/chapter3/search_diagnostics/safe_search_v1/source_review.md"
+  ],
+  "added_paths": [
+    "chapter3_bser/experiments/safe_search_v1/run_ac_development.py"
+  ],
+  "deleted_paths": [],
+  "source_file_changes": {
+    "chapter3_bser/experiments/safe_search_v1/run_paired.py": {
+      "before_sha256": "00b40eea10da933b980c90af456a0dd6095b823f9209faa1eb033f2b97372842",
+      "after_sha256": "9bc34de57ea56247e0c1de19c4a6f0130f451835872961ac7254f5981c1c9f4b",
+      "hash_basis": "raw file bytes"
+    },
+    "chapter3_bser/experiments/safe_search_v1/runtime.py": {
+      "before_sha256": "ba06e8d97be76fb698c2a5bcea9411eb31ef5e8ab2c763b7833b51026ff7901e",
+      "after_sha256": "c6997363894f7e20618b6f5e1abb2a4dc172302723d7fe977a16cf89afa8b8d0",
+      "hash_basis": "raw file bytes"
+    },
+    "docs/chapter3/search_diagnostics/safe_search_v1/source_review.md": {
+      "before_sha256": "6f1bd3c505dcbd4110ac1b8f8410f5ad353c97af69152d1ccd746e72c3e65dfa",
+      "after_sha256": "b20d55e50f2b2c2538fa10956019e8a9f52b3f98ab7b4cb8f1545786eed3247b",
+      "hash_basis": "raw file bytes"
+    },
+    "chapter3_bser/experiments/safe_search_v1/run_ac_development.py": {
+      "before_sha256": null,
+      "after_sha256": "42653e2f9f4c40c3eaafe534541efd3bacda0b105b05953d7bc707ff0316aefb",
+      "hash_basis": "raw file bytes"
+    }
+  },
+  "reference": {
+    "run_directory": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_B0_20260928_v2",
+    "identity_sha256": "246e3ae55c2c7f8c1c662992371c6c413de521d5074470ad6f6ee96f54eec03e",
+    "episodes_sha256": "ee149254f1e4a17dfb84dcea32e67226b56d243cf4cd1d7d0867188968dde56b",
+    "evolution_sha256": "6e8247919258eb35f96d0307dde93d9e1cbab3530b9b8bf02083737399207bec",
+    "checkout_profile": "windows_existing"
+  },
+  "historical_protection": {
+    "all_27_migration_records_present": true,
+    "frozen_raw_manifests_and_internal_bindings_valid": true,
+    "all_complete_checkout_profiles_valid": true,
+    "prior_reviewed_HGR_and_launcher_evolution_valid": true,
+    "all_unchanged_old_inventory_paths_match_raw_hashes": true,
+    "unchanged_old_inventory_path_count": 333,
+    "no_core_or_contract_source_changes": true,
+    "old_source_review_exact_prefix_retained": true,
+    "archived_manifest_sha256": "301a3c9e01599a3366af606ee5f4f889a86292ab67c37154711a67717b2c1b85",
+    "archived_source_review_sha256": "6f1bd3c505dcbd4110ac1b8f8410f5ad353c97af69152d1ccd746e72c3e65dfa",
+    "archived_profile_equals_D2_336_file_inventory": true
+  },
+  "minimal_diff_proofs": {
+    "runtime_inverse_patch_equals_frozen_hash": true,
+    "runtime_changes": "Only V5=(planning_state_consistency=True,failure_policy=False,path_safety=True) and two invalid-variant messages.",
+    "run_paired_inverse_patch_equals_frozen_hash": true,
+    "run_paired_changes": "Only SUPPORTED_VARIANTS whitelist and parse validation/message; historical VARIANTS and CLI defaults remain five arms.",
+    "source_review_change": "Append-only V5 review after exact historical source-review bytes."
+  },
+  "runner_findings": {
+    "blocking_findings": [],
+    "fixed_population": "Exactly original 20 development indices, original innovation seed 12729+index, only V5, 400-step full task horizon.",
+    "reference_binding": "Requires complete validated historical 100 arms, exact identity/episodes/source references and manifest/config bytes; preserves old source identity.",
+    "failure_handling": "Nonzero subprocess exit or invalid child creates program failure, stops new scheduling, and prevents complete-stage verdict; already running children are allowed to finish.",
+    "parallel_isolation": "One independent process, output directory and exclusive log per original scene; original source/config/scenario checked around execution.",
+    "completion": "Requires one verified V5 arm per scene, matching terminal semantics and complete contiguous Found/terminal trace; final denominator remains 20.",
+    "nonblocking_limitations": [
+      "No new wall-clock timeout was introduced; a stuck child would require operational intervention.",
+      "The runner does not itself consume the separate source-comparability result; launch workflow must enforce that gate before V5 collection."
+    ]
+  },
+  "comparability_helper": {
+    "path": "docs/chapter3/search_diagnostics/safe_search_v1/ac_source_comparability.py",
+    "sha256": "b413aaca1cb220727c7e7cf115b48e870997db873328a452af11876e7c278aa3",
+    "static_review_passed": true,
+    "fixed_controls": [
+      {
+        "original_episode_index": 3,
+        "variant": "V3",
+        "expected_physical_steps": 400,
+        "expected_found_step": 160,
+        "expected_stop_reason": "timeout"
+      },
+      {
+        "original_episode_index": 28,
+        "variant": "V4",
+        "expected_physical_steps": 400,
+        "expected_found_step": null,
+        "expected_stop_reason": "timeout"
+      }
+    ],
+    "comparison": "Strict complete ordered physical signature digest, key outcomes and all complete_episode_row fields except wall_seconds; full manifest/config values and source identities checked.",
+    "resolved_review_finding": "Removed wall_seconds only from complete_episode_row equality to avoid false mismatch; signature and all semantic fields remain compared.",
+    "controls_executed_by_this_reviewer": false,
+    "runtime_equivalence_result": "pending execution; static review does not claim equivalence"
+  },
+  "plan_sha256": "5124d9228d850eec473737e4e2b0cfda4a43df4138a117fa18663aa244b03091",
+  "verification": {
+    "ast_parse_passed": true,
+    "mocked_runner_tests": {
+      "command": "python -B -m unittest tests.test_safe_search_ac_development -q",
+      "test_count": 8,
+      "exit_code": 0,
+      "passed": true,
+      "simulator_subprocesses_mocked": true,
+      "test_file_sha256": "055e185f6ddb5923689db6c164e9eed7a19eac505461bc6cf1c5dc5599ac151d"
+    },
+    "production_sources_modified_by_reviewer": false,
+    "simulator_runs_started_by_reviewer": 0,
+    "training_runs_started_by_reviewer": 0
+  },
+  "remaining_execution_gates": [
+    "Seal the exact reviewed 337-file inventory.",
+    "Complete required mechanism/regression checks.",
+    "Require both selected full-episode replay controls to match before V5 development launch."
+  ]
+}

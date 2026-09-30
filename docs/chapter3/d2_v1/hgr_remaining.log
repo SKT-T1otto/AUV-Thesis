@@ -1,0 +1,40 @@
+test_biased_predictor_correction_and_nonuniform_sampling (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_equal_suffix_policies_have_zero_increment_mean_but_nonzero_trial_noise (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_exact_enumeration_new_gradient_and_finite_difference (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_explicit_prrac_mean_mapping_is_finite_complete_and_independent (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_old_plus_difference_cancels_and_direct_boundary_keeps_prefix_rewards (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_prefix_standby_suffix_parameter_and_buffer_isolation (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_repeated_draws_and_no_handoff_keep_sampling_multiplicity (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_tanh_density_jacobian_fixed_latent_score_and_saturation (tests.test_hgr_mechanism.HGRMechanismTests) ... ok
+test_T1_exact_fixed_K_mean_full_covariance_and_float_implementation (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T2_multistep_stopping_time_MDP_and_theta_suffix_counterexample (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T3_verified_bypass_calls_nothing_and_keeps_g0_denominator_consumption (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T3_zero_nonbypass_and_direct_boundary_keep_fixed_K (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T4_actual_behavior_identity_rejects_each_change (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T5_coupled_synthetic_paths_swap_stopping_and_addressing (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T6_named_streams_global_isolation_and_spawn (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T7_predictor_small_samples_extremes_freeze_and_serialization (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T8_legacy_numeric_path_source_and_cost_accounting (tests.test_hgr_phase1.Phase1Tests) ... ok
+test_T8_old_full_synthetic_cycle_and_stream_sequence_exact (tests.test_hgr_phase1_legacy_fixture.LegacyFixtureTests) ... ok
+test_T8_old_policy_density_action_gradient_and_rng_fixture_exact (tests.test_hgr_phase1_legacy_fixture.LegacyFixtureTests) ... ok
+test_T8_revision_constructed_predictor_memory_roundtrip_and_mismatch_rejection (tests.test_hgr_phase1_legacy_fixture.LegacyFixtureTests) ... ok
+test_T3_invalid_or_changed_bypass_proofs (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_T5_real_branch_function_with_synthetic_restore_relative_discount_and_early_stop (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_T7_invalid_formal_label_fails_and_leaves_failure_diagnostic (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_T7_pilots_independent_and_predictor_frozen_before_formal_labels (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_T8_one_synthetic_cycle_wires_bypass_costs_and_single_updates (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_manual_runner_not_exercised_is_bounded_and_does_not_retry (tests.test_hgr_phase1_runtime_synthetic.SyntheticRuntimeTests) ... ok
+test_default_protocol_and_runtime_adapter_delegate_without_simulation (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_fixed_boundary_repeats_are_explicitly_conditional (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_frozen_source_artifact_roundtrip_no_training_checkpoint (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_invalid_source_config_or_output_fails_before_collection (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_method_schema_npz_vectors_and_variance_formula (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_mutation_and_nan_fail_with_diagnostic (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_same_source_reproducibility_named_stream_separation_and_rng_isolation (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_synthetic_estimator_sanity_no_update_and_all_costs (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+test_zero_update_and_no_handoff_keep_denominator_and_cost (tests.test_hgr_phase2_gradient_efficiency.Phase2GradientEfficiencyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 13.811s
+
+OK

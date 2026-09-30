@@ -10,13 +10,14 @@ from chapter3_bser.experiments.hgr.train import validate_config
 from chapter3_bser.experiments.baselines.common.checkpoint import validate_config as validate_baseline_config
 from .provenance import ROOT
 
-REGISTRY_PATH = ROOT / "configs/chapter3/baselines/baseline_registry.json"
-DEFAULT_REFERENCE = ROOT / "configs/chapter3/hgr_train.json"
+REGISTRY_PATH = ROOT / "configs/chapter3/d2_v1/baseline_registry.json"
+DEFAULT_REFERENCE = ROOT / "configs/chapter3/d2_v1/hgr_train.json"
+HISTORICAL_REFERENCE = ROOT / "configs/chapter3/hgr_train.json"
 CONTRACTS = {
     "B0_search_prior": ("ch3_baseline_search_prior", "ch3_basic_search_prior_v1", "search_only", "none", None),
     "B1_bser_prior": ("ch3_baseline_bser_prior", "ch3_baseline_bser_prior", "bser_joint", "none", None),
-    "B2_direct_mc": ("ch3_baseline_direct_mc", "ch3_baseline_direct_mc", "bser_joint", "offpolicy_maddpg", "maddpg"),
-    "B3_direct_boundary": ("ch3_baseline_direct_boundary", "ch3_baseline_direct_boundary", "bser_joint", "boundary_conditioned_maddpg", "direct_boundary_maddpg"),
+    "B2_direct_mc": ("ch3_baseline_direct_mc", "ch3_baseline_direct_mc", "d2_v1", "offpolicy_maddpg", "maddpg"),
+    "B3_direct_boundary": ("ch3_baseline_direct_boundary", "ch3_baseline_direct_boundary", "d2_v1", "boundary_conditioned_maddpg", "direct_boundary_maddpg"),
 }
 
 
@@ -65,6 +66,8 @@ def task_conditions(config, *, episodes=1, seed=12729):
                   "source_reward_revision", "environment_config", "execution_runtime", "phase1b_config",
                   "phase1b_reference_config_sha256")}
     conditions.update(observation_dim=config["observation_dim"], action_dim=config["action_dim"])
+    from chapter3_bser.experiments.d2_v1.contract import planner_protocol
+    conditions["planner_protocol"] = planner_protocol(config)
     # B0 alone declares this standby intervention; it is not a shared task field.
     conditions["environment_config"].pop("pse_use_standby", None)
     return conditions
@@ -80,6 +83,9 @@ def load_reference(path=None):
 
 
 def validate_method_config(spec, config, reference):
+    from chapter3_bser.experiments.d2_v1.contract import planner_protocol
+    if spec["learning"] and planner_protocol(config) != spec["planner"]:
+        raise ValueError("current B2/B3 require D2; historical BSER checkpoints are not D2 checkpoints")
     if spec["learning"] and (config["method"] != spec["runtime_method"] or config["algorithm"] != spec["algorithm"]):
         raise ValueError("checkpoint/config belongs to another method; relabeling weights is forbidden")
     config = validate_baseline_config(config)

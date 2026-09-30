@@ -39,6 +39,8 @@ def write_json(path, value):
 
 def validate_config(config, expected_baseline=None):
     config = copy.deepcopy(dict(config))
+    from chapter3_bser.experiments.d2_v1.contract import planner_protocol
+    planner_protocol(config)
     if config.get("schema") != CONFIG_SCHEMA:
         raise ValueError("not an independent baseline training config; an HGR checkpoint cannot be relabeled")
     baseline = config.get("baseline")

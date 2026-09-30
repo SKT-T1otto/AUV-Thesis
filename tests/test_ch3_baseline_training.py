@@ -297,10 +297,17 @@ class TrainingEntryTests(unittest.TestCase):
 
     def test_b0_b1_unchanged(self):
         historical = json.loads((ROOT / "docs/chapter3/baselines/framework_protected_baseline.json").read_text(encoding="utf-8"))
+        from chapter3_bser.experiments.d2_v1.provenance import framework_sources
+        current = framework_sources()
+        parent = json.loads((ROOT / "docs/provenance/bser_final_v1_evolution.json").read_text(encoding="utf-8"))
         for relative in ("tools/ch3_baselines/basic_search_prior.py", "tools/ch3_baselines/bser_prior.py",
                          "tools/ch3_baselines/evaluate.py", "configs/chapter3/baselines/search_prior_eval.json",
                          "configs/chapter3/baselines/bser_prior_eval.json"):
-            self.assertEqual(file_sha256(ROOT / relative), historical["files"][relative], relative)
+            expected = parent["profiles"][current["checkout_profile"]]["files"][relative]
+            self.assertEqual(file_sha256(ROOT / relative), expected, relative)
+            # Only B0's previously reviewed construction hook predates D2.
+            if relative != "tools/ch3_baselines/basic_search_prior.py":
+                self.assertEqual(expected, historical["files"][relative], relative)
         for baseline in ("B0_search_prior", "B1_bser_prior"):
             spec = registry.method_spec(baseline)
             self.assertFalse(spec["learning"])

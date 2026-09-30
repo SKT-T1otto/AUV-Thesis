@@ -1,0 +1,70 @@
+{
+  "schema": "ch3.safe_search.development_tools_verification.v1",
+  "date": "2026-09-28",
+  "platform": "Windows local AUV Python, not CI or Linux execution",
+  "source_inventory": {
+    "experiment": "ch3.safe_search.v1",
+    "checkout_profile": "windows_existing",
+    "evolution_sha256": "77951bcdbfcb0318b21affc229e62cbedd10630c7810fe110018ae13d39a729f",
+    "historical_record_count": 27,
+    "historical_production_sha256": "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd"
+  },
+  "protected_file_count": 335,
+  "tests": {
+    "modules": [
+      "tests.test_safe_search_coverage",
+      "tests.test_safe_search_coverage_integration",
+      "tests.test_safe_search_development",
+      "tests.test_safe_search_analysis",
+      "tests.test_safe_search_runner",
+      "tests.test_safe_search_provenance"
+    ],
+    "run_count": 58,
+    "passed": 58,
+    "errors": 0,
+    "failures": 0,
+    "seconds": 34.707
+  },
+  "equivalence": {
+    "run": "runs/safe_search_v1/coverage_equivalence_B0_20260928_v1",
+    "identity_sha256": "aec6e4ae98034478ebedaaf1d9ed54a5a3212d3bccaffdd42c6a8c466f3bae90",
+    "source_and_input_verification_passed": true,
+    "source_before_equals_after": true,
+    "cases": [
+      {
+        "original_episode_index": 0,
+        "physical_steps": 20,
+        "stop_reason": "budget_cutoff",
+        "signature_sha256": "8668cd199567cabd46026ad21971b2603ebbdbc53608970f4d932c63c7da57bb",
+        "v0_matches_original_at_every_step": true,
+        "coverage_available": true,
+        "coverage_errors": [],
+        "attribution_errors": []
+      },
+      {
+        "original_episode_index": 3,
+        "physical_steps": 18,
+        "stop_reason": "obstacle_collision",
+        "signature_sha256": "9b8f3a38c68a7397cc20c59a974cc5c71c81c0aaa7ac993989d54bd80e7df74d",
+        "v0_matches_original_at_every_step": true,
+        "coverage_available": true,
+        "coverage_errors": [],
+        "attribution_errors": []
+      },
+      {
+        "original_episode_index": 28,
+        "physical_steps": 20,
+        "stop_reason": "budget_cutoff",
+        "signature_sha256": "38d7fa775d59955fb970a93f1d1e0dcd1e3255b7e43b297903d14dd1fbebe110",
+        "v0_matches_original_at_every_step": true,
+        "coverage_available": true,
+        "coverage_errors": [],
+        "attribution_errors": []
+      }
+    ]
+  },
+  "scope": "Read-only coverage and fixed20 development orchestration; unchanged D1 control code.",
+  "training": false,
+  "checkpoint_loaded": false,
+  "formal_thesis_evaluation": false
+}

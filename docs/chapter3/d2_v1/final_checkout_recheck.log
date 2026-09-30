@@ -1,0 +1,9 @@
+test_every_integration_path_and_frozen_reference_is_protected (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_exact_git_reference_profile_and_mixed_reference_rejection (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_no_reseal_can_expand_scope_or_change_before_hash (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 30.467s
+
+OK

@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "outcomes",
+      "title": "各组发现率、碰撞和发现时间",
+      "queries": [
+        {
+          "id": "group-outcomes",
+          "source": {
+            "label": "本地 D0–D3 完整配对实验",
+            "files": [
+              {
+                "label": "runs/bser_effect_v1/development_20260929_v1/episodes.json"
+              },
+              {
+                "label": "results_20260929/analysis.json"
+              }
+            ],
+            "filters": [
+              "固定原20个开发场景",
+              "每组20个完整回合，400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "20个重复使用开发场景，不是独立确认性测试。",
+              "次比较未经多重比较校正。"
+            ],
+            "executedAt": "2026-09-29T23:04:37.891242+08:00",
+            "metricDefinitions": [
+              {
+                "label": "发现与安全",
+                "definition": "Found和发现前碰撞分别按全部20个场景统计；未Found的惩罚发现步数取400。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "arm": "D0",
+              "n": 20,
+              "found": 10,
+              "collision": 9,
+              "penalized_steps": 269.75,
+              "conditional_steps": 139.5
+            },
+            {
+              "arm": "D1",
+              "n": 20,
+              "found": 7,
+              "collision": 9,
+              "penalized_steps": 316.05,
+              "conditional_steps": 160.14285714285714
+            },
+            {
+              "arm": "D2",
+              "n": 20,
+              "found": 12,
+              "collision": 3,
+              "penalized_steps": 258.5,
+              "conditional_steps": 164.16666666666666
+            },
+            {
+              "arm": "D3",
+              "n": 20,
+              "found": 7,
+              "collision": 9,
+              "penalized_steps": 296.3,
+              "conditional_steps": 103.71428571428571
+            }
+          ],
+          "columns": [
+            "arm",
+            "n",
+            "found",
+            "collision",
+            "penalized_steps",
+            "conditional_steps"
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "80个回合汇总为4组；已核验全部子任务和轨迹哈希。",
+            "totalRows": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "paired-effects",
+      "title": "完整BSER与顺序待命的配对效果",
+      "queries": [
+        {
+          "id": "paired-outcomes",
+          "source": {
+            "label": "本地 D0–D3 完整配对实验",
+            "files": [
+              {
+                "label": "runs/bser_effect_v1/development_20260929_v1/episodes.json"
+              },
+              {
+                "label": "results_20260929/analysis.json"
+              }
+            ],
+            "filters": [
+              "固定原20个开发场景",
+              "每组20个完整回合，400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "20个重复使用开发场景，不是独立确认性测试。",
+              "次比较未经多重比较校正。"
+            ],
+            "executedAt": "2026-09-29T23:04:37.891242+08:00",
+            "metricDefinitions": [
+              {
+                "label": "配对差异",
+                "definition": "在同一场景和种子上比较前者与后者，记录新增和丢失Found、减少和增加碰撞。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "comparison": "D2_vs_D0",
+              "found_wins": 4,
+              "found_losses": 2,
+              "collision_prevented": 7,
+              "collision_added": 1,
+              "found_exact_p": 0.6875
+            },
+            {
+              "comparison": "D3_vs_D2",
+              "found_wins": 0,
+              "found_losses": 5,
+              "collision_prevented": 0,
+              "collision_added": 6,
+              "found_exact_p": 0.0625
+            },
+            {
+              "comparison": "D3_vs_D0",
+              "found_wins": 0,
+              "found_losses": 3,
+              "collision_prevented": 2,
+              "collision_added": 2,
+              "found_exact_p": 0.25
+            },
+            {
+              "comparison": "D1_vs_D0",
+              "found_wins": 3,
+              "found_losses": 6,
+              "collision_prevented": 3,
+              "collision_added": 3,
+              "found_exact_p": 0.5078125
+            }
+          ],
+          "columns": [
+            "comparison",
+            "found_wins",
+            "found_losses",
+            "collision_prevented",
+            "collision_added",
+            "found_exact_p"
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "每项比较包含20个配对场景。",
+            "totalRows": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "mechanisms",
+      "title": "响应加权已生效，Hold安全仍未解决",
+      "queries": [
+        {
+          "id": "mechanism-logs",
+          "source": {
+            "label": "本地 D0–D3 完整配对实验",
+            "files": [
+              {
+                "label": "80份 planning_audit.json"
+              },
+              {
+                "label": "80份 step_trace.jsonl"
+              },
+              {
+                "label": "core/env/uav_env.py"
+              },
+              {
+                "label": "results_20260929/analysis.json"
+              }
+            ],
+            "filters": [
+              "固定原20个开发场景",
+              "每组20个完整回合，400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "提案不等于已安装决策。",
+              "Hold碰撞前状态不能独自分解惯性、流场与制动时机的因果贡献。",
+              "执行者参与共享建图，D2收益尚未分离一般移动和响应优化的贡献。"
+            ],
+            "executedAt": "2026-09-29T23:04:37.891242+08:00",
+            "metricDefinitions": [
+              {
+                "label": "机制诊断",
+                "definition": "提案改变按同状态纯搜索反事实比较；Hold碰撞统计碰撞前一物理步的导航状态。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "arm": "D0",
+              "changed_proposals": 0,
+              "all_proposals": 207,
+              "hold_before_collision": 8,
+              "all_pre_collisions": 9
+            },
+            {
+              "arm": "D1",
+              "changed_proposals": 112,
+              "all_proposals": 335,
+              "hold_before_collision": 8,
+              "all_pre_collisions": 9
+            },
+            {
+              "arm": "D2",
+              "changed_proposals": 0,
+              "all_proposals": 298,
+              "hold_before_collision": 3,
+              "all_pre_collisions": 3
+            },
+            {
+              "arm": "D3",
+              "changed_proposals": 44,
+              "all_proposals": 273,
+              "hold_before_collision": 7,
+              "all_pre_collisions": 9
+            }
+          ],
+          "columns": [
+            "arm",
+            "changed_proposals",
+            "all_proposals",
+            "hold_before_collision",
+            "all_pre_collisions"
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "全部20场景逐组审计。",
+            "totalRows": 4
+          }
+        }
+      ]
+    }
+  ]
+}

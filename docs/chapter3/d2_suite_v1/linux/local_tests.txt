@@ -1,0 +1,39 @@
+test_bad_stage_d2_training_and_unknown_seed_cannot_launch (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_cli_evaluation_and_check_dispatch (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_cli_rejects_training_d2_with_nonzero_exit (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_explicit_launch_logs_both_streams_and_uses_only_selected_stage (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_failed_launch_retains_traceback_and_propagates_error (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_lock_conflict_release_on_failure_and_foreign_ownership (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_native_preflight_and_previews_preserve_plan_and_start_nothing (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_new_provenance_scope_review_and_unused_profile_are_protected (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_relocated_plan_cannot_execute_but_can_be_summarized (tests.test_d2_suite_linux.LinuxLaunchTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_d2_mainline_uses_exact_successor_without_rewriting_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_baseline_maddpg_evolution_exists_and_records_independent_methods (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_preparation_preview_partial_summary_and_mutation_gate (tests.test_d2_suite.SuiteTests) ... ok
+test_explicit_scene_generation_freezes_disjoint_inputs (tests.test_d2_suite.SuiteTests) ... ok
+test_new_source_scope_and_unused_profile_are_protected (tests.test_d2_suite.SuiteTests) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 207.500s
+
+OK

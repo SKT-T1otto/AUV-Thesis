@@ -1,0 +1,35 @@
+{
+  "schema": "ch3.found_search.local_verification.v2",
+  "date": "2026-09-29",
+  "verification_kind": "latest recorded local verification, not CI",
+  "full_related_regression": {
+    "tests": 190,
+    "passed": true,
+    "source_inventory_sha256": "9c5703684df4400907ba4cef431cb97ce5267d582ee53b52d4b8439b813213fd"
+  },
+  "final_runner_and_provenance_recheck": {
+    "tests": 19,
+    "passed": true,
+    "source_inventory_sha256": "f1edcb4b61e20084d7b7ee3652ba0bc02122d45e68dee96d4f9921d9a787f8d8"
+  },
+  "synthetic_interface": "R0 and R4 for both baselines, two physical steps per runtime; synthetic fixture only, no performance claim",
+  "final_source_inventory_sha256": "f1edcb4b61e20084d7b7ee3652ba0bc02122d45e68dee96d4f9921d9a787f8d8",
+  "source_file_count": 346,
+  "historical_record_count": 27,
+  "unchanged_parent_inventory_items": 337,
+  "changed_parent_items": [
+    "chapter3_bser/experiments/safe_search_v1/provenance.py"
+  ],
+  "windows_plan_only_passed": true,
+  "full_development_episodes_executed": 0,
+  "training": false,
+  "checkpoint_loaded": false,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null,
+  "raw_results_remain_git_ignored": true,
+  "logs": {
+    "local_tests_final.txt": "475478761abb08d377082789ff313a5bd02fde3cee986e3259d71a224d43a95a",
+    "local_runner_final.txt": "81d075e3d3e30ba5e759ad1469cbb1f36263f9a2558a9bb8604d29077311dc44",
+    "windows_plan_check.txt": "cc5054cd2f8f98179524c47f2e8f6f01a089107916e74dc5bc677932cc342fa4"
+  }
+}

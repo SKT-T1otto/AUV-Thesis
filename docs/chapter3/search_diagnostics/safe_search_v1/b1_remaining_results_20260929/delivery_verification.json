@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "actual_new_terminal_episodes": 60,
+  "combined_B1_terminal_episodes": 120,
+  "new_physical_steps": 14335,
+  "combined_B1_physical_steps": 31551,
+  "program_failures": [],
+  "analysis_input_hashes_rechecked": 272,
+  "numeric_audit_passed": true,
+  "gain_case_audit_passed": true,
+  "source_inventory_sha256": "f0f91fb821b138aa4f09c59bc3132b13d2567c086c59d4bd3d8ac5ea076de1ba",
+  "runtime_source_file_count": 338,
+  "historical_provenance_records": 27,
+  "local_task_scoped_test_passes": 154,
+  "local_test_receipt_sha256": "47453bad00ce895c3664cea8b678c7aad8aa203ab76e1021f971fe3dcab7a123",
+  "runtime_unchanged_from_previous_B1": true,
+  "report_binding": {
+    "analysis_sha256": "c02632c7933564b631df26e02a133b9f6e405fbc960a1a765e7d4e5ecf8d6363",
+    "cases_sha256": "44fdc0c710c1541164ecec0a447e646297fe73e9ebb40114bcc9e8930917fed2",
+    "pair_mechanisms_sha256": "c8d78296fb80159d92a313918183a5a4d8a000d644470b00be82e31b19bce422",
+    "gain_cases_sha256": "776b035f66b3af150d6487934aab888d6d745754f908dde9269b64dcea34ce77",
+    "writer_sha256": "283029111499acf02d39e27f46f59a9affcc6b46b82019ffb9b53cba2d560165",
+    "report_sha256": "ba390ae75c5dfc2d487d8a782a2667704fa1c1b60e4693742aa80d48cfffd38d"
+  },
+  "training": false,
+  "checkpoint_loaded": false,
+  "HGR_executed": false,
+  "heldout_scenarios_executed": 0,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null
+}

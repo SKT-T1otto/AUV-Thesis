@@ -1,0 +1,2757 @@
+{
+  "schema": "ch3.safe_search.ac_final_cases_audit.v1",
+  "scope": "Completed fixed 20 V5 arms paired against completed old V3/V4. Read-only offline mechanism audit, not a new simulation or training run.",
+  "original_episode_indices": [
+    0,
+    3,
+    7,
+    10,
+    22,
+    28,
+    31,
+    40,
+    42,
+    46,
+    62,
+    63,
+    67,
+    76,
+    77,
+    78,
+    86,
+    91,
+    95,
+    97
+  ],
+  "all_60_summary_and_trace_completeness_checks_passed": true,
+  "production_source_modified": false,
+  "run_data_modified": false,
+  "simulator_launched": false,
+  "paired_case_changes": {
+    "V3": {
+      "found_gained_by_V5": [
+        42,
+        63,
+        86
+      ],
+      "found_lost_by_V5": [
+        10,
+        97
+      ],
+      "pre_found_collision_removed_by_V5": [
+        0
+      ],
+      "pre_found_collision_added_by_V5": [
+        77
+      ]
+    },
+    "V4": {
+      "found_gained_by_V5": [
+        3,
+        95
+      ],
+      "found_lost_by_V5": [
+        67,
+        77
+      ],
+      "pre_found_collision_removed_by_V5": [
+        0,
+        62,
+        95
+      ],
+      "pre_found_collision_added_by_V5": [
+        77
+      ]
+    }
+  },
+  "per_case_results": [
+    {
+      "original_episode_index": 0,
+      "display_scene_number": 1,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 229,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 37,
+          "searcher_hold_agent_steps": 50,
+          "signature_sha256": "cd0c787ec5df9b8be20c33979e2781b2e4363624d121b8a783013d5afc60d345"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 393,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            0
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "2130c88ea66a78565537c388bf30d3777f0760a1894d75c66e4fbe5783cd2245"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 27,
+          "signature_sha256": "553f4cc16493868419aea3d9e1f402f2a4f76a7e73c15d6f4cbb1fc3209c2b89"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 3,
+      "display_scene_number": 4,
+      "outcomes": {
+        "V3": {
+          "found_step": 160,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 120,
+          "searcher_hold_agent_steps": 13,
+          "signature_sha256": "aa6bb1fa99fc13e1c34048d5a4732a6f28db6ab3ecc1b3de27de53c132262fb4"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 2,
+          "searcher_hold_agent_steps": 41,
+          "signature_sha256": "093c6fb1bfa2105310b7e37cdb4489781e977f385f917c2ab3eaa5067e8aa180"
+        },
+        "V5": {
+          "found_step": 295,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 47,
+          "signature_sha256": "7531cf8628333d085ecedf7abb286edafdd879a38c7b0f941fc62aa61d3c2d92"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 7,
+      "display_scene_number": 8,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 105,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 29,
+          "searcher_hold_agent_steps": 82,
+          "signature_sha256": "7eff07d4d0d66fbd20fa1856f748f0d796fff8c6c064bf5f9904f67944b8be13"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 84,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 9,
+          "searcher_hold_agent_steps": 59,
+          "signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 84,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 9,
+          "searcher_hold_agent_steps": 56,
+          "signature_sha256": "770501e7446d63b3dafd7de31f9dc2cbf0264529cbc389f8fabfaec7766ef00a"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 10,
+      "display_scene_number": 11,
+      "outcomes": {
+        "V3": {
+          "found_step": 281,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 380,
+          "searcher_hold_agent_steps": 8,
+          "signature_sha256": "7c0c5f8df3d0be42171fd880299271dc4a03ee501b6b3f81d8ccc331a3045397"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 8,
+          "signature_sha256": "97cda99b1dd91243f0550c7588a138ba68b9e677370c8a5add59b77b8e660d54"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 166,
+          "searcher_hold_agent_steps": 97,
+          "signature_sha256": "0b230e4725fbde6fca4c435887c48e7d0371c53b3cd88b625c73961b57bc2966"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 22,
+      "display_scene_number": 23,
+      "outcomes": {
+        "V3": {
+          "found_step": 23,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 34,
+          "signature_sha256": "f05a1dda749ff7908d72b1963e3bc6f18cc1758f2357e2971919ce6ef78838a7"
+        },
+        "V4": {
+          "found_step": 23,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 1,
+          "signature_sha256": "5b534f583297755483a36c26bcc96e780db23d641eb7e4e1cf4b8521d6db2a05"
+        },
+        "V5": {
+          "found_step": 23,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 1,
+          "signature_sha256": "5b534f583297755483a36c26bcc96e780db23d641eb7e4e1cf4b8521d6db2a05"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 28,
+      "display_scene_number": 29,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 561,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "097514f4a468149a90fdc84420a2bb86f9240e599ef68658e67f29d77c74d281"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 1,
+          "signature_sha256": "5f740f242d263889c98f1a488dbd27c2be7143465b32d1e1219f51a00018dbbc"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "878b5f3654c7e13496f5be9423be3caec7e1cbec7590fd8c45de0d3345027298"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 31,
+      "display_scene_number": 32,
+      "outcomes": {
+        "V3": {
+          "found_step": 18,
+          "terminal_step": 120,
+          "stop_reason": "success",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "38b92355256bcf05b2c4eb075b1a8b368b6f121620da60af8c7899e4e41f80ba"
+        },
+        "V4": {
+          "found_step": 18,
+          "terminal_step": 120,
+          "stop_reason": "success",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "38b92355256bcf05b2c4eb075b1a8b368b6f121620da60af8c7899e4e41f80ba"
+        },
+        "V5": {
+          "found_step": 18,
+          "terminal_step": 120,
+          "stop_reason": "success",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "38b92355256bcf05b2c4eb075b1a8b368b6f121620da60af8c7899e4e41f80ba"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 40,
+      "display_scene_number": 41,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 14,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            2
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 4,
+          "signature_sha256": "25f900597fc557e1159e84d7aacf654a7de744a5a136c1d77c8f09841a1393e6"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 14,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            2
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 3,
+          "signature_sha256": "b0147eabc99a4b734c89739ecc475b3e91dbecab9d2865e4aea3f097124d622f"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 14,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            2
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 3,
+          "signature_sha256": "beee262a895121a03dd6a534947696b9c6c544624c4dfc4911d898cc39e77fba"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 42,
+      "display_scene_number": 43,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 600,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "8e382c852d185faad05809105b08720f86623e213680e2d65d3aedf662c3bd73"
+        },
+        "V4": {
+          "found_step": 252,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "aeb7e476c8b90f3905033395a75c30989a2d67f55836350737a76b3e7158d24c"
+        },
+        "V5": {
+          "found_step": 252,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "aeb7e476c8b90f3905033395a75c30989a2d67f55836350737a76b3e7158d24c"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 46,
+      "display_scene_number": 47,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 310,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            0
+          ],
+          "searcher_stall_proxy_agent_steps": 362,
+          "searcher_hold_agent_steps": 70,
+          "signature_sha256": "fd29c85841158df6e176f2826a766fe370660a8319cab80650014f17aa5282e3"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 172,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 5,
+          "searcher_hold_agent_steps": 33,
+          "signature_sha256": "1595b7aaf6c00c7cf88e91e9641ebdd8db0fd12b058c08d68e1cc560716b351a"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 172,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 5,
+          "searcher_hold_agent_steps": 33,
+          "signature_sha256": "9f9a5ec8a38f176fe6fcfe3e89b433b3e8a66228b75116bbbed3d727b6c68a0f"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 62,
+      "display_scene_number": 63,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 250,
+          "searcher_hold_agent_steps": 13,
+          "signature_sha256": "cb0b5483103898432224a3793daf6dec4110574fb0ed8ecf3955a98c8f8b0a00"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 161,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            2
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 3,
+          "signature_sha256": "82e435f6f5bc4a3eb893eae9a918f8e4794bf90df2bb863803757bec6636479d"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 120,
+          "searcher_hold_agent_steps": 130,
+          "signature_sha256": "6ca7a2c4200827d90ac4963b35a12e4887dae3c7a6bf974d1ac8b900cfc79b0c"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 63,
+      "display_scene_number": 64,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 541,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "c20ecfff38eec58af0f393956657aacf53ae3472d7e7b0f2e6461f1e1089a6d8"
+        },
+        "V4": {
+          "found_step": 260,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 1,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "e2f25974d520c57604540a3c50ad3fa78503441da32e11acbf0f372259cccf26"
+        },
+        "V5": {
+          "found_step": 260,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 1,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "e2f25974d520c57604540a3c50ad3fa78503441da32e11acbf0f372259cccf26"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 67,
+      "display_scene_number": 68,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 546,
+          "searcher_hold_agent_steps": 209,
+          "signature_sha256": "7f34a2b17f11e3c6250f53fbc0170c4536c5881e8c9e0999f824936957d884d4"
+        },
+        "V4": {
+          "found_step": 66,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 27,
+          "signature_sha256": "3b4a2a6ac59fee4f3cd5c46086df7abf809d5aa627f4772a7d6393cb83505faa"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 1,
+          "searcher_hold_agent_steps": 89,
+          "signature_sha256": "3a5fc7fe98b772d71caa5ade19c99add844021f62a4ab9cc4cbbe1419e671a38"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 76,
+      "display_scene_number": 77,
+      "outcomes": {
+        "V3": {
+          "found_step": 215,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 273,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "6a32109bbcd51e606282926f3acf2c8659e68bca4caecfda3419f67ebc0c7128"
+        },
+        "V4": {
+          "found_step": 212,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "155babbd57837f00dbbc0690ee08ddd68ce35d8584ba2d9361c38f1b8a43a611"
+        },
+        "V5": {
+          "found_step": 212,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "aa02cb4d13110666d5c6ab59d0afdb6fa93cc5bb73ad66ac71b41441fb5f021a"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 77,
+      "display_scene_number": 78,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 596,
+          "searcher_hold_agent_steps": 36,
+          "signature_sha256": "f833efee0b489737a3247ccbe86b0b65c5a623979591c36960b22fcbd11d9db1"
+        },
+        "V4": {
+          "found_step": 130,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 72,
+          "signature_sha256": "2422ee199525b25c973dc6eaf617e1686400301ac076dbe52c3ce3a84217e3b2"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 282,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            0
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 55,
+          "signature_sha256": "9821e18763fa19ffa12c3cfbaee0d693ed63128dc90bf51f7f3434865a8053cc"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 78,
+      "display_scene_number": 79,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 491,
+          "searcher_hold_agent_steps": 21,
+          "signature_sha256": "3f8683b7070c8224702814faa895ede4fa3095ef5a4fa39f91daaa0f9f4257de"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 1,
+          "searcher_hold_agent_steps": 65,
+          "signature_sha256": "a59c8772f569e701850d961f643c5b38105a580259edc1c7c9c3065476221f29"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 1,
+          "searcher_hold_agent_steps": 132,
+          "signature_sha256": "b9b26ffdf3fbd5f69d7fcfceaed7c4ce3a4e9d330629e3983bcd0f373430c917"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 86,
+      "display_scene_number": 87,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 440,
+          "searcher_hold_agent_steps": 118,
+          "signature_sha256": "5d09eefc91eab2095be669972e6c12b0a3d45e9a726c79c1db9321792b7d1c43"
+        },
+        "V4": {
+          "found_step": 46,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "730472733c7ba103097256afa0d434d36e58d2f4bf60f64ab0c7152c98470416"
+        },
+        "V5": {
+          "found_step": 46,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "730472733c7ba103097256afa0d434d36e58d2f4bf60f64ab0c7152c98470416"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 91,
+      "display_scene_number": 92,
+      "outcomes": {
+        "V3": {
+          "found_step": null,
+          "terminal_step": 69,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 16,
+          "signature_sha256": "e46317a39938658c0341637921ca30d141ee5f317e11e8a27859aa7120594a36"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 43,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            0
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "4d8d39ca0d4547724e9858b9c31b728700f1b4c4bd3cf8f0be843a78f28c64d8"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 43,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            0
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "4d8d39ca0d4547724e9858b9c31b728700f1b4c4bd3cf8f0be843a78f28c64d8"
+        }
+      },
+      "V4_V5_full_signature_equal": true
+    },
+    {
+      "original_episode_index": 95,
+      "display_scene_number": 96,
+      "outcomes": {
+        "V3": {
+          "found_step": 268,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 327,
+          "searcher_hold_agent_steps": 24,
+          "signature_sha256": "42920e31601ae1f1462c41f68462f89016ec6ec487c3babb1227e201eb320228"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 240,
+          "stop_reason": "obstacle_collision",
+          "collision_agent_ids": [
+            1
+          ],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "777142d3da59b90b7e7585c5c7da52bcda145c208fe14246386483cd8b5de1b8"
+        },
+        "V5": {
+          "found_step": 356,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 0,
+          "searcher_hold_agent_steps": 1,
+          "signature_sha256": "e3940b43fae6274bc858f3ef3596221fba2c609d7c4fe4367cad6689660300bd"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    },
+    {
+      "original_episode_index": 97,
+      "display_scene_number": 98,
+      "outcomes": {
+        "V3": {
+          "found_step": 122,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 74,
+          "searcher_hold_agent_steps": 0,
+          "signature_sha256": "b498d2fbda2d694c04dbb47b3c6a068184d2c8e733be9cbc3534af876de83a00"
+        },
+        "V4": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 7,
+          "searcher_hold_agent_steps": 85,
+          "signature_sha256": "59b0f565a784f6a4926ef3e9d37ba8181ed8dcdf66bba9841c297b181899c19e"
+        },
+        "V5": {
+          "found_step": null,
+          "terminal_step": 400,
+          "stop_reason": "timeout",
+          "collision_agent_ids": [],
+          "searcher_stall_proxy_agent_steps": 622,
+          "searcher_hold_agent_steps": 2,
+          "signature_sha256": "dde6099d9ac2890af8a6d59fe535258eddb20f07f65951b0336dc1edcd941b6e"
+        }
+      },
+      "V4_V5_full_signature_equal": false
+    }
+  ],
+  "executor_invalid_search_starvation": {
+    "mechanism_status": "Source-derived deterministic event-priority chain plus directly observed trace/query states; no intervention was run to estimate its effect on Found.",
+    "source_chain": [
+      "event_detector.py:162-165 marks the standby executor invalid whenever the retained executor assignment is unreachable; :293-296 emits EXECUTOR_INVALID and also WAYPOINT_STALE when searchers have reached their goals.",
+      "hysteresis/policy.py:14-21 prioritizes EXECUTOR_INVALID before WAYPOINT_STALE. online/controller.py:335-344 returns the whole previous allocation when that primary event is in cooldown.",
+      "online/controller.py:376-397 handles pre-Found EXECUTOR_INVALID using executor_only allocation with affected_searcher_ids=(). When it proposes no assignment change, :488-495 marks that attempt and returns without search allocation.",
+      "online/config.py:71-75 sets executor invalid cooldown to the state refresh cadence, which is 20 in the loaded corrected configuration. This is distinct from 5-step search failure retry.",
+      "safe_search_v1/runtime.py:96-129 only adds independent affected-searcher recovery when failure_policy is enabled. V5 disables it; V4 enables it. No production behavior was changed in this audit."
+    ],
+    "case_evidence": [
+      {
+        "index": 97,
+        "V5_no_search_candidate_query_state_interval": [
+          124,
+          400
+        ],
+        "state_count": 277,
+        "executor_assignment_unreachable_every_state": true,
+        "decision_reason_state_counts": {
+          "REJECT_NO_ASSIGNMENT_CHANGE": 14,
+          "REJECT_EVENT_COOLDOWN": 263
+        },
+        "no_assignment_change_state_steps": [
+          124,
+          144,
+          164,
+          184,
+          204,
+          224,
+          244,
+          264,
+          284,
+          304,
+          324,
+          344,
+          364,
+          384
+        ],
+        "search_candidate_query_count": 0,
+        "V5_last_accepted_replan_step": 123,
+        "V5_stall_proxy_agent_steps": 622,
+        "V5_atomic_missing_route_count": 0,
+        "longest_completed_goal_wait_state_runs": [
+          {
+            "agent_id": 0,
+            "start_state_step": 169,
+            "end_state_step": 400,
+            "state_count": 232
+          },
+          {
+            "agent_id": 1,
+            "start_state_step": 153,
+            "end_state_step": 400,
+            "state_count": 248
+          },
+          {
+            "agent_id": 2,
+            "start_state_step": 188,
+            "end_state_step": 400,
+            "state_count": 213
+          }
+        ],
+        "final_searcher_speeds": [
+          6.147744896773279e-07,
+          8.696599653937598e-07,
+          1.908113466503885e-06
+        ],
+        "illustrative_states": [
+          {
+            "index": 97,
+            "variant": "V5",
+            "state_step": 124,
+            "found": false,
+            "decision_reason": "REJECT_NO_ASSIGNMENT_CHANGE",
+            "cached_map_revision": 125,
+            "live_map_revision": 125,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 0,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  11.0,
+                  3.0,
+                  1.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  15.0,
+                  5.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.3008379715685782,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 14.57626221394056
+              },
+              {
+                "agent_id": 1,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  7.0,
+                  7.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  9.0,
+                  5.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.7276386869716318,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 4.910646688956063
+              },
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  9.0,
+                  7.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  5.0,
+                  3.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.4087101413414657,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 6.564653340029796
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  7.686564922332764,
+                  8.166980743408203,
+                  4.255921363830566
+                ],
+                "tracking_waypoint": [
+                  7.813776969909668,
+                  8.26675033569336,
+                  4.329348087310791
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.2256906854847751,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 0.17756227165278168
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 124,
+                "agent_id": 3,
+                "caller": "_assignment",
+                "reason": "no_goal_connector",
+                "map_revision": 125,
+                "count": 1
+              }
+            ]
+          },
+          {
+            "index": 97,
+            "variant": "V5",
+            "state_step": 204,
+            "found": false,
+            "decision_reason": "REJECT_NO_ASSIGNMENT_CHANGE",
+            "cached_map_revision": 190,
+            "live_map_revision": 190,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 0,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  11.0,
+                  3.0,
+                  1.5
+                ],
+                "tracking_waypoint": [
+                  11.0,
+                  3.0,
+                  1.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.011625638750080212,
+                "tracker_completed": true,
+                "distance_to_semantic_goal": 0.14904777377459116
+              },
+              {
+                "agent_id": 1,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  7.0,
+                  7.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  7.0,
+                  7.0,
+                  6.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.0003602818633229426,
+                "tracker_completed": true,
+                "distance_to_semantic_goal": 0.17944721449396928
+              },
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  9.0,
+                  7.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  9.0,
+                  7.0,
+                  6.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.05812054201966992,
+                "tracker_completed": true,
+                "distance_to_semantic_goal": 0.2984966604116016
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  7.686564922332764,
+                  8.166980743408203,
+                  4.255921363830566
+                ],
+                "tracking_waypoint": [
+                  9.7639799118042,
+                  7.645481109619141,
+                  4.621553421020508
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.15875817331686937,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 2.172855657370659
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 204,
+                "agent_id": 3,
+                "caller": "_assignment",
+                "reason": "no_goal_connector",
+                "map_revision": 190,
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "V4_same_standby_failure_counterexample": {
+          "executor_assignment_unreachable_every_state": true,
+          "no_assignment_change_state_steps": [
+            124,
+            144,
+            164,
+            184,
+            204,
+            224,
+            244,
+            264,
+            284,
+            304,
+            324,
+            344,
+            364,
+            384
+          ],
+          "accepted_search_recovery_state_steps": [
+            138,
+            160,
+            180,
+            200,
+            220,
+            240,
+            294,
+            340,
+            357,
+            374,
+            394
+          ],
+          "searcher_stall_proxy_agent_steps": 7,
+          "found_step": null,
+          "state138_V4": {
+            "index": 97,
+            "variant": "V4",
+            "state_step": 138,
+            "found": false,
+            "decision_reason": "SAFE_SEARCH_RECOVERY",
+            "cached_map_revision": 139,
+            "live_map_revision": 139,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  7.0,
+                  15.0,
+                  2.5
+                ],
+                "tracking_waypoint": [
+                  5.0,
+                  3.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.6266671745774103,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 12.079122483776745
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  7.686564922332764,
+                  8.166980743408203,
+                  4.255921363830566
+                ],
+                "tracking_waypoint": [
+                  8.021281242370605,
+                  8.3262300491333,
+                  4.399558067321777
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.12623259930968206,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 0.39752592225340805
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 138,
+                "agent_id": 2,
+                "caller": "generate_search_candidates",
+                "reason": "reachable",
+                "map_revision": 139,
+                "count": 4
+              }
+            ]
+          },
+          "state138_V5": {
+            "index": 97,
+            "variant": "V5",
+            "state_step": 138,
+            "found": false,
+            "decision_reason": "REJECT_EVENT_COOLDOWN",
+            "cached_map_revision": 139,
+            "live_map_revision": 139,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  9.0,
+                  7.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  5.0,
+                  3.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.6266671745774103,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 5.9991820868442645
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  7.686564922332764,
+                  8.166980743408203,
+                  4.255921363830566
+                ],
+                "tracking_waypoint": [
+                  8.021281242370605,
+                  8.3262300491333,
+                  4.399558067321777
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.12623259930968206,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 0.39752592225340805
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 138,
+                "agent_id": 2,
+                "caller": "compile_guidance",
+                "reason": "reachable",
+                "map_revision": 139,
+                "count": 1
+              }
+            ]
+          },
+          "causal_limit": "V4 proves an existing independent recovery route can bypass this scheduling stall in the paired case; V4 also does not Found, so restored movement is not proof of detection improvement."
+        }
+      },
+      {
+        "index": 10,
+        "V5_no_search_candidate_query_state_interval": [
+          270,
+          400
+        ],
+        "state_count": 131,
+        "executor_assignment_unreachable_every_state": true,
+        "decision_reason_state_counts": {
+          "REJECT_NO_ASSIGNMENT_CHANGE": 7,
+          "REJECT_EVENT_COOLDOWN": 124
+        },
+        "no_assignment_change_state_steps": [
+          270,
+          290,
+          310,
+          330,
+          350,
+          370,
+          390
+        ],
+        "search_candidate_query_count": 0,
+        "V5_last_accepted_replan_step": 269,
+        "V5_stall_proxy_agent_steps": 166,
+        "V5_atomic_missing_route_count": 0,
+        "longest_completed_goal_wait_state_runs": [
+          {
+            "agent_id": 0,
+            "start_state_step": 275,
+            "end_state_step": 400,
+            "state_count": 126
+          },
+          {
+            "agent_id": 1,
+            "start_state_step": 311,
+            "end_state_step": 400,
+            "state_count": 90
+          }
+        ],
+        "final_searcher_speeds": [
+          6.726781017487303e-07,
+          5.471157451843664e-06,
+          0.447224545731324
+        ],
+        "illustrative_states": [
+          {
+            "index": 10,
+            "variant": "V5",
+            "state_step": 270,
+            "found": false,
+            "decision_reason": "REJECT_NO_ASSIGNMENT_CHANGE",
+            "cached_map_revision": 257,
+            "live_map_revision": 257,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 0,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  13.0,
+                  15.0,
+                  2.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  15.0,
+                  2.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 1.9326058226428406,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 2.571525685108462
+              },
+              {
+                "agent_id": 1,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  3.0,
+                  5.0,
+                  4.5
+                ],
+                "tracking_waypoint": [
+                  9.0,
+                  13.0,
+                  1.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 1.2813741619337629,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 11.802177133293183
+              },
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  3.0,
+                  5.0,
+                  4.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  7.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.3179042437395689,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 11.930131071984016
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  13.1097993850708,
+                  10.204834938049316,
+                  6.051795482635498
+                ],
+                "tracking_waypoint": [
+                  13.220040321350098,
+                  9.525739669799805,
+                  6.339117527008057
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.11496628383713503,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 0.7455718641238005
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 270,
+                "agent_id": 3,
+                "caller": "_assignment",
+                "reason": "no_goal_connector",
+                "map_revision": 257,
+                "count": 1
+              }
+            ]
+          },
+          {
+            "index": 10,
+            "variant": "V5",
+            "state_step": 330,
+            "found": false,
+            "decision_reason": "REJECT_NO_ASSIGNMENT_CHANGE",
+            "cached_map_revision": 317,
+            "live_map_revision": 317,
+            "full_refresh": true,
+            "agents": [
+              {
+                "agent_id": 0,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  13.0,
+                  15.0,
+                  2.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  15.0,
+                  2.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.00021168985921866408,
+                "tracker_completed": true,
+                "distance_to_semantic_goal": 0.1580415258580895
+              },
+              {
+                "agent_id": 1,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  3.0,
+                  5.0,
+                  4.5
+                ],
+                "tracking_waypoint": [
+                  3.0,
+                  5.0,
+                  4.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.0764747168916443,
+                "tracker_completed": true,
+                "distance_to_semantic_goal": 0.19616361888494932
+              },
+              {
+                "agent_id": 2,
+                "assignment_kind": "search",
+                "semantic_waypoint": [
+                  3.0,
+                  5.0,
+                  4.5
+                ],
+                "tracking_waypoint": [
+                  9.0,
+                  7.0,
+                  3.5
+                ],
+                "reachable": true,
+                "hold": false,
+                "speed": 0.42900424041628776,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 9.062064887736167
+              },
+              {
+                "agent_id": 3,
+                "assignment_kind": "executor_standby",
+                "semantic_waypoint": [
+                  13.1097993850708,
+                  10.204834938049316,
+                  6.051795482635498
+                ],
+                "tracking_waypoint": [
+                  14.563047409057617,
+                  7.8808183670043945,
+                  6.60206413269043
+                ],
+                "reachable": false,
+                "hold": true,
+                "speed": 0.19920176165637107,
+                "tracker_completed": false,
+                "distance_to_semantic_goal": 2.7956713735606087
+              }
+            ],
+            "query_counts": [
+              {
+                "step": 330,
+                "agent_id": 3,
+                "caller": "_assignment",
+                "reason": "no_goal_connector",
+                "map_revision": 317,
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "next_priority": "Implement an opt-in Chapter 3 separation of pre-Found standby-invalid handling and search recovery scheduling; a waiting executor must not suppress an eligible searcher replacement. Retain public-state boundaries and post-Found handoff/execution contracts. Validate the index97/10 mechanism first, then fixed20 full paired ablation. Do not claim that avoiding stall guarantees recovering either lost Found."
+  },
+  "V5_collision_evidence": [
+    {
+      "index": 7,
+      "terminal_step": 84,
+      "agent_id": 1,
+      "agent_role": "search_balanced",
+      "before_collision_speed": 0.48948878353269165,
+      "before_collision_hold": true,
+      "before_collision_active_segment_cross_track_error": null,
+      "before_collision_velocity_to_tracking_angle_deg": null,
+      "before_collision_next_turn_angle_deg": null,
+      "final_safety_status": "UNVERIFIED_BRAKING",
+      "same_fatal_agent_position_velocity_all_common_states_as_V4": true,
+      "common_state_count": 85,
+      "same_collision_record_as_V4": true
+    },
+    {
+      "index": 40,
+      "terminal_step": 14,
+      "agent_id": 2,
+      "agent_role": "search_precise",
+      "before_collision_speed": 0.7128909763772963,
+      "before_collision_hold": true,
+      "before_collision_active_segment_cross_track_error": null,
+      "before_collision_velocity_to_tracking_angle_deg": null,
+      "before_collision_next_turn_angle_deg": null,
+      "final_safety_status": "UNVERIFIED_BRAKING",
+      "same_fatal_agent_position_velocity_all_common_states_as_V4": true,
+      "common_state_count": 15,
+      "same_collision_record_as_V4": true
+    },
+    {
+      "index": 46,
+      "terminal_step": 172,
+      "agent_id": 1,
+      "agent_role": "search_balanced",
+      "before_collision_speed": 0.15725172965296802,
+      "before_collision_hold": true,
+      "before_collision_active_segment_cross_track_error": null,
+      "before_collision_velocity_to_tracking_angle_deg": null,
+      "before_collision_next_turn_angle_deg": null,
+      "final_safety_status": "UNVERIFIED_BRAKING",
+      "same_fatal_agent_position_velocity_all_common_states_as_V4": true,
+      "common_state_count": 173,
+      "same_collision_record_as_V4": true
+    },
+    {
+      "index": 77,
+      "terminal_step": 282,
+      "agent_id": 0,
+      "agent_role": "search_fast",
+      "before_collision_speed": 1.1423566190433232,
+      "before_collision_hold": true,
+      "before_collision_active_segment_cross_track_error": null,
+      "before_collision_velocity_to_tracking_angle_deg": null,
+      "before_collision_next_turn_angle_deg": null,
+      "final_safety_status": "UNVERIFIED_BRAKING",
+      "same_fatal_agent_position_velocity_all_common_states_as_V4": false,
+      "common_state_count": 283,
+      "same_collision_record_as_V4": false
+    },
+    {
+      "index": 91,
+      "terminal_step": 43,
+      "agent_id": 0,
+      "agent_role": "search_fast",
+      "before_collision_speed": 2.0224796615117406,
+      "before_collision_hold": false,
+      "before_collision_active_segment_cross_track_error": 0.37618931342382494,
+      "before_collision_velocity_to_tracking_angle_deg": 11.49573010882278,
+      "before_collision_next_turn_angle_deg": 41.810314895778596,
+      "final_safety_status": "SAFE",
+      "same_fatal_agent_position_velocity_all_common_states_as_V4": true,
+      "common_state_count": 44,
+      "same_collision_record_as_V4": true
+    }
+  ],
+  "new_collision_index77": {
+    "compared_outcomes": {
+      "V3": {
+        "found_step": null,
+        "terminal_step": 400,
+        "stop_reason": "timeout",
+        "collision_agent_ids": [],
+        "searcher_stall_proxy_agent_steps": 596,
+        "searcher_hold_agent_steps": 36,
+        "signature_sha256": "f833efee0b489737a3247ccbe86b0b65c5a623979591c36960b22fcbd11d9db1"
+      },
+      "V4": {
+        "found_step": 130,
+        "terminal_step": 400,
+        "stop_reason": "timeout",
+        "collision_agent_ids": [],
+        "searcher_stall_proxy_agent_steps": 0,
+        "searcher_hold_agent_steps": 72,
+        "signature_sha256": "2422ee199525b25c973dc6eaf617e1686400301ac076dbe52c3ce3a84217e3b2"
+      },
+      "V5": {
+        "found_step": null,
+        "terminal_step": 282,
+        "stop_reason": "obstacle_collision",
+        "collision_agent_ids": [
+          0
+        ],
+        "searcher_stall_proxy_agent_steps": 0,
+        "searcher_hold_agent_steps": 55,
+        "signature_sha256": "9821e18763fa19ffa12c3cfbaee0d693ed63128dc90bf51f7f3434865a8053cc"
+      }
+    },
+    "first_V4_V5_guidance_difference": {
+      "state_step": 21,
+      "agent_ids": [
+        0
+      ]
+    },
+    "first_V4_V5_motion_difference": {
+      "state_step": 22,
+      "agent_ids": [
+        0
+      ]
+    },
+    "last_four_nonterminal_state_samples": [
+      {
+        "state_step": 278,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 260,
+        "live_map_revision": 278,
+        "agent0": {
+          "position": [
+            10.569475173950195,
+            7.9878621101379395,
+            4.500060081481934
+          ],
+          "velocity": [
+            -0.9874133467674255,
+            1.482739806175232,
+            -5.105937088956125e-05
+          ],
+          "speed": 1.781432696679297,
+          "hold": false,
+          "semantic_waypoint": [
+            9.0,
+            9.0,
+            3.5
+          ],
+          "tracking_waypoint": [
+            9.0,
+            9.0,
+            4.5
+          ],
+          "active_segment_cross_track_error": 0.3940969775666309,
+          "velocity_to_tracking_angle_deg": 23.521290194218338,
+          "next_turn_angle_deg": 90.0
+        },
+        "agent0_queries": []
+      },
+      {
+        "state_step": 279,
+        "decision_reason": "ACCEPT_OBSTACLE_DISCOVERED",
+        "cached_map_revision": 279,
+        "live_map_revision": 279,
+        "agent0": {
+          "position": [
+            10.346120834350586,
+            8.260529518127441,
+            4.500050067901611
+          ],
+          "velocity": [
+            -1.116774082183838,
+            1.3633357286453247,
+            -5.11721518705599e-05
+          ],
+          "speed": 1.762347486240163,
+          "hold": false,
+          "semantic_waypoint": [
+            7.0,
+            5.0,
+            3.5
+          ],
+          "tracking_waypoint": [
+            11.0,
+            9.0,
+            4.5
+          ],
+          "active_segment_cross_track_error": 0.0,
+          "velocity_to_tracking_angle_deg": 80.80738568184675,
+          "next_turn_angle_deg": 176.48482459285353
+        },
+        "agent0_queries": [
+          {
+            "step": 279,
+            "agent_id": 0,
+            "caller": "evaluate",
+            "reason": "invalid_goal",
+            "map_revision": 279,
+            "count": 1
+          },
+          {
+            "step": 279,
+            "agent_id": 0,
+            "caller": "generate_search_candidates",
+            "reason": "reachable",
+            "map_revision": 279,
+            "count": 4
+          }
+        ]
+      },
+      {
+        "state_step": 280,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 280,
+        "live_map_revision": 280,
+        "agent0": {
+          "position": [
+            10.184531211853027,
+            8.50148868560791,
+            4.500040054321289
+          ],
+          "velocity": [
+            -0.8079484105110168,
+            1.2047964334487915,
+            -4.932086085318588e-05
+          ],
+          "speed": 1.4506257555037254,
+          "hold": false,
+          "semantic_waypoint": [
+            7.0,
+            5.0,
+            3.5
+          ],
+          "tracking_waypoint": [
+            11.0,
+            9.0,
+            4.5
+          ],
+          "active_segment_cross_track_error": 0.2806683996083807,
+          "velocity_to_tracking_angle_deg": 92.40797181250245,
+          "next_turn_angle_deg": 176.48482459285353
+        },
+        "agent0_queries": []
+      },
+      {
+        "state_step": 281,
+        "decision_reason": "REJECT_EVENT_COOLDOWN",
+        "cached_map_revision": 281,
+        "live_map_revision": 281,
+        "agent0": {
+          "position": [
+            10.083253860473633,
+            8.706286430358887,
+            4.500030994415283
+          ],
+          "velocity": [
+            -0.5063849687576294,
+            1.0239887237548828,
+            -4.594859274220653e-05
+          ],
+          "speed": 1.1423566190433232,
+          "hold": true,
+          "semantic_waypoint": [
+            7.0,
+            5.0,
+            3.5
+          ],
+          "tracking_waypoint": [
+            10.083253860473633,
+            8.706286430358887,
+            4.500030994415283
+          ],
+          "active_segment_cross_track_error": null,
+          "velocity_to_tracking_angle_deg": null,
+          "next_turn_angle_deg": null
+        },
+        "agent0_queries": [
+          {
+            "step": 281,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "invalid_start",
+            "map_revision": 281,
+            "count": 1
+          },
+          {
+            "step": 281,
+            "agent_id": 0,
+            "caller": "evaluate",
+            "reason": "reachable",
+            "map_revision": 281,
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "collision_record": [
+      {
+        "agent_id": 0,
+        "obstacle_id": 0,
+        "position_before": [
+          10.083253860473633,
+          8.706286430358887,
+          4.500030994415283
+        ],
+        "candidate_position": [
+          10.011756896972656,
+          8.858490943908691,
+          4.50002384185791
+        ],
+        "first_hit_point": [
+          10.019693339035548,
+          8.841595648719238,
+          4.500024635819702
+        ],
+        "hit_fraction": 0.8889960961379461
+      }
+    ],
+    "minimal_supported_conclusion": "Agent 0 receives a new route at 279 while speed is 1.762347 and velocity-to-tracking angle is 80.807 degrees; at 280 angle is 92.408 degrees and speed 1.450626. It enters hold at 281 with speed 1.142357 after an invalid_start safety repair query, then collides at 282. The terminal safety label is UNVERIFIED_BRAKING. This supports testing braking/turn-aware speed limits; it does not establish when the obstacle was first observed or that a map flip caused this collision.",
+    "causal_limit": "V4 and V5 physical trajectories diverge at 22, long before V4 Found130. Do not attribute lost detection to the final collision alone or to one early local event."
+  },
+  "Found_gain_evidence": [
+    {
+      "index": 42,
+      "old_V3_found_step": null,
+      "V5_found_step": 252,
+      "V4_V5_full_signature_equal": true,
+      "same_predivergence_physical_states_until": {
+        "state_step": 69,
+        "agent_ids": [
+          0
+        ]
+      },
+      "local_query_repair_comparison": {
+        "V3": {
+          "index": 42,
+          "variant": "V3",
+          "state_step": 68,
+          "found": false,
+          "decision_reason": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE",
+          "cached_map_revision": 61,
+          "live_map_revision": 69,
+          "full_refresh": false,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                13.0,
+                19.0,
+                4.5
+              ],
+              "tracking_waypoint": [
+                13.0,
+                19.0,
+                4.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 0.8362015773031163,
+              "tracker_completed": true,
+              "distance_to_semantic_goal": 0.7071210324433728
+            },
+            {
+              "agent_id": 1,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                9.0,
+                17.0,
+                5.5
+              ],
+              "tracking_waypoint": [
+                9.0,
+                17.0,
+                5.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 1.1654348214107617,
+              "tracker_completed": true,
+              "distance_to_semantic_goal": 0.5644377051290438
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 68,
+              "agent_id": 0,
+              "caller": "generate_search_candidates",
+              "reason": "no_start_connector",
+              "map_revision": 61,
+              "count": 800
+            },
+            {
+              "step": 68,
+              "agent_id": 1,
+              "caller": "generate_search_candidates",
+              "reason": "no_start_connector",
+              "map_revision": 61,
+              "count": 800
+            }
+          ]
+        },
+        "V5": {
+          "index": 42,
+          "variant": "V5",
+          "state_step": 68,
+          "found": false,
+          "decision_reason": "ACCEPT_WAYPOINT_STALE",
+          "cached_map_revision": 69,
+          "live_map_revision": 69,
+          "full_refresh": true,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                15.0,
+                9.0,
+                1.5
+              ],
+              "tracking_waypoint": [
+                13.0,
+                19.0,
+                3.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 0.8362015773031163,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 10.535202875304448
+            },
+            {
+              "agent_id": 1,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                15.0,
+                9.0,
+                1.5
+              ],
+              "tracking_waypoint": [
+                9.0,
+                17.0,
+                5.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 1.1654348214107617,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 10.421011950355672
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 68,
+              "agent_id": 0,
+              "caller": "generate_search_candidates",
+              "reason": "reachable",
+              "map_revision": 69,
+              "count": 4
+            },
+            {
+              "step": 68,
+              "agent_id": 1,
+              "caller": "generate_search_candidates",
+              "reason": "reachable",
+              "map_revision": 69,
+              "count": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 63,
+      "old_V3_found_step": null,
+      "V5_found_step": 260,
+      "V4_V5_full_signature_equal": true,
+      "same_predivergence_physical_states_until": {
+        "state_step": 54,
+        "agent_ids": [
+          0
+        ]
+      },
+      "local_query_repair_comparison": {
+        "V3": {
+          "index": 63,
+          "variant": "V3",
+          "state_step": 53,
+          "found": false,
+          "decision_reason": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE",
+          "cached_map_revision": 41,
+          "live_map_revision": 54,
+          "full_refresh": false,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                13.0,
+                11.0,
+                3.5
+              ],
+              "tracking_waypoint": [
+                13.0,
+                11.0,
+                3.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 1.5139658015428867,
+              "tracker_completed": true,
+              "distance_to_semantic_goal": 0.6690251258745183
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 53,
+              "agent_id": 0,
+              "caller": "generate_search_candidates",
+              "reason": "no_start_connector",
+              "map_revision": 41,
+              "count": 800
+            }
+          ]
+        },
+        "V5": {
+          "index": 63,
+          "variant": "V5",
+          "state_step": 53,
+          "found": false,
+          "decision_reason": "ACCEPT_WAYPOINT_STALE",
+          "cached_map_revision": 54,
+          "live_map_revision": 54,
+          "full_refresh": true,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                5.0,
+                13.0,
+                7.5
+              ],
+              "tracking_waypoint": [
+                13.0,
+                11.0,
+                4.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 1.5139658015428867,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 8.573920046542911
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 53,
+              "agent_id": 0,
+              "caller": "generate_search_candidates",
+              "reason": "reachable",
+              "map_revision": 54,
+              "count": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 86,
+      "old_V3_found_step": null,
+      "V5_found_step": 46,
+      "V4_V5_full_signature_equal": true,
+      "same_predivergence_physical_states_until": {
+        "state_step": 9,
+        "agent_ids": [
+          0,
+          1
+        ]
+      },
+      "local_query_repair_comparison": {
+        "V3": {
+          "index": 86,
+          "variant": "V3",
+          "state_step": 8,
+          "found": false,
+          "decision_reason": "NO_REPLAN_EVENT",
+          "cached_map_revision": 1,
+          "live_map_revision": 9,
+          "full_refresh": false,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "hold",
+              "semantic_waypoint": [
+                1.0,
+                9.0,
+                3.5
+              ],
+              "tracking_waypoint": [
+                13.840429306030273,
+                4.286695957183838,
+                4.426090240478516
+              ],
+              "reachable": false,
+              "hold": true,
+              "speed": 1.2904910956529814,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 13.709467637246087
+            },
+            {
+              "agent_id": 1,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                1.0,
+                1.0,
+                1.5
+              ],
+              "tracking_waypoint": [
+                5.0,
+                15.0,
+                3.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 0.9486519036902396,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 15.714116447056188
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 8,
+              "agent_id": 0,
+              "caller": "compile_guidance",
+              "reason": "no_start_connector",
+              "map_revision": 1,
+              "count": 1
+            }
+          ]
+        },
+        "V5": {
+          "index": 86,
+          "variant": "V5",
+          "state_step": 8,
+          "found": false,
+          "decision_reason": "ACCEPT_OBSTACLE_DISCOVERED",
+          "cached_map_revision": 9,
+          "live_map_revision": 9,
+          "full_refresh": true,
+          "agents": [
+            {
+              "agent_id": 0,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                17.0,
+                13.0,
+                5.5
+              ],
+              "tracking_waypoint": [
+                13.0,
+                5.0,
+                4.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 1.2904910956529814,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 9.330478898981783
+            },
+            {
+              "agent_id": 1,
+              "assignment_kind": "search",
+              "semantic_waypoint": [
+                17.0,
+                13.0,
+                4.5
+              ],
+              "tracking_waypoint": [
+                5.0,
+                17.0,
+                3.5
+              ],
+              "reachable": true,
+              "hold": false,
+              "speed": 0.9486519036902396,
+              "tracker_completed": false,
+              "distance_to_semantic_goal": 12.683352718290896
+            }
+          ],
+          "query_counts": [
+            {
+              "step": 8,
+              "agent_id": 0,
+              "caller": "generate_search_candidates",
+              "reason": "reachable",
+              "map_revision": 9,
+              "count": 4
+            },
+            {
+              "step": 8,
+              "agent_id": 1,
+              "caller": "generate_search_candidates",
+              "reason": "reachable",
+              "map_revision": 9,
+              "count": 4
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "other_lost_case_index67": {
+    "V4_found_step": 66,
+    "V5_found_step": null,
+    "V5_terminal_step": 400,
+    "V5_motion_stall_proxy_agent_steps": 1,
+    "V5_hold_agent_steps": 89,
+    "first_guidance_difference": {
+      "state_step": 42,
+      "agent_ids": [
+        2
+      ]
+    },
+    "first_motion_difference": {
+      "state_step": 43,
+      "agent_ids": [
+        2
+      ]
+    },
+    "first_guidance_samples": {
+      "V4": {
+        "index": 67,
+        "variant": "V4",
+        "state_step": 42,
+        "found": false,
+        "decision_reason": "NO_REPLAN_EVENT",
+        "cached_map_revision": 41,
+        "live_map_revision": 43,
+        "full_refresh": false,
+        "agents": [
+          {
+            "agent_id": 0,
+            "assignment_kind": "hold",
+            "semantic_waypoint": [
+              11.0,
+              3.0,
+              3.5
+            ],
+            "tracking_waypoint": [
+              11.480775833129883,
+              6.613358020782471,
+              2.4981608390808105
+            ],
+            "reachable": false,
+            "hold": true,
+            "speed": 0.5156156696792412,
+            "tracker_completed": false,
+            "distance_to_semantic_goal": 3.7803681424467133
+          },
+          {
+            "agent_id": 2,
+            "assignment_kind": "hold",
+            "semantic_waypoint": [
+              11.0,
+              3.0,
+              6.5
+            ],
+            "tracking_waypoint": [
+              11.201704978942871,
+              8.805943489074707,
+              2.8704135417938232
+            ],
+            "reachable": false,
+            "hold": true,
+            "speed": 0.5956599778523348,
+            "tracker_completed": false,
+            "distance_to_semantic_goal": 6.850077558280124
+          }
+        ],
+        "query_counts": [
+          {
+            "step": 42,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "no_start_connector",
+            "map_revision": 41,
+            "count": 1
+          },
+          {
+            "step": 42,
+            "agent_id": 2,
+            "caller": "compile_guidance",
+            "reason": "no_start_connector",
+            "map_revision": 41,
+            "count": 1
+          }
+        ]
+      },
+      "V5": {
+        "index": 67,
+        "variant": "V5",
+        "state_step": 42,
+        "found": false,
+        "decision_reason": "ATOMIC_REJECT_MISSING_SEARCH_ROUTE",
+        "cached_map_revision": 43,
+        "live_map_revision": 43,
+        "full_refresh": true,
+        "agents": [
+          {
+            "agent_id": 0,
+            "assignment_kind": "hold",
+            "semantic_waypoint": [
+              11.0,
+              3.0,
+              3.5
+            ],
+            "tracking_waypoint": [
+              11.480775833129883,
+              6.613358020782471,
+              2.4981608390808105
+            ],
+            "reachable": false,
+            "hold": true,
+            "speed": 0.5156156696792412,
+            "tracker_completed": false,
+            "distance_to_semantic_goal": 3.7803681424467133
+          },
+          {
+            "agent_id": 2,
+            "assignment_kind": "search",
+            "semantic_waypoint": [
+              11.0,
+              3.0,
+              6.5
+            ],
+            "tracking_waypoint": [
+              11.0,
+              9.0,
+              2.5
+            ],
+            "reachable": true,
+            "hold": false,
+            "speed": 0.5956599778523348,
+            "tracker_completed": false,
+            "distance_to_semantic_goal": 6.850077558280124
+          }
+        ],
+        "query_counts": [
+          {
+            "step": 42,
+            "agent_id": 0,
+            "caller": "compile_guidance",
+            "reason": "invalid_start",
+            "map_revision": 43,
+            "count": 1
+          },
+          {
+            "step": 42,
+            "agent_id": 0,
+            "caller": "generate_search_candidates",
+            "reason": "invalid_start",
+            "map_revision": 43,
+            "count": 794
+          },
+          {
+            "step": 42,
+            "agent_id": 2,
+            "caller": "compile_guidance",
+            "reason": "reachable",
+            "map_revision": 43,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "interpretation": "V5 has little measured motion stall but still loses V4 discovery. Different timing/route/observation histories can change encounter with a moving target; no unique detection-failure cause is proven from these traces."
+  },
+  "remaining_priorities": [
+    {
+      "priority": 1,
+      "candidate": "Pre-Found standby invalid / search recovery scheduling separation",
+      "evidence": "indices97 and10; absence of search candidates can occur with atomic_missing_route_count=0."
+    },
+    {
+      "priority": 2,
+      "candidate": "Per-agent candidate success submission, retaining failure protection per failed agent",
+      "evidence": "linked index7 audit proves ready healthy agent blocked by another invalid_start pool; index28 old V3 also proves this coupling."
+    },
+    {
+      "priority": 3,
+      "candidate": "Independent public-map safety memory / hold-release hysteresis, fixed hold anchor, and calibrated braking/turn speed ablations",
+      "evidence": "Four of five V5 fatal transitions begin in hold; index77 provides a new high-speed hold collision. These mechanisms must be separated; current hold is no instantaneous stop."
+    },
+    {
+      "priority": 4,
+      "candidate": "Remaining-route scoring view and candidate pool ablations only after scheduling/safety fixes",
+      "evidence": "index28 removes prolonged waits but still does not Found; index67 keeps moving yet loses Found. Neither proves zero detection ability or that geometric footprint is the sole bottleneck."
+    }
+  ],
+  "interpretive_limits": [
+    "decision_reason counts are counts of captured after-state labels, not necessarily independent fresh decision invocations; terminal states may retain the preceding label. Query counts are separately checked.",
+    "Completed-goal waiting is counted in contiguous states satisfying tracker_completed, not hold, pre-Found and distance<=0.75. It is not the existing motion-stall metric and not zero sensor capability.",
+    "No hidden target or obstacle-map queries were made. Collision records are already present terminal diagnostic data.",
+    "Live cell probabilities/first observation timestamps are unavailable for the new collision; no fresh-occupancy replay was performed.",
+    "Comparisons are paired developmental outcomes on the fixed20, not final heldout evidence or statistical proof. No new intervention establishes the individual causal contribution to Found."
+  ],
+  "inputs": {
+    "summary_files": [
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0000/episode_0000/V3/summary.json",
+        "sha256": "eb521fcb4314e00ef68030215653b83d2de8c1d97cd9a9613cbde3ee0a3d2e4f"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0000/episode_0000/V4/summary.json",
+        "sha256": "4820d66a3e799355446808ab75d5170788b873fdb020cf477d42af7bf03e5376"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0000/episode_0000/V5/summary.json",
+        "sha256": "9df316a05291226b04fa4d4da6d31c931c638351cd60fa7fa8be60f87ad149be"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0003/episode_0003/V3/summary.json",
+        "sha256": "0130511e2b799e24c94cada6b9b232b1389f226f2ebec1201cc26cde66e0f506"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0003/episode_0003/V4/summary.json",
+        "sha256": "2d8704a016a56307ac26ce2a98071e5b89fe8012bf1cdeece5370fe48dc5f618"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0003/episode_0003/V5/summary.json",
+        "sha256": "819c4e1acb9cfd1043e2defb97cf67f2a240c24149c650b5936042c0f197150f"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V3/summary.json",
+        "sha256": "276d07e15342708b0d941990f7b21bb5cf6c67d0aa68f3b1aa92a0651400f131"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0007/episode_0007/V4/summary.json",
+        "sha256": "934e0359f1ab00c113b62f4434a6d38b5ee5d1557d884145d5e985871d245af4"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0007/episode_0007/V5/summary.json",
+        "sha256": "80276c82aed1b841b2ce230cce99929c0c709b9b277c40d8fe614fca06ff44dc"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0010/episode_0010/V3/summary.json",
+        "sha256": "bc77ff4aeb7a6936bf1d4ee40abdd9dfd9ea74c990ee0fb355e0b88965ac274c"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0010/episode_0010/V4/summary.json",
+        "sha256": "00e48ab7be8955760eba0cad2d7d68b15fb733bc7332381251e065396cdb55af"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0010/episode_0010/V5/summary.json",
+        "sha256": "774e1cb3c8f11d60516dc60dd9acb88d9c5a3088061a2e4a7f835cf009584fd8"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0022/episode_0022/V3/summary.json",
+        "sha256": "d016f56f7e1b9409b585234cdb0219041658629efc6d1e6b0531c2e149ff804a"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0022/episode_0022/V4/summary.json",
+        "sha256": "7cd7497a3c863ce82b2a43d56beec3e04806875db5a9518442a116de6e0728bd"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0022/episode_0022/V5/summary.json",
+        "sha256": "a3c527b184d1b5bac8ad35341265f6c59d83b4d44f89ad010b34358048c598bb"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0028/episode_0028/V3/summary.json",
+        "sha256": "e6c3f92bb212b7d49f94e2f8e41d09213c7f36db886a577ee04f512e8ce5e217"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0028/episode_0028/V4/summary.json",
+        "sha256": "1987a4c171d2d36de087a0fe94f2856724b4632eb97ef60ecfa6faab0ce93c04"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0028/episode_0028/V5/summary.json",
+        "sha256": "1ec46f70cd83609453dc06de83728088d2795ec97441344ef7e1ef00dc4fc36c"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0031/episode_0031/V3/summary.json",
+        "sha256": "6a51c64bc40b53b31ef3e290b6624d5e68c52c15232c2d5ee0f152489dae0a9d"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0031/episode_0031/V4/summary.json",
+        "sha256": "651d2f9c9ff2f5806d087c543702c028baaf7f6991d779628fa5cfb072054f55"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0031/episode_0031/V5/summary.json",
+        "sha256": "2d93db06327f3ffcd8a26b45277896bcfa6cb8070299ea3b8e1191d14fceaa74"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0040/episode_0040/V3/summary.json",
+        "sha256": "3e742f92fbacf5ee960049ff4fe305856cb1a0e186a1db49d1fa36323d202c1e"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0040/episode_0040/V4/summary.json",
+        "sha256": "721313508d6fe988430c14cf5b96edb7acdee57b6647f481535ed5d65ee0f929"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0040/episode_0040/V5/summary.json",
+        "sha256": "d3864b713c4db20141a24113ef93313ea037b8bc28ce820dbeb83690e0443a05"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0042/episode_0042/V3/summary.json",
+        "sha256": "6c4d0f8e85829a9c0a13db18d1a66ef72bf012a1f686af73e1c5411281e1eb6c"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0042/episode_0042/V4/summary.json",
+        "sha256": "840719dd29e1e5fa8439e423f114f6b699c67c3714db6cd47494f72cab6bb2a5"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0042/episode_0042/V5/summary.json",
+        "sha256": "f0ab54cfe956e239102c918fd8f7e75dcd250bb97e7ef2e0970818aef8e04759"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0046/episode_0046/V3/summary.json",
+        "sha256": "274e051479e72bb0b87f898801c56201283dc17a02302f6b250bbdbaa7c4675f"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0046/episode_0046/V4/summary.json",
+        "sha256": "d0442ab7331993c4911a9cda037da5bef5309d963be905c2dc5d8e791518fee4"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0046/episode_0046/V5/summary.json",
+        "sha256": "ad22b65bc749df9011dea63995a4a74c477aee9fd8529705f49653f24c9b9c3e"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0062/episode_0062/V3/summary.json",
+        "sha256": "6c9b2829b9807f5661d2f8749bc38c5fe7d61e47187b7fbfc73e71cbdf93b784"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0062/episode_0062/V4/summary.json",
+        "sha256": "d15bfc75010f2f63c29e6c7179215d89bdc36f636969a9b549c9a9a80624d808"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0062/episode_0062/V5/summary.json",
+        "sha256": "6f10d2c8f35619e153372f3606a7d0663c09fd5f57b7a5115146ef9608540acb"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0063/episode_0063/V3/summary.json",
+        "sha256": "f685b05f823e107b79c25a0f1baac2781d11f899e600f8c9f557b794678d11b9"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0063/episode_0063/V4/summary.json",
+        "sha256": "92464f027a14abe41c56da64fdad70c154a73223811dc0cf9c8786d8bb9204e3"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0063/episode_0063/V5/summary.json",
+        "sha256": "3d8c66da04c22702cf18c2581ed1d4acd762f335c40ee36750d760138303d4fc"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0067/episode_0067/V3/summary.json",
+        "sha256": "01de1e64f31bae1e73aa13c807eb63634d5c329f5df3358082431dbeae3e9585"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0067/episode_0067/V4/summary.json",
+        "sha256": "2c641f7edd9c190f8128716d55576bc174efe92585bca69af6517357d8a09b08"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0067/episode_0067/V5/summary.json",
+        "sha256": "808833de400bfc1766397b6745da187aa9450fc9740aa72e265060a4db66f337"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0076/episode_0076/V3/summary.json",
+        "sha256": "ad45ceb01039f902f4d4a5a2cd72e762c4c2be87cfb0c53a36c25e9b939f11e7"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0076/episode_0076/V4/summary.json",
+        "sha256": "70d3ddc4b0a20706b4a34b00520fe65c3554f25190e632d28c36109962a0a6fd"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0076/episode_0076/V5/summary.json",
+        "sha256": "0feb65ffa534c6a6ed40ef58f4a516b01ac9517a8a26e15c7d509bc7ba88d47c"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0077/episode_0077/V3/summary.json",
+        "sha256": "37d2e5feb35da5428b22f3ec3dadc986b06e08ab16ff7ae9d1e4d89826bdca33"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0077/episode_0077/V4/summary.json",
+        "sha256": "e39609ec08a63dfd025a68e8ec0d505d68bf070080aa6ceda29d2022cb5aad16"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0077/episode_0077/V5/summary.json",
+        "sha256": "9dc12a3ac874f03761cbe8a9a5e5ebd016c744623141ee78ab505ec3dbcf5d5c"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0078/episode_0078/V3/summary.json",
+        "sha256": "40c44b4ecdef8e91ebaf8c0014a3cfff6b9c55ce5b5999b04ac197eedfb301d6"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0078/episode_0078/V4/summary.json",
+        "sha256": "5ba51946e877f30ef79fd555988ffdee1712874e9520dccdc123bf7a224b2b92"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0078/episode_0078/V5/summary.json",
+        "sha256": "b6b0d66d0877eed84d1449d15cae9be39f609434d3f8e867b66b38d690858753"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0086/episode_0086/V3/summary.json",
+        "sha256": "c2709f6d2451b49c563f1341438a44b96892542613f57fe3e5350ad7d0d5d840"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0086/episode_0086/V4/summary.json",
+        "sha256": "5699e84e7be8fa51e1b02c42f1a1223d5f41ee617a5e12ecdd75ca1ed85d0ecf"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0086/episode_0086/V5/summary.json",
+        "sha256": "85d74b4e40c4b4f8d17c29d7342c7cdec995f80e9cd54f3be364444075e3176b"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0091/episode_0091/V3/summary.json",
+        "sha256": "799f874be2b7f5d64fda5b5f9c5542ede72a4af5755fe46cb0ab740a7fdecf78"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0091/episode_0091/V4/summary.json",
+        "sha256": "c6ebdfe96f8784cabf03a1efb31b89f0e71fd75dfae87edc9ab2d70fe0c61b2b"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0091/episode_0091/V5/summary.json",
+        "sha256": "6a00948e727861d4ca779595144f5cb2e2f4e02e46b7ed41e70c77528505f3b2"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0095/episode_0095/V3/summary.json",
+        "sha256": "cb1784a7671e934cacbbe5170880734a5360a6c6e41659d6de1f1532455573c1"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0095/episode_0095/V4/summary.json",
+        "sha256": "4a34d510a0b08ea7f03fedd48b74c3ec8fe518c3071e77d3c594803c19a3a722"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0095/episode_0095/V5/summary.json",
+        "sha256": "b1a1238af38bce2d24b22101d3d3db47aca7df7a869ece8291e80ad933c9eae6"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0097/episode_0097/V3/summary.json",
+        "sha256": "3a377e17fd9743f86f12166cf73e0d28f30e7f560991bf9596b4460fb335acaa"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0097/episode_0097/V4/summary.json",
+        "sha256": "a6fc491df410b1bed332c333dacc93968ebe28d44de600feaf5848260afe5f8e"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0097/episode_0097/V5/summary.json",
+        "sha256": "15ab1ade3c60462a18c78098fee4bf953b43af8e2107283681d566dde34dfa46"
+      }
+    ],
+    "critical_trace_files": [
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0010/episode_0010/V5/step_trace.jsonl",
+        "sha256": "67a3e9d1a16966116dafbf3e3dec735a8ac69f4eb4b06db667b78543d3409d1d"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0097/episode_0097/V5/step_trace.jsonl",
+        "sha256": "e85769913cd1940583cdac38a99820c1c5bd511d73ba69550ea05fc3ac15131f"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0097/episode_0097/V4/step_trace.jsonl",
+        "sha256": "2f4086ff6c64ba9cc656493b81c7764a4ad340043ff80ea92266fdeed6670137"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0077/episode_0077/V5/step_trace.jsonl",
+        "sha256": "ed984d8f6dfbfc156f0ead585d0c961c33141ab0b5652624a1b648cbb4c4bb04"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0077/episode_0077/V4/step_trace.jsonl",
+        "sha256": "f6b3df73f116ad65f2bd4438d18fa778d4f65b902c3b16a4490741331457886b"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0067/episode_0067/V5/step_trace.jsonl",
+        "sha256": "4a168444316ea0444cc2001a143707f39ee056571a1f5878d37459318b388507"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0067/episode_0067/V4/step_trace.jsonl",
+        "sha256": "c27df970a266a7a9f9a8e88a044284fb3941af07ad7bf771cf3d2b9b0819c650"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0042/episode_0042/V3/step_trace.jsonl",
+        "sha256": "26b0384259fdb7a9a94ee806dd4267c760983b89c4371935c78a6b5375a55216"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0042/episode_0042/V5/step_trace.jsonl",
+        "sha256": "b2b716dea7fa5429f61c3619802734c27f7a7929de1f75d710fac7b00309fe9e"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0063/episode_0063/V3/step_trace.jsonl",
+        "sha256": "aad0c55a6ed3bfb5083c3bd1628d55d21e56b0f7f9b3e9245a1a021702957024"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0063/episode_0063/V5/step_trace.jsonl",
+        "sha256": "c7f9f4586065ece6d85cb067e2eaef94de0a7dd03c2cd39b8721a576e9c66551"
+      },
+      {
+        "path": "runs/safe_search_v1/development_B0_20260928_v2/scene_0086/episode_0086/V3/step_trace.jsonl",
+        "sha256": "d6f61cb2c74aee81c440fca3e16cba383ee2613c0adb6291b1e7ce6a90b0a231"
+      },
+      {
+        "path": "runs/safe_search_v1/development_AC_20260928_v1/scene_0086/episode_0086/V5/step_trace.jsonl",
+        "sha256": "2b604986fe66195c003fbcc273ef7d528b1ca832035a191c4782cd2b1fd0c3dc"
+      }
+    ],
+    "reviewed_source_files": [
+      {
+        "path": "chapter3_bser/events/event_detector.py",
+        "sha256": "9904d04401008647f9bf9fc4e304c17642de4b056d679651a0349103c6c27eac",
+        "relevant_line_numbers": [
+          155,
+          162,
+          163,
+          165,
+          227,
+          293,
+          295
+        ]
+      },
+      {
+        "path": "chapter3_bser/hysteresis/policy.py",
+        "sha256": "e46ed7e51740405f9e5a5b6b3e491295e4db408ff1ef26e8513fb3e41b4eb313",
+        "relevant_line_numbers": [
+          14,
+          17,
+          19,
+          49,
+          53,
+          102
+        ]
+      },
+      {
+        "path": "chapter3_bser/online/controller.py",
+        "sha256": "ccb222f64bf393847a2597cd2e9cbf3ef9477b0b11d8eedd01d3c136ff2af61b",
+        "relevant_line_numbers": [
+          335,
+          337,
+          344,
+          376,
+          389,
+          391,
+          424,
+          488,
+          489
+        ]
+      },
+      {
+        "path": "chapter3_bser/online/config.py",
+        "sha256": "3850eb73be9b45a199635ef6d18616ea1d5ebcbc9aa0d46db5a2ce6c9ba612f3",
+        "relevant_line_numbers": [
+          61,
+          71,
+          73,
+          74
+        ]
+      },
+      {
+        "path": "configs/chapter3/bser_phase1b1.json",
+        "sha256": "98f920cd6ecaa6b874003833dd7eff11e094167171bc3b3706fffef3de226e08",
+        "relevant_line_numbers": [
+          1
+        ]
+      },
+      {
+        "path": "chapter3_bser/experiments/safe_search_v1/runtime.py",
+        "sha256": "c6997363894f7e20618b6f5e1abb2a4dc172302723d7fe977a16cf89afa8b8d0",
+        "relevant_line_numbers": [
+          24,
+          32,
+          95,
+          96,
+          103,
+          104,
+          108,
+          121
+        ]
+      },
+      {
+        "path": "chapter3_bser/experiments/safe_search_v1/safe_guidance.py",
+        "sha256": "dde5e31e9da634294249a441c338855f3adbd8c2f8598d4285c0d40287877cb8",
+        "relevant_line_numbers": [
+          3,
+          4,
+          67,
+          109,
+          123,
+          124,
+          143
+        ]
+      },
+      {
+        "path": "tools/ch3_baselines/basic_search_prior.py",
+        "sha256": "42a756a49bcc1c55eac69ad030bf435b7306290ea0ed045c31147098721d494f",
+        "relevant_line_numbers": [
+          113,
+          122,
+          124
+        ]
+      }
+    ],
+    "prior_audits": [
+      {
+        "path": "docs/chapter3/search_diagnostics/safe_search_v1/ac_case7_audit.json",
+        "sha256": "cda99bba239f64bed63a61d35671ee1911b251a9c08daa7d5395a8793ffcb379"
+      },
+      {
+        "path": "docs/chapter3/search_diagnostics/safe_search_v1/ac_completed_cases_audit.json",
+        "sha256": "4257fc5b61b81e1421b11917b98696eb52748aefa43ea7d34f7b71f89660b953"
+      }
+    ]
+  }
+}

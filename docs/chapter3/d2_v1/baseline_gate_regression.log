@@ -1,0 +1,29 @@
+test_baseline_maddpg_evolution_exists_and_records_independent_methods (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_B0_B1_planning_and_zero_residual_contracts (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B0_protected_sources_and_framework_script_inventory (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B2_B3_are_independent_maddpg_methods_with_the_same_task (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_B3_does_not_reuse_the_historical_hgr_method_identity (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_actual_reference_training_plan_keeps_common_task_parameters (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_four_methods_cannot_change_collision_protocol_or_horizon (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_registry_tampering_is_rejected (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_training_sidecar_does_not_claim_budget_stop_is_completion (tests.test_ch3_baseline_registry.RegistryTests) ... ok
+test_checkpoint_is_required_and_cannot_be_relabelled_from_HGR_or_other_baseline (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_native_failure_keeps_original_error_and_unknown_interrupted_cost (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_native_learned_evaluator_dispatch_and_uniform_outputs (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_output_and_manifest_guards_run_before_training_or_runtime_creation (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_partial_summary_rates_stay_null_and_updates_cannot_be_hidden (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+test_same_manifest_but_historical_and_d2_planners_have_distinct_identity (tests.test_ch3_baseline_registry.EvaluationRoutingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 113.334s
+
+OK

@@ -1,0 +1,1777 @@
+{
+  "schema": "ch3.safe_search.public_map_case_analysis.v1",
+  "scope": {
+    "original_episode_index": 7,
+    "display_scene_number": 8,
+    "baseline": "B0_search_prior",
+    "variant": "V4",
+    "agent_id": 1,
+    "complete_D2_population_analysis": false,
+    "independent_diagnostic_replay_not_additional_evaluation_arm": true
+  },
+  "replay_equivalence": {
+    "schema": "ch3.safe_search.public_map_replay_equivalence.v1",
+    "reference_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+    "replay_signature_sha256": "42a3d792fd9982defbf3a990494176c80b995efa8d9e789fc88567d4749a79c4",
+    "equal_ordered_signature_digest": true,
+    "observed_transition_count": 84,
+    "compared_signature_count": 85,
+    "includes_initialization": true,
+    "comparison": "SHA256 of the ordered physical-signature list: initialization plus each transition; D2 stores the list digest, not individual signature plaintexts",
+    "signature_scope": "agents, task, observations, reward/action record, guidance and Python/NumPy/Torch RNG",
+    "included_in_D2_100_arms": false
+  },
+  "input_sha256": {
+    "runs/safe_search_v1/public_map_scene7_V4_20260928_v1/run/episode_0007/V4/step_trace.jsonl": "5311b836c7162b425de4d8d2c00d82014ac953649ad6688e3665f08995194f69",
+    "runs/safe_search_v1/public_map_scene7_V4_20260928_v1/equivalence.json": "94ca32d07fe3af273cfb856f01080b5376b5a6cf275cf987f668a54564e6d070",
+    "runs/safe_search_v1/public_map_scene7_V4_20260928_v1/replay_identity.json": "76050e52bcda998eff783849986e43ec8bd78a52ac0f9250df750f65de6ff5c0",
+    "runs/safe_search_v1/development_B0_20260928_v1/scene_0007/episode_0007/V4/summary.json": "d47569debcba1becd8e30ad16be8a9d448238c8ab60e66a11ae00f8829d1fbef",
+    "runs/safe_search_v1/development_B0_20260928_v1/scene_0007/evaluation_manifest.json": "84c120ac0ba84bcc45515ba27f48ae0353298d5b6f9ae1c2e7db545f2e983a78"
+  },
+  "source_sha256": {
+    "core/mapping/path_planner.py": "0c86f2a701c931179d6609ea755f82fe27d1e8df35672ff5696f5471bcad1925",
+    "core/config/ch3_config.py": "445ab698c37ac698ca2b291a25427d9f5647cacc979167d1deaa0657aa9c6085",
+    "core/env/uav_env.py": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+    "chapter3_bser/experiments/safe_search_v1/safe_guidance.py": "dde5e31e9da634294249a441c338855f3adbd8c2f8598d4285c0d40287877cb8",
+    "chapter3_bser/experiments/safe_search_v1/public_geometry.py": "6cae5d38ed157baf57a9f225fd257226b50ecf056f095007310290d0afa34fee"
+  },
+  "public_grid": {
+    "shape": [
+      10,
+      10,
+      8
+    ],
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "spacing": [
+      2,
+      2,
+      1
+    ],
+    "clearance": 0.4,
+    "free_threshold": 0.3,
+    "occupied_threshold": 0.7
+  },
+  "relevant_cells": [
+    {
+      "cell_index": 565,
+      "grid_index": [
+        7,
+        0,
+        5
+      ],
+      "center": [
+        15.0,
+        1.0,
+        5.5
+      ],
+      "public_voxel_lower": [
+        14.0,
+        0.0,
+        5.0
+      ],
+      "public_voxel_upper": [
+        16.0,
+        2.0,
+        6.0
+      ],
+      "classification_changes": [
+        {
+          "step": 0,
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 0,
+          "observation_count": 1
+        },
+        {
+          "step": 49,
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.8388910293579102,
+          "last_observed_step": 49,
+          "observation_count": 164
+        },
+        {
+          "step": 78,
+          "cell_index": 565,
+          "classification": "unknown",
+          "occupancy_probability": 0.5124975442886353,
+          "last_observed_step": 78,
+          "observation_count": 886
+        },
+        {
+          "step": 80,
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.161109060049057,
+          "last_observed_step": 80,
+          "observation_count": 940
+        },
+        {
+          "step": 81,
+          "cell_index": 565,
+          "classification": "unknown",
+          "occupancy_probability": 0.31002578139305115,
+          "last_observed_step": 81,
+          "observation_count": 966
+        },
+        {
+          "step": 82,
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.8519529104232788,
+          "last_observed_step": 82,
+          "observation_count": 992
+        }
+      ],
+      "offline_truth_voxel_overlap_fraction_with_obstacle_0": 0.009694653436291476,
+      "offline_truth_center_inside_obstacle_0": false
+    },
+    {
+      "cell_index": 572,
+      "grid_index": [
+        7,
+        1,
+        4
+      ],
+      "center": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "public_voxel_lower": [
+        14.0,
+        2.0,
+        4.0
+      ],
+      "public_voxel_upper": [
+        16.0,
+        4.0,
+        5.0
+      ],
+      "classification_changes": [
+        {
+          "step": 0,
+          "cell_index": 572,
+          "classification": "unknown",
+          "occupancy_probability": 0.5,
+          "last_observed_step": -1,
+          "observation_count": 0
+        },
+        {
+          "step": 12,
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 12,
+          "observation_count": 1
+        }
+      ],
+      "offline_truth_voxel_overlap_fraction_with_obstacle_0": 0.8373945250000006,
+      "offline_truth_center_inside_obstacle_0": true
+    },
+    {
+      "cell_index": 573,
+      "grid_index": [
+        7,
+        1,
+        5
+      ],
+      "center": [
+        15.0,
+        3.0,
+        5.5
+      ],
+      "public_voxel_lower": [
+        14.0,
+        2.0,
+        5.0
+      ],
+      "public_voxel_upper": [
+        16.0,
+        4.0,
+        6.0
+      ],
+      "classification_changes": [
+        {
+          "step": 0,
+          "cell_index": 573,
+          "classification": "unknown",
+          "occupancy_probability": 0.5,
+          "last_observed_step": 0,
+          "observation_count": 3
+        },
+        {
+          "step": 12,
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 12,
+          "observation_count": 41
+        },
+        {
+          "step": 23,
+          "cell_index": 573,
+          "classification": "unknown",
+          "occupancy_probability": 0.4875026345252991,
+          "last_observed_step": 23,
+          "observation_count": 155
+        },
+        {
+          "step": 24,
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.9241418242454529,
+          "last_observed_step": 24,
+          "observation_count": 187
+        },
+        {
+          "step": 67,
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.16110897064208984,
+          "last_observed_step": 67,
+          "observation_count": 1338
+        }
+      ],
+      "offline_truth_voxel_overlap_fraction_with_obstacle_0": 0.040922381823867426,
+      "offline_truth_center_inside_obstacle_0": false
+    },
+    {
+      "cell_index": 581,
+      "grid_index": [
+        7,
+        2,
+        5
+      ],
+      "center": [
+        15.0,
+        5.0,
+        5.5
+      ],
+      "public_voxel_lower": [
+        14.0,
+        4.0,
+        5.0
+      ],
+      "public_voxel_upper": [
+        16.0,
+        6.0,
+        6.0
+      ],
+      "classification_changes": [
+        {
+          "step": 0,
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.7005671858787537,
+          "last_observed_step": 0,
+          "observation_count": 2
+        },
+        {
+          "step": 29,
+          "cell_index": 581,
+          "classification": "unknown",
+          "occupancy_probability": 0.5124974846839905,
+          "last_observed_step": 29,
+          "observation_count": 55
+        },
+        {
+          "step": 31,
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.16110898554325104,
+          "last_observed_step": 31,
+          "observation_count": 57
+        }
+      ],
+      "offline_truth_voxel_overlap_fraction_with_obstacle_0": 0.03447309833930866,
+      "offline_truth_center_inside_obstacle_0": false
+    }
+  ],
+  "checkpoints": [
+    {
+      "step": 0,
+      "trace_location": "line 1 before",
+      "map_revision": 1,
+      "guidance_step": 0,
+      "position": [
+        16.150131225585938,
+        2.551948308944702,
+        7.134338855743408
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "speed": 0.0,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        17.0,
+        3.0,
+        7.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 0,
+          "observation_count": 1
+        },
+        {
+          "cell_index": 572,
+          "classification": "unknown",
+          "occupancy_probability": 0.5,
+          "last_observed_step": -1,
+          "observation_count": 0
+        },
+        {
+          "cell_index": 573,
+          "classification": "unknown",
+          "occupancy_probability": 0.5,
+          "last_observed_step": 0,
+          "observation_count": 3
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.7005671858787537,
+          "last_observed_step": 0,
+          "observation_count": 2
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "trace_location": "line 13 before",
+      "map_revision": 13,
+      "guidance_step": 12,
+      "position": [
+        15.985610961914062,
+        2.8207802772521973,
+        6.861177444458008
+      ],
+      "velocity": [
+        -0.6902412176132202,
+        0.07070566713809967,
+        -0.3183397650718689
+      ],
+      "speed": 0.7633953339414888,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        6.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 12,
+          "observation_count": 14
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 12,
+          "observation_count": 1
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.2994328737258911,
+          "last_observed_step": 12,
+          "observation_count": 41
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 12,
+          "observation_count": 27
+        }
+      ]
+    },
+    {
+      "step": 20,
+      "trace_location": "line 21 before",
+      "map_revision": 21,
+      "guidance_step": 20,
+      "position": [
+        15.153247833251953,
+        2.8482985496520996,
+        6.279414653778076
+      ],
+      "velocity": [
+        -0.2938523292541504,
+        -0.009841661900281906,
+        -0.5304527282714844
+      ],
+      "speed": 0.6064867242139026,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        5.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 20,
+          "observation_count": 31
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.07242647558450699,
+          "last_observed_step": 14,
+          "observation_count": 3
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 20,
+          "observation_count": 101
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 20,
+          "observation_count": 48
+        }
+      ]
+    },
+    {
+      "step": 23,
+      "trace_location": "line 24 before",
+      "map_revision": 24,
+      "guidance_step": 23,
+      "position": [
+        15.048095703125,
+        2.839552402496338,
+        5.919726848602295
+      ],
+      "velocity": [
+        -0.12246423214673996,
+        -0.015848707407712936,
+        -0.6592685580253601
+      ],
+      "speed": 0.6707337037026121,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [
+        573
+      ],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.06913843005895615,
+          "last_observed_step": 23,
+          "observation_count": 42
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.07242647558450699,
+          "last_observed_step": 14,
+          "observation_count": 3
+        },
+        {
+          "cell_index": 573,
+          "classification": "unknown",
+          "occupancy_probability": 0.4875026345252991,
+          "last_observed_step": 23,
+          "observation_count": 155
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.994234025478363,
+          "last_observed_step": 23,
+          "observation_count": 49
+        }
+      ]
+    },
+    {
+      "step": 24,
+      "trace_location": "line 25 before",
+      "map_revision": 25,
+      "guidance_step": 24,
+      "position": [
+        15.032249450683594,
+        2.836358070373535,
+        5.779481410980225
+      ],
+      "velocity": [
+        -0.07923312485218048,
+        -0.015972133725881577,
+        -0.7012279033660889
+      ],
+      "speed": 0.7058707881679193,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.005765967536717653,
+          "last_observed_step": 24,
+          "observation_count": 45
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.03229546174407005,
+          "last_observed_step": 24,
+          "observation_count": 4
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.9241418242454529,
+          "last_observed_step": 24,
+          "observation_count": 187
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.9866130948066711,
+          "last_observed_step": 24,
+          "observation_count": 50
+        }
+      ]
+    },
+    {
+      "step": 25,
+      "trace_location": "line 26 before",
+      "map_revision": 26,
+      "guidance_step": 25,
+      "position": [
+        15.024873733520508,
+        2.82682466506958,
+        5.671276569366455
+      ],
+      "velocity": [
+        -0.03687744215130806,
+        -0.047667354345321655,
+        -0.5410237312316895
+      ],
+      "speed": 0.5443700948488673,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 25,
+          "observation_count": 48
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.03229546174407005,
+          "last_observed_step": 24,
+          "observation_count": 4
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.9936315417289734,
+          "last_observed_step": 25,
+          "observation_count": 222
+        },
+        {
+          "cell_index": 581,
+          "classification": "occupied",
+          "occupancy_probability": 0.969231128692627,
+          "last_observed_step": 25,
+          "observation_count": 51
+        }
+      ]
+    },
+    {
+      "step": 49,
+      "trace_location": "line 50 before",
+      "map_revision": 50,
+      "guidance_step": 49,
+      "position": [
+        15.37781047821045,
+        2.180269479751587,
+        5.307272911071777
+      ],
+      "velocity": [
+        0.08187957853078842,
+        -0.14680737257003784,
+        -0.001059801783412695
+      ],
+      "speed": 0.16810054491618276,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565,
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.8388910293579102,
+          "last_observed_step": 49,
+          "observation_count": 164
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.03229546174407005,
+          "last_observed_step": 24,
+          "observation_count": 4
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 49,
+          "observation_count": 1053
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 49,
+          "observation_count": 75
+        }
+      ]
+    },
+    {
+      "step": 64,
+      "trace_location": "line 65 before",
+      "map_revision": 65,
+      "guidance_step": 64,
+      "position": [
+        15.601187705993652,
+        1.7425799369812012,
+        5.306572437286377
+      ],
+      "velocity": [
+        0.06774423271417618,
+        -0.14501720666885376,
+        -2.151443732145708e-05
+      ],
+      "speed": 0.16006021291670366,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565,
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 64,
+          "observation_count": 491
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 55,
+          "observation_count": 12
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 64,
+          "observation_count": 1324
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 64,
+          "observation_count": 90
+        }
+      ]
+    },
+    {
+      "step": 65,
+      "trace_location": "line 66 before",
+      "map_revision": 66,
+      "guidance_step": 65,
+      "position": [
+        15.614540100097656,
+        1.7136021852493286,
+        5.3065690994262695
+      ],
+      "velocity": [
+        0.06676416099071503,
+        -0.14488857984542847,
+        -1.6591935491305776e-05
+      ],
+      "speed": 0.15953104411904143,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565,
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 65,
+          "observation_count": 521
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 55,
+          "observation_count": 12
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.969231128692627,
+          "last_observed_step": 65,
+          "observation_count": 1329
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 65,
+          "observation_count": 91
+        }
+      ]
+    },
+    {
+      "step": 66,
+      "trace_location": "line 67 before",
+      "map_revision": 67,
+      "guidance_step": 66,
+      "position": [
+        15.62769603729248,
+        1.684650182723999,
+        5.3065667152404785
+      ],
+      "velocity": [
+        0.06578121334314346,
+        -0.14476020634174347,
+        -1.2795700968126766e-05
+      ],
+      "speed": 0.15900530032904647,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565,
+        573
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 66,
+          "observation_count": 551
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 55,
+          "observation_count": 12
+        },
+        {
+          "cell_index": 573,
+          "classification": "occupied",
+          "occupancy_probability": 0.7109495401382446,
+          "last_observed_step": 66,
+          "observation_count": 1334
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 66,
+          "observation_count": 92
+        }
+      ]
+    },
+    {
+      "step": 67,
+      "trace_location": "line 68 before",
+      "map_revision": 68,
+      "guidance_step": 67,
+      "position": [
+        15.640655517578125,
+        1.6557236909866333,
+        5.306564807891846
+      ],
+      "velocity": [
+        0.06479550153017044,
+        -0.14463217556476593,
+        -9.868044799077325e-06
+      ],
+      "speed": 0.15848319571652353,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 67,
+          "observation_count": 581
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 55,
+          "observation_count": 12
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.16110897064208984,
+          "last_observed_step": 67,
+          "observation_count": 1338
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 67,
+          "observation_count": 93
+        }
+      ]
+    },
+    {
+      "step": 71,
+      "trace_location": "line 72 before",
+      "map_revision": 72,
+      "guidance_step": 71,
+      "position": [
+        15.690509796142578,
+        1.5402721166610718,
+        5.30656099319458
+      ],
+      "velocity": [
+        0.060826897621154785,
+        -0.14412523806095123,
+        -3.4905924621853046e-06
+      ],
+      "speed": 0.1564352764964621,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9975274205207825,
+          "last_observed_step": 71,
+          "observation_count": 697
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 71,
+          "observation_count": 14
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 71,
+          "observation_count": 1354
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 71,
+          "observation_count": 97
+        }
+      ]
+    },
+    {
+      "step": 72,
+      "trace_location": "line 73 before",
+      "map_revision": 73,
+      "guidance_step": 72,
+      "position": [
+        15.702475547790527,
+        1.5114721059799194,
+        5.306560516357422
+      ],
+      "velocity": [
+        0.05982869863510132,
+        -0.14400015771389008,
+        -2.6919447009277064e-06
+      ],
+      "speed": 0.15593434069903125,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.994234025478363,
+          "last_observed_step": 72,
+          "observation_count": 724
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 72,
+          "observation_count": 15
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 72,
+          "observation_count": 1358
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 72,
+          "observation_count": 98
+        }
+      ]
+    },
+    {
+      "step": 75,
+      "trace_location": "line 76 before",
+      "map_revision": 76,
+      "guidance_step": 75,
+      "position": [
+        15.737170219421387,
+        1.4252203702926636,
+        5.306559085845947
+      ],
+      "velocity": [
+        0.056820690631866455,
+        -0.1436299830675125,
+        -1.234716251019563e-06
+      ],
+      "speed": 0.1544608782876128,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9308615922927856,
+          "last_observed_step": 75,
+          "observation_count": 805
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 75,
+          "observation_count": 18
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 75,
+          "observation_count": 1368
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 75,
+          "observation_count": 101
+        }
+      ]
+    },
+    {
+      "step": 76,
+      "trace_location": "line 77 before",
+      "map_revision": 77,
+      "guidance_step": 76,
+      "position": [
+        15.748332977294922,
+        1.3965187072753906,
+        5.306559085845947
+      ],
+      "velocity": [
+        0.0558137483894825,
+        -0.14350847899913788,
+        -9.522131563244329e-07
+      ],
+      "speed": 0.15398005732833445,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.851952850818634,
+          "last_observed_step": 76,
+          "observation_count": 832
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 76,
+          "observation_count": 19
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 76,
+          "observation_count": 1370
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 76,
+          "observation_count": 102
+        }
+      ]
+    },
+    {
+      "step": 77,
+      "trace_location": "line 78 before",
+      "map_revision": 78,
+      "guidance_step": 77,
+      "position": [
+        15.759293556213379,
+        1.367841124534607,
+        5.306559085845947
+      ],
+      "velocity": [
+        0.05480477213859558,
+        -0.14338801801204681,
+        -7.343467700593465e-07
+      ],
+      "speed": 0.1535046799258111,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.7109495997428894,
+          "last_observed_step": 77,
+          "observation_count": 859
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 77,
+          "observation_count": 20
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 77,
+          "observation_count": 1372
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 77,
+          "observation_count": 103
+        }
+      ]
+    },
+    {
+      "step": 78,
+      "trace_location": "line 79 before",
+      "map_revision": 79,
+      "guidance_step": 78,
+      "position": [
+        15.770051956176758,
+        1.3391873836517334,
+        5.306559085845947
+      ],
+      "velocity": [
+        0.05379381775856018,
+        -0.1432686448097229,
+        -5.663282536261249e-07
+      ],
+      "speed": 0.15303489606941434,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [
+        565
+      ],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "unknown",
+          "occupancy_probability": 0.5124975442886353,
+          "last_observed_step": 78,
+          "observation_count": 886
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 78,
+          "observation_count": 21
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 78,
+          "observation_count": 1374
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 78,
+          "observation_count": 104
+        }
+      ]
+    },
+    {
+      "step": 79,
+      "trace_location": "line 80 before",
+      "map_revision": 80,
+      "guidance_step": 79,
+      "position": [
+        15.75029468536377,
+        1.34344482421875,
+        5.280641555786133
+      ],
+      "velocity": [
+        -0.09878582507371902,
+        0.021286912262439728,
+        -0.1295875906944275
+      ],
+      "speed": 0.16433111552944163,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [
+        565
+      ],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "unknown",
+          "occupancy_probability": 0.310025691986084,
+          "last_observed_step": 79,
+          "observation_count": 913
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 79,
+          "observation_count": 22
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 79,
+          "observation_count": 1376
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 79,
+          "observation_count": 105
+        }
+      ]
+    },
+    {
+      "step": 80,
+      "trace_location": "line 81 before",
+      "map_revision": 81,
+      "guidance_step": 80,
+      "position": [
+        15.708091735839844,
+        1.3798134326934814,
+        5.235569477081299
+      ],
+      "velocity": [
+        -0.2110167145729065,
+        0.1818430870771408,
+        -0.22536103427410126
+      ],
+      "speed": 0.35830511846187846,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "free",
+          "occupancy_probability": 0.161109060049057,
+          "last_observed_step": 80,
+          "observation_count": 940
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 23
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 1378
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 106
+        }
+      ]
+    },
+    {
+      "step": 81,
+      "trace_location": "line 82 before",
+      "map_revision": 82,
+      "guidance_step": 81,
+      "position": [
+        15.65052318572998,
+        1.4475016593933105,
+        5.177173614501953
+      ],
+      "velocity": [
+        -0.28784066438674927,
+        0.3384411334991455,
+        -0.29197993874549866
+      ],
+      "speed": 0.5316454961237016,
+      "hold": false,
+      "safety_status": "SAFE",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": true,
+      "remaining_tracker_path_free_at_margin_0_4": true,
+      "tracker_segment_occupied_cells": [],
+      "tracker_segment_unknown_cells": [
+        565
+      ],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "unknown",
+          "occupancy_probability": 0.31002578139305115,
+          "last_observed_step": 81,
+          "observation_count": 966
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 23
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 81,
+          "observation_count": 1382
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 81,
+          "observation_count": 107
+        }
+      ]
+    },
+    {
+      "step": 82,
+      "trace_location": "line 83 before",
+      "map_revision": 83,
+      "guidance_step": 82,
+      "position": [
+        15.583638191223145,
+        1.5457302331924438,
+        5.110378742218018
+      ],
+      "velocity": [
+        -0.33442261815071106,
+        0.4911426603794098,
+        -0.333974152803421
+      ],
+      "speed": 0.6816145062394897,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.8519529104232788,
+          "last_observed_step": 82,
+          "observation_count": 992
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 23
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 82,
+          "observation_count": 1386
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 82,
+          "observation_count": 108
+        }
+      ]
+    },
+    {
+      "step": 83,
+      "trace_location": "line 84 before",
+      "map_revision": 84,
+      "guidance_step": 83,
+      "position": [
+        15.535433769226074,
+        1.6136037111282349,
+        5.058866500854492
+      ],
+      "velocity": [
+        -0.24102135002613068,
+        0.3393676280975342,
+        -0.2575608491897583
+      ],
+      "speed": 0.48948878353269165,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9866130948066711,
+          "last_observed_step": 83,
+          "observation_count": 1018
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 23
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 83,
+          "observation_count": 1390
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 83,
+          "observation_count": 109
+        }
+      ]
+    },
+    {
+      "step": 84,
+      "trace_location": "line 84 after",
+      "map_revision": 84,
+      "guidance_step": 83,
+      "position": [
+        15.526909828186035,
+        1.6248642206192017,
+        5.048868656158447
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "speed": 0.0,
+      "hold": true,
+      "safety_status": "UNVERIFIED_BRAKING",
+      "underlying_tracker_target": [
+        15.0,
+        3.0,
+        4.5
+      ],
+      "current_position_free_at_margin_0_4": false,
+      "remaining_tracker_path_free_at_margin_0_4": false,
+      "tracker_segment_occupied_cells": [
+        565
+      ],
+      "tracker_segment_unknown_cells": [],
+      "relevant_cells": [
+        {
+          "cell_index": 565,
+          "classification": "occupied",
+          "occupancy_probability": 0.9866130948066711,
+          "last_observed_step": 83,
+          "observation_count": 1018
+        },
+        {
+          "cell_index": 572,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 80,
+          "observation_count": 23
+        },
+        {
+          "cell_index": 573,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 83,
+          "observation_count": 1390
+        },
+        {
+          "cell_index": 581,
+          "classification": "free",
+          "occupancy_probability": 0.0024726230185478926,
+          "last_observed_step": 83,
+          "observation_count": 109
+        }
+      ]
+    }
+  ],
+  "hold_drift": {
+    "hold_action_before_steps": [
+      24,
+      77
+    ],
+    "hold_action_count": 54,
+    "net_displacement": 1.7347991606815565,
+    "path_distance": 1.9816528357017924,
+    "start_speed": 0.7058707881679193,
+    "end_speed": 0.15303489606941434
+  },
+  "second_braking": [
+    {
+      "step": 82,
+      "speed": 0.6816145062394897,
+      "vertical_velocity": -0.333974152803421,
+      "hold": true,
+      "offline_truth_height_above_obstacle_0": 0.0615100422180177
+    },
+    {
+      "step": 83,
+      "speed": 0.48948878353269165,
+      "vertical_velocity": -0.2575608491897583,
+      "hold": true,
+      "offline_truth_height_above_obstacle_0": 0.009997800854492311
+    }
+  ],
+  "collision_record": {
+    "agent_id": 1,
+    "obstacle_id": 0,
+    "position_before": [
+      15.535433769226074,
+      1.6136037111282349,
+      5.058866500854492
+    ],
+    "candidate_position": [
+      15.50156307220459,
+      1.6583473682403564,
+      5.019140243530273
+    ],
+    "first_hit_point": [
+      15.526909585033911,
+      1.6248642758108207,
+      5.048868657158447
+    ],
+    "hit_fraction": 0.25166840194507184
+  },
+  "offline_truth_diagnostic": {
+    "read_only": true,
+    "never_available_to_controller": true,
+    "source": "saved original evaluation_manifest scene index7 obstacle0",
+    "obstacle_lower": [
+      12.38281915,
+      1.5261931000000004,
+      0.6407737
+    ],
+    "obstacle_upper": [
+      15.674789050000001,
+      5.6848041,
+      5.0488687
+    ],
+    "tracking_waypoint": [
+      15,
+      3,
+      4.5
+    ],
+    "tracking_waypoint_inside_obstacle": true
+  },
+  "supported_findings": [
+    "Obstacle-adjacent cell581 was already occupied at initialization. Step24 is the first relevant current-segment blocking event for cell573, not the first observation of the entire physical obstacle.",
+    "Cell573 becomes occupied at step24 (p0.924142), causing current-position and remaining-path rejection and UNVERIFIED_BRAKING; it remains occupied through step66 then is classified free at step67 (p0.161109).",
+    "Cell565 remains occupied after cell573 clears. Its probability falls from0.710950 atstep77 to0.512498 atstep78; occupied becomes unknown, all remaining-path checks pass, and hold releases with SAFE. No new safe route is required for this release.",
+    "Cell565 becomes free atstep80 (p0.161109), unknown atstep81 (p0.310026), then occupied atstep82 (p0.851953), causing a second UNVERIFIED_BRAKING.",
+    "The underlying tracking waypoint lies in cell572, classified free since step12 and never occupied in this replay. Offline truth shows this waypoint is inside the obstacle; known-free voxel classification does not guarantee geometric clearance at the waypoint.",
+    "Step82 braking begins while downward velocity is-0.333974 and physical top clearance is0.061510m. Step83 speed decreases but top clearance is0.009998m, followed by swept collision atstep84. Braking reacts to the current known map yet does not stop in available distance.",
+    "The 54-step moving-position hold drifts1.734799m; this is observed movement, not a successful fixed-position stop."
+  ],
+  "mechanism_attribution": {
+    "established": "Previously occupied public voxels revert to unknown/free, releasing the old route; reclassification as occupied triggers braking with insufficient remaining physical clearance.",
+    "source_supported_inference": "integrate_obstacle_scan adds capped free and occupied ray evidence to the same coarse voxel log-odds; free rays and hit endpoints can compete within a partially occupied voxel. public_geometry permits unknown voxels and has no memory of previous occupied states. The observed flips are consistent with this mechanism.",
+    "not_established": [
+      "Individual free/hit ray counts and their agent attribution were not logged; exact rays responsible cannot be identified.",
+      "A counterfactual repair or Found improvement has not been tested.",
+      "This one paired case does not establish the frequency of this failure mode over the full20-scene population."
+    ]
+  },
+  "candidate_followup_ablations": [
+    {
+      "name": "chapter3_public_obstacle_memory",
+      "change": "Retain previously occupied cells in a search-only safety overlay until a separately specified robust release condition is met; use public evidence only.",
+      "isolation": "Keep core mapping, physical obstacles, task and reward unchanged; compare false holds and recovery as well as collision."
+    },
+    {
+      "name": "braking_distance_and_release_hysteresis",
+      "change": "Require sufficient stopping clearance and a stable public route before leaving braking; do not equate a one-step occupied-to-unknown transition with safety.",
+      "isolation": "Use public position/velocity and calibrated existing dynamics; no direct velocity reset."
+    },
+    {
+      "name": "latched_braking_anchor",
+      "change": "Latch the first braking position until a validated recovery route is installed.",
+      "isolation": "Keep semantic goal and dynamics unchanged; measure hold drift, effective observations and time to recover."
+    }
+  ]
+}

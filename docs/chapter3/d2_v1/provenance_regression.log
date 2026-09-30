@@ -1,0 +1,51 @@
+test_every_integration_path_and_frozen_reference_is_protected (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_no_reseal_can_expand_scope_or_change_before_hash (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_d2_mainline_uses_exact_successor_without_rewriting_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_default_is_plan_only (tests.test_bser_effect_runner.RunnerTests) ... ok
+test_group_names_and_terminal_contract (tests.test_bser_effect_runner.RunnerTests) ... ok
+test_pairing_retains_failure_penalty_and_no_results_are_called_success (tests.test_bser_effect_runner.RunnerTests) ... ok
+test_program_failure_is_incomplete_and_protected_outputs_rejected (tests.test_bser_effect_runner.RunnerTests) ... ok
+test_scheduler_and_resume_use_same_verified_scene_jobs_without_real_processes (tests.test_bser_effect_runner.RunnerTests) ... ok
+test_all_profiles_parent_before_scope_and_sources_checked (tests.test_bser_effect_runner.SourceTests) ... ok
+test_exact_evolution_preserves_all_old_runtime_bytes (tests.test_bser_effect_runner.SourceTests) ... ok
+test_default_is_plan_only_and_terminal_labels_match_actual_arm (tests.test_bser_final_runner.RunnerTests) ... ok
+test_failure_is_not_a_physical_timeout_or_silent_retry (tests.test_bser_final_runner.RunnerTests) ... ok
+test_incomplete_and_extra_rows_cannot_look_like_full_result (tests.test_bser_final_runner.RunnerTests) ... ok
+test_seven_arms_resume_and_stage_are_propagated_without_real_processes (tests.test_bser_final_runner.RunnerTests) ... ok
+test_fresh_population_is_frozen_and_source_bound_without_generation (tests.test_bser_final_runner.ScenarioTests) ... ok
+test_resealed_overlap_or_duplicate_is_still_rejected (tests.test_bser_final_runner.ScenarioTests) ... ok
+test_all_profiles_parent_and_source_corruption_rejected (tests.test_bser_final_runner.SourceTests) ... ok
+test_only_new_namespace_and_exact_dispatch_hook_changed (tests.test_bser_final_runner.SourceTests) ... ok
+test_exact_additive_profile_preserves_all_old_runtime_files (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_new_sources_and_review_document_are_not_exempted (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_recomputed_manifest_cannot_change_scope_or_before_binding (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_actual_timeouts_and_collisions_accepted_but_cutoffs_rejected (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_arms_require_reference_and_do_not_reinterpret_v_names (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_atomic_json_writer_publishes_valid_value (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_cli_defaults_to_plan_without_simulator_execution (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_final_source_failure_cannot_publish_complete_summary (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_missing_coverage_wrong_arm_and_nonzero_actions_rejected (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_penalized_time_keeps_failures_and_incomplete_rates_are_null (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_program_failure_never_becomes_a_task_timeout (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_protected_output_rejected_even_for_resume (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_scheduler_and_resume_reuse_only_verified_completed_rows (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 79.574s
+
+OK
+{
+  "planned_episode_runs": 200
+}
+PLAN_ONLY: no simulator, training, checkpoint or episode was started.

@@ -1,0 +1,397 @@
+test_exact_layout (tests.test_observation_28d_contract.ObservationContractTests) ... ok
+test_belief_shift_cannot_replace_public_execution_target (tests.test_phase1b21_execution_target_lock.Phase1B21ExecutionTargetLockTest) ... ok
+test_executor_only_replan_does_not_require_search_candidates (tests.test_phase1b21_executor_public_replan.Phase1B21ExecutorPublicReplanTest) ... ok
+test_event_methods_use_the_same_twenty_step_refresh (tests.test_phase1b21_refresh_protocol.Phase1B21RefreshProtocolTest) ... ok
+test_unreachable_executor_assignment_does_not_use_straight_line_fallback (tests.test_phase1b21_unreachable_executor_hold.Phase1B21UnreachableExecutorHoldTest) ... ok
+test_belief_peak_change_does_not_invalidate_current_executor_task (tests.test_phase1b2_executor_invalid.Phase1B2ExecutorInvalidTest) ... ok
+test_invalid_current_assignment_triggers (tests.test_phase1b2_executor_invalid.Phase1B2ExecutorInvalidTest) ... ok
+test_partial_result_uses_joint_greedy_and_original_objective (tests.test_phase1b2_partial_bser.Phase1B2PartialBSERTest) ... ok
+test_tracks_path_in_order_without_jumping_to_final_waypoint (tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest) ... ok
+test_detector_controller_and_allocation_share_canonical_waypoints (tests.test_phase1b2_waypoint_consistency.Phase1B2WaypointConsistencyTest) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_exact_twenty_and_identity (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_found_zero_is_valid_and_collision_same_step_has_precedence (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_frozen_plan_rejects_changed_gate_and_controls (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_gate_requires_actual_comparability_and_defined_rates (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_gate_uses_combined_stall_hold_and_strict_improvement (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_output_cannot_overwrite_original_runs (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_paired_discordants_not_only_net_gain (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_source_comparability_reads_real_control_records_not_only_passed (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_terminal_and_coverage_fail_closed (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_zero_exposure_rates_are_not_silently_zero (tests.test_safe_search_ac_analysis.ACAnalysisTests) ... ok
+test_changed_source_is_explicit_and_complete20_trace_collection_works (tests.test_safe_search_ac_development.ACCompletenessTests) ... ok
+test_reference_root_cannot_differ_from_reconstructed_children (tests.test_safe_search_ac_development.ACCompletenessTests) ... ok
+test_truncated_or_wrong_found_trace_cannot_be_complete (tests.test_safe_search_ac_development.ACCompletenessTests) ... ok
+SAFE_SEARCH_AC_START index=0 variant=V5
+SAFE_SEARCH_AC_FAILURE index=0 AC child exited with status 7
+test_failure_stops_new_scheduling_and_preserves_20_arm_denominator (tests.test_safe_search_ac_development.ACOrchestrationTests) ... ok
+SAFE_SEARCH_AC_START index=0 variant=V5
+SAFE_SEARCH_AC_START index=3 variant=V5
+SAFE_SEARCH_AC_START index=7 variant=V5
+SAFE_SEARCH_AC_START index=10 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=0 scenes=1/20
+SAFE_SEARCH_AC_START index=22 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=7 scenes=2/20
+SAFE_SEARCH_AC_COMPLETE index=3 scenes=3/20
+SAFE_SEARCH_AC_COMPLETE index=10 scenes=4/20
+SAFE_SEARCH_AC_START index=28 variant=V5
+SAFE_SEARCH_AC_START index=31 variant=V5
+SAFE_SEARCH_AC_START index=40 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=22 scenes=5/20
+SAFE_SEARCH_AC_START index=42 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=40 scenes=6/20
+SAFE_SEARCH_AC_COMPLETE index=28 scenes=7/20
+SAFE_SEARCH_AC_COMPLETE index=31 scenes=8/20
+SAFE_SEARCH_AC_START index=46 variant=V5
+SAFE_SEARCH_AC_START index=62 variant=V5
+SAFE_SEARCH_AC_START index=63 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=42 scenes=9/20
+SAFE_SEARCH_AC_START index=67 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=62 scenes=10/20
+SAFE_SEARCH_AC_COMPLETE index=46 scenes=11/20
+SAFE_SEARCH_AC_COMPLETE index=63 scenes=12/20
+SAFE_SEARCH_AC_START index=76 variant=V5
+SAFE_SEARCH_AC_START index=77 variant=V5
+SAFE_SEARCH_AC_START index=78 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=67 scenes=13/20
+SAFE_SEARCH_AC_START index=86 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=77 scenes=14/20
+SAFE_SEARCH_AC_COMPLETE index=76 scenes=15/20
+SAFE_SEARCH_AC_COMPLETE index=78 scenes=16/20
+SAFE_SEARCH_AC_START index=91 variant=V5
+SAFE_SEARCH_AC_START index=95 variant=V5
+SAFE_SEARCH_AC_START index=97 variant=V5
+SAFE_SEARCH_AC_COMPLETE index=86 scenes=17/20
+SAFE_SEARCH_AC_COMPLETE index=97 scenes=18/20
+SAFE_SEARCH_AC_COMPLETE index=91 scenes=19/20
+SAFE_SEARCH_AC_COMPLETE index=95 scenes=20/20
+SAFE_SEARCH_AC_FINISHED scenes=20 arms=20 variant=V5
+test_only20_v5_children_run_and_old_source_stays_separate (tests.test_safe_search_ac_development.ACOrchestrationTests) ... ok
+test_child_command_is_single_v5_original_seed_full_horizon (tests.test_safe_search_ac_development.ACRequestTests) ... ok
+test_cli_requires_reference_and_explicit_execution (tests.test_safe_search_ac_development.ACRequestTests) ... usage: python.exe -m unittest [-h] --manifest MANIFEST [--config CONFIG]
+                              --reference-dir REFERENCE_DIR --output-dir
+                              OUTPUT_DIR [--workers WORKERS] --execute
+python.exe -m unittest: error: the following arguments are required: --execute
+ok
+test_plan_requires_only_ac_and_exact_reference (tests.test_safe_search_ac_development.ACRequestTests) ... ok
+test_ac_builds_original_safety_bridge_and_disabled_remains_original (tests.test_safe_search_ac_runtime.ACCompositionTests) ... ok
+test_ac_found_delegates_without_search_preflight (tests.test_safe_search_ac_runtime.ACCompositionTests) ... ok
+test_ac_refreshes_stale_start_on_original_planning_opportunity (tests.test_safe_search_ac_runtime.ACCompositionTests) ... ok
+test_ac_repairs_geometry_pending_without_installing_failure_policy (tests.test_safe_search_ac_runtime.ACCompositionTests) ... ok
+test_explicit_ac_does_not_change_frozen_five_arm_population (tests.test_safe_search_ac_runtime.ACCompositionTests) ... ok
+test_collision_roles_partition_and_unknown_is_not_zero (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_complete_schedule_and_no_found_timeout (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_cutoff_cannot_become_timeout (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_early_collision_is_not_fast_found (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_found_zero_and_success_are_distinct (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_missing_duplicate_outside_and_reseeded_fail_closed (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_paired_discordants_and_deterministic_interval (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_parallel_tie_does_not_silently_skip_registered_wall_criterion (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_selection_needs_strict_gain_and_d1 (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_trace_query_scope_is_pre_found_and_agent_switches_recorded (tests.test_safe_search_analysis.SafeSearchAnalysisTests) ... ok
+test_matched_discordance_and_direction (tests.test_safe_search_b1_analysis.PairedTransferTests) ... ok
+test_missing_scene_does_not_shrink_denominator_silently (tests.test_safe_search_b1_analysis.PairedTransferTests) ... ok
+test_zero_exposure_is_excluded_not_imputed (tests.test_safe_search_b1_analysis.PairedTransferTests) ... ok
+SAFE_SEARCH_B1_START index=0 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=0 variant=V0 arms=1/60
+SAFE_SEARCH_B1_START index=0 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=0 variant=V3 arms=2/60
+SAFE_SEARCH_B1_START index=0 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=0 variant=V5 arms=3/60
+SAFE_SEARCH_B1_START index=3 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=3 variant=V0 arms=4/60
+SAFE_SEARCH_B1_START index=3 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=3 variant=V3 arms=5/60
+SAFE_SEARCH_B1_START index=3 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=3 variant=V5 arms=6/60
+SAFE_SEARCH_B1_START index=7 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=7 variant=V0 arms=7/60
+SAFE_SEARCH_B1_START index=7 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=7 variant=V3 arms=8/60
+SAFE_SEARCH_B1_START index=7 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=7 variant=V5 arms=9/60
+SAFE_SEARCH_B1_START index=10 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=10 variant=V0 arms=10/60
+SAFE_SEARCH_B1_START index=10 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=10 variant=V3 arms=11/60
+SAFE_SEARCH_B1_START index=10 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=10 variant=V5 arms=12/60
+SAFE_SEARCH_B1_START index=22 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=22 variant=V0 arms=13/60
+SAFE_SEARCH_B1_START index=22 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=22 variant=V3 arms=14/60
+SAFE_SEARCH_B1_START index=22 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=22 variant=V5 arms=15/60
+SAFE_SEARCH_B1_START index=28 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=28 variant=V0 arms=16/60
+SAFE_SEARCH_B1_START index=28 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=28 variant=V3 arms=17/60
+SAFE_SEARCH_B1_START index=28 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=28 variant=V5 arms=18/60
+SAFE_SEARCH_B1_START index=31 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=31 variant=V0 arms=19/60
+SAFE_SEARCH_B1_START index=31 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=31 variant=V3 arms=20/60
+SAFE_SEARCH_B1_START index=31 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=31 variant=V5 arms=21/60
+SAFE_SEARCH_B1_START index=40 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=40 variant=V0 arms=22/60
+SAFE_SEARCH_B1_START index=40 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=40 variant=V3 arms=23/60
+SAFE_SEARCH_B1_START index=40 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=40 variant=V5 arms=24/60
+SAFE_SEARCH_B1_START index=42 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=42 variant=V0 arms=25/60
+SAFE_SEARCH_B1_START index=42 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=42 variant=V3 arms=26/60
+SAFE_SEARCH_B1_START index=42 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=42 variant=V5 arms=27/60
+SAFE_SEARCH_B1_START index=46 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=46 variant=V0 arms=28/60
+SAFE_SEARCH_B1_START index=46 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=46 variant=V3 arms=29/60
+SAFE_SEARCH_B1_START index=46 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=46 variant=V5 arms=30/60
+SAFE_SEARCH_B1_START index=62 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=62 variant=V0 arms=31/60
+SAFE_SEARCH_B1_START index=62 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=62 variant=V3 arms=32/60
+SAFE_SEARCH_B1_START index=62 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=62 variant=V5 arms=33/60
+SAFE_SEARCH_B1_START index=63 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=63 variant=V0 arms=34/60
+SAFE_SEARCH_B1_START index=63 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=63 variant=V3 arms=35/60
+SAFE_SEARCH_B1_START index=63 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=63 variant=V5 arms=36/60
+SAFE_SEARCH_B1_START index=67 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=67 variant=V0 arms=37/60
+SAFE_SEARCH_B1_START index=67 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=67 variant=V3 arms=38/60
+SAFE_SEARCH_B1_START index=67 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=67 variant=V5 arms=39/60
+SAFE_SEARCH_B1_START index=76 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=76 variant=V0 arms=40/60
+SAFE_SEARCH_B1_START index=76 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=76 variant=V3 arms=41/60
+SAFE_SEARCH_B1_START index=76 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=76 variant=V5 arms=42/60
+SAFE_SEARCH_B1_START index=77 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=77 variant=V0 arms=43/60
+SAFE_SEARCH_B1_START index=77 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=77 variant=V3 arms=44/60
+SAFE_SEARCH_B1_START index=77 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=77 variant=V5 arms=45/60
+SAFE_SEARCH_B1_START index=78 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=78 variant=V0 arms=46/60
+SAFE_SEARCH_B1_START index=78 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=78 variant=V3 arms=47/60
+SAFE_SEARCH_B1_START index=78 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=78 variant=V5 arms=48/60
+SAFE_SEARCH_B1_START index=86 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=86 variant=V0 arms=49/60
+SAFE_SEARCH_B1_START index=86 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=86 variant=V3 arms=50/60
+SAFE_SEARCH_B1_START index=86 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=86 variant=V5 arms=51/60
+SAFE_SEARCH_B1_START index=91 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=91 variant=V0 arms=52/60
+SAFE_SEARCH_B1_START index=91 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=91 variant=V3 arms=53/60
+SAFE_SEARCH_B1_START index=91 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=91 variant=V5 arms=54/60
+SAFE_SEARCH_B1_START index=95 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=95 variant=V0 arms=55/60
+SAFE_SEARCH_B1_START index=95 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=95 variant=V3 arms=56/60
+SAFE_SEARCH_B1_START index=95 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=95 variant=V5 arms=57/60
+SAFE_SEARCH_B1_START index=97 variant=V0
+SAFE_SEARCH_B1_COMPLETE index=97 variant=V0 arms=58/60
+SAFE_SEARCH_B1_START index=97 variant=V3
+SAFE_SEARCH_B1_COMPLETE index=97 variant=V3 arms=59/60
+SAFE_SEARCH_B1_START index=97 variant=V5
+SAFE_SEARCH_B1_COMPLETE index=97 variant=V5 arms=60/60
+SAFE_SEARCH_B1_FINISHED scenes=20 arms=60
+test_all60_actual_terminal_records_required (tests.test_safe_search_b1_development.B1AccountingTests) ... ok
+SAFE_SEARCH_B1_START index=0 variant=V0
+SAFE_SEARCH_B1_FAILURE index=0 variant=V0 child exit 7
+test_failure_is_not_timeout_or_dropped_denominator (tests.test_safe_search_b1_development.B1AccountingTests) ... ok
+test_method_residual_prefix_and_trace_corruption_rejected (tests.test_safe_search_b1_development.B1AccountingTests) ... ok
+test_explicit_execution_required (tests.test_safe_search_b1_development.B1PlanTests) ... usage: python.exe -m unittest [-h] --manifest MANIFEST [--config CONFIG]
+                              --b0-reference-dir B0_REFERENCE_DIR --b0-ac-dir
+                              B0_AC_DIR --output-dir OUTPUT_DIR
+                              [--workers WORKERS] --execute
+python.exe -m unittest: error: the following arguments are required: --execute
+ok
+test_no_training_or_population_switch (tests.test_safe_search_b1_development.B1PlanTests) ... ok
+test_only_three_b1_variants_and_fixed_scene_seed (tests.test_safe_search_b1_development.B1PlanTests) ... ok
+test_learned_or_physical_residual_rejected (tests.test_safe_search_b1_remaining.RemainingContract) ... ok
+test_partial_and_short_timeout_rejected (tests.test_safe_search_b1_remaining.RemainingContract) ... ok
+test_valid_and_exact_variants (tests.test_safe_search_b1_remaining.RemainingContract) ... ok
+test_wrong_method_or_options_rejected (tests.test_safe_search_b1_remaining.RemainingContract) ... ok
+test_wrong_seed_or_exposure_rejected (tests.test_safe_search_b1_remaining.RemainingContract) ... ok
+test_actual_valid_stamps_not_obstacle_map_or_positions_are_counted (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_collision_terminal_transition_without_update_adds_no_coverage (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_disabled_belief_does_not_fabricate_footprint (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_existing_instance_override_restored_by_identity (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_found_transition_included_then_postfound_updates_excluded (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_initialization_counts_cells_but_never_physical_steps (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_missing_footprint_is_honestly_unavailable (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_nested_tap_rejected_without_breaking_outer (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_observer_failure_cannot_replace_original_success (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_original_exception_unchanged_and_tap_restored (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_original_once_same_arguments_result_rng_and_restore (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_repeated_static_cells_and_half_life_revisit (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_union_multiple_calls_same_step_not_false_repeated_observation (tests.test_safe_search_coverage.CoverageTests) ... ok
+test_disjoint_has_zero_overlap_and_short_range_extension (tests.test_safe_search_coverage.ExactAttributionTests) ... ok
+test_exact_static_overlap_counted_each_update (tests.test_safe_search_coverage.ExactAttributionTests) ... ok
+test_union_mismatch_keeps_actual_coverage_but_nulls_attribution (tests.test_safe_search_coverage.ExactAttributionTests) ... ok
+test_wrong_agent_order_never_gets_canonical_agent_labels (tests.test_safe_search_coverage.ExactAttributionTests) ... ok
+test_coverage_context_restores_on_observation_failure (tests.test_safe_search_coverage_integration.CoverageIntegrationTests) ... ok
+test_coverage_is_opt_in_and_unavailable_remains_null (tests.test_safe_search_coverage_integration.CoverageIntegrationTests) ... ok
+test_opt_in_coverage_preserves_signatures_and_records_terminal_step (tests.test_safe_search_coverage_integration.CoverageIntegrationTests) ... ok
+test_full_population_accepted_and_missing_scene_rejected (tests.test_safe_search_development.CompletenessTests) ... ok
+test_mixed_source_prefix_missing_duplicate_or_tampered_arm_rejected (tests.test_safe_search_development.CompletenessTests) ... ok
+test_root_program_failure_or_unverified_completion_rejected (tests.test_safe_search_development.CompletenessTests) ... ok
+test_root_scenario_hash_cannot_be_replaced_even_with_matching_children (tests.test_safe_search_development.CompletenessTests) ... ok
+test_cli_requires_deliberate_execution (tests.test_safe_search_development.FrozenPopulationTests) ... usage: python.exe -m unittest [-h] --manifest MANIFEST [--config CONFIG]
+                              --output-dir OUTPUT_DIR [--workers WORKERS]
+                              --execute
+python.exe -m unittest: error: the following arguments are required: --execute
+ok
+test_command_preserves_index_full_horizon_and_instrumentation (tests.test_safe_search_development.FrozenPopulationTests) ... ok
+test_fixed_indices_retain_manifest_identity_and_innovation_seed (tests.test_safe_search_development.FrozenPopulationTests) ... ok
+test_subset_reindexed_reordered_and_changed_content_rejected (tests.test_safe_search_development.FrozenPopulationTests) ... ok
+SAFE_SEARCH_D2_START index=0
+SAFE_SEARCH_D2_FAILURE index=0 child exited with status 7
+test_failed_child_stops_new_scheduling_and_retains_planned_denominator (tests.test_safe_search_development.OrchestrationTests) ... ok
+SAFE_SEARCH_D2_START index=0
+SAFE_SEARCH_D2_START index=3
+SAFE_SEARCH_D2_START index=7
+SAFE_SEARCH_D2_START index=10
+SAFE_SEARCH_D2_COMPLETE index=10 scenes=1/20
+SAFE_SEARCH_D2_START index=22
+SAFE_SEARCH_D2_COMPLETE index=3 scenes=2/20
+SAFE_SEARCH_D2_COMPLETE index=0 scenes=3/20
+SAFE_SEARCH_D2_COMPLETE index=7 scenes=4/20
+SAFE_SEARCH_D2_START index=28
+SAFE_SEARCH_D2_START index=31
+SAFE_SEARCH_D2_START index=40
+SAFE_SEARCH_D2_COMPLETE index=22 scenes=5/20
+SAFE_SEARCH_D2_START index=42
+SAFE_SEARCH_D2_COMPLETE index=28 scenes=6/20
+SAFE_SEARCH_D2_COMPLETE index=40 scenes=7/20
+SAFE_SEARCH_D2_COMPLETE index=31 scenes=8/20
+SAFE_SEARCH_D2_START index=46
+SAFE_SEARCH_D2_START index=62
+SAFE_SEARCH_D2_START index=63
+SAFE_SEARCH_D2_COMPLETE index=42 scenes=9/20
+SAFE_SEARCH_D2_START index=67
+SAFE_SEARCH_D2_COMPLETE index=46 scenes=10/20
+SAFE_SEARCH_D2_COMPLETE index=62 scenes=11/20
+SAFE_SEARCH_D2_COMPLETE index=63 scenes=12/20
+SAFE_SEARCH_D2_START index=76
+SAFE_SEARCH_D2_START index=77
+SAFE_SEARCH_D2_START index=78
+SAFE_SEARCH_D2_COMPLETE index=67 scenes=13/20
+SAFE_SEARCH_D2_START index=86
+SAFE_SEARCH_D2_COMPLETE index=77 scenes=14/20
+SAFE_SEARCH_D2_COMPLETE index=76 scenes=15/20
+SAFE_SEARCH_D2_COMPLETE index=78 scenes=16/20
+SAFE_SEARCH_D2_START index=91
+SAFE_SEARCH_D2_START index=95
+SAFE_SEARCH_D2_START index=97
+SAFE_SEARCH_D2_COMPLETE index=86 scenes=17/20
+SAFE_SEARCH_D2_COMPLETE index=91 scenes=18/20
+SAFE_SEARCH_D2_COMPLETE index=97 scenes=19/20
+SAFE_SEARCH_D2_COMPLETE index=95 scenes=20/20
+SAFE_SEARCH_D2_FINISHED scenes=20 arms=100
+test_independent_children_yield_one_complete_100_arm_result (tests.test_safe_search_development.OrchestrationTests) ... ok
+test_bad_edge_index_or_cost_fails_closed (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_cached_geometry_keeps_current_costs_and_refreshes_new_occupancy (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_existing_astar_routes_around_closed_occupied_cell (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_hash_repeatability_input_nonmutation_and_strong_immutability (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_legal_endpoint_without_safe_connector_remains_disconnected (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_missing_moved_endpoint_is_not_silently_snapped (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_removes_occupied_nodes_corner_cutting_and_unsafe_endpoints (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_role_specific_topology_still_checked_by_original_astar (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_surviving_costs_physical_times_and_role_heuristics_preserved (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_true_disconnection_relabels_components_without_fake_connector (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_unsafe_continuous_start_is_invalid_not_snapped (tests.test_safe_search_geometry.FilteredGraphTests) ... ok
+test_clearance_is_explicit_closed_box_margin (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_closed_face_edge_corner_and_zero_length_contact (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_degenerate_singleton_axis_and_bad_grid (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_empty_invalid_and_single_point_paths (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_geometry_uses_a_copied_snapshot (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_narrow_corridor_closes_when_margin_consumes_width (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_rejects_nonfinite_malformed_points_and_bad_margin (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_unknown_remains_traversable_and_bounds_are_checked (tests.test_safe_search_geometry.PublicGeometryTests) ... ok
+test_at_most_one_query_per_agent_and_step_even_on_repeated_compile (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_corner_touch_is_replaced_without_changing_semantic_assignment (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_failed_repair_holds_preserves_goal_and_does_not_zero_velocity (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_found_after_overlay_returns_original_guidance_and_clears_stale_status (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_found_and_disabled_safety_use_original_bridge_without_public_reads (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_new_controller_route_to_same_semantic_goal_releases_old_override (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_new_semantic_assignment_releases_old_override (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_override_keeps_progress_and_does_not_recheck_traversed_prefix (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_pending_clears_when_a_safe_route_is_available (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_safe_route_tracking_matches_original_bridge_and_executor_unchanged (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_stale_snapshot_route_must_pass_latest_geometry_without_refresh (tests.test_safe_search_guidance.SafeSearchGuidanceTests) ... ok
+test_existing_agent_partial_replans_delegate_to_native_implementation (tests.test_safe_search_missing_recovery.MissingRecoveryTests) ... ok
+test_joint_partial_recovery_keeps_newly_selected_missing_searcher (tests.test_safe_search_missing_recovery.MissingRecoveryTests) ... ok
+test_native_replan_clears_restored_missing_id_without_next_tick_retry (tests.test_safe_search_missing_recovery.MissingRecoveryTests) ... ok
+test_v2_missing_searcher_enters_recovery_without_stale_event (tests.test_safe_search_missing_recovery.MissingRecoveryTests) ... ok
+test_v4_safety_bridge_marks_unassigned_searcher_pending (tests.test_safe_search_missing_recovery.MissingRecoveryTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_d2_mainline_uses_exact_successor_without_rewriting_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_failure_closes_runtime (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_full_rates_wait_for_every_requested_episode (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_observation_and_reference_signatures_equal (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_paired_metrics_join_original_indices_and_keep_cutoff_rates_null (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_prefix_cutoff_is_not_timeout_or_complete_episode (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_terminal_stops_early_and_collision_precedes_same_step_discovery (tests.test_safe_search_runner.ExecutionTests) ... ok
+test_cli_defaults_are_bounded_and_manifest_required (tests.test_safe_search_runner.RequestTests) ... ok
+test_full_horizon_requires_explicit_flag (tests.test_safe_search_runner.RequestTests) ... ok
+test_invalid_indices_variants_and_unselected_manifest_tail_rejected (tests.test_safe_search_runner.RequestTests) ... ok
+test_new_output_guard (tests.test_safe_search_runner.RequestTests) ... ok
+test_original_indices_and_seed_are_not_subset_indices (tests.test_safe_search_runner.RequestTests) ... ok
+test_scenario_horizon_and_seed_bounds (tests.test_safe_search_runner.RequestTests) ... ok
+test_disabled_factory_uses_exact_original_class (tests.test_safe_search_runtime.FailurePolicyTests) ... ok
+test_execution_attempt_semantics_are_original (tests.test_safe_search_runtime.FailurePolicyTests) ... ok
+test_failures_do_not_rewrite_successful_cooldown (tests.test_safe_search_runtime.FailurePolicyTests) ... ok
+test_fresh_snapshot_can_retry_before_failed_backoff_expires (tests.test_safe_search_runtime.FailurePolicyTests) ... ok
+test_forced_refresh_only_once_per_physical_step (tests.test_safe_search_runtime.StartPreflightTests) ... ok
+test_invalid_start_short_circuits_entire_candidate_pool (tests.test_safe_search_runtime.StartPreflightTests) ... ok
+test_stale_endpoint_is_different_from_empty_current_connector (tests.test_safe_search_runtime.StartPreflightTests) ... ok
+test_unrelated_revision_does_not_invalidate_topology_failure (tests.test_safe_search_runtime.StartPreflightTests) ... ok
+test_failed_attempts_preserve_nonsearch_event_cooldowns (tests.test_safe_search_runtime_review.ControllerReviewTests) ... ok
+test_failed_retry_does_not_force_fresh_snapshot_on_every_next_step (tests.test_safe_search_runtime_review.ControllerReviewTests) ... ok
+test_found_branch_disables_search_hooks_and_delegates_once (tests.test_safe_search_runtime_review.ControllerReviewTests) ... ok
+test_persistently_unsafe_path_does_not_bypass_failed_retry_backoff (tests.test_safe_search_runtime_review.ControllerReviewTests) ... ok
+test_v0_uses_exact_original_classes_and_passes_seed_episode_id (tests.test_safe_search_runtime_review.ControllerReviewTests) ... ok
+test_active_aligned_fields_are_exactly_historical (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_changed_final_or_installed_target_never_reports_aligned_geometry (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_completed_index_equal_to_path_length_is_legal_but_inactive (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_does_not_call_advance_reset_or_change_python_numpy_rng (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_empty_path_and_unreachable_assignment_have_no_active_segment (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_equal_length_different_prefix_is_not_misattributed_by_matching_tail (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_hold_with_old_cursor_keeps_index_and_remaining_length_but_no_geometry (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_missing_complete_route_identity_is_conservatively_unavailable (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_optional_live_public_map_preserves_historical_fields (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_shorter_replaced_guidance_does_not_index_old_route_or_clamp_cursor (tests.test_safe_search_telemetry.CaptureTests) ... ok
+test_torch_rng_and_global_settings_unchanged (tests.test_safe_search_telemetry.CaptureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 170 tests in 33.960s
+
+OK

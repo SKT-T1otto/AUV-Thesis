@@ -110,9 +110,25 @@ class _GraphUnpickler(pickle.Unpickler):
 
 
 class MissionRuntime:
+    def _build_online_controller(self, phase_config, config):
+        """Default assembly; opt-in chapter runtimes may replace components."""
+        from chapter3_bser.experiments.d2_v1 import assembly
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        parent = build_prrac_online_controller(phase_config, config)
+        return assembly.build_controller(self, parent) if enabled(config) else parent
+
+    def _build_guidance_bridge(self):
+        from chapter3_bser.experiments.d2_v1 import assembly
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        if enabled(self.config):
+            return assembly.build_bridge(self)
+        return RMADDPGGuidanceBridge()
+
     def __init__(self, config, scenario, *, seed, episode_id=0):
         self.config = copy.deepcopy(config)
         self.scenario = copy.deepcopy(scenario)
+        from chapter3_bser.experiments.d2_v1.assembly import prepare
+        prepare(self, config, scenario)
         phase1 = bool(phase1_options(config))
         seed_innovations(seed, cpu_only=phase1)
         base = _make_base_env(config, device="cpu")
@@ -131,9 +147,9 @@ class MissionRuntime:
             **{key: runtime_config[key] for key in ("refresh_on_executor_handoff", "refresh_on_public_target_shift", "public_target_update_distance", "public_target_update_min_steps")})
         self.state = self.provider.initialize()
         context = _public_context(self.env, self.state)
-        self.controller = build_prrac_online_controller(phase_config, config)
+        self.controller = self._build_online_controller(phase_config, config)
         initialized = self.controller.initialize(self.state, context)
-        self.bridge = RMADDPGGuidanceBridge()
+        self.bridge = self._build_guidance_bridge()
         self.guidance = self.bridge.compile_guidance(initialized.allocation, self.state, context, decision_reason="INITIALIZE")
         self.env.install_guidance(self.guidance)
         self.observations = self.env.refresh_observation_after_guidance()
@@ -313,6 +329,10 @@ def _collect_trajectory(config, scenario, policy, *, seed, episode_id, stop_at_b
                     break
             records.append(runtime.advance(policy, deterministic=deterministic))
         summary = runtime.env.finalize_episode()
+        from chapter3_bser.experiments.d2_v1 import assembly
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        if enabled(config):
+            summary["planner"] = assembly.diagnostics(runtime)
         summary.update(scenario_id=scenario["scenario_id"],
                        scenario_seed=scenario["scenario_seed"], actual_length=runtime.step,
                        found_step=runtime.found_step, handoff_event_step=runtime.handoff_event_step,

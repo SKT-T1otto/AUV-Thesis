@@ -64,6 +64,9 @@ class BaselineMissionRuntime:
     def __init__(self, config, scenario, *, seed, episode_id=0):
         self.config = copy.deepcopy(config)
         self.scenario = copy.deepcopy(scenario)
+        from chapter3_bser.experiments.d2_v1 import assembly
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        assembly.prepare(self, config, scenario)
         seed_innovations(seed)
         base = _make_base_env(config)
         guided = GuidedEnv(base, enabled=True)
@@ -88,8 +91,10 @@ class BaselineMissionRuntime:
             self.state = self.provider.initialize()
             context = _public_context(self.env, self.state)
             self.controller = build_prrac_online_controller(phase_config, config)
+            if enabled(config):
+                self.controller = assembly.build_controller(self, self.controller)
             initialized = self.controller.initialize(self.state, context)
-            self.bridge = RMADDPGGuidanceBridge()
+            self.bridge = assembly.build_bridge(self) if enabled(config) else RMADDPGGuidanceBridge()
             self.guidance = self.bridge.compile_guidance(
                 initialized.allocation, self.state, context, decision_reason="INITIALIZE",
             )
@@ -153,6 +158,10 @@ class BaselineMissionRuntime:
 
     def summary(self):
         summary = self.env.finalize_episode()
+        from chapter3_bser.experiments.d2_v1 import assembly
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        if enabled(self.config):
+            summary["planner"] = assembly.diagnostics(self)
         summary.update(
             scenario_id=self.scenario["scenario_id"], scenario_seed=self.scenario["scenario_seed"],
             actual_length=self.step, found_step=self.found_step,

@@ -42,8 +42,12 @@ class BSEROnlineAllocator:
         """Default frozen solver; chapter experiments may override ranking only."""
         return solve_joint_greedy(candidates, standby_candidates, context)
 
+    def _generate_candidates(self, state):
+        """Default candidate assembly; independent experiments may filter routes."""
+        return generate_candidates(state, self.config)
+
     def allocate(self, state: PlanningStateView, *, trigger_reason: str = "online") -> OnlineAllocation:
-        generated = generate_candidates(state, self.config)
+        generated = self._generate_candidates(state)
         observer = getattr(self, "_audit_candidate_generation_observer", None)
         if observer is not None:
             observer(state, generated.search_candidates, generated.standby_candidates,

@@ -1,0 +1,311 @@
+{
+  "cases": [
+    {
+      "index": 0,
+      "old": "V1",
+      "new": "V2",
+      "first_guidance_difference": null,
+      "first_physical_difference": null,
+      "common_prefix_steps": 400,
+      "interpretation_limit": "Exploratory observed ordering; not a proof that one isolated event alone caused the final outcome."
+    },
+    {
+      "index": 3,
+      "old": "V5",
+      "new": "V4",
+      "first_guidance_difference": {
+        "step": 44,
+        "agents": [
+          0,
+          2
+        ],
+        "observations": [
+          {
+            "variant": "V5",
+            "decision_after": "ACCEPT_OBSTACLE_DISCOVERED",
+            "cached_map_revision_after": 45,
+            "live_map_revision_after": 45,
+            "queries": [
+              {
+                "step": 44,
+                "agent_id": 0,
+                "caller": "compile_guidance",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 0,
+                "caller": "detect",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 0,
+                "caller": "evaluate",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 0,
+                "caller": "generate_search_candidates",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 4
+              },
+              {
+                "step": 44,
+                "agent_id": 1,
+                "caller": "detect",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 1,
+                "caller": "evaluate",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 2,
+                "caller": "detect",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 2,
+                "caller": "evaluate",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 2,
+                "caller": "generate_search_candidates",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 4
+              },
+              {
+                "step": 44,
+                "agent_id": 3,
+                "caller": "detect",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              },
+              {
+                "step": 44,
+                "agent_id": 3,
+                "caller": "evaluate",
+                "reason": "reachable",
+                "map_revision": 45,
+                "count": 1
+              }
+            ],
+            "agents": [
+              {
+                "agent_id": 0,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  19.0,
+                  3.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  5.0,
+                  9.0,
+                  2.5
+                ],
+                "position": [
+                  4.694735050201416,
+                  9.183890342712402,
+                  2.5875678062438965
+                ]
+              },
+              {
+                "agent_id": 1,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  5.0,
+                  3.5
+                ],
+                "position": [
+                  13.275025367736816,
+                  4.720837116241455,
+                  1.8821889162063599
+                ]
+              },
+              {
+                "agent_id": 2,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  19.0,
+                  1.0,
+                  4.5
+                ],
+                "tracking_waypoint": [
+                  7.0,
+                  15.0,
+                  3.5
+                ],
+                "position": [
+                  6.529820442199707,
+                  15.35290813446045,
+                  3.4999961853027344
+                ]
+              },
+              {
+                "agent_id": 3,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "tracking_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "position": [
+                  15.19760799407959,
+                  2.773583173751831,
+                  5.534364223480225
+                ]
+              }
+            ]
+          },
+          {
+            "variant": "V4",
+            "decision_after": "NO_REPLAN_EVENT",
+            "cached_map_revision_after": 41,
+            "live_map_revision_after": 45,
+            "queries": [
+              {
+                "step": 44,
+                "agent_id": 0,
+                "caller": "compile_guidance",
+                "reason": "no_start_connector",
+                "map_revision": 41,
+                "count": 1
+              }
+            ],
+            "agents": [
+              {
+                "agent_id": 0,
+                "hold": true,
+                "reachable": false,
+                "semantic_waypoint": [
+                  19.0,
+                  3.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  4.694735050201416,
+                  9.183890342712402,
+                  2.5875678062438965
+                ],
+                "position": [
+                  4.694735050201416,
+                  9.183890342712402,
+                  2.5875678062438965
+                ]
+              },
+              {
+                "agent_id": 1,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "tracking_waypoint": [
+                  13.0,
+                  5.0,
+                  3.5
+                ],
+                "position": [
+                  13.275025367736816,
+                  4.720837116241455,
+                  1.8821889162063599
+                ]
+              },
+              {
+                "agent_id": 2,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  19.0,
+                  3.0,
+                  6.5
+                ],
+                "tracking_waypoint": [
+                  7.0,
+                  13.0,
+                  3.5
+                ],
+                "position": [
+                  6.529820442199707,
+                  15.35290813446045,
+                  3.4999961853027344
+                ]
+              },
+              {
+                "agent_id": 3,
+                "hold": false,
+                "reachable": true,
+                "semantic_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "tracking_waypoint": [
+                  15.0,
+                  3.0,
+                  5.5
+                ],
+                "position": [
+                  15.19760799407959,
+                  2.773583173751831,
+                  5.534364223480225
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "first_physical_difference": {
+        "step": 45,
+        "max_agent_position_difference": 0.05068683624267578,
+        "tolerance": 1e-07
+      },
+      "common_prefix_steps": 188,
+      "interpretation_limit": "Exploratory observed ordering; not a proof that one isolated event alone caused the final outcome."
+    }
+  ],
+  "exploratory": true
+}

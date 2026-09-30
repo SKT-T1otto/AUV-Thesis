@@ -1,0 +1,17 @@
+{
+  "schema": "ch3.safe_search.b1_exact_source_review.v1",
+  "before_inventory_sha256": "44b35295cecfffeb08501acbc7a5994e62771fb131df0e9afb2737233133f496",
+  "after_inventory_sha256": "f0f91fb821b138aa4f09c59bc3132b13d2567c086c59d4bd3d8ac5ea076de1ba",
+  "after_evolution_sha256": "c90d9568990cbc9d9bdccfbc4fddc08665ae224a2ee97290a3af74bb37bb9834",
+  "changed_existing": [
+    "docs/chapter3/search_diagnostics/safe_search_v1/source_review.md"
+  ],
+  "added": [
+    "chapter3_bser/experiments/safe_search_v1/run_b1_development.py"
+  ],
+  "unchanged_existing_count": 336,
+  "historical_records": 27,
+  "reviewed": true,
+  "runtime_and_controller_bytes_unchanged": true,
+  "b1_plan_sha256": "498c44f1564b5c220db4809ff667ef7847a511e63e9d3fff1b8c563302f7eac0"
+}

@@ -1,0 +1,15 @@
+{
+  "analysis_sha256": "664637f78c3ac0553c8c14b717fe6354b2978e870e3c40d2ebc4350997fbe97f",
+  "generator_sha256": "c40be388cbdab79cdf52f591d9252a0f33c26daac3f4d778cca84380b43cce8f",
+  "data_bindings": [
+    "results.B0.variants",
+    "results.B1.variants",
+    "results.*.comparisons.*"
+  ],
+  "figures": {
+    "b1_transfer_overview.pdf": "901dd8aefb62a071838f61e7933ec3091cc4434817b831c965ac9367ac9744e0",
+    "b1_transfer_overview.png": "28780531a5258a29f24c1d24cd6ac18771cb436f2957e9742d640de56bb3cbc1",
+    "b1_transfer_paired.pdf": "5766f47e0de2ee52507c4a8a948d73e85438e04aef52358eea748b534cf1ea45",
+    "b1_transfer_paired.png": "5bbc4bfd89262796aa08d465d8094f65fb437c34ba385bcf6cc2c1828c2634b7"
+  }
+}

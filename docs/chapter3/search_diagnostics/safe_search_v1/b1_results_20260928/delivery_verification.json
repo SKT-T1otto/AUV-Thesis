@@ -1,0 +1,49 @@
+{
+  "schema": "ch3.safe_search.b1_delivery_verification.v1",
+  "verified_at": "2026-09-29T00:44:09.552305+08:00",
+  "all_60_real_terminals": true,
+  "b1_episodes": 60,
+  "independent_scenarios": 20,
+  "physical_steps": 17216,
+  "program_failures": [],
+  "source_inventory_sha256": "f0f91fb821b138aa4f09c59bc3132b13d2567c086c59d4bd3d8ac5ea076de1ba",
+  "source_files": 338,
+  "historical_records": 27,
+  "current_source_and_all_analysis_inputs_unchanged": true,
+  "unique_analysis_inputs_rehashed": 146,
+  "historical_B0_references_unchanged": true,
+  "task_scoped_tests_passed": 149,
+  "test_log_sha256": {
+    "tests_all_safe_search.txt": "392a3870749eb8fa3079959daf4b6db1a49259d6ef0a92bf281621694a84b4c9",
+    "tests_b1_analysis_final.txt": "4e4ebbae75b3a4fb7cdedbafc86760c788af0949f4d18cc575e3b5653dcb044d"
+  },
+  "independent_numeric_audit_passed": true,
+  "post_found_audit_passed": true,
+  "hold_dynamics_reconciled": true,
+  "figure_pngs_visually_inspected": [
+    "b1_transfer_overview.png",
+    "b1_transfer_paired.png"
+  ],
+  "figure_pdf_hashes_verified": true,
+  "compile_checks": 9,
+  "report_sha256": "52ba70545e06c42be9f7eeb35c44b54fe1d89b58e14afebd0d53ff6a0ba9b0f1",
+  "new_b1_programs": {
+    "chapter3_bser\\experiments\\safe_search_v1\\run_b1_development.py": "fb3df342f49f7b6e66fea01b1541c06d3ad241bc178284bcd9b811647ba8e82c",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\analyze_b1_development.py": "3faf3bf7ca3697bcc2142b2b3ccf0ccab10999226ccf2aa5892f911aaa86c31c",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_case_audit.py": "61ca81fff7b832b1b122c79ca159cc97c777e04eabf11260a53b8ddb7f9c4e52",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_figures.py": "c40be388cbdab79cdf52f591d9252a0f33c26daac3f4d778cca84380b43cce8f",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_hold_drift_audit.py": "011ce1e52d0222999aa5ea5da31a94a55d8cbcdc37ca3c599e32b61f8e381eab",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_numeric_audit.py": "ee0bb4b4a1f80886e552e949e19e64417f8f13b34e8cd49466c69ea555493932",
+    "docs\\chapter3\\search_diagnostics\\safe_search_v1\\b1_post_found_audit.py": "1495d1da2f4b40bee32112383af5ad59bc1cd4f1b0dbc82289cd6b285ebb4ff8",
+    "tests\\test_safe_search_b1_development.py": "0add788d3007c27999e0486466a647fd6f760b422822e644eb669650d19addc9",
+    "tests\\test_safe_search_b1_analysis.py": "64d0891fe31775289b913760ebdeba9967bb0b92a0401a52cb58123345781625"
+  },
+  "training": false,
+  "checkpoint_loaded": false,
+  "hgr_executed": false,
+  "heldout_scenarios_executed": 0,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null,
+  "b1_v5_development_gate_passed": false,
+  "limits": "Latest recorded local task-scoped verification, not CI or a full-repository/clean-clone pass. Scientific figures are PNG/PDF; PDF hashes were checked and PNG renders inspected."
+}

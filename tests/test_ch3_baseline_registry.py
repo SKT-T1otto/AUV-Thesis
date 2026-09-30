@@ -173,7 +173,7 @@ class RegistryTests(unittest.TestCase):
 
 
 class EvaluationRoutingTests(unittest.TestCase):
-    def test_same_manifest_and_task_identity_for_four_baselines(self):
+    def test_same_manifest_but_historical_and_d2_planners_have_distinct_identity(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             manifest = root/"synthetic_manifest.json"
@@ -192,7 +192,9 @@ class EvaluationRoutingTests(unittest.TestCase):
                 self.assertEqual(plan["selected"]["scenarios"], fixture()["scenarios"])
                 self.assertFalse(plan["output"].exists())
                 self.assertEqual(plan["resolved"]["optimizer_update_count"], 0)
-            self.assertEqual(len(set(identities)), 1)
+            self.assertEqual(identities[0], identities[1])
+            self.assertEqual(identities[2], identities[3])
+            self.assertNotEqual(identities[0], identities[2])
 
     def test_checkpoint_is_required_and_cannot_be_relabelled_from_HGR_or_other_baseline(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -324,7 +326,7 @@ class PriorRuntimeIntegrationTests(unittest.TestCase):
 
     def test_B0_and_B1_same_task_two_steps_zero_residual_B1_uses_joint_BSER(self):
         torch.set_num_threads(1)
-        _, config = reg.load_reference()
+        _, config = reg.load_reference(reg.HISTORICAL_REFERENCE)
         scene = fixture()["scenarios"][0]
         before = framework_sources()
         initial = []

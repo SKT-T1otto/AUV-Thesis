@@ -54,8 +54,8 @@ class ContractValidationTests(unittest.TestCase):
         expected = {
             "B0_search_prior": ("ch3_baseline_search_prior", "search_only", None),
             "B1_bser_prior": ("ch3_baseline_bser_prior", "bser_joint", None),
-            "B2_direct_mc": ("ch3_baseline_direct_mc", "bser_joint", "maddpg"),
-            "B3_direct_boundary": ("ch3_baseline_direct_boundary", "bser_joint", "direct_boundary_maddpg"),
+            "B2_direct_mc": ("ch3_baseline_direct_mc", "d2_v1", "maddpg"),
+            "B3_direct_boundary": ("ch3_baseline_direct_boundary", "d2_v1", "direct_boundary_maddpg"),
         }
         self.assertEqual(set(entries), set(expected))
         for key, (method, planner, algorithm) in expected.items():
@@ -186,7 +186,8 @@ class ContractValidationTests(unittest.TestCase):
         frozen = json.loads((ROOT / "docs/chapter3/baselines/final_production_source.json").read_text(encoding="utf-8"))["production"]
         self.assertEqual(len(frozen["files"]), 196)
         self.assertTrue(set(frozen["files"]).issubset(before["production"]["files"]))
-        self.assertEqual(before["production_source_sha256"], "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd")
+        self.assertEqual(before["historical_production_sha256"], "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd")
+        self.assertEqual(before["production_source_sha256"], before["inventory"]["sha256"])
         verify_framework_sources(before)
 
 

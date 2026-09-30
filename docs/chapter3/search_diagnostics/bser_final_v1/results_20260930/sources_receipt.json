@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "outcomes",
+      "title": "七组的发现率、碰撞和发现时间",
+      "queries": [
+        {
+          "id": "group-outcomes",
+          "source": {
+            "label": "本地 F0—F6 配对开发评估",
+            "files": [
+              {
+                "label": "development_v1/episodes.json"
+              },
+              {
+                "label": "results_20260930/analysis.json"
+              },
+              {
+                "label": "bser_final_v1/analyze_completed.py"
+              }
+            ],
+            "filters": [
+              "固定20个开发场景",
+              "各组400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "场景已多轮用于开发，不能作为独立确认性评估。",
+              "条件发现时间受成功样本选择影响，不能单独用于方案排序。"
+            ],
+            "executedAt": "2026-09-30T11:01:26.038157+08:00",
+            "metricDefinitions": [
+              {
+                "label": "指标口径",
+                "definition": "Found 和发现前碰撞按每组全部20回合统计。惩罚发现步数将未发现回合记为400；条件发现时间只包含已发现回合。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "arm": "F0",
+              "n": 20,
+              "found": 12,
+              "pre_found_collision": 3,
+              "timeout": 5,
+              "penalized_steps": 258.5,
+              "conditional_steps": 164.16666666666666
+            },
+            {
+              "arm": "F1",
+              "n": 20,
+              "found": 11,
+              "pre_found_collision": 4,
+              "timeout": 5,
+              "penalized_steps": 268.95,
+              "conditional_steps": 161.72727272727272
+            },
+            {
+              "arm": "F2",
+              "n": 20,
+              "found": 11,
+              "pre_found_collision": 4,
+              "timeout": 5,
+              "penalized_steps": 268.95,
+              "conditional_steps": 161.72727272727272
+            },
+            {
+              "arm": "F3",
+              "n": 20,
+              "found": 8,
+              "pre_found_collision": 6,
+              "timeout": 6,
+              "penalized_steps": 298.4,
+              "conditional_steps": 146
+            },
+            {
+              "arm": "F4",
+              "n": 20,
+              "found": 12,
+              "pre_found_collision": 4,
+              "timeout": 4,
+              "penalized_steps": 266.1,
+              "conditional_steps": 176.83333333333334
+            },
+            {
+              "arm": "F5",
+              "n": 20,
+              "found": 9,
+              "pre_found_collision": 5,
+              "timeout": 6,
+              "penalized_steps": 275.9,
+              "conditional_steps": 124.22222222222223
+            },
+            {
+              "arm": "F6",
+              "n": 20,
+              "found": 11,
+              "pre_found_collision": 4,
+              "timeout": 5,
+              "penalized_steps": 261.3,
+              "conditional_steps": 147.8181818181818
+            }
+          ],
+          "columns": [
+            "arm",
+            "n",
+            "found",
+            "pre_found_collision",
+            "timeout",
+            "penalized_steps",
+            "conditional_steps"
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "140个完整回合按七组汇总。",
+            "totalRows": 7
+          },
+          "methods": [
+            {
+              "language": "calculation",
+              "code": "惩罚发现均值 = (所有已发现回合的 found_step 之和 + 400 × 未发现回合数) / 20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paired-evidence",
+      "title": "完整方案的增益与联合响应附加价值",
+      "queries": [
+        {
+          "id": "paired-results",
+          "source": {
+            "label": "本地 F0—F6 配对开发评估",
+            "files": [
+              {
+                "label": "development_v1/episodes.json"
+              },
+              {
+                "label": "results_20260930/analysis.json"
+              },
+              {
+                "label": "bser_final_v1/analyze_completed.py"
+              }
+            ],
+            "filters": [
+              "固定20个开发场景",
+              "各组400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "场景已多轮用于开发，不能作为独立确认性评估。",
+              "20场景中的样本相同不构成总体等效证明。"
+            ],
+            "executedAt": "2026-09-30T11:01:26.038157+08:00",
+            "metricDefinitions": [
+              {
+                "label": "指标口径",
+                "definition": "同场景同种子比较前者减后者，Found 胜负与轨迹签名以场景为单位核对。"
+              }
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "回合核验",
+                "detail": "140/140回合的终止记录、轨迹连续性、规划日志哈希通过；F0的20/20物理轨迹签名与历史D2相同。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "comparison": "F1_vs_F0",
+              "found_wins": 0,
+              "found_losses": 1,
+              "collision_added": 1,
+              "collision_prevented": 0,
+              "mean_penalized_delta": 10.45,
+              "common_found_time_delta": 13.818181818181818,
+              "full_signature_equal": 13
+            },
+            {
+              "comparison": "F1_vs_F2",
+              "found_wins": 0,
+              "found_losses": 0,
+              "collision_added": 0,
+              "collision_prevented": 0,
+              "mean_penalized_delta": 0,
+              "common_found_time_delta": 0,
+              "full_signature_equal": 19
+            }
+          ],
+          "columns": [
+            "comparison",
+            "found_wins",
+            "found_losses",
+            "collision_added",
+            "collision_prevented",
+            "mean_penalized_delta",
+            "common_found_time_delta",
+            "full_signature_equal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mechanisms-cost",
+      "title": "改进实际执行、回退与规划计算量",
+      "queries": [
+        {
+          "id": "proposal-cost",
+          "source": {
+            "label": "本地 F0—F6 配对开发评估",
+            "files": [
+              {
+                "label": "planning_audit.json（140回合）"
+              },
+              {
+                "label": "results_20260930/analysis.json"
+              },
+              {
+                "label": "bser_final_v1/solver.py"
+              }
+            ],
+            "filters": [
+              "固定20个开发场景",
+              "各组400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "场景已多轮用于开发，不能作为独立确认性评估。",
+              "拒绝原因是按检查顺序记录的首个失败条件；候选组合不是独立样本。",
+              "计时受并发负载和回合长度影响，规划倍率不等于整体实验倍率。"
+            ],
+            "executedAt": "2026-09-30T11:01:26.038157+08:00",
+            "metricDefinitions": [
+              {
+                "label": "指标口径",
+                "definition": "非参考提案与实际安装分开统计。规划计时包含候选生成和未形成方案的分配调用。"
+              }
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "calculation",
+                "title": "F1候选保护",
+                "detail": "19144个组合请求中，17983个首先因全路径搜索分数退化被拒绝，占93.94%。310个提案中12个非D2、11个实际安装。"
+              },
+              {
+                "kind": "validation",
+                "title": "回退检查",
+                "detail": "F1回退298次：292次无合格增益、3次D2参考分配不完整、3次响应起点不满足公开安全几何条件；无预算耗尽回退。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "arm": "F0",
+              "proposal_count": 298,
+              "nonreference": 0,
+              "installed_nonreference": 0,
+              "changed_scenes": 0,
+              "planning_median_seconds": 0.34184594999533147,
+              "planning_p95_seconds": 0.4927361000154633,
+              "planning_total_seconds": 156.09171880036592,
+              "response_queries": 0
+            },
+            {
+              "arm": "F1",
+              "proposal_count": 310,
+              "nonreference": 12,
+              "installed_nonreference": 11,
+              "changed_scenes": 7,
+              "planning_median_seconds": 0.588021249990561,
+              "planning_p95_seconds": 1.2699350999901071,
+              "planning_total_seconds": 286.0407440998533,
+              "response_queries": 9132
+            },
+            {
+              "arm": "F2",
+              "proposal_count": 310,
+              "nonreference": 12,
+              "installed_nonreference": 12,
+              "changed_scenes": 7,
+              "planning_median_seconds": 0.437585300009232,
+              "planning_p95_seconds": 0.7890394999994896,
+              "planning_total_seconds": 206.6469348000537,
+              "response_queries": 0
+            },
+            {
+              "arm": "F3",
+              "proposal_count": 326,
+              "nonreference": 84,
+              "installed_nonreference": 83,
+              "changed_scenes": 17,
+              "planning_median_seconds": 0.6221183000016026,
+              "planning_p95_seconds": 1.4681635999877471,
+              "planning_total_seconds": 360.6474913999846,
+              "response_queries": 9549
+            },
+            {
+              "arm": "F4",
+              "proposal_count": 305,
+              "nonreference": 11,
+              "installed_nonreference": 11,
+              "changed_scenes": 6,
+              "planning_median_seconds": 0.44475909997709095,
+              "planning_p95_seconds": 0.8791903000092134,
+              "planning_total_seconds": 215.99295570023241,
+              "response_queries": 477
+            },
+            {
+              "arm": "F5",
+              "proposal_count": 320,
+              "nonreference": 19,
+              "installed_nonreference": 19,
+              "changed_scenes": 9,
+              "planning_median_seconds": 0.5874106000119355,
+              "planning_p95_seconds": 1.4491036999970675,
+              "planning_total_seconds": 318.9974249000661,
+              "response_queries": 11215
+            },
+            {
+              "arm": "F6",
+              "proposal_count": 288,
+              "nonreference": 13,
+              "installed_nonreference": 12,
+              "changed_scenes": 7,
+              "planning_median_seconds": 0.596535299991956,
+              "planning_p95_seconds": 1.2295700999966357,
+              "planning_total_seconds": 269.6594672999636,
+              "response_queries": 8552
+            }
+          ],
+          "columns": [
+            "arm",
+            "proposal_count",
+            "nonreference",
+            "installed_nonreference",
+            "changed_scenes",
+            "planning_median_seconds",
+            "planning_p95_seconds",
+            "planning_total_seconds",
+            "response_queries"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safety-bottleneck",
+      "title": "Hold状态中的持续运动与碰撞",
+      "queries": [
+        {
+          "id": "collision-windows",
+          "source": {
+            "label": "本地 F0—F6 配对开发评估",
+            "files": [
+              {
+                "label": "step_trace.jsonl（F0和F1碰撞回合）"
+              },
+              {
+                "label": "results_20260930/analysis.json"
+              }
+            ],
+            "filters": [
+              "固定20个开发场景",
+              "各组400步上限",
+              "零残差，无训练"
+            ],
+            "caveats": [
+              "场景已多轮用于开发，不能作为独立确认性评估。",
+              "日志确认Hold下未停住，但尚未分离惯性、外部扰动和控制限制的贡献。",
+              "这轮沿用V4运动控制，未测试新Hold或R2/R4制动。"
+            ],
+            "executedAt": "2026-09-30T11:01:26.038157+08:00",
+            "metricDefinitions": [
+              {
+                "label": "指标口径",
+                "definition": "记录发现前碰撞的前一物理状态，连续Hold转移数包含碰撞转移。速度沿用仿真原单位。"
+              }
+            ]
+          },
+          "rows": [
+            {
+              "arm": "F0",
+              "scene": 7,
+              "collision_step": 181,
+              "agent": 1,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 6,
+              "speed": 0.16830813917556064
+            },
+            {
+              "arm": "F0",
+              "scene": 40,
+              "collision_step": 14,
+              "agent": 2,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 2,
+              "speed": 0.7128909763772963
+            },
+            {
+              "arm": "F0",
+              "scene": 86,
+              "collision_step": 266,
+              "agent": 1,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 6,
+              "speed": 0.45590493899139123
+            },
+            {
+              "arm": "F1",
+              "scene": 7,
+              "collision_step": 181,
+              "agent": 1,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 6,
+              "speed": 0.16830813917556064
+            },
+            {
+              "arm": "F1",
+              "scene": 40,
+              "collision_step": 14,
+              "agent": 2,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 2,
+              "speed": 0.7128909763772963
+            },
+            {
+              "arm": "F1",
+              "scene": 78,
+              "collision_step": 351,
+              "agent": 2,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 9,
+              "speed": 0.22194748936868958
+            },
+            {
+              "arm": "F1",
+              "scene": 86,
+              "collision_step": 136,
+              "agent": 2,
+              "hold": true,
+              "reachable": false,
+              "hold_transitions": 48,
+              "speed": 0.16401259711551283
+            }
+          ],
+          "columns": [
+            "arm",
+            "scene",
+            "collision_step",
+            "agent",
+            "hold",
+            "reachable",
+            "hold_transitions",
+            "speed"
+          ]
+        }
+      ]
+    }
+  ]
+}

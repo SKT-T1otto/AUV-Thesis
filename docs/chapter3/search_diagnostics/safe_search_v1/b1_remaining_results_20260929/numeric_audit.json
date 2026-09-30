@@ -1,0 +1,106 @@
+{
+  "passed": true,
+  "method": "Independent complete-episode counters and denominator recomputation",
+  "checks": {
+    "B1": {
+      "V0": {
+        "found": 5,
+        "success": 0,
+        "pre_found_collisions": 9,
+        "exposure": 4176,
+        "stall_and_hold_agent_steps": 5342,
+        "effective_observation_steps": 1022
+      },
+      "V1": {
+        "found": 5,
+        "success": 0,
+        "pre_found_collisions": 13,
+        "exposure": 3168,
+        "stall_and_hold_agent_steps": 364,
+        "effective_observation_steps": 1367
+      },
+      "V2": {
+        "found": 5,
+        "success": 0,
+        "pre_found_collisions": 11,
+        "exposure": 3054,
+        "stall_and_hold_agent_steps": 364,
+        "effective_observation_steps": 1333
+      },
+      "V3": {
+        "found": 5,
+        "success": 1,
+        "pre_found_collisions": 4,
+        "exposure": 5624,
+        "stall_and_hold_agent_steps": 8035,
+        "effective_observation_steps": 1372
+      },
+      "V4": {
+        "found": 8,
+        "success": 1,
+        "pre_found_collisions": 8,
+        "exposure": 4101,
+        "stall_and_hold_agent_steps": 2023,
+        "effective_observation_steps": 1714
+      },
+      "V5": {
+        "found": 7,
+        "success": 1,
+        "pre_found_collisions": 10,
+        "exposure": 4451,
+        "stall_and_hold_agent_steps": 1892,
+        "effective_observation_steps": 1840
+      }
+    },
+    "B0": {
+      "V0": {
+        "found": 5,
+        "success": 0,
+        "pre_found_collisions": 9,
+        "exposure": 3852,
+        "stall_and_hold_agent_steps": 4723,
+        "effective_observation_steps": 1055
+      },
+      "V1": {
+        "found": 8,
+        "success": 0,
+        "pre_found_collisions": 7,
+        "exposure": 3618,
+        "stall_and_hold_agent_steps": 442,
+        "effective_observation_steps": 1582
+      },
+      "V2": {
+        "found": 8,
+        "success": 0,
+        "pre_found_collisions": 10,
+        "exposure": 3116,
+        "stall_and_hold_agent_steps": 1,
+        "effective_observation_steps": 1425
+      },
+      "V3": {
+        "found": 7,
+        "success": 1,
+        "pre_found_collisions": 5,
+        "exposure": 5014,
+        "stall_and_hold_agent_steps": 6325,
+        "effective_observation_steps": 1425
+      },
+      "V4": {
+        "found": 8,
+        "success": 1,
+        "pre_found_collisions": 7,
+        "exposure": 4114,
+        "stall_and_hold_agent_steps": 423,
+        "effective_observation_steps": 1859
+      },
+      "V5": {
+        "found": 8,
+        "success": 1,
+        "pre_found_collisions": 5,
+        "exposure": 4857,
+        "stall_and_hold_agent_steps": 1598,
+        "effective_observation_steps": 2065
+      }
+    }
+  }
+}

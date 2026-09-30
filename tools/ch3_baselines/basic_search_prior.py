@@ -160,6 +160,10 @@ class SearchPriorController(OnlineBSERController):
 
 
 class BasicSearchPriorRuntime(MissionRuntime):
+    def _build_prior_controller(self, phase, allocator):
+        """Default-equivalent assembly seam for independent chapter experiments."""
+        return SearchPriorController(phase, allocator=allocator)
+
     def __init__(self, config, scenario, *, seed, episode_id=0):
         self.config, self.scenario = copy.deepcopy(config), copy.deepcopy(scenario)
         contract = runtime_contract(config)
@@ -182,11 +186,11 @@ class BasicSearchPriorRuntime(MissionRuntime):
             if tuple(self.state.searcher_ids) != (0, 1, 2) or self.state.executor_id != 3:
                 raise ValueError("baseline requires three Searchers followed by one Executor")
             allocator = SearchPriorAllocator(self.env.get_agent_state().positions[3])
-            self.controller = SearchPriorController(phase, allocator=allocator)
+            self.controller = self._build_prior_controller(phase, allocator)
             self.controller.prrac_runtime_contract = contract
             context = _public_context(self.env, self.state)
             initialized = self.controller.initialize(self.state, context)
-            self.bridge = RMADDPGGuidanceBridge()
+            self.bridge = self._build_guidance_bridge()
             self.guidance = self.bridge.compile_guidance(initialized.allocation, self.state, context, decision_reason="INITIALIZE")
             self.env.install_guidance(self.guidance)
             self.observations = self.env.refresh_observation_after_guidance()

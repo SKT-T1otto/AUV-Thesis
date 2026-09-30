@@ -1,0 +1,81 @@
+{
+  "schema": "ch3.found_search.development.v2",
+  "baselines": [
+    "B0",
+    "B1"
+  ],
+  "arms": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "parent_variants": {
+    "B0": "V5",
+    "B1": "V4"
+  },
+  "options": {
+    "R0": {
+      "latched_hold": false,
+      "braking": false,
+      "recovery": false
+    },
+    "R1": {
+      "latched_hold": true,
+      "braking": false,
+      "recovery": false
+    },
+    "R2": {
+      "latched_hold": true,
+      "braking": true,
+      "recovery": false
+    },
+    "R3": {
+      "latched_hold": true,
+      "braking": false,
+      "recovery": true
+    },
+    "R4": {
+      "latched_hold": true,
+      "braking": true,
+      "recovery": true
+    }
+  },
+  "settings": {
+    "tracking_threshold": 0.25,
+    "hold_velocity_feedback": 0.8,
+    "prediction_steps": 20,
+    "disturbance_limit": 0.5,
+    "disturbance_uncertainty": 0.08,
+    "corner_speed": 0.65,
+    "corner_deceleration": 0.4,
+    "corner_angle_degrees": 35.0,
+    "recovery_retry_steps": 10,
+    "stall_window_steps": 20,
+    "stall_distance": 0.15
+  },
+  "independent_scenarios": 20,
+  "planned_episode_runs": 200,
+  "seed": 12729,
+  "task_horizon": 400,
+  "full_episodes": true,
+  "training": false,
+  "checkpoint_loaded": false,
+  "formal_thesis_evaluation": false,
+  "performance_passed": null,
+  "heldout_scenarios_executed": 0,
+  "primary_metrics": [
+    "found_rate",
+    "pre_found_collision_rate",
+    "penalized_found_steps_mean_400",
+    "found_steps_mean_conditional"
+  ],
+  "post_found_metrics_role": "record_only_not_selection_objective",
+  "input_sha256": {
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\3090���\\collision_terminal\\B0_search_prior_eval100_seed12729_v1\\evaluation_manifest.json": "4cb6792b13e3d3f32cf7141d0681ce41073dc882ff2ae0df7c1a0dc23613e8d5",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\configs\\chapter3\\hgr_train.json": "694af0a4f0d00b20df9f46236db7592964437ddbae8a7d7e6611a831ac113717",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\docs\\chapter3\\search_diagnostics\\3090_20260928\\experiment_plan.json": "63594d9ec73b24290c2f1efd5488367a95b0a1aa5557106783e499804fd406ff"
+  }
+}
+PLAN_ONLY: no simulator, training, checkpoint or episode was started.

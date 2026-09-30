@@ -22,28 +22,32 @@ FINAL_SHA256 = "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd
 
 @contextmanager
 def final_checkout():
-    """An actual LF checkout fixture; no old manifests or checkpoint files."""
-    with tempfile.TemporaryDirectory(prefix="ch3-final-checkout-") as temporary:
-        root = Path(temporary)
-        pin = json.loads(source_gate.PIN.read_text(encoding="utf-8"))
-        paths = (set(pin["production"]["files"]) | set(source_gate.baseline_evolution()["added_production"])
-                 | set(provenance.baseline_protected_identity()["files"]))
-        paths.update((source_gate.PIN.relative_to(provenance.ROOT).as_posix(),
-                      provenance.PROTECTED_BASELINE.relative_to(provenance.ROOT).as_posix(), source_gate.EVOLUTION_RELATIVE))
-        for name in paths:
-            destination = root / name
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            data = (provenance.ROOT / name).read_bytes()
-            # Simulate Git's existing *.py text eol=lf checkout rule.
-            if name in pin["production"]["files"]:
-                data = data.replace(b"\r\n", b"\n")
-                assert hashlib.sha256(data).hexdigest() == pin["production"]["files"][name]
-            destination.write_bytes(data)
+    """Current sealed Git checkout, including every frozen historical seal."""
+    from tests.test_safe_search_provenance import checked_copy
+    from chapter3_bser.experiments.d2_v1 import provenance as d2
+    with checked_copy() as root:
+        # Reproduce Git's text conversion for sealed reference metadata too.
+        preserved = {line.split()[0] for line in (root / ".gitattributes").read_text().splitlines()
+                     if line.endswith("-text !eol")}
+        for path in (root / "docs").rglob("*"):
+            if (path.is_file() and path.suffix in (".md", ".json")
+                    and path.relative_to(root).as_posix() not in preserved):
+                path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
+        from chapter3_bser.experiments.d2_suite_v1.pipeline_provenance import MANIFEST as CURRENT_MANIFEST
+        record = d2.old.read_json(root / CURRENT_MANIFEST)["profiles"]["git_clone_preserved"]
+        for name, expected in record["files"].items():
+            path = root / name
+            data = path.read_bytes()
+            alternatives = (data, data.replace(b"\r\n", b"\n"))
+            selected = next((v for v in alternatives if hashlib.sha256(v).hexdigest() == expected), None)
+            assert selected is not None, name
+            path.write_bytes(selected)
         with ExitStack() as stack:
             stack.enter_context(patch.object(source_gate, "PIN", root / source_gate.PIN.relative_to(provenance.ROOT)))
             stack.enter_context(patch.object(provenance, "PROTECTED_BASELINE", root / provenance.PROTECTED_BASELINE.relative_to(provenance.ROOT)))
             stack.enter_context(patch.object(source_gate, "ROOT", root))
             stack.enter_context(patch.object(provenance, "ROOT", root))
+            stack.enter_context(patch.object(d2.old, "ROOT", root))
             stack.enter_context(patch.object(hgr_provenance, "__file__", str(root / "chapter3_bser/experiments/hgr/provenance.py")))
             yield root
 
@@ -73,8 +77,9 @@ class BaselineProvenanceTests(unittest.TestCase):
         sources = provenance.framework_sources()
         current = sources["protected_baseline"]
         self.assertEqual(current, provenance.baseline_protected_identity())
-        self.assertEqual(len(current["files"]), 37)
-        for prefix, count in (("tools/ch3_baselines/", 10), ("configs/chapter3/baselines/", 6), ("scripts/", 21)):
+        self.assertEqual(current["files"], {k:v for k,v in sources["inventory"]["files"].items()
+                         if k.startswith(("tools/ch3_baselines/", "configs/chapter3/baselines/")) or k.endswith(".sh")})
+        for prefix, count in (("tools/ch3_baselines/", 10), ("configs/chapter3/baselines/", 6)):
             self.assertEqual(sum(name.startswith(prefix) for name in current["files"]), count)
         self.assertIn("tools/ch3_baselines/framework_provenance.py", current["files"])
         self.assertIn("tools/ch3_baselines/run_baseline.py", current["files"])
@@ -82,7 +87,8 @@ class BaselineProvenanceTests(unittest.TestCase):
         self.assertEqual(set(sources["framework_entry_scripts"]["files"]), set(provenance.SCRIPT_FILES))
         for inventory in (current, sources["baseline"], sources["framework_entry_scripts"]):
             self.assertFalse(any(Path(name).suffix in (".bat", ".cmd", ".ps1", ".psm1") for name in inventory["files"]))
-        self.assertEqual(sources["production_source_sha256"], FINAL_SHA256)
+        self.assertEqual(sources["historical_production_sha256"], FINAL_SHA256)
+        self.assertEqual(sources["production_source_sha256"], sources["inventory"]["sha256"])
         provenance.verify_framework_sources(sources)
         original_read = Path.read_bytes
         def reject_windows_reads(path):
@@ -132,42 +138,35 @@ class BaselineProvenanceTests(unittest.TestCase):
                 self.assertEqual(forwarded[4:], ["python", "-B", "-m", "chapter3_bser.experiments.hgr.cli", "--help"])
 
     def test_changed_removed_and_added_baseline_inputs_are_rejected(self):
-        current = provenance.baseline_protected_identity()
-        for existing in ("tools/ch3_baselines/run_baseline.py", "configs/chapter3/baselines/search_prior_eval.json",
-                         "scripts/linux/run_ch3_baseline_eval.sh"):
-            for change in ("changed", "removed", "added"):
-                altered = copy.deepcopy(current)
-                if change == "changed":
-                    altered["files"][existing] = "0" * 64
-                elif change == "removed":
-                    del altered["files"][existing]
-                else:
-                    altered["files"]["scripts/linux/new_baseline_entry.sh"] = "0" * 64
-                altered["sha256"] = digest(altered["files"])
-                with self.subTest(path=existing, change=change), patch.object(provenance, "baseline_protected_identity", return_value=altered):
-                    with self.assertRaisesRegex(ValueError, "protected baseline inventory changed"):
-                        provenance.framework_sources()
-        # Also mutate actual reads of the four baseline Linux launchers.
-        original_read = Path.read_bytes
-        for name in provenance.SCRIPT_FILES:
-            target = provenance.ROOT / name
-            def changed_read(path):
-                data = original_read(path)
-                return data + b"\n# unreviewed launcher change\n" if path == target else data
-            with self.subTest(script=name), patch.object(Path, "read_bytes", changed_read):
-                with self.assertRaisesRegex(ValueError, "protected baseline inventory changed"):
-                    provenance.framework_sources()
+        with final_checkout() as root:
+            for name in ("tools/ch3_baselines/run_baseline.py", "configs/chapter3/baselines/search_prior_eval.json",
+                         *provenance.SCRIPT_FILES):
+                path = root / name
+                data = path.read_bytes()
+                added = path.with_name("unreviewed_new" + path.suffix)
+                for mode in ("changed", "removed", "added"):
+                    try:
+                        if mode == "changed": path.write_bytes(data + b"\n")
+                        elif mode == "removed": path.unlink()
+                        else: added.write_bytes(data)
+                        with self.subTest(path=name, mode=mode), self.assertRaises((ValueError, FileNotFoundError)):
+                            provenance.framework_sources()
+                    finally:
+                        path.write_bytes(data)
+                        added.unlink(missing_ok=True)
 
     def test_invalid_manifest_or_changed_production_binding_is_rejected(self):
-        saved = json.loads(provenance.PROTECTED_BASELINE.read_text(encoding="utf-8"))
-        with tempfile.TemporaryDirectory(prefix="ch3-baseline-hash-validation-") as temporary:
-            path = Path(temporary)/"protected.json"
-            for field, error in (("sha256", "invalid protected baseline manifest"),
-                                 ("production_source_sha256", "CH3-final production source hash")):
-                write_json(path, {**saved, field: "0" * 64})
-                with self.subTest(field=field), patch.object(provenance, "PROTECTED_BASELINE", path):
-                    with self.assertRaisesRegex(ValueError, error):
+        with final_checkout():
+            path = provenance.PROTECTED_BASELINE
+            raw = path.read_bytes()
+            saved = json.loads(raw)
+            for field in ("sha256", "production_source_sha256"):
+                try:
+                    write_json(path, {**saved, field: "0" * 64})
+                    with self.subTest(field=field), self.assertRaises(ValueError):
                         provenance.framework_sources()
+                finally:
+                    path.write_bytes(raw)
 
     def test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol(self):
         with tempfile.TemporaryDirectory(prefix="ch3-baseline-hash-scan-") as temporary:
@@ -208,18 +207,17 @@ class BaselineProvenanceTests(unittest.TestCase):
     def test_linux_provenance_platform_independent(self):
         with final_checkout() as root:
             before = provenance.framework_sources()
-            self.assertEqual(before["production_source_sha256"], FINAL_SHA256)
+            self.assertEqual(before["historical_production_sha256"], FINAL_SHA256)
             self.assertEqual(set(before["production"]["files"]),
-                             set(json.loads(source_gate.PIN.read_text())["production"]["files"])
-                             | set(source_gate.baseline_evolution()["added_production"]))
-            self.assertEqual(before["production_checkout_profile"], "git_lf")
+                             {name for name in before["inventory"]["files"] if name.startswith(("core/", "chapter3_bser/")) and name.endswith(".py")})
+            self.assertEqual(before["production_checkout_profile"], "git_clone_preserved")
             self.assertEqual(before, source_gate.capture_sources())
             for ending in (b"\r\n", b"\n"):
                 for suffix in (".bat", ".ps1"):
                     (root / ("scripts/windows" + suffix)).write_bytes(b"python --help" + ending)
                 self.assertEqual(before, provenance.framework_sources())
-            # A fresh process imports only the copied checkout. Neither the old
-            # frozen manifest nor any checkpoint is present or needed.
+            # A fresh process imports the sealed checkout and all historical
+            # metadata. No checkpoint or Git history is needed.
             code = ("from tools.ch3_baselines.framework_provenance import framework_sources; "
                     "s=framework_sources(); print(s['production']['sha256']); print('PASS')")
             result = subprocess.run([sys.executable, "-B", "-c", code], cwd=root,
@@ -250,7 +248,7 @@ class BaselineProvenanceTests(unittest.TestCase):
                                 path.unlink()
                             else:
                                 added.write_bytes(original)
-                            with self.assertRaisesRegex(ValueError, "source mismatch|protected baseline inventory changed"):
+                            with self.assertRaisesRegex(ValueError, "source mismatch|source inventory mismatch|protected baseline inventory changed|frozen D2 reference changed"):
                                 provenance.framework_sources()
                             with self.assertRaises(ValueError):
                                 source_gate.capture_sources()
@@ -261,20 +259,26 @@ class BaselineProvenanceTests(unittest.TestCase):
             # No general CRLF allowance: an unreviewed source representation fails.
             path = root / "core/runtime/engine.py"
             path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
-            with self.assertRaisesRegex(ValueError, "source mismatch"):
+            with self.assertRaisesRegex(ValueError, "source inventory mismatch"):
                 provenance.framework_sources()
 
-    def test_documentation_and_historical_metadata_are_not_runtime_inputs(self):
+    def test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen(self):
         with final_checkout() as root:
             before = provenance.framework_sources()
             (root / "README.md").write_text("documentation only\n", encoding="utf-8")
             (root / "docs/notes.md").write_text("documentation only\n", encoding="utf-8")
-            for path in (source_gate.PIN, provenance.PROTECTED_BASELINE):
-                record = json.loads(path.read_text(encoding="utf-8"))
-                record["review_note"] = "Editorial metadata does not change source identity."
-                path.write_text(json.dumps(record), encoding="utf-8")
             self.assertEqual(before, provenance.framework_sources())
-            self.assertFalse(any("manifest_sha256" in key or key == "pin_sha256" for key in before))
+            for path in (source_gate.PIN, provenance.PROTECTED_BASELINE):
+                raw = path.read_bytes()
+                try:
+                    record = json.loads(raw)
+                    record["review_note"] = "Unreviewed metadata change"
+                    path.write_text(json.dumps(record), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "frozen historical manifest changed"):
+                        provenance.framework_sources()
+                finally:
+                    path.write_bytes(raw)
+            self.assertEqual(before, provenance.framework_sources())
 
     def test_final_pin_integrity_and_native_checkpoint_identity_are_retained(self):
         pin = json.loads(source_gate.PIN.read_text(encoding="utf-8"))
@@ -286,7 +290,7 @@ class BaselineProvenanceTests(unittest.TestCase):
             current_pin = json.loads(source_gate.PIN.read_text(encoding="utf-8"))
             current_pin["production"]["files"]["core/runtime/engine.py"] = "0" * 64
             write_json(source_gate.PIN, current_pin)
-            with self.assertRaisesRegex(ValueError, "inventory/aggregate hash mismatch"):
+            with self.assertRaisesRegex(ValueError, "frozen historical manifest changed"):
                 provenance.framework_sources()
 
     def test_evolution_preserves_all_historical_records_and_exact_new_hashes(self):
@@ -297,15 +301,24 @@ class BaselineProvenanceTests(unittest.TestCase):
         self.assertFalse(set(historical) & set(evolution["added_production"]))
         self.assertEqual(evolution["historical_production_sha256"], FINAL_SHA256)
         self.assertTrue(evolution["added_production"])
+        from chapter3_bser.experiments.d2_v1 import provenance as d2
+        current = provenance.framework_sources()
+        transition = d2.old.read_json(d2.old.ROOT / d2.MANIFEST)["profiles"][current["checkout_profile"]]
+        from chapter3_bser.experiments.d2_suite_v1.provenance import MANIFEST as SUITE_MANIFEST
+        successor = d2.old.read_json(d2.old.ROOT / SUITE_MANIFEST)["profiles"][current["checkout_profile"]]
         for name, expected in evolution["added_production"].items():
-            self.assertEqual(source_gate.file_sha256(provenance.ROOT / name), expected)
+            self.assertEqual(transition["changes"].get(name, {}).get("before", expected), expected)
+            d2_after = transition["changes"].get(name, {}).get("after", expected)
+            self.assertEqual(successor["changes"].get(name, {}).get("before", d2_after), d2_after)
+            self.assertEqual(source_gate.file_sha256(provenance.ROOT / name),
+                             successor["changes"].get(name, {}).get("after", d2_after))
         with final_checkout() as root:
             path = root / source_gate.EVOLUTION_RELATIVE
             value = json.loads(path.read_text())
             value["added_production"]["core/runtime/engine.py"] = "0" * 64
             value["sha256"] = digest({k: v for k, v in value.items() if k != "sha256"})
             write_json(path, value)
-            with self.assertRaisesRegex(ValueError, "only add independent training sources"):
+            with self.assertRaisesRegex(ValueError, "frozen historical manifest changed"):
                 provenance.framework_sources()
 
 

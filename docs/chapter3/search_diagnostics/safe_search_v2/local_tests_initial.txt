@@ -1,0 +1,60 @@
+test_damped_hold_reduces_stopping_distance_without_zeroing_velocity (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_fixed_reference_limits_drift_under_constant_public_disturbance (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_found_disables_overlay_and_preserves_executor_guidance (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_latched_hold_keeps_reference_across_drift_and_route_change (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_new_obstacle_invalidates_anchor_explicitly (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_observed_disturbance_needs_no_flow_or_truth_accessor (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_prediction_rejects_swept_collision_despite_clear_command_segment (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_reference_factory_is_exact_parent (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_repeated_compile_is_idempotent_and_conflicting_assignment_rejected (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_safe_route_releases_hold_anchor (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_search_turn_threshold_does_not_change_executor_or_found_behavior (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_velocity_encoding_respects_existing_speed_limits (tests.test_found_search_v2.HoldAndBrakingTests) ... ok
+test_forced_refresh_does_not_bypass_per_agent_retry_clock (tests.test_found_search_v2.RecoveryTests) ... ok
+test_found_has_no_search_recovery_queries (tests.test_found_search_v2.RecoveryTests) ... ok
+test_invalid_agent_does_not_block_two_healthy_agents (tests.test_found_search_v2.RecoveryTests) ... ok
+test_exact_additive_profile_preserves_all_old_runtime_files (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_new_sources_and_review_document_are_not_exempted (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_recomputed_manifest_cannot_change_scope_or_before_binding (tests.test_found_search_v2_runner.EvolutionTests) ... ok
+test_actual_timeouts_and_collisions_accepted_but_cutoffs_rejected (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_arms_require_reference_and_do_not_reinterpret_v_names (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_atomic_json_writer_publishes_valid_value (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_cli_defaults_to_plan_without_simulator_execution (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_missing_coverage_wrong_arm_and_nonzero_actions_rejected (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_penalized_time_keeps_failures_and_incomplete_rates_are_null (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_protected_output_rejected_even_for_resume (tests.test_found_search_v2_runner.RunnerTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ERROR
+test_safe_search_gate_does_not_rewrite_or_replace_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_exact_layout (tests.test_observation_28d_contract.ObservationContractTests) ... ok
+test_tracks_path_in_order_without_jumping_to_final_waypoint (tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+
+======================================================================
+ERROR: test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_safe_search_provenance.py", line 131, in test_manifest_hash_scope_before_records_and_unused_profiles_checked
+    gate.framework_sources(root)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\provenance.py", line 203, in framework_sources
+    expected = extend_profile(root, profile, expected)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v2\provenance.py", line 19, in extend_profile
+    raise ValueError("invalid reviewed SafeSearch v2 evolution")
+ValueError: invalid reviewed SafeSearch v2 evolution
+
+----------------------------------------------------------------------
+Ran 39 tests in 43.425s
+
+FAILED (errors=1)
+{
+  "planned_episode_runs": 200
+}
+PLAN_ONLY: no simulator, training, checkpoint or episode was started.

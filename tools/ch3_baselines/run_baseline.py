@@ -52,7 +52,12 @@ def unified_summary(rows, spec, episodes, *, finalized, wall_seconds, actual_ste
 def evaluation_plan(baseline, manifest, output_dir, *, episodes=100, seed=12729,
                     reference_training_config=None, checkpoint=None):
     spec = method_spec(baseline)
+    if not spec["learning"]:
+        from .registry import HISTORICAL_REFERENCE
+        reference_training_config = reference_training_config or HISTORICAL_REFERENCE
     reference_path, reference = load_reference(reference_training_config)
+    if not spec["learning"] and reference.get("planner_protocol", "legacy_bser") != "legacy_bser":
+        raise ValueError("B0/B1 are historical controls, not aliases for the D2 planner")
     conditions = task_conditions(reference, episodes=episodes, seed=seed)
     output = validated_output(reference, output_dir)
     sources = framework_sources()

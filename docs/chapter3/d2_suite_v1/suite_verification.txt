@@ -1,0 +1,68 @@
+test_baseline_manifest_accepts_only_canonical_and_historical_protocols (tests.test_d2_suite.SuiteTests) ... ok
+test_explicit_scene_generation_freezes_disjoint_inputs (tests.test_d2_suite.SuiteTests) ... ok
+test_new_source_scope_and_unused_profile_are_protected (tests.test_d2_suite.SuiteTests) ... ok
+test_pairing_failures_and_seed_statistics (tests.test_d2_suite.SuiteTests) ... ok
+test_preparation_preview_partial_summary_and_mutation_gate (tests.test_d2_suite.SuiteTests) ... ok
+starting D2 evaluate
+D2 [1/1] found=False found_step=None outcome=OBSTACLE_COLLISION
+starting D2_B2_seed17 train
+[B2_direct_mc] episode=1/1 steps=1 total_steps=1 updates=0
+starting D2_B2_seed17 evaluate
+D2_B2_seed17 [1/1] found=False found_step=None outcome=OBSTACLE_COLLISION
+starting D2_B3_seed17 train
+[B3_direct_boundary] episode=1/1 steps=1 total_steps=1 updates=0
+starting D2_B3_seed17 evaluate
+D2_B3_seed17 [1/1] found=False found_step=None outcome=OBSTACLE_COLLISION
+starting D2_HGR_seed17 train
+starting D2_HGR_seed17 evaluate
+D2_HGR_seed17 [1/1] found=False found_step=None outcome=OBSTACLE_COLLISION
+verified complete; skip D2 evaluate
+verified complete; skip D2_B2_seed17 train
+verified complete; skip D2_B2_seed17 evaluate
+verified complete; skip D2_B3_seed17 train
+verified complete; skip D2_B3_seed17 evaluate
+verified complete; skip D2_HGR_seed17 train
+verified complete; skip D2_HGR_seed17 evaluate
+test_real_four_arm_collision_smoke_and_verified_skip (tests.test_d2_suite.SuiteTests) ... ok
+test_scene_overlap_and_split_rejected (tests.test_d2_suite.SuiteTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_d2_mainline_uses_exact_successor_without_rewriting_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_every_integration_path_and_frozen_reference_is_protected (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_exact_git_reference_profile_and_mixed_reference_rejection (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_no_reseal_can_expand_scope_or_change_before_hash (tests.test_d2_provenance.D2ProvenanceTests) ... ok
+test_baseline_maddpg_evolution_exists_and_records_independent_methods (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_changed_removed_and_added_baseline_inputs_are_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... FAIL
+test_final_pin_integrity_and_native_checkpoint_identity_are_retained (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_invalid_manifest_or_changed_production_binding_is_rejected (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_inventory_excludes_windows_bytes_but_launchers_still_run (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_real_source_inventory_changes_fail_for_every_protected_directory (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_scanner_keeps_linux_byte_protection_and_ignores_windows_eol (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_unsealed_notes_are_ignored_but_historical_metadata_is_frozen (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+
+======================================================================
+FAIL: test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_ch3_baseline_provenance.py", line 309, in test_evolution_preserves_all_historical_records_and_exact_new_hashes
+    self.assertEqual(source_gate.file_sha256(provenance.ROOT / name),
+AssertionError: 'c2c9dc9253c8ffac5f1a4d6e106f83b66475d796bfbc8f9fd7e0cadcb2e7b656' != '1bbb47685513d1434b4209000828474f185d5d8be89100d2c21c37c8bcac5900'
+- c2c9dc9253c8ffac5f1a4d6e106f83b66475d796bfbc8f9fd7e0cadcb2e7b656
++ 1bbb47685513d1434b4209000828474f185d5d8be89100d2c21c37c8bcac5900
+
+
+----------------------------------------------------------------------
+Ran 32 tests in 353.798s
+
+FAILED (failures=1)

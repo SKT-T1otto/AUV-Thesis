@@ -1,0 +1,27 @@
+test_cli_requires_explicit_execution (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_default_nine_training_ten_evaluation_preview_writes_nothing (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_entire_phase_order_lock_and_new_reports_on_repeat (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_missing_training_receipts_block_even_d2_before_evaluation (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_native_smoke_all_training_precedes_d2_and_learning_evaluation (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_new_source_scope_and_unused_profile_are_protected (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_partial_summary_cannot_mark_pipeline_complete (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_training_or_evaluation_error_stops_later_phases_and_records_failure (tests.test_d2_suite_pipeline.PipelineTests) ... ok
+test_all_complete_reviewed_byte_profiles_and_mixed_profile_rejection (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_changed_removed_added_files_rejected_in_every_scope (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_current_exact_inventory_and_no_source_normalization (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_d2_mainline_uses_exact_successor_without_rewriting_old_gate (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_historical_manifests_and_all_27_records_are_frozen (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_manifest_hash_scope_before_records_and_unused_profiles_checked (tests.test_safe_search_provenance.SafeSearchProvenanceTests) ... ok
+test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok
+test_linux_provenance_platform_independent (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+test_evolution_preserves_all_historical_records_and_exact_new_hashes (tests.test_ch3_baseline_provenance.BaselineProvenanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 281.392s
+
+OK

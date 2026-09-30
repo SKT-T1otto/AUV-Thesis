@@ -1,0 +1,104 @@
+{
+  "schema": "ch3.safe_search.b1_remaining_plan.v1",
+  "date": "2026-09-29",
+  "user_request": "补做 B1 组 V1 V2 V4，沿用固定20场景完整回合配对。",
+  "variants": [
+    "V1",
+    "V2",
+    "V4"
+  ],
+  "options": {
+    "V1": {
+      "planning_state_consistency": true,
+      "failure_policy": false,
+      "path_safety": false
+    },
+    "V2": {
+      "planning_state_consistency": true,
+      "failure_policy": true,
+      "path_safety": false
+    },
+    "V4": {
+      "planning_state_consistency": true,
+      "failure_policy": true,
+      "path_safety": true
+    }
+  },
+  "indices": [
+    0,
+    3,
+    7,
+    10,
+    22,
+    28,
+    31,
+    40,
+    42,
+    46,
+    62,
+    63,
+    67,
+    76,
+    77,
+    78,
+    86,
+    91,
+    95,
+    97
+  ],
+  "seed": 12729,
+  "max_steps": 400,
+  "planned_episode_runs": 60,
+  "training": false,
+  "checkpoint_loaded": false,
+  "formal_thesis_evaluation": false,
+  "heldout_scenarios_executed": 0,
+  "source_inventory_sha256": "f0f91fb821b138aa4f09c59bc3132b13d2567c086c59d4bd3d8ac5ea076de1ba",
+  "manifest": "3090结果/collision_terminal/B0_search_prior_eval100_seed12729_v1/evaluation_manifest.json",
+  "config": "configs/chapter3/hgr_train.json",
+  "b1_reference": "runs/safe_search_v1/development_B1_20260928_v1",
+  "reference_hashes": {
+    "runs/safe_search_v1/development_B1_20260928_v1/identity.json": "03ff7e5a0f1fde71b1a3defc575462853c49091514e848af2a94824d76b8ade1",
+    "runs/safe_search_v1/development_B1_20260928_v1/episodes.json": "7f225be6dfa3927e0ea9ae0e47d607542321cdea46b8c66b82d209133732a7da",
+    "runs/safe_search_v1/development_B1_20260928_v1/summary.json": "907398a979c230ff2f45591062918fe4aea6aadd43cb7a89ae8a001ddc4fec8c",
+    "docs/chapter3/search_diagnostics/safe_search_v1/b1_results_20260928/analysis.json": "664637f78c3ac0553c8c14b717fe6354b2978e870e3c40d2ebc4350997fbe97f",
+    "docs/chapter3/search_diagnostics/safe_search_v1/b1_results_20260928/delivery_verification.json": "f97cf9f37908b8845023e40d40d978dac3072d34f61b702a992222f2fbcb35d3"
+  },
+  "comparisons": [
+    [
+      "V1",
+      "V0"
+    ],
+    [
+      "V2",
+      "V1"
+    ],
+    [
+      "V4",
+      "V5"
+    ],
+    [
+      "V4",
+      "V2"
+    ]
+  ],
+  "secondary_comparisons": [
+    [
+      "V4",
+      "V0"
+    ],
+    [
+      "V4",
+      "V3"
+    ],
+    [
+      "V2",
+      "V0"
+    ]
+  ],
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20260928,
+  "statistics": "Scene-paired percentile95 bootstrap, descriptive without multiplicity correction; n=20 scenes. Existing development scenes, no heldout/generalization claim.",
+  "runtime_review": "Existing reviewed run_paired CLI unchanged. Supplement orchestration pinned independently; no provenance manifest evolution needed.",
+  "stopping_rule": "Exactly60 actual terminal arms; fail closed on program error. No result-based stopping or option tuning."
+}

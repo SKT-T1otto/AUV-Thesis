@@ -1,0 +1,12 @@
+[
+  "tests.test_hgr_mechanism",
+  "tests.test_hgr_phase1",
+  "tests.test_hgr_phase1_legacy_fixture",
+  "tests.test_hgr_phase1_runtime_synthetic",
+  "tests.test_hgr_phase2_config_validation",
+  "tests.test_hgr_phase2_gradient_efficiency",
+  "tests.test_hgr_phase2_policy_export",
+  "tests.test_hgr_phase2_source_builder",
+  "tests.test_hgr_source_portability",
+  "tests.test_hgr_suffix_diagnostics"
+]

@@ -1,0 +1,65 @@
+{
+  "schema": "ch3.bser_final.local_verification.v1",
+  "recorded_date": "2026-09-30",
+  "status": "passed",
+  "verification_kind": "latest_recorded_local_smoke_not_CI",
+  "source_inventory_sha256": "d2f24c2f617ad45b1fb586298c132f460f8d7bdd6b08646f1ff6e441789158cf",
+  "source_count": 366,
+  "historical_record_count": 27,
+  "final_nonintegration_tests": {
+    "passed": 41,
+    "failed": 0,
+    "seconds": 31.737,
+    "modules": [
+      "tests.test_bser_final",
+      "tests.test_bser_final_runner",
+      "tests.test_bser_effect",
+      "tests.test_bser_effect_runner",
+      "tests.test_safe_search_provenance",
+      "tests.test_observation_28d_contract",
+      "tests.test_phase1b2_path_tracking"
+    ]
+  },
+  "preceding_combined_smoke": {
+    "passed": 43,
+    "failed": 0,
+    "seconds": 177.354,
+    "synthetic_physical_steps": 18,
+    "source_inventory_sha256": "fabbd380edbaf145e8060d6647de4085eaaa4cbbb3966c67debc571d06dd2100",
+    "scope": "F0 vs D2 exact guidance/kinematics; F1-F6 forced event; public preview/RNG isolation; interface/source checks"
+  },
+  "final_seeded_F6_smoke": {
+    "passed": true,
+    "synthetic_physical_steps": 2,
+    "optimizer_updates": 0,
+    "physical_residual_max_abs": 0
+  },
+  "total_synthetic_physical_steps_this_change": 42,
+  "default_plan_only": {
+    "passed": true,
+    "created_output": false,
+    "scenarios": 20,
+    "arms": 7,
+    "planned_runs": 140,
+    "executed_physical_steps": 0
+  },
+  "scenario_validation": "synthetic manifest fixtures only; no new confirmation population generated",
+  "preserved_reference_files": 9,
+  "old_D_algorithm_sources_unchanged": true,
+  "shared_core_modified": false,
+  "formal_scenarios_executed": 0,
+  "full_development_episodes_executed": 0,
+  "confirmation_episodes_executed": 0,
+  "training": false,
+  "checkpoint_loaded": false,
+  "performance_passed": null,
+  "formal_thesis_evaluation": false,
+  "git_commit": false,
+  "git_push": false,
+  "runtime": "D:/anaconda/anaconda/envs/AUV/python.exe",
+  "limitations": [
+    "Smoke does not establish Found improvement or real-time feasibility.",
+    "The full 20/100-scene runs remain manual.",
+    "After the 43-test smoke, the only behavioral adjustment was D2 seeding for F6; it received a targeted two-step smoke and updated unit tests."
+  ]
+}

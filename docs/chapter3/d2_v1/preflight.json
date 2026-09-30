@@ -1,0 +1,19 @@
+{
+  "source_inventory_sha256": "0081ce1eb1c4d88c0e243d3dd200f8e810d6c583daf3fa0e954483341e5dd15a",
+  "historical_records": 27,
+  "methods": {
+    "HGR": {
+      "config": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\configs\\chapter3\\d2_v1\\hgr_train.json",
+      "planner_protocol": "d2_v1"
+    },
+    "B2_direct_mc": {
+      "config": "configs/chapter3/d2_v1/direct_mc_train.json",
+      "planner_protocol": "d2_v1"
+    },
+    "B3_direct_boundary": {
+      "config": "configs/chapter3/d2_v1/direct_boundary_train.json",
+      "planner_protocol": "d2_v1"
+    }
+  },
+  "formal_experiment_started": false
+}

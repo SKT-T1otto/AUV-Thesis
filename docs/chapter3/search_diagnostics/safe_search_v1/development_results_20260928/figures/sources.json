@@ -1,0 +1,88 @@
+{
+  "schema": "ch3.safe_search.development_figure_sources.v1",
+  "sources": {
+    "input_sha256": {
+      "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_analysis_B0_20260928_v2\\analysis.json": "f0e169d6e8643b02a94777302fd7df03cfa763a80c700cddcf1aa27a64d3b2a9",
+      "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\safe_search_v1\\development_window_audit_B0_20260928_v2.json": "fa38090cefa6915c9b44c78542713acbfd8f8583ed1ce5796a0b1014fae9f024"
+    }
+  },
+  "script_sha256": "1dd8108a3363ab371ee4f0aab4069981f2647abf475279906d59a98a9b3514b1",
+  "matplotlib_version": "3.10.8",
+  "backend": "Agg",
+  "analysis_content_sha256": "bfcb65d34ee2fc8da4355ccc7458d0f470e3cae7e153854f8a85559ca5798a4f",
+  "audit_content_sha256": "56653f743725850997c062c6d22e2a46a41e5ffd5611385a72e34b382fa83b11",
+  "plotted_data": {
+    "outcome_counts": {
+      "V0": {
+        "pre_found_collision_searcher": 9,
+        "pre_found_collision_executor": 0,
+        "pre_found_collision_mixed": 0,
+        "no_found_timeout": 6,
+        "post_found_failure": 5,
+        "success": 0
+      },
+      "V1": {
+        "pre_found_collision_searcher": 7,
+        "pre_found_collision_executor": 0,
+        "pre_found_collision_mixed": 0,
+        "no_found_timeout": 5,
+        "post_found_failure": 8,
+        "success": 0
+      },
+      "V2": {
+        "pre_found_collision_searcher": 10,
+        "pre_found_collision_executor": 0,
+        "pre_found_collision_mixed": 0,
+        "no_found_timeout": 2,
+        "post_found_failure": 8,
+        "success": 0
+      },
+      "V3": {
+        "pre_found_collision_searcher": 5,
+        "pre_found_collision_executor": 0,
+        "pre_found_collision_mixed": 0,
+        "no_found_timeout": 8,
+        "post_found_failure": 6,
+        "success": 1
+      },
+      "V4": {
+        "pre_found_collision_searcher": 7,
+        "pre_found_collision_executor": 0,
+        "pre_found_collision_mixed": 0,
+        "no_found_timeout": 5,
+        "post_found_failure": 7,
+        "success": 1
+      }
+    },
+    "found_counts": {
+      "V0": 5,
+      "V1": 8,
+      "V2": 8,
+      "V3": 7,
+      "V4": 8
+    },
+    "paired_persistent_failure_count": 1,
+    "paired_original_indices": [
+      28
+    ],
+    "mean_new_plus_aged_cell_observations": {
+      "V0": [
+        153.0,
+        30.0,
+        60.0,
+        75.0
+      ],
+      "V4": [
+        175.0,
+        148.0,
+        178.0,
+        180.0
+      ]
+    },
+    "synthetic_test": false
+  },
+  "output_sha256": {
+    "development_diagnostics.png": "769fbf23c891a6df527c9c34e2d201afe5a99d49635d39199cd9c456e3bb0041",
+    "development_diagnostics.pdf": "8d106411918672f61b567ba74d258768f031af0e3bc785e6f8784f9f0a376f39"
+  }
+}

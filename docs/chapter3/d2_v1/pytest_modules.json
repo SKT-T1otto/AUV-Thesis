@@ -1,0 +1,9 @@
+[
+  "tests/test_hgr_decision_experiment.py",
+  "tests/test_hgr_decision_statistics.py",
+  "tests/test_hgr_phase2_config_validation.py",
+  "tests/test_hgr_phase2_policy_export.py",
+  "tests/test_hgr_phase2_source_builder.py",
+  "tests/test_hgr_source_portability.py",
+  "tests/test_hgr_suffix_diagnostics.py"
+]
