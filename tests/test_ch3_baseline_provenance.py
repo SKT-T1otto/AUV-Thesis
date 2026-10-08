@@ -33,7 +33,7 @@ def final_checkout():
             if (path.is_file() and path.suffix in (".md", ".json")
                     and path.relative_to(root).as_posix() not in preserved):
                 path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
-        from chapter3_bser.experiments.d2_suite_v1.pipeline_provenance import MANIFEST as CURRENT_MANIFEST
+        from chapter3_bser.experiments.d2_performance.provenance import MANIFEST as CURRENT_MANIFEST
         record = d2.old.read_json(root / CURRENT_MANIFEST)["profiles"]["git_clone_preserved"]
         for name, expected in record["files"].items():
             path = root / name
@@ -306,12 +306,16 @@ class BaselineProvenanceTests(unittest.TestCase):
         transition = d2.old.read_json(d2.old.ROOT / d2.MANIFEST)["profiles"][current["checkout_profile"]]
         from chapter3_bser.experiments.d2_suite_v1.provenance import MANIFEST as SUITE_MANIFEST
         successor = d2.old.read_json(d2.old.ROOT / SUITE_MANIFEST)["profiles"][current["checkout_profile"]]
+        from chapter3_bser.experiments.d2_performance.provenance import MANIFEST as PERFORMANCE_MANIFEST
+        performance = d2.old.read_json(d2.old.ROOT / PERFORMANCE_MANIFEST)["profiles"][current["checkout_profile"]]
         for name, expected in evolution["added_production"].items():
             self.assertEqual(transition["changes"].get(name, {}).get("before", expected), expected)
             d2_after = transition["changes"].get(name, {}).get("after", expected)
             self.assertEqual(successor["changes"].get(name, {}).get("before", d2_after), d2_after)
+            suite_after = successor["changes"].get(name, {}).get("after", d2_after)
+            self.assertEqual(performance["changes"].get(name, {}).get("before", suite_after), suite_after)
             self.assertEqual(source_gate.file_sha256(provenance.ROOT / name),
-                             successor["changes"].get(name, {}).get("after", d2_after))
+                             performance["changes"].get(name, {}).get("after", suite_after))
         with final_checkout() as root:
             path = root / source_gate.EVOLUTION_RELATIVE
             value = json.loads(path.read_text())

@@ -13,6 +13,22 @@ LINUX_SCRIPTS = ROOT / "scripts" / "linux"
 AUDIT_LAUNCHERS = {"run_search_value_d1_audit.sh", "run_search_value_d2_audit.sh"}
 SOURCED_HELPERS = {"_search_value_audit_common.sh"}
 PACKAGERS = {"bundle_search_value_audits.sh"}
+BASELINE_ENTRYPOINTS = {
+    "run_ch3_basic_prior_eval.sh": 'tools.ch3_baselines.evaluate "$@"',
+    "run_ch3_baseline_eval.sh": 'tools.ch3_baselines.run_baseline "$@"',
+    "train_ch3_direct_mc.sh": 'tools.ch3_baselines.run_training "$@" --baseline B2_direct_mc',
+    "train_ch3_direct_boundary.sh": 'tools.ch3_baselines.run_training "$@" --baseline B3_direct_boundary',
+}
+D2_ENTRYPOINTS = {
+    "run_d2_suite.sh": "scripts.run_d2_suite",
+    "run_d2_full_suite.sh": "chapter3_bser.experiments.d2_suite_v1.pipeline",
+    "train_d2_suite.sh": "chapter3_bser.experiments.d2_suite_v1.linux train",
+    "evaluate_d2_suite.sh": "chapter3_bser.experiments.d2_suite_v1.linux evaluate",
+    "evaluate_d2_reference.sh": "chapter3_bser.experiments.d2_suite_v1.evaluation_cli d2",
+    "evaluate_d2_trained.sh": "chapter3_bser.experiments.d2_suite_v1.evaluation_cli trained",
+    "summarize_d2_suite.sh": "scripts.run_d2_suite summarize",
+}
+MANUAL_ACCEPTANCE = "run_hgr_phase1_acceptance.sh"
 
 
 class LinuxRuntimeAssetTests(unittest.TestCase):
@@ -37,6 +53,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             env = {**os.environ, 'STUB_BASE': unix(base), 'STUB_BIN': unix(bin_dir),
                 'STUB_ACTIVATION': unix(base/'activation.txt'), 'STUB_ARGS': unix(base/'args.txt'),
                 'CRK_CONDA_ENV': 'TEST_ONLY_ENV', 'CRK_CONDA_EXE': unix(bin_dir/'conda'),
+                'PYTHON': unix(bin_dir/'python'),
                 'AUV_AUDIT_PYTHON': unix(bin_dir/'python'), 'AUV_AUDIT_CHECKPOINT': unix(base/'checkpoint.pt'),
                 'AUV_AUDIT_TRAINING_CONFIG': unix(base/'training.json'), 'AUV_AUDIT_TRAINING_MANIFEST': '',
                 'AUV_AUDIT_OFF_OUTPUT': unix(base), 'AUV_AUDIT_ON_OUTPUT': unix(base),
@@ -46,11 +63,19 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
                 args = ['smoke'] if path.name in AUDIT_LAUNCHERS else []
                 constrained = path.name in {'run_phase1c_prrac_s1_search_diag.sh', 'run_phase1c_prrac_s2a_collision_ablation.sh', 'run_phase1c_prrac_s2a1_local_connector_ablation.sh'}
                 forwarded = ['--checkpoint', unix(base/'checkpoint.pt'), '--output-dir', 'two words', '--episodes', '1'] if constrained else ['--test-value', 'two words']
+                if path.name == MANUAL_ACCEPTANCE:
+                    forwarded = [unix(base/'acceptance output')]
                 command = [bash, '-c', 'export PATH="$STUB_BIN:$PATH"; exec bash "$@"', 'launcher-test', unix(path), *args, *forwarded]
-                result = subprocess.run(command, env=env, capture_output=True, text=True, timeout=30)
+                result = subprocess.run(command, env=env, capture_output=True, text=True,
+                                        encoding='utf-8', errors='replace', timeout=30)
                 with self.subTest(script=path.name):
                     self.assertEqual(result.returncode, 37, result.stderr+result.stdout)
                     received = (base/'args.txt').read_text().splitlines()
+                    if path.name == MANUAL_ACCEPTANCE:
+                        self.assertEqual(received, ['-m', 'chapter3_bser.experiments.hgr.phase1_acceptance',
+                            '--config', 'configs/chapter3/hgr_phase1_zero.json', '--output', forwarded[0]])
+                        self.assertTrue((base/'acceptance output.console.log').is_file())
+                        continue
                     marker = '--output-dir' if constrained else '--test-value'
                     self.assertEqual(received[received.index(marker)+1], 'two words')
             self.assertIn('activate TEST_ONLY_ENV', (base/'activation.txt').read_text())
@@ -87,7 +112,7 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
             "run_phase1c_v2_1_train.sh",
             "run_phase1c_v2_train.sh",
             "run_phase1c_v2_diagnostic_eval.sh",
-        } | AUDIT_LAUNCHERS | SOURCED_HELPERS | PACKAGERS
+        } | AUDIT_LAUNCHERS | SOURCED_HELPERS | PACKAGERS | set(BASELINE_ENTRYPOINTS) | set(D2_ENTRYPOINTS) | {MANUAL_ACCEPTANCE}
         self.assertEqual({path.name for path in LINUX_SCRIPTS.glob("*.sh")}, expected)
         for name in expected:
             payload = (LINUX_SCRIPTS / name).read_bytes()
@@ -97,7 +122,12 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
                 name,
             )
             self.assertNotIn(b"\r\n", payload, name)
-            self.assertIn(b"set -e", payload, name)
+            if name in BASELINE_ENTRYPOINTS:
+                self.assertIn(b"set -u", payload, name)
+                self.assertIn(b"|| exit 1", payload, name)
+                self.assertIn(('exec python -B -m ' + BASELINE_ENTRYPOINTS[name]).encode(), payload)
+            else:
+                self.assertIn(b"set -e", payload, name)
 
     def test_launchers_call_shared_python_modules(self) -> None:
         train = (LINUX_SCRIPTS / "run_phase1c_v2_train.sh").read_text(encoding="utf-8")
@@ -119,6 +149,22 @@ class LinuxRuntimeAssetTests(unittest.TestCase):
     def test_linux_assets_activate_configured_conda_environment(self) -> None:
         for path in LINUX_SCRIPTS.glob("*.sh"):
             source = path.read_text(encoding="utf-8")
+            if path.name in BASELINE_ENTRYPOINTS:
+                self.assertIn('exec python -B -m ' + BASELINE_ENTRYPOINTS[path.name], source)
+                self.assertIn('cd -- "$ROOT" || exit 1', source)
+                continue
+            if path.name in D2_ENTRYPOINTS:
+                self.assertIn('exec "${PYTHON:-python}"', source, path.name)
+                self.assertIn('-m ' + D2_ENTRYPOINTS[path.name] + ' "$@"', source, path.name)
+                self.assertIn('set -euo pipefail', source, path.name)
+                continue
+            if path.name == MANUAL_ACCEPTANCE:
+                self.assertIn('python_bin="${PYTHON:-python}"', source)
+                self.assertIn('-m chapter3_bser.experiments.hgr.phase1_acceptance', source)
+                self.assertIn('--output "$output"', source)
+                self.assertIn('Refusing existing log', source)
+                self.assertIn('set -euo pipefail', source)
+                continue
             if path.name in PACKAGERS:
                 self.assertIn('exec "$audit_python" -m chapter3_bser.experiments.phase1c_prrac.search_value_audit.analysis_bundle "$@"', source)
                 continue

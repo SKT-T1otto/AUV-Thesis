@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from collections import OrderedDict
+from functools import lru_cache
 import hashlib
 import heapq
 import json
@@ -1112,6 +1114,60 @@ class ObstacleAwareTaskMapPlanner(ProbabilisticTaskMapPlanner):
 
 # CH3_STAGE2_MERGED_UNKNOWN_PLANNER
 _LOG2 = math.log(2.0)
+_ONLINE_COMPONENTS_CACHE = OrderedDict()
+
+
+def _online_cells(points, shape, spacing, z_origin, eps):
+    points = np.asarray(points, dtype=np.float64).reshape(-1, 3)
+    if np.isnan(points).any():
+        raise ValueError("cannot convert float NaN to integer")
+    cells = np.empty(points.shape, dtype=np.int64)
+    cells[:, 0] = np.clip(np.floor(points[:, 0] / max(spacing[0], eps)), 0, shape[0]-1)
+    cells[:, 1] = np.clip(np.floor(points[:, 1] / max(spacing[1], eps)), 0, shape[1]-1)
+    cells[:, 2] = np.clip(np.rint((points[:, 2]-z_origin) / max(spacing[2], eps)), 0, shape[2]-1)
+    return cells
+
+
+@lru_cache(maxsize=8192)
+def _online_segment_cells(start, end, shape, spacing, z_origin, eps):
+    """Immutable original sample indices, reusable when only occupancy changes."""
+    start, end = np.asarray(start, dtype=np.float64), np.asarray(end, dtype=np.float64)
+    length = float(np.linalg.norm(end-start))
+    sample_step = max(.15, .40*min(spacing[0], spacing[1],
+                      spacing[2] if spacing[2] > eps else min(spacing[0], spacing[1])))
+    count = max(1, int(math.ceil(length/sample_step)))
+    ratios = np.linspace(0.0, 1.0, count+1)
+    points = start + ratios[:, None]*(end-start)
+    cells = _online_cells(points, shape, spacing, z_origin, eps)
+    return np.frombuffer(cells.tobytes(), dtype=cells.dtype).reshape(cells.shape)
+
+
+@lru_cache(maxsize=32768)
+def _sampled_online_segment_free(start, end, shape, spacing, z_origin, eps, bounds, occupied_bytes):
+    """Memoize the exact original predicate by all geometric inputs.
+
+    The occupied bytes are freshly read for each request, even when the map
+    revision is unchanged. Probabilities, role and clearance are not inputs to
+    the online planner's original sampled predicate. No endpoint quantization.
+    """
+    start, end = np.asarray(start, dtype=np.float64), np.asarray(end, dtype=np.float64)
+    if (not np.all(np.isfinite(start)) or not np.all(np.isfinite(end))
+            or np.any(start < 0.0) or np.any(end < 0.0)
+            or np.any(start > bounds) or np.any(end > bounds)):
+        return False
+    cells = _online_segment_cells(tuple(start), tuple(end), shape, spacing, z_origin, eps)
+    occupied = np.frombuffer(occupied_bytes, dtype=np.bool_).reshape(shape)
+    return not bool(np.any(occupied[cells[:, 0], cells[:, 1], cells[:, 2]]))
+
+
+@lru_cache(maxsize=32768)
+def _online_physical_time(delta, dtype, executor):
+    """Cache the original CPU Torch scalar arithmetic, including its precision."""
+    value = torch.tensor(delta, dtype=dtype, device="cpu")
+    horizontal = float(torch.norm(value[:2]).item())
+    vertical = abs(float(value[2].item()))
+    v_xy, v_z = (1.15, 0.60) if executor else (1.00, 0.55)
+    return horizontal / v_xy + 0.6 * vertical / v_z
 
 
 class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
@@ -1325,6 +1381,39 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
         z = int(np.clip(np.rint(z_rel), 0, self.grid_size[2] - 1))
         return x, y, z
 
+    def _cells_from_points_np(self, points):
+        """Batch the original floor/round/clip mapping with identical samples."""
+        return _online_cells(points, self.grid_size, (self.cell_dx, self.cell_dy, self.cell_dz),
+                             self.z_range[0], self.eps)
+
+    def _component_labels(self):
+        """Reuse geometric connectivity across probability-only map revisions.
+
+        Costs, A* results and endpoints are never cached under this key. Copy
+        the labels on return so another runtime cannot mutate shared entries.
+        All geometry affecting the existing sampled-segment predicate is keyed.
+        """
+        if type(self) is not OnlineUnknownMapTaskPlanner:
+            return super()._component_labels()
+        key = (tuple(self.grid_size), self._flat_xyz_centers_np.tobytes(),
+               self.valid_mask.detach().cpu().numpy().tobytes(),
+               self.known_occupied_mask.detach().cpu().numpy().tobytes(),
+               tuple(self._space_size_np), tuple(self.z_range), self.eps,
+               self.cell_dx, self.cell_dy, self.cell_dz,
+               float(self.planner_obstacle_clearance), self._neighbor_offsets())
+        if key not in _ONLINE_COMPONENTS_CACHE:
+            # Do not let the parent's revision-only memo mask changed content.
+            previous_cache = self._geodesic_cache
+            self._geodesic_cache = {}
+            try:
+                _ONLINE_COMPONENTS_CACHE[key] = dict(super()._component_labels())
+            finally:
+                self._geodesic_cache = previous_cache
+            while len(_ONLINE_COMPONENTS_CACHE) > 16:
+                _ONLINE_COMPONENTS_CACHE.popitem(last=False)
+        _ONLINE_COMPONENTS_CACHE.move_to_end(key)
+        return dict(_ONLINE_COMPONENTS_CACHE[key])
+
     def integrate_obstacle_scan(
         self,
         origins,
@@ -1376,12 +1465,11 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
                 )
                 if free_limit > 0.0:
                     samples = max(1, int(math.ceil(free_limit / sample_step)))
-                    visited = set()
-                    for value in np.linspace(0.0, free_limit, samples + 1):
-                        point = origin + unit * float(value)
-                        if np.any(point < 0.0) or np.any(point > self._space_size_np):
-                            continue
-                        visited.add(self._cell_from_point_np(point))
+                    values = np.linspace(0.0, free_limit, samples + 1)
+                    points = origin + unit * values[:, None]
+                    in_bounds = ~(np.any(points < 0.0, axis=1) | np.any(points > self._space_size_np, axis=1))
+                    # Preserve per-ray deduplication and one vote per cell/ray.
+                    visited = set(map(tuple, self._cells_from_points_np(points[in_bounds]).tolist()))
                     for cell in visited:
                         free_counts[cell] = free_counts.get(cell, 0) + 1
                 if hit:
@@ -1455,33 +1543,12 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
         return not bool(self.known_occupied_mask[cell].item())
 
     def _segment_is_free_np(self, start, end, clearance):
-        del clearance
-        start = np.asarray(start, dtype=np.float64)
-        end = np.asarray(end, dtype=np.float64)
-        if (
-            not np.all(np.isfinite(start))
-            or not np.all(np.isfinite(end))
-            or np.any(start < 0.0)
-            or np.any(end < 0.0)
-            or np.any(start > self._space_size_np)
-            or np.any(end > self._space_size_np)
-        ):
-            return False
-        length = float(np.linalg.norm(end - start))
-        sample_step = max(
-            0.15,
-            0.40 * min(
-                self.cell_dx,
-                self.cell_dy,
-                self.cell_dz if self.cell_dz > self.eps else min(self.cell_dx, self.cell_dy),
-            ),
-        )
-        count = max(1, int(math.ceil(length / sample_step)))
-        for ratio in np.linspace(0.0, 1.0, count + 1):
-            point = start + ratio * (end - start)
-            if bool(self.known_occupied_mask[self._cell_from_point_np(point)].item()):
-                return False
-        return True
+        del clearance  # The existing online predicate has no clearance margin.
+        occupied = np.asarray(self.known_occupied_mask.detach().cpu().numpy(), dtype=np.bool_)
+        return _sampled_online_segment_free(
+            tuple(np.asarray(start, dtype=np.float64)), tuple(np.asarray(end, dtype=np.float64)),
+            tuple(self.grid_size), (self.cell_dx, self.cell_dy, self.cell_dz), self.z_range[0],
+            self.eps, tuple(self._space_size_np), occupied.tobytes())
 
     def _edge_is_valid(self, left, right):
         cache_key = (
@@ -1499,7 +1566,18 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
         return bool(self._geodesic_cache[cache_key])
 
     def _physical_edge_time(self, left, right, role):
-        return ObstacleAwareTaskMapPlanner._edge_time(self, left, right, role)
+        if self.device.type != "cpu":
+            return ObstacleAwareTaskMapPlanner._edge_time(self, left, right, role)
+        delta = self.xyz_centers[right] - self.xyz_centers[left]
+        return _online_physical_time(tuple(delta.tolist()), delta.dtype,
+                                     str(role).lower().startswith("exec"))
+
+    def _continuous_edge_time(self, left, right, role):
+        if self.device.type != "cpu":
+            return super()._continuous_edge_time(left, right, role)
+        delta = self._as_points(right).reshape(3) - self._as_points(left).reshape(3)
+        return _online_physical_time(tuple(delta.tolist()), delta.dtype,
+                                     str(role).lower().startswith("exec"))
 
     def _edge_time(self, left, right, role):
         physical = self._physical_edge_time(left, right, role)

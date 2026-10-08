@@ -13,6 +13,8 @@ def main(argv=None):
     p.add_argument("--train-manifest")
     p.add_argument("--eval-manifest")
     p.add_argument("--generate-scenes", action="store_true")
+    p.add_argument("--learner-device", choices=("cpu", "cuda"), help="explicit B2/B3 learner/rollout device; HGR stays CPU")
+    p.add_argument("--cpu-threads", type=int, help="explicit PyTorch CPU threads per seed process")
     p = commands.add_parser("run", help="preview by default; execution requires --execute")
     p.add_argument("--root", required=True)
     p.add_argument("--stage", choices=("all", "train", "evaluate"), default="all")

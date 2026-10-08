@@ -18,7 +18,7 @@ from core.env.task_protocol import protocol_identity
 from .checkpoint import (CHECKPOINT_SCHEMA, IMPLEMENTATION_VERSION, ROOT, digest,
                          fresh_source_identity, load_checkpoint, require_source_match,
                          state_digest, validate_config, validated_output, write_json)
-from .model import build_model
+from chapter3_bser.experiments.d2_performance.compute import build_model
 from .runtime import BaselineMissionRuntime
 
 
@@ -32,6 +32,10 @@ class BaselineTrainer:
 
     def __init__(self, config, output):
         self.config = validate_config(config, self.baseline)
+        from chapter3_bser.experiments.d2_performance.options import performance_options, require_device
+        self.performance = performance_options(self.config)
+        require_device(self.performance)
+        self.device = self.performance["learner_device"]
         from chapter3_bser.experiments.d2_v1.provenance import verify_if_enabled
         verify_if_enabled(self.config)
         self.output = validated_output(self.config, output)
@@ -41,16 +45,19 @@ class BaselineTrainer:
         self.global_step = 0
         self.optimizer_updates = 0
         self.episodes = []
-        self.update_metrics = []
+        self.update_metrics = None
         self.scenarios = self._load_scenarios()
         random.seed(self.config["seed"])
         np.random.seed(self.config["seed"] % (2 ** 32))
         torch.manual_seed(self.config["seed"])
-        self.model = build_model(self.config, env=None, device="cpu")
+        self.model = build_model(self.config, env=None, device=self.device)
         rl = self.config["rl"]
         self.replay = CH3ReplayBuffer(rl["replay_size"], 4, [28] * 4, [3] * 4,
                                       success_priority=1.0, alpha=0.0, beta_start=0.0)
         self.output.mkdir(parents=True, exist_ok=True)
+        from chapter3_bser.experiments.d2_performance.logging import JsonlJournal
+        self.update_metrics = JsonlJournal(self.output / "training_metrics.jsonl")
+        self.episode_journal = JsonlJournal(self.output / "episodes.jsonl")
         write_json(self.output / "config.json", self.config)
 
     def _load_scenarios(self):
@@ -98,11 +105,11 @@ class BaselineTrainer:
         if (len(self.replay) < rl["batch_size"] or self.global_step < rl["warmup_steps"]
                 or self.global_step % rl["update_frequency"]):
             return
-        self.model.prep_training(device="cpu")
+        self.model.prep_training(device=self.device)
         for _ in range(rl["updates_per_train"]):
             # Uniform replay and untouched team rewards keep the direct baseline
             # free of success prioritization, reward normalization and correction.
-            sample = self.replay.sample(rl["batch_size"], norm_rews=False, device="cpu")
+            sample = self.replay.sample(rl["batch_size"], norm_rews=False, device=self.device)
             actor_losses, critic_losses = [], []
             for agent_index in range(4):
                 critic_loss, actor_loss, _ = self.model.update(sample, agent_index)
@@ -114,7 +121,7 @@ class BaselineTrainer:
             self.optimizer_updates += 1
             self.update_metrics.append(dict(global_step=self.global_step, optimizer_update=self.optimizer_updates,
                                             actor_loss_by_agent=actor_losses, critic_loss_by_agent=critic_losses))
-        self.model.prep_rollouts(device="cpu")
+        self.model.prep_rollouts(device=self.device)
 
     def run_episode(self):
         episode = self.completed_main + 1
@@ -124,7 +131,7 @@ class BaselineTrainer:
         updates_before = self.optimizer_updates
         first_step = self.global_step
         try:
-            self.model.prep_rollouts(device="cpu")
+            self.model.prep_rollouts(device=self.device)
             self.model.reset_noise()
             while not runtime.terminal and runtime.step < self.config["max_steps"]:
                 transition = runtime.advance(self.model, explore=True)
@@ -146,8 +153,7 @@ class BaselineTrainer:
                    replay_size=len(self.replay), return_scope="full_mission", trajectory_complete=True,
                    wall_seconds=time.perf_counter() - started)
         self.episodes.append(row)
-        write_json(self.output / "episodes.json", self.episodes)
-        write_json(self.output / "training_metrics.json", self.update_metrics)
+        self.episode_journal.append(row)
         print(f"[{self.config['baseline']}] episode={episode}/{self.config['total_main_trajectories']} "
               f"steps={row['episode_steps']} total_steps={self.global_step} updates={self.optimizer_updates}", flush=True)
         return row
@@ -156,6 +162,9 @@ class BaselineTrainer:
         if self.model is None or self.completed_main < 1:
             raise ValueError("checkpoint requires a complete episode and initialized model")
         require_source_match(self.source_identity, context="checkpoint save")
+        if final:
+            self.episode_journal.materialize()
+            self.update_metrics.materialize()
         directory = self.output / "checkpoints"
         directory.mkdir(exist_ok=True)
         suffix = "final" if final else f"episode_{self.completed_main:06d}"
@@ -184,7 +193,7 @@ class BaselineTrainer:
     def run(self):
         previous_threads = torch.get_num_threads()
         try:
-            torch.set_num_threads(1)
+            torch.set_num_threads(self.performance["cpu_threads"])
             return self._run()
         finally:
             torch.set_num_threads(previous_threads)

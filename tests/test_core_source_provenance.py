@@ -31,6 +31,9 @@ HISTORICAL_ACTIVE_CH3_FINAL_EXPERIMENT_MODES = (
     "ch3_pse_no_residual",
 )
 
+from tests.d2_performance_review import PERMITTED_BY_PATH as PERFORMANCE_REVIEW
+REVIEWED_POST_PHASE0B2_EVOLUTIONS.update(PERFORMANCE_REVIEW)
+
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()

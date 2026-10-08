@@ -88,6 +88,9 @@ def validate_config(config):
     config = copy.deepcopy(dict(config))
     from chapter3_bser.experiments.d2_v1.contract import planner_protocol
     planner_protocol(config)
+    from chapter3_bser.experiments.d2_performance.options import performance_options
+    if performance_options(config)["learner_device"] != "cpu":
+        raise ValueError("HGR currently requires its CPU stochastic-policy contract")
     options = phase1_options(config)
     if config.get("schema") != "hgr.training.v1":
         raise ValueError("unknown HGR training config schema")
@@ -126,6 +129,10 @@ class Trainer:
         from chapter3_bser.experiments.d2_v1.provenance import verify_if_enabled
         verify_if_enabled(config)
         self.config = copy.deepcopy(config)
+        from chapter3_bser.experiments.d2_performance.options import performance_options
+        self.performance = performance_options(config)
+        if self.performance["learner_device"] != "cpu":
+            raise ValueError("HGR currently requires its CPU stochastic-policy contract")
         self.phase1 = phase1_options(config)
         self.named_counts = {}
         self.behavior_contract = runtime_contract(config) if self.phase1 else None
@@ -135,7 +142,7 @@ class Trainer:
         self.output = validated_output(config, output)
         self.output.mkdir(parents=True, exist_ok=True)
         seed_innovations(config["seed"], cpu_only=bool(self.phase1))
-        torch.set_num_threads(1)
+        torch.set_num_threads(self.performance["cpu_threads"])
         self.policy = HandoffPolicy(config["policy"])
         self.predictor = (StablePredictor(FEATURE_DIM, self.phase1) if self.phase1
                           else BoundaryPredictor(FEATURE_DIM, config["predictor"]["hidden_dim"]))
@@ -168,6 +175,15 @@ class Trainer:
             self.initialization = dict(mode="cross_architecture_mean_initialization", source=str(Path(mean_initialization).resolve()),
                                        source_sha256=file_sha256(mean_initialization), mapping=mapping,
                                        source_objective=objective_identity(payload["metadata"]), source_protocol=protocol_identity(payload["metadata"]))
+        from chapter3_bser.experiments.d2_v1.contract import enabled
+        self.journals = {}
+        if enabled(config):
+            from chapter3_bser.experiments.d2_performance.logging import JsonlJournal
+            for name in ("cycles", "episodes", "branches"):
+                journal = JsonlJournal(self.output / (name + ".jsonl"))
+                self.journals[name] = journal
+                for row in getattr(self, name):
+                    journal.append(row)
         write_json(self.output / "config.json", config)
 
     def stream(self, purpose):
@@ -425,9 +441,14 @@ class Trainer:
         self.cycles.append(row)
         # Only compact evidence survives the update. No stale on-policy prefixes.
         del main, old
-        write_json(self.output / "cycles.json", self.cycles)
-        write_json(self.output / "episodes.json", self.episodes)
-        write_json(self.output / "branches.json", self.branches)
+        if self.journals:
+            for name, journal in self.journals.items():
+                for record in getattr(self, name)[len(journal):]:
+                    journal.append(record)
+        else:
+            write_json(self.output / "cycles.json", self.cycles)
+            write_json(self.output / "episodes.json", self.episodes)
+            write_json(self.output / "branches.json", self.branches)
         return row
 
     def save(self):
@@ -501,6 +522,8 @@ class Trainer:
                        budget_policy="finish_started_cycle_then_stop", budget_overshoot_steps=max(0, spent-(self.config.get("max_total_environment_steps") or spent)),
                        latest_checkpoint=None if latest is None else str(latest), initialization=self.initialization,
                        formal_experiments_completed=False, performance_claims_supported=False)
+        for journal in self.journals.values():
+            journal.materialize()
         write_json(self.output / "summary.json", summary)
         return summary
 

@@ -1,0 +1,204 @@
+{
+  "context": "latest_recorded_local_verification_not_CI",
+  "base_head": "08200428351d0de47e6078094a58927feed611a3",
+  "candidate_uncommitted": true,
+  "regression": {
+    "collected": 1117,
+    "latest_passed": 1117,
+    "skipped": 0,
+    "unresolved_failures": 0,
+    "evidence": "regression.json",
+    "full_suite_rerun": true
+  },
+  "core_evolution": [
+    {
+      "path": "core/mapping/path_planner.py",
+      "phase0b2_sha256": "0c86f2a701c931179d6609ea755f82fe27d1e8df35672ff5696f5471bcad1925",
+      "current_sha256": "26fd9e2686ef738b3e34269b5e967788926843dad33b7bbe6d8334bf5f488634",
+      "current_ast_dump_sha256": "16d12e16dd2d9e05794ec87f5c1496b43fb08607815019d6082e0d0039688e71"
+    },
+    {
+      "path": "core/env/target_motion.py",
+      "phase0b2_sha256": "8e2cd1fc585bd3b148a1f0ff87ab8eb758bfe3db9142792d40da987b7ec5fde0",
+      "current_sha256": "e35ae02447723dfdc6be23d31fa4ed73a992ddcf12998947bd2af0b6084844af",
+      "current_ast_dump_sha256": "e57c1e5486cdbc51299ff09cbd8de1dea0657b561019962dc07dce7d4d58d9dd"
+    }
+  ],
+  "historical_provenance_records_preserved": 27,
+  "historical_manifests_modified": false,
+  "local_targeted_tests": {
+    "tests": 20,
+    "passed": true,
+    "included_in_final_full_suite": true
+  },
+  "legacy": {
+    "passed": true,
+    "reference_commit": "93a9c8fb53857051390265e3035061bf05402e25",
+    "processes": {
+      "reference": {
+        "command": [
+          "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+          "-E",
+          "-s",
+          "-B",
+          "-m",
+          "_legacy_probe",
+          "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\d2_performance\\legacy_prediction_final\\legacy\\reference.json"
+        ],
+        "exit_code": 0,
+        "source_root": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-fixed-legacy-mmkiigd0\\reference"
+      },
+      "current": {
+        "command": [
+          "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+          "-E",
+          "-s",
+          "-B",
+          "-m",
+          "_legacy_probe",
+          "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\runs\\d2_performance\\legacy_prediction_final\\legacy\\current.json"
+        ],
+        "exit_code": 0,
+        "source_root": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\auv-fixed-legacy-mmkiigd0\\current"
+      }
+    },
+    "comparison": "Exact full scenario, resolved config, actor arrays, initial state, every applied action, state/observation/reward/done/collision/Found/Contact/Hold/Success and planning/controller result diagnostic; float hex and array bytes retain bit identity. No numerical tolerance.",
+    "different_top_level_fields": [],
+    "legacy_identity_valid": true,
+    "dependency_isolation_valid": true,
+    "added_import_modules": [
+      "chapter3_bser.experiments.phase1c_prrac.checkpoint_transfer",
+      "chapter3_bser.experiments.reward_objective",
+      "core.env.task_protocol"
+    ],
+    "discovered": 1,
+    "tests_run": 1,
+    "bounded_steps_per_source": 4,
+    "reference_payload_sha256": "7d880c10b64616d5f1b6a9f37b6155bc1291f6f1a3a4390e2d727e37440c38fa",
+    "current_payload_sha256": "f99187a4c1b7711c11d67814a170ddf0a11065b4f84a867881803a9fc4f82ede",
+    "started_utc": "2026-10-08T10:06:06.071514+00:00",
+    "ended_utc": "2026-10-08T10:07:12.961000+00:00"
+  },
+  "golden": {
+    "status": "blocked_missing_historical_input",
+    "missing_input": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\experiments\\chapter3\\e0_core_migration\\golden_trace_manifest.json",
+    "trajectories": 0,
+    "passed_trajectories": 0,
+    "blocked": 1,
+    "passed": false,
+    "started_utc": "2026-10-08T05:27:06.783320+00:00",
+    "ended_utc": "2026-10-08T05:27:06.789319+00:00"
+  },
+  "closure": {
+    "final": {
+      "context": "latest_recorded_local_verification_not_CI",
+      "kind": "fresh_git_clone_with_uncommitted_candidate_overlay",
+      "no_commit_created": true,
+      "base_head": "08200428351d0de47e6078094a58927feed611a3",
+      "overlay_paths": [
+        "chapter3_bser/experiments/baselines/common/checkpoint.py",
+        "chapter3_bser/experiments/baselines/common/train.py",
+        "chapter3_bser/experiments/d2_performance/__init__.py",
+        "chapter3_bser/experiments/d2_performance/compute.py",
+        "chapter3_bser/experiments/d2_performance/logging.py",
+        "chapter3_bser/experiments/d2_performance/options.py",
+        "chapter3_bser/experiments/d2_performance/planning.py",
+        "chapter3_bser/experiments/d2_performance/provenance.py",
+        "chapter3_bser/experiments/d2_suite_v1/cli.py",
+        "chapter3_bser/experiments/d2_suite_v1/linux.py",
+        "chapter3_bser/experiments/d2_suite_v1/plan.py",
+        "chapter3_bser/experiments/d2_v1/assembly.py",
+        "chapter3_bser/experiments/hgr/train.py",
+        "chapter3_bser/experiments/safe_search_v1/provenance.py",
+        "core/env/target_motion.py",
+        "core/mapping/path_planner.py",
+        "docs/chapter3/d2_suite_v1/performance/README.md",
+        "docs/chapter3/d2_suite_v1/performance/benchmark_summary.json",
+        "docs/chapter3/d2_suite_v1/performance/regression.json",
+        "docs/chapter3/d2_suite_v1/performance/source_review.md",
+        "docs/chapter3/d2_suite_v1/performance/verification.json",
+        "docs/provenance/d2_performance_v1_evolution.json",
+        "tests/d2_performance_review.py",
+        "tests/test_ch3_baseline_provenance.py",
+        "tests/test_core_source_provenance.py",
+        "tests/test_d2_mapping_performance.py",
+        "tests/test_d2_performance.py",
+        "tests/test_d2_performance_provenance.py",
+        "tests/test_d2_target_prediction_cache.py",
+        "tests/test_hgr_phase1_legacy_fixture.py",
+        "tests/test_hgr_phase1_runtime_synthetic.py",
+        "tests/test_linux_runtime_assets.py",
+        "tests/test_openmp_runtime_env.py",
+        "tests/test_phase1a1_original_core_freeze.py",
+        "tests/test_phase1a_core_freeze.py",
+        "tests/test_repository_metadata.py",
+        "tests/test_safe_search_provenance.py",
+        "tools/benchmark_d2_performance.py"
+      ],
+      "commands": [
+        {
+          "command": [
+            "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+            "-B",
+            "-c",
+            "from chapter3_bser.experiments.d2_v1.provenance import framework_sources; import json; print(json.dumps(framework_sources()))"
+          ],
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+            "-B",
+            "-m",
+            "unittest",
+            "tests.test_d2_suite_linux",
+            "tests.test_d2_performance_provenance",
+            "tests.test_repository_metadata",
+            "tests.test_core_source_provenance",
+            "tests.test_phase1a_core_freeze",
+            "tests.test_phase1a1_original_core_freeze"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "wall_seconds": 73.66294530000596,
+      "passed": true
+    },
+    "tested_methods": 21
+  },
+  "benchmark_backward_import_check_passed": true,
+  "final_cpu1_fixed_scene_semantics": {
+    "rollout_scenes": 2,
+    "real_training_episodes": 2,
+    "global_step": 766,
+    "optimizer_updates": 256,
+    "transitions_rewards_summaries_and_model_states_exact": true,
+    "excluded_summary_fields": [
+      "wall_seconds"
+    ],
+    "source_sha256": "dbe58ff1f4f055afd67461e150109cdd166bff659582ef3f58503f6786835358",
+    "benchmark_complete": true,
+    "evidence": "benchmark_summary.json"
+  },
+  "additional_golden_archive_search": {
+    "repository_zip_archives_inspected": 11,
+    "matching_golden_manifests": 0,
+    "archives_modified": false,
+    "local_evidence": "runs/d2_performance/golden_archive_search.json"
+  },
+  "all_required_verification_passed": false,
+  "formal_training_started": false,
+  "historical_or_formal_checkpoint_resumed": false,
+  "performance_passed_not_established": true,
+  "no_commit_or_push": true,
+  "candidate": "final_prediction_cache",
+  "post_full_suite_fixture_cleanup": {
+    "tests": 3,
+    "passed": true,
+    "change": "Remove one duplicate journals={} assignment in the synthetic legacy test; production source unchanged.",
+    "evidence": {
+      "path": "runs/d2_performance/fixture_cleanup_final.xml",
+      "sha256": "20dfa721a788507060e5c1bf23e48f7e151f949742562a9fc42ffea2bdc41f96"
+    }
+  }
+}

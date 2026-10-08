@@ -84,7 +84,8 @@ def _validate_files(files):
 def inventory(root=None):
     root = ROOT if root is None else Path(root)
     paths = {p for directory, pattern in PATTERNS for p in (root / directory).rglob(pattern)}
-    paths.update(root / name for name in (*FROZEN_RAW, PLAN, REVIEW, ".gitattributes"))
+    paths.update(root / name for name in (*FROZEN_RAW, PLAN, REVIEW, ".gitattributes",
+                                        "tools/benchmark_d2_performance.py"))
     if any(p.is_symlink() for p in paths):
         raise ValueError("source inventory cannot contain symlinks")
     files = {p.relative_to(root).as_posix(): file_sha256(p) for p in sorted(paths)}
@@ -229,6 +230,10 @@ def framework_sources(root=None):
         if pipeline.exists():
             from chapter3_bser.experiments.d2_suite_v1.pipeline_provenance import extend_profile as extend_pipeline
             expected = extend_pipeline(root, profile, expected)
+        performance = root / "docs/provenance/d2_performance_v1_evolution.json"
+        if performance.exists():
+            from chapter3_bser.experiments.d2_performance.provenance import extend_profile as extend_performance
+            expected = extend_performance(root, profile, expected)
         if current == dict(files=expected, sha256=digest(expected)):
             matched.append(profile)
     if matched:
@@ -252,6 +257,8 @@ def framework_sources(root=None):
             result["d2_suite_linux_evaluation_sha256"] = file_sha256(linux_evaluation)
         if pipeline.exists():
             result["d2_suite_pipeline_evolution_sha256"] = file_sha256(pipeline)
+        if performance.exists():
+            result["d2_performance_evolution_sha256"] = file_sha256(performance)
         return result
     expected = manifest["profiles"]["windows_existing"]["files"]
     differences = sorted(n for n in current["files"].keys() | expected.keys()

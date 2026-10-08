@@ -142,6 +142,7 @@ class SyntheticRuntimeTests(unittest.TestCase):
         t.costs={k:0 for k in (*train.COST_FIELDS,"snapshot_restore_count","predictor_updates",
                               "prefix_actor_updates","suffix_actor_updates")}
         t.completed_main=t.cycle=0; t.cycles=[]; t.episodes=[]; t.branches=[]
+        t.journals={}  # Match non-D2 initialization; legacy writes remain asserted below.
         t.output=Path("synthetic_unused_output")
         calls=[]
         def collect(purpose,policy,*,stop=False):

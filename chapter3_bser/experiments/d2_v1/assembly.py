@@ -12,6 +12,8 @@ def prepare(owner, config, scenario):
     if enabled(config):
         from chapter3_bser.experiments.safe_search_v1.runtime import SafetyMixin
         SafetyMixin._setup_safe(owner, scenario, "V4")
+        from chapter3_bser.experiments.d2_performance.planning import D2PlanningViews
+        owner.planning_views = D2PlanningViews(owner, owner.planning_views.clearance)
         owner.effect_arm = "D2"
         owner.effect_counts = Counter()
 

@@ -83,6 +83,7 @@ class LegacyFixtureTests(unittest.TestCase):
             t.suffix_optimizer=torch.optim.SGD(t.policy.phi.parameters(),lr=.001)
             t.costs={k:0 for k in (*train.COST_FIELDS,"snapshot_restore_count","predictor_updates","prefix_actor_updates","suffix_actor_updates")}
             t.completed_main=t.cycle=t.stream_counter=0; t.cycles=[]; t.episodes=[]; t.branches=[]
+            t.journals={}  # Non-D2 constructor state; compare original legacy results below.
             t.output=Path("synthetic_unused_output"); t.index_rng=np.random.default_rng(7)
             streams=[]
             def collect(purpose,policy,*,stop=False):

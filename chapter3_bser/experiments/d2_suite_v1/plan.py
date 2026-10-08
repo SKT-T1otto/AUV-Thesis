@@ -91,7 +91,8 @@ def validate_pair(train, evaluation, count):
         raise ValueError("train/evaluation overlap by ID, seed, or scenario content")
 
 
-def prepare(output, *, config=DEFAULT, train_manifest=None, eval_manifest=None, generate_scenes=False):
+def prepare(output, *, config=DEFAULT, train_manifest=None, eval_manifest=None, generate_scenes=False,
+            learner_device=None, cpu_threads=None):
     from chapter3_bser.experiments.d2_v1.provenance import framework_sources
     from tools.ch3_baselines.registry import task_conditions
     from chapter3_bser.experiments.hgr.train import validate_config as hgr_config
@@ -125,6 +126,14 @@ def prepare(output, *, config=DEFAULT, train_manifest=None, eval_manifest=None, 
     train = dict(scenarios=copy.deepcopy(train["scenarios"]))
     templates = {arm: read(ROOT / value["templates"][arm]) for arm in ARMS}
     for arm, template in templates.items():
+        if learner_device is not None or cpu_threads is not None:
+            performance = dict(template.get("performance", {}))
+            if learner_device is not None and arm in ARMS[1:3]:
+                performance["learner_device"] = learner_device
+            if cpu_threads is not None:
+                performance["cpu_threads"] = cpu_threads
+            from chapter3_bser.experiments.d2_performance.options import performance_options
+            template["performance"] = performance_options(dict(performance=performance))
         if arm in ARMS[1:3]:
             baseline = "B2_direct_mc" if arm == "D2_B2" else "B3_direct_boundary"
             templates[arm] = baseline_config(template, expected_baseline=baseline)

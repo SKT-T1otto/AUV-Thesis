@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass, field
+from functools import lru_cache
 from numbers import Integral, Real
 from typing import Callable, Iterable
 
@@ -317,6 +318,85 @@ def advance_target_state(
     return state
 
 
+_PREDICTION_PRIMITIVES = (
+    advance_target_state, _expanded_boxes, segment_aabb_first_hit,
+    _boundary_first_hit, _vec3, TargetState.copy,
+)
+
+
+def _plain_prediction_metadata(value):
+    """Custom objects retain the original per-step deepcopy behavior."""
+    if type(value) is dict:
+        return all(type(k) is str and _plain_prediction_metadata(v)
+                   for k, v in value.items())
+    if type(value) in (list, tuple):
+        return all(_plain_prediction_metadata(v) for v in value)
+    return type(value) in (str, int, float, bool, type(None))
+
+
+def _prediction_context(state, dt, bounds, obstacles, clearance, max_reflections):
+    """Exact immutable physical inputs; unusual/stateful inputs use the old loop."""
+    if (state.motion_mode != "constant_velocity_reflect_v1"
+            or not _plain_prediction_metadata(state.metadata)
+            or type(obstacles) not in (list, tuple)
+            or _PREDICTION_PRIMITIVES != (
+                advance_target_state, _expanded_boxes, segment_aabb_first_hit,
+                _boundary_first_hit, _vec3, TargetState.copy)):
+        return None
+
+    def number(value):
+        if type(value) not in (int, float, np.float64, np.float32, np.int64, np.int32):
+            raise TypeError("nonstandard numeric input")
+        return value
+
+    def vector(value):
+        if type(value) is np.ndarray:
+            if value.dtype.kind not in "fiu":
+                raise TypeError("nonstandard array")
+        elif type(value) in (list, tuple):
+            for item in value:
+                number(item)
+        else:
+            raise TypeError("nonstandard vector")
+        return _vec3(value, "prediction cache vector").tobytes()
+
+    try:
+        dt = float(number(dt))
+        clearance = float(number(clearance))
+        maximum = int(number(max_reflections))
+        if not np.isfinite(dt) or dt <= 0 or not np.isfinite(clearance):
+            return None
+        boxes = []
+        for obstacle in obstacles:
+            if type(obstacle) is not dict:
+                return None
+            boxes.append((vector(obstacle["center"]), vector(obstacle["size"])))
+        return (dt.hex(), vector(bounds), tuple(boxes), clearance.hex(),
+                maximum, float(EPS).hex())
+    except (TypeError, ValueError, KeyError, OverflowError):
+        # Preserve the original validation order, including inputs ignored by
+        # zero-step predictions and limits checked only upon reflection.
+        return None
+
+
+@lru_cache(maxsize=16384)
+def _prediction_step(position, velocity, sample_step, reflection_count, context):
+    """Cache only values produced by the unchanged physical integrator."""
+    dt, bounds, boxes, clearance, maximum, _epsilon = context
+    state = TargetState(np.frombuffer(position, dtype=np.float64),
+                        np.frombuffer(velocity, dtype=np.float64), sample_step,
+                        "constant_velocity_reflect_v1", reflection_count)
+    obstacles = [dict(center=np.frombuffer(center, dtype=np.float64),
+                      size=np.frombuffer(size, dtype=np.float64))
+                 for center, size in boxes]
+    result = advance_target_state(
+        state, float.fromhex(dt), np.frombuffer(bounds, dtype=np.float64),
+        obstacles, clearance=float.fromhex(clearance), max_reflections=maximum,
+    )
+    return (result.position.tobytes(), result.velocity.tobytes(),
+            result.sample_step, result.reflection_count)
+
+
 def predict_target_state(
     state, steps, dt, bounds, obstacles=(), *, clearance=0.0,
     max_reflections=4, max_prediction_steps=500,
@@ -330,6 +410,17 @@ def predict_target_state(
     predicted = TargetState.from_payload(
         state.to_payload() if isinstance(state, TargetState) else state
     )
+    context = (_prediction_context(predicted, dt, bounds, obstacles, clearance,
+                                   max_reflections) if steps else None)
+    if context is not None:
+        physical = (predicted.position.tobytes(), predicted.velocity.tobytes(),
+                    predicted.sample_step, predicted.reflection_count)
+        for _ in range(steps):
+            physical = _prediction_step(*physical, context)
+        predicted.position = np.frombuffer(physical[0], dtype=np.float64).copy()
+        predicted.velocity = np.frombuffer(physical[1], dtype=np.float64).copy()
+        predicted.sample_step, predicted.reflection_count = physical[2:]
+        return predicted
     for _ in range(steps):
         predicted = advance_target_state(
             predicted, dt, bounds, obstacles, clearance=clearance,

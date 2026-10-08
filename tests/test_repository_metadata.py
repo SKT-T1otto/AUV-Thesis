@@ -50,6 +50,13 @@ PERMITTED_POST_BASELINE_EVOLUTIONS = {
 }
 
 
+from tests.d2_performance_review import RECORDS as PERFORMANCE_RECORDS
+for reviewed in PERFORMANCE_RECORDS:
+    PERMITTED_POST_BASELINE_EVOLUTIONS[reviewed["path"]] = dict(
+        phase0b2_sha256=reviewed["phase0b2_sha256"], current_sha256=reviewed["current_sha256"],
+        reason="2026-10-08 exact reviewed deterministic performance evolution; historical manifest frozen")
+
+
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 

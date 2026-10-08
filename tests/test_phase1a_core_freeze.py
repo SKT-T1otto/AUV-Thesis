@@ -24,6 +24,10 @@ PERMITTED_EVOLUTION = {
 }
 
 
+from tests.d2_performance_review import PERMITTED_BY_PATH as PERFORMANCE_REVIEW
+PERMITTED_EVOLUTION.update(PERFORMANCE_REVIEW)
+
+
 def _matches_exact_or_one_historical_eof_blank(data: bytes, expected: str) -> bool:
     return expected in {
         hashlib.sha256(data).hexdigest(),

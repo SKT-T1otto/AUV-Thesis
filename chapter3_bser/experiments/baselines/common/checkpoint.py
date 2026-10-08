@@ -41,6 +41,8 @@ def validate_config(config, expected_baseline=None):
     config = copy.deepcopy(dict(config))
     from chapter3_bser.experiments.d2_v1.contract import planner_protocol
     planner_protocol(config)
+    from chapter3_bser.experiments.d2_performance.options import performance_options
+    performance_options(config)
     if config.get("schema") != CONFIG_SCHEMA:
         raise ValueError("not an independent baseline training config; an HGR checkpoint cannot be relabeled")
     baseline = config.get("baseline")

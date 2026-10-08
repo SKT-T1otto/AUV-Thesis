@@ -164,14 +164,17 @@ class OpenMPRuntimeEnvTests(unittest.TestCase):
         self.assertNotRegex(source, r'\$env:KMP_DUPLICATE_LIB_OK\s*=')
 
     def test_production_inventory_matches_unchanged_frozen_hashes(self):
-        from tools.ch3_baselines.provenance import PIN, production_sources
+        from tools.ch3_baselines.provenance import PIN
+        from tools.ch3_baselines.framework_provenance import framework_sources
         pin = json.loads(PIN.read_text(encoding="utf-8"))
-        sources = production_sources()
+        # Validate the complete reviewed successor chain, retaining the exact
+        # historical pin instead of calling the historical-only gate directly.
+        sources = framework_sources()
         actual = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                   for package in ("core", "chapter3_bser") for p in (ROOT / package).rglob("*.py")}
         self.assertEqual(actual, sources["production"]["files"])
         self.assertEqual(hashlib.sha256(json.dumps(actual, sort_keys=True).encode()).hexdigest(), sources["production"]["sha256"])
-        self.assertEqual(sources["production_source_sha256"], pin["production"]["sha256"])
+        self.assertEqual(sources["historical_production_sha256"], pin["production"]["sha256"])
         self.assertEqual(pin["production"]["sha256"], "3bf6035001e28efbe5e5cd3db7b43bc43a11e0bf83ed2037a7ac29c5c518b4bd")
 
     def test_exact_historical_assignment_matches_record_and_frozen_commit(self):

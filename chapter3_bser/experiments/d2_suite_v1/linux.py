@@ -1,4 +1,4 @@
-"""Manual Linux launch support; native algorithms and CPU device are unchanged."""
+"""Manual Linux launches with explicit compute choices frozen during prepare."""
 import argparse
 from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from datetime import datetime, timezone
@@ -38,9 +38,15 @@ def check(root):
             if not actual.is_absolute() or actual.resolve() != expected.resolve():
                 raise ValueError("prepared paths belong to another location; prepare a new run on this machine: "
                                  + job["name"] + ":" + key)
+    from chapter3_bser.experiments.d2_performance.options import performance_options
+    compute = {j["name"]: performance_options(read(root / j["config"])) for j in plan["jobs"] if j["arm"] != "D2"}
+    runtime = dependencies()
+    runtime["compute_by_job"] = compute
+    devices = {v["learner_device"] for v in compute.values()}
+    runtime["training_device"] = next(iter(devices)) if len(devices) == 1 else "mixed_explicit"
     return dict(root=str(root), plan_sha256=plan["sha256"], source_sha256=plan["source_sha256"],
                 learning_arms=list(ARMS[1:]), training_jobs=sum(j["arm"] != "D2" for j in plan["jobs"]),
-                evaluation_jobs=len(plan["jobs"]), runtime=dependencies())
+                evaluation_jobs=len(plan["jobs"]), runtime=runtime)
 
 
 @contextmanager
