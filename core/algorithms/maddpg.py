@@ -1,5 +1,6 @@
 
 import os
+import copy
 from typing import Any, Optional, Union
 
 import torch
@@ -86,7 +87,7 @@ class MADDPG(object):
     @staticmethod
     def _recursive_to_cpu(obj):
         if torch.is_tensor(obj):
-            return obj.detach().cpu()
+            return obj.detach().cpu().clone()
         if isinstance(obj, dict):
             return {k: MADDPG._recursive_to_cpu(v) for k, v in obj.items()}
         if isinstance(obj, list):
@@ -153,8 +154,15 @@ class MADDPG(object):
         return tensor
 
     def step(self, observations, explore=False):
+        if len(observations) != self.nagents:
+            raise ValueError(f"expected {self.nagents} agent observations, got {len(observations)}")
         with torch.no_grad():
             proc_obs = [self._ensure_obs_tensor(obs) for obs in observations]
+            batch_size = proc_obs[0].shape[0]
+            for i, value in enumerate(proc_obs):
+                if value.shape != (batch_size, self.agent_init_params[i]["num_in_pol"]) or batch_size < 1:
+                    raise ValueError(f"invalid rollout observation shape for agent {i}")
+                self._require_finite(value, "rollout observations")
             return [a.step(obs, explore=explore) for a, obs in zip(self.agents, proc_obs)]
 
     def step_residual(self, observations, explore=False):
@@ -178,12 +186,40 @@ class MADDPG(object):
         # Replay batches contain mutable tensors. Object identity is not a
         # content/version key, and ids can be reused after a caller drops a batch.
         obs, acs, rews, next_obs, dones, weights, indices, success_flags = self._unpack_sample(sample)
+        for name, values in (("observations", obs), ("actions", acs), ("rewards", rews),
+                             ("next observations", next_obs), ("dones", dones)):
+            if len(values) != self.nagents:
+                raise ValueError(f"{name} must contain {self.nagents} agents")
         obs = self._to_device(obs)
         acs = self._to_device(acs)
         rews = self._to_device(rews)
         next_obs = self._to_device(next_obs)
         dones = self._to_device(dones)
-        weights = torch.as_tensor(weights, dtype=torch.float32, device=self.device).view(-1, 1)
+        if obs[0].ndim != 2 or obs[0].shape[0] < 1:
+            raise ValueError("replay observations require a nonempty [B, observation_dim] batch")
+        size = obs[0].shape[0]
+        for i, spec in enumerate(self.agent_init_params):
+            for name, value, dim in (("observations", obs[i], spec["num_in_pol"]),
+                    ("next observations", next_obs[i], spec["num_in_pol"]),
+                    ("actions", acs[i], spec["num_out_pol"])):
+                if value.shape != (size, dim):
+                    raise ValueError(f"{name} for agent {i} must have shape {(size, dim)}")
+        for name, values in (("rewards", rews), ("dones", dones)):
+            for value in values:
+                if value.shape not in ((size,), (size, 1)):
+                    raise ValueError(f"{name} must have shape [B] or [B, 1]; broadcasting is forbidden")
+        weights = torch.as_tensor(weights, dtype=torch.float32, device=self.device)
+        if weights.shape not in ((size,), (size, 1)):
+            raise ValueError("replay weights must have shape [B] or [B, 1]")
+        weights = weights.reshape(size, 1)
+        index_values = torch.as_tensor(indices, device=self.device)
+        flags = torch.as_tensor(success_flags, device=self.device)
+        if index_values.shape != (size,) or index_values.dtype not in (torch.int8, torch.int16, torch.int32, torch.int64, torch.uint8):
+            raise ValueError("replay indices must be an integer [B] vector")
+        if bool((index_values < 0).any()):
+            raise ValueError("replay indices must be nonnegative")
+        if flags.shape != (size,) or not bool(((flags == 0) | (flags == 1)).all()):
+            raise ValueError("replay success flags must be a binary [B] vector")
         for name, values in (("observations", obs), ("actions", acs), ("rewards", rews),
                              ("next observations", next_obs), ("dones", dones), ("weights", [weights])):
             for value in values:
@@ -192,6 +228,8 @@ class MADDPG(object):
             raise ValueError("replay done flags must be binary")
         if bool((weights < 0).any()):
             raise ValueError("replay weights must be nonnegative")
+        if not bool((weights > 0).any()):
+            raise ValueError("replay weights must include a positive weight")
         packed = {
             "obs": obs, "acs": acs, "rews": rews, "next_obs": next_obs,
             "dones": dones, "weights": weights, "indices": indices,
@@ -261,6 +299,7 @@ class MADDPG(object):
         return torch.cat((obs[agent_i], acs[agent_i]), dim=1)
 
     def update_critic_only(self, sample, agent_i):
+        self.last_actor_updated = False
         batch = self._prepare_sample(sample)
         ag = self.agents[agent_i]
         target_q = self._compute_target_q(ag, self._target_critic_input(batch, agent_i), batch["rews"][agent_i], batch["dones"][agent_i])
@@ -431,8 +470,9 @@ class MADDPG(object):
         torch.save(save_dict, filename)
 
     def training_state_dict(self):
+        """Return an independent CPU snapshot, including nested optimizer state."""
         return {
-            "init_dict": self.init_dict,
+            "init_dict": copy.deepcopy(self.init_dict),
             "agent_params": [self._clone_agent_params_to_cpu(a) for a in self.agents],
             "niter": int(self.niter),
         }

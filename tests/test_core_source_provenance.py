@@ -33,7 +33,7 @@ HISTORICAL_ACTIVE_CH3_FINAL_EXPERIMENT_MODES = (
 
 from tests.d2_performance_review import PERMITTED_BY_PATH as PERFORMANCE_REVIEW
 REVIEWED_POST_PHASE0B2_EVOLUTIONS.update(PERFORMANCE_REVIEW)
-from tests.d2_repair_review import add_evolutions
+from tests.d2_repair_v2_review import add_evolutions
 add_evolutions(REVIEWED_POST_PHASE0B2_EVOLUTIONS)
 
 

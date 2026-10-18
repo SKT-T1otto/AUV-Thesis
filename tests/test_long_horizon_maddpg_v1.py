@@ -210,7 +210,7 @@ class LearningContracts(unittest.TestCase):
         for name in ('core/algorithms/maddpg.py','core/algorithms/agents.py','core/algorithms/networks.py',
                      'core/env/uav_env.py','chapter3_bser/experiments/baselines/common/model.py',
                      'chapter3_bser/experiments/baselines/common/train.py'):
-            from tests.d2_repair_review import successor
+            from tests.d2_repair_v2_review import successor
             self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),successor(name,expected[name]))
 
 

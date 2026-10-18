@@ -1,0 +1,43 @@
+{
+  "source_identity": {
+    "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+    "profile": "windows_existing",
+    "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+    "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+  },
+  "independent": {
+    "source_passed": true,
+    "profile": "windows_existing",
+    "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+    "modified": [
+      "core/algorithms/maddpg.py",
+      "core/replay/ch3_buffer.py"
+    ],
+    "added": [
+      "chapter3_bser/experiments/d2_repair_v2/__init__.py",
+      "chapter3_bser/experiments/d2_repair_v2/config.py",
+      "chapter3_bser/experiments/d2_repair_v2/evaluate.py",
+      "chapter3_bser/experiments/d2_repair_v2/model.py",
+      "chapter3_bser/experiments/d2_repair_v2/provenance.py",
+      "chapter3_bser/experiments/d2_repair_v2/replay.py",
+      "chapter3_bser/experiments/d2_repair_v2/runtime.py",
+      "chapter3_bser/experiments/d2_repair_v2/train.py"
+    ],
+    "unchanged": 302
+  },
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "is_ci": false,
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  }
+}

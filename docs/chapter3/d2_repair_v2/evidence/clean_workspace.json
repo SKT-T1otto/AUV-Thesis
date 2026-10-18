@@ -1,0 +1,77 @@
+{
+  "kind": "clean parent archive plus reviewed overlay; not a committed clean-clone release",
+  "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+  "root": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\clean_o8jz0j8y",
+  "overlaid_paths": [
+    "chapter3_bser/experiments/d2_repair_v2/__init__.py",
+    "chapter3_bser/experiments/d2_repair_v2/config.py",
+    "chapter3_bser/experiments/d2_repair_v2/evaluate.py",
+    "chapter3_bser/experiments/d2_repair_v2/model.py",
+    "chapter3_bser/experiments/d2_repair_v2/provenance.py",
+    "chapter3_bser/experiments/d2_repair_v2/replay.py",
+    "chapter3_bser/experiments/d2_repair_v2/runtime.py",
+    "chapter3_bser/experiments/d2_repair_v2/train.py",
+    "configs/chapter3/d2_repair_v2/b2_train.json",
+    "configs/chapter3/d2_repair_v2/b3_train.json",
+    "core/algorithms/maddpg.py",
+    "core/replay/ch3_buffer.py",
+    "docs/provenance/d2_repair_v2_evolution.json",
+    "tests/d2_repair_v2_review.py",
+    "tests/d2_v2_chain_probe.py",
+    "tests/d2_v2_scenarios.py",
+    "tests/d2_v2_test_utils.py",
+    "tests/fixtures/maddpg_before_repair_v2.py.txt",
+    "tests/test_ch3_replay_restore_contract.py",
+    "tests/test_core_source_provenance.py",
+    "tests/test_d2_repair_v2_ablation.py",
+    "tests/test_d2_repair_v2_checkpoint.py",
+    "tests/test_d2_repair_v2_provenance.py",
+    "tests/test_d2_repair_v2_runtime_contract.py",
+    "tests/test_execution_replay_gate_contract.py",
+    "tests/test_long_horizon_maddpg_v1.py",
+    "tests/test_maddpg_actor_update_mask.py",
+    "tests/test_maddpg_sample_contract.py",
+    "tests/test_maddpg_terminal_target_numerics.py",
+    "tests/test_phase1a1_original_core_freeze.py",
+    "tests/test_phase1a_core_freeze.py",
+    "tests/test_prrac_isolation.py",
+    "tests/test_repository_metadata.py",
+    "tests/test_waypoint_reward_timing.py",
+    "tools/verify_d2_repair_v2_source.py"
+  ],
+  "runs": [
+    {
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.verify_d2_repair_v2_source"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"source_passed\": true,\n  \"profile\": \"git_archive_preserved\",\n  \"parent_commit\": \"6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8\",\n  \"modified\": [\n    \"core/algorithms/maddpg.py\",\n    \"core/replay/ch3_buffer.py\"\n  ],\n  \"added\": [\n    \"chapter3_bser/experiments/d2_repair_v2/__init__.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/config.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/evaluate.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/model.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/provenance.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/replay.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/runtime.py\",\n    \"chapter3_bser/experiments/d2_repair_v2/train.py\"\n  ],\n  \"unchanged\": 302\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "unittest",
+        "tests.test_maddpg_sample_contract",
+        "tests.test_ch3_replay_restore_contract",
+        "tests.test_execution_replay_gate_contract",
+        "tests.test_maddpg_terminal_target_numerics",
+        "tests.test_maddpg_actor_update_mask",
+        "tests.test_repository_metadata",
+        "tests.test_core_source_provenance",
+        "tests.test_phase1a_core_freeze",
+        "tests.test_phase1a1_original_core_freeze",
+        "tests.test_prrac_isolation",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_broadcast_and_all_malformed_fields_are_rejected_before_write (tests.test_maddpg_sample_contract.SampleContract) ... ok\ntest_column_vectors_and_snapshot_are_independent (tests.test_maddpg_sample_contract.SampleContract) ... ok\ntest_core_rollout_count_and_critic_only_flag (tests.test_maddpg_sample_contract.SampleContract) ... ok\ntest_invalid_restore_is_atomic_including_unused_slots (tests.test_ch3_replay_restore_contract.ReplayRestore) ... ok\ntest_same_capacity_ring_and_sampling_continue (tests.test_ch3_replay_restore_contract.ReplayRestore) ... ok\ntest_bad_transition_never_partially_writes (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok\ntest_invalid_sample_gates_rejected_before_optimizer (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok\ntest_public_bypass_is_rejected_and_ring_slots_are_complete (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok\ntest_bellman_terminal_nan_and_live_nan (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok\ntest_independent_huber_loss_and_parameter_derivative (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok\ntest_nonfinite_losses_and_gradients_fail_before_corresponding_steps (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok\ntest_frozen_adam_state_unchanged_critic_still_learns (tests.test_maddpg_actor_update_mask.ActorMask) ... ok\ntest_known_q_direction_mask_gradient_and_parameter_ownership (tests.test_maddpg_actor_update_mask.ActorMask) ... ok\ntest_optimizers_own_only_their_declared_parameters (tests.test_maddpg_actor_update_mask.ActorMask) ... ok\ntest_soft_update_matches_scalar_formula_for_every_parameter (tests.test_maddpg_actor_update_mask.ActorMask) ... ok\ntest_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok\ntest_all_27_authority_records_map_to_current_core_files (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok\ntest_reviewed_registry_evolution_preserves_historical_active_modes (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok\ntest_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest) ... ok\ntest_original_40_core_python_files_match (tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest) ... ok\ntest_frozen_files_hashes_and_import_direction (tests.test_prrac_isolation.PRRACIsolationTests) ... ok\ntest_legacy_configs_and_dimensions_remain_isolated (tests.test_prrac_isolation.PRRACIsolationTests) ... ok\n\n----------------------------------------------------------------------\nRan 27 tests in 3.717s\n\nOK\n"
+    }
+  ],
+  "passed": true,
+  "formal_training": false
+}

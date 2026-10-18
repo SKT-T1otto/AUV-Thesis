@@ -1,0 +1,11 @@
+test_default_plan_never_creates_output_or_starts_tests (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+test_existing_output_and_escape_are_rejected (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+test_failed_child_cannot_be_reported_as_passed (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+test_matrix_covers_all_defects_and_expensive_stages_are_explicit (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+test_source_failure_prevents_every_model_stage (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+test_test_identity_drift_invalidates_otherwise_successful_child (tests.test_d2_repair_acceptance_runner.AcceptanceRunner) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.344s
+
+OK

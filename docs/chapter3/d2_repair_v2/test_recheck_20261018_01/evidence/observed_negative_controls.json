@@ -1,0 +1,116 @@
+[
+  {
+    "defect": "batch_broadcast",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b2",
+    "batch": 7,
+    "bad_reward_and_weight_batch": 1
+  },
+  {
+    "defect": "batch_broadcast",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b3",
+    "batch": 7,
+    "bad_reward_and_weight_batch": 1
+  },
+  {
+    "defect": "capacity_restore",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "old_sampled_unwritten_sentinel": true,
+    "current_rejected_atomically": true
+  },
+  {
+    "defect": "cpu_snapshot_alias",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b2"
+  },
+  {
+    "defect": "cpu_snapshot_alias",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b3"
+  },
+  {
+    "defect": "critic_only_stale_flag",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b2"
+  },
+  {
+    "defect": "critic_only_stale_flag",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b3"
+  },
+  {
+    "defect": "execution_push_bypass",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "v1_accepted_untagged_transition": true
+  },
+  {
+    "defect": "inactive_actor",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b2",
+    "adam_warmed": true,
+    "team_terminal": false
+  },
+  {
+    "defect": "inactive_actor",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "algorithm": "b3",
+    "adam_warmed": true,
+    "team_terminal": false
+  },
+  {
+    "defect": "hold_residual",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "real_environment": true
+  },
+  {
+    "defect": "local_ddpg_input",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "critic_dim": 31,
+    "not_used_by_b2_b3": true
+  },
+  {
+    "defect": "mutable_sample_cache",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "same_object_mutated": true
+  },
+  {
+    "defect": "nonfinite_optimizer_write",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "old_critic_became_nonfinite": true
+  },
+  {
+    "defect": "step_zip_truncation",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "scope": "raw core API"
+  },
+  {
+    "defect": "terminal_nan_mask",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "terminal_reward": -2.0
+  },
+  {
+    "defect": "waypoint_timing",
+    "old_control_detected": true,
+    "current_repair_passed": true,
+    "arrival_step": 1,
+    "expected_increment": 12.0,
+    "real_environment": true
+  }
+]

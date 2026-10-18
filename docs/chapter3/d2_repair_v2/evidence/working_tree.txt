@@ -1,0 +1,47 @@
+## codex/framework-audit-20261018-164056...origin/codex/framework-audit-20261018-164056
+ M core/algorithms/maddpg.py
+ M core/replay/ch3_buffer.py
+ M tests/test_core_source_provenance.py
+ M tests/test_long_horizon_maddpg_v1.py
+ M tests/test_phase1a1_original_core_freeze.py
+ M tests/test_phase1a_core_freeze.py
+ M tests/test_prrac_isolation.py
+ M tests/test_repository_metadata.py
+?? chapter3_bser/experiments/d2_repair_v2/
+?? configs/chapter3/d2_repair_v2/
+?? docs/chapter3/d2_repair_v2/
+?? docs/chapter3_map_stp/bottleneck_20261017_v1/
+?? docs/chapter3_map_stp/bottleneck_20261017_v2/
+?? docs/chapter3_map_stp/shadow_20261017_v1/analysis.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/baseline_prefix_check.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/cases.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/collection.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/collection.log
+?? docs/chapter3_map_stp/shadow_20261017_v1/config.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/evidence_sha256.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/sampling_stability.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/scoring.log
+?? docs/chapter3_map_stp/shadow_20261017_v1/source_identity.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/source_preservation.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/summary.json
+?? docs/chapter3_map_stp/shadow_20261017_v1/verification.json
+?? docs/provenance/d2_repair_v2_evolution.json
+?? output/
+?? tests/d2_repair_v2_review.py
+?? tests/d2_v2_chain_probe.py
+?? tests/d2_v2_scenarios.py
+?? tests/d2_v2_test_utils.py
+?? tests/fixtures/maddpg_before_repair_v2.py.txt
+?? tests/test_ch3_replay_restore_contract.py
+?? tests/test_d2_repair_v2_ablation.py
+?? tests/test_d2_repair_v2_checkpoint.py
+?? tests/test_d2_repair_v2_provenance.py
+?? tests/test_d2_repair_v2_runtime_contract.py
+?? tests/test_execution_replay_gate_contract.py
+?? tests/test_maddpg_actor_update_mask.py
+?? tests/test_maddpg_sample_contract.py
+?? tests/test_maddpg_terminal_target_numerics.py
+?? tests/test_waypoint_reward_timing.py
+?? tmp/
+?? tools/verify_d2_repair_v2_source.py
+?? "\346\226\207\347\214\256/"

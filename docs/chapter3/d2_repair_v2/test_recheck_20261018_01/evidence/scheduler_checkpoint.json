@@ -1,0 +1,38 @@
+{
+  "stage": "scheduler_checkpoint",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py",
+    "--_stage",
+    "scheduler_checkpoint",
+    "--output",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+  ],
+  "tests_run": 1,
+  "expected_tests": 1,
+  "successes": [
+    "tests.test_d2_repair_v2_checkpoint.ActualSchedulerCheckpoint.test_real_default_scheduler_checkpoint_identity_and_heldout_eval"
+  ],
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "exit_code": 0,
+  "wall_seconds": 218.0451761000004,
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "AUV_REPAIR_TEST_EVIDENCE": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01\\artifacts"
+    }
+  },
+  "is_ci": false,
+  "performance_evidence": false
+}

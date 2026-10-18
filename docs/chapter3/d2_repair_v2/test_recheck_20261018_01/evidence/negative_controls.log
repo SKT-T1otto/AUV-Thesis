@@ -1,0 +1,18 @@
+test_batch_broadcast_oracle_rejects_frozen_parent (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_capacity_restore_oracle_rejects_old_loader (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_cpu_snapshot_oracle_rejects_parent_alias (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_critic_only_flag_oracle_rejects_parent_stale_flag (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_execution_push_oracle_rejects_v1_bypass (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_frozen_actor_oracle_rejects_legacy_training (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_hold_action_oracle_rejects_disabled_gate (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_local_ddpg_oracle_rejects_pre_v1_joint_input (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_mutable_sample_oracle_rejects_pre_v1_cache (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_nonfinite_gradient_oracle_rejects_pre_v1_optimizer_write (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_step_count_oracle_rejects_parent_zip_truncation (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_terminal_nan_oracle_rejects_pre_v1_target (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_waypoint_bonus_oracle_rejects_legacy_timing (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 26.298s
+
+OK

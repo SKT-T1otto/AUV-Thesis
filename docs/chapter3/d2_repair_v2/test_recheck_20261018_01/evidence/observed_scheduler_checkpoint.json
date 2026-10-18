@@ -1,0 +1,38 @@
+[
+  {
+    "algorithm": "b2",
+    "environment_steps": 256,
+    "episodes": 8,
+    "default_hyperparameters_unchanged": true,
+    "update_rounds": 2,
+    "actor_steps": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "critic_steps": 16,
+    "checkpoint_source_checked": true,
+    "default_formal_load_rejected": true,
+    "heldout_evaluation_complete": true,
+    "source_drift_save_rejected": true
+  },
+  {
+    "algorithm": "b3",
+    "environment_steps": 256,
+    "episodes": 8,
+    "default_hyperparameters_unchanged": true,
+    "update_rounds": 2,
+    "actor_steps": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "critic_steps": 16,
+    "checkpoint_source_checked": true,
+    "default_formal_load_rejected": true,
+    "heldout_evaluation_complete": true,
+    "source_drift_save_rejected": true
+  }
+]

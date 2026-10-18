@@ -1,0 +1,24 @@
+test_real_default_scheduler_checkpoint_identity_and_heldout_eval (tests.test_d2_repair_v2_checkpoint.ActualSchedulerCheckpoint) ... E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\d2_repair_v2\replay.py:26: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  value = torch.as_tensor(transition[name]).detach().cpu().clone()
+[D2_B2_repair_v2] episode=1 steps=32
+[D2_B2_repair_v2] episode=2 steps=64
+[D2_B2_repair_v2] episode=3 steps=96
+[D2_B2_repair_v2] episode=4 steps=128
+[D2_B2_repair_v2] episode=5 steps=160
+[D2_B2_repair_v2] episode=6 steps=192
+[D2_B2_repair_v2] episode=7 steps=224
+[D2_B2_repair_v2] episode=8 steps=256
+[D2_B3_repair_v2] episode=1 steps=32
+[D2_B3_repair_v2] episode=2 steps=64
+[D2_B3_repair_v2] episode=3 steps=96
+[D2_B3_repair_v2] episode=4 steps=128
+[D2_B3_repair_v2] episode=5 steps=160
+[D2_B3_repair_v2] episode=6 steps=192
+[D2_B3_repair_v2] episode=7 steps=224
+[D2_B3_repair_v2] episode=8 steps=256
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 315.701s
+
+OK

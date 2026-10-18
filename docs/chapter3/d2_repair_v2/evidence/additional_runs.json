@@ -1,0 +1,60 @@
+[
+  {
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-m",
+      "unittest",
+      "tests.test_d2_repair_v2_checkpoint",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests_run": 1,
+    "wall_seconds": 315.701,
+    "stdout_stderr_file": "checkpoint_final.log",
+    "log_sha256": "2c9888ffb2f37b8272683ed56a1459374f82918625ce34548b2ee2b6fea8ff77",
+    "environment": {
+      "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "torch": "2.11.0+cu126",
+      "numpy": "2.2.6",
+      "device": "cpu",
+      "threads": 1,
+      "is_ci": false,
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    }
+  },
+  {
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-m",
+      "unittest",
+      "tests.test_d2_repair_v2_provenance",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests_run": 4,
+    "wall_seconds": 10.158,
+    "stdout_stderr_file": "provenance_final.log",
+    "log_sha256": "dbcec2208f058a801e83661bf5dc1b6dd31d0724e865a5b051aa0983c4d14855",
+    "environment": {
+      "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "torch": "2.11.0+cu126",
+      "numpy": "2.2.6",
+      "device": "cpu",
+      "threads": 1,
+      "is_ci": false,
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    }
+  }
+]

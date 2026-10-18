@@ -69,7 +69,7 @@ for _record in _collision_evolution["records"]:
     for _key in ("phase0b2_sha256", "current_sha256"):
         assert _record[_key] == PERMITTED_POST_BASELINE_EVOLUTIONS[_record["path"]][_key]
 
-from tests.d2_repair_review import add_evolutions
+from tests.d2_repair_v2_review import add_evolutions
 add_evolutions(PERMITTED_POST_BASELINE_EVOLUTIONS, historical_key="phase0b2_sha256")
 
 

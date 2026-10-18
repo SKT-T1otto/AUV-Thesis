@@ -57,7 +57,7 @@ class PRRACIsolationTests(unittest.TestCase):
                 reviewed = REVIEWED_COLLISION_EVOLUTIONS[relative]
                 self.assertEqual(expected, reviewed["historical_sha256"], relative)
                 expected = reviewed["current_sha256"]
-            from tests.d2_repair_review import successor
+            from tests.d2_repair_v2_review import successor
             expected = successor(relative, expected)
             self.assertTrue(
                 _matches_exact_or_one_historical_eof_blank(data, expected),

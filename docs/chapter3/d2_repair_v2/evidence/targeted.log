@@ -1,0 +1,63 @@
+test_broadcast_and_all_malformed_fields_are_rejected_before_write (tests.test_maddpg_sample_contract.SampleContract) ... ok
+test_column_vectors_and_snapshot_are_independent (tests.test_maddpg_sample_contract.SampleContract) ... ok
+test_core_rollout_count_and_critic_only_flag (tests.test_maddpg_sample_contract.SampleContract) ... ok
+test_invalid_restore_is_atomic_including_unused_slots (tests.test_ch3_replay_restore_contract.ReplayRestore) ... ok
+test_same_capacity_ring_and_sampling_continue (tests.test_ch3_replay_restore_contract.ReplayRestore) ... ok
+test_bad_transition_never_partially_writes (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok
+test_invalid_sample_gates_rejected_before_optimizer (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok
+test_public_bypass_is_rejected_and_ring_slots_are_complete (tests.test_execution_replay_gate_contract.ExecutionGates) ... ok
+test_bellman_terminal_nan_and_live_nan (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok
+test_independent_huber_loss_and_parameter_derivative (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok
+test_nonfinite_losses_and_gradients_fail_before_corresponding_steps (tests.test_maddpg_terminal_target_numerics.NumericOracles) ... ok
+test_frozen_adam_state_unchanged_critic_still_learns (tests.test_maddpg_actor_update_mask.ActorMask) ... ok
+test_known_q_direction_mask_gradient_and_parameter_ownership (tests.test_maddpg_actor_update_mask.ActorMask) ... ok
+test_optimizers_own_only_their_declared_parameters (tests.test_maddpg_actor_update_mask.ActorMask) ... ok
+test_soft_update_matches_scalar_formula_for_every_parameter (tests.test_maddpg_actor_update_mask.ActorMask) ... ok
+test_collision_wins_over_arrival_and_keeps_failure_reward (tests.test_waypoint_reward_timing.WaypointTiming) ... ok
+test_discovery_precedes_waypoint_and_no_active_search_waypoint_after_found (tests.test_waypoint_reward_timing.WaypointTiming) ... ok
+test_no_arrival_and_map_replanning_preserve_all_components (tests.test_waypoint_reward_timing.WaypointTiming) ... ok
+test_real_arrival_once_without_other_reward_or_observation_changes (tests.test_waypoint_reward_timing.WaypointTiming) ... ok
+test_admission_rejects_formal_run_without_all_required_evidence (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_any_unregistered_production_drift_is_rejected (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_check_only_creates_no_artifacts (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_complete_source_and_independent_review (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_all_off_exact_parent_network_update_and_original_hyperparameters (tests.test_d2_repair_v2_ablation.IndependentSwitches) ... ok
+test_freeze_only_keeps_real_rewards_and_team_done (tests.test_d2_repair_v2_ablation.IndependentSwitches) ... ok
+test_hold_only_changes_only_requested_normalized_residuals (tests.test_d2_repair_v2_ablation.IndependentSwitches) ... ok
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False near steps=12 timeout
+chain b2 repair=False success steps=6 success
+chain b2 repair=False collision steps=1 obstacle_collision
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False near steps=12 timeout
+chain b3 repair=False success steps=6 success
+chain b3 repair=False collision steps=1 obstacle_collision
+test_real_b2_b3_and_successor_with_bounded_updates (tests.test_d2_repair_v2_runtime_contract.RealTrainingChain) ... E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\d2_repair_v2\replay.py:26: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  value = torch.as_tensor(transition[name]).detach().cpu().clone()
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True near steps=12 timeout
+chain b2 repair=True success steps=6 success
+chain b2 repair=True collision steps=1 obstacle_collision
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True near steps=12 timeout
+chain b3 repair=True success steps=6 success
+chain b3 repair=True collision steps=1 obstacle_collision
+ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 264.700s
+
+OK
+{"scope": "targeted", "run": 27, "success": 27, "errors": 0, "failures": 0}

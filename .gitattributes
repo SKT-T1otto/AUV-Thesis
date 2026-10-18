@@ -44,6 +44,10 @@ chapter3_bser/online/controller.py -text !eol
 docs/provenance/safe_search_v1_evolution.json -text !eol
 docs/provenance/safe_search_v2_evolution.json -text !eol
 
+# Preserve exact bytes of sealed repair reports, logs and compact mechanism evidence.
+# Their SHA-256 indexes must remain valid after staging and cloning.
+docs/chapter3/d2_repair_v2/** -text !eol whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
 # Historical SafeSearch successor seals bind these original CRLF bytes.
 # Preserve them across clones; never rewrite the historical parent hashes.
 docs/provenance/safe_search_v1_evolution.json -text !eol

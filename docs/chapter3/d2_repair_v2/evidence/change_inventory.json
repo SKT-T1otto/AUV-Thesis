@@ -1,0 +1,257 @@
+{
+  "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+  "source_identity": {
+    "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+    "profile": "windows_existing",
+    "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+    "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+  },
+  "files": [
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/__init__.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "882ce8108bff6e257c33f53c8a6370f353231c46421c5c83c6593064d8f20319"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/config.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "b9e7eb33649933f37a1f9b7f68eb1cb093508f11ba77a91e2538e87d2ca4037e"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/evaluate.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "8d30141c8fde0c9ab700e5cc33756e80b52e583cdeb3d12810441dccce61b001"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/model.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "01e59d0463b15deeed6d2e656b317f875d3105e14df94ba202b1f4b862ecd862"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/provenance.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "bb6194dfdd94f317f4c841e8432fbb3b82ec26e9f6d2b3cd560f9654fc074ccc"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/replay.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "7f7e568643af2c1b9a9b8fc48ce864a7634ceeb9a56ce85222bfef1ba59e2f3a"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/runtime.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "019f519158fe414639de4606dac662d841fd19ba42be517319008ac24d0c0910"
+    },
+    {
+      "path": "chapter3_bser/experiments/d2_repair_v2/train.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "f93f9f0062a838c764b4183e7780035aa8c1c762ccd452f3fe759f9ca024a27d"
+    },
+    {
+      "path": "configs/chapter3/d2_repair_v2/b2_train.json",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "41e46d4d9ae35f7808d3bb82ae859f83117580013f8c2e69d93f4b83203dce48"
+    },
+    {
+      "path": "configs/chapter3/d2_repair_v2/b3_train.json",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "925b442da6a56d38e3c432ef5bb00d2e85ed43bd81a30dec48091806b2c64c09"
+    },
+    {
+      "path": "core/algorithms/maddpg.py",
+      "status": "modified",
+      "before_sha256": "fbf983ec992613a45c10a2ced45725c17b2a412414d64167cb02b33ab8692a91",
+      "before_basis": "pre-repair working bytes",
+      "after_sha256": "206c4b134ac16cfc903cdeabd6ee77de0ca5205dab36702abbf3bdd7ab40ef66"
+    },
+    {
+      "path": "core/replay/ch3_buffer.py",
+      "status": "modified",
+      "before_sha256": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42",
+      "before_basis": "pre-repair working bytes",
+      "after_sha256": "1ad6547e89c8c0291a3633f9a7b46f7c8a3b428577a6dee34115ba2bf04876cb"
+    },
+    {
+      "path": "docs/provenance/d2_repair_v2_evolution.json",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171"
+    },
+    {
+      "path": "tests/d2_repair_v2_review.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "bd8f95fae169186759f6a2a67fde65f147b500946ab08ca3a4463635079720b1"
+    },
+    {
+      "path": "tests/d2_v2_chain_probe.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "ba3781694be3d7a743ea17868c42376700c41f0acf2e1702fbcda4acc0bfe544"
+    },
+    {
+      "path": "tests/d2_v2_scenarios.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "abd1dc887a94d6cf4715e4fb56de6bf1b2bada03531deca9b63d14380f01db70"
+    },
+    {
+      "path": "tests/d2_v2_test_utils.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "49de345f5d7e1862169353f478802990e301ceae7c2bb96dc3ede6994e0a5852"
+    },
+    {
+      "path": "tests/fixtures/maddpg_before_repair_v2.py.txt",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "fbf983ec992613a45c10a2ced45725c17b2a412414d64167cb02b33ab8692a91"
+    },
+    {
+      "path": "tests/test_ch3_replay_restore_contract.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "8b0dfbd220155d7c1caf96e197c63abdc0bcb15507e682d8e4a2a5cfedfacb4d"
+    },
+    {
+      "path": "tests/test_core_source_provenance.py",
+      "status": "modified",
+      "before_sha256": "00c3df8e4fab3fe24852887a542b4ed683dcdfd2fd1d7594037545193d4b3b73",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "ed4e1d78cdb67ba1414a61e8362bddc70dcef581396ab9fd283495950122f4e6"
+    },
+    {
+      "path": "tests/test_d2_repair_v2_ablation.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "41a6a575516aed9f20e9eb01657787792ce077a4328c5bc15e3ac5efe6183156"
+    },
+    {
+      "path": "tests/test_d2_repair_v2_checkpoint.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "8e2951f23c5278e0083c53bdca7b85dddef6bb6d332f93663265a0fcec9f2eac"
+    },
+    {
+      "path": "tests/test_d2_repair_v2_provenance.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "d3e9f745b53b76b68724620ac4de074cfecf6169585d233556ffb283cb116fc6"
+    },
+    {
+      "path": "tests/test_d2_repair_v2_runtime_contract.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "4f7fbf1c4a59c66abf9cf75d1a4bb15cb5cf1dce1543de8e86ed37ffc22ffe41"
+    },
+    {
+      "path": "tests/test_execution_replay_gate_contract.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "3321f5c1232497de7fe679ed1ec58444af5e504d19a27710e38dbdabf9766a6e"
+    },
+    {
+      "path": "tests/test_long_horizon_maddpg_v1.py",
+      "status": "modified",
+      "before_sha256": "398aac408c45252ee362adb3c9bc5ef1e17bd5c783bb58ca8a565278ab5bdf00",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "c033a7851ac83260917efec73ec3acd017bde5d6f87f36b68473f4cfc751ecb5"
+    },
+    {
+      "path": "tests/test_maddpg_actor_update_mask.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "118b38bf714511881cd60610e9dc9befda2b5666c41957ad1ca3c6dabc665983"
+    },
+    {
+      "path": "tests/test_maddpg_sample_contract.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "d75127b12e190c34c17ae98254d43a8f34a389d3948a367ee827cc3dc21b61d5"
+    },
+    {
+      "path": "tests/test_maddpg_terminal_target_numerics.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "306d8fe03181a74540aa25a435084f7da4ae64eeb1a4679ba91753dd09f239b6"
+    },
+    {
+      "path": "tests/test_phase1a1_original_core_freeze.py",
+      "status": "modified",
+      "before_sha256": "b4e73a8462b242ff57ca044d93953ddf8d127a094a474e985ae1449f8d0a1027",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "05a796b5e494164d2a0cf94b81ad5aad148f35463c5a82afbdccfc555541704f"
+    },
+    {
+      "path": "tests/test_phase1a_core_freeze.py",
+      "status": "modified",
+      "before_sha256": "311c96ad348b55c1cdff9cbdeab7c195155510f5cc2b4cf0dbc532fbf4b05b28",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "5bcf9af46bc00a4cc9aced4480a1493df60fb37d7004b5684ac6d7b6125445ab"
+    },
+    {
+      "path": "tests/test_prrac_isolation.py",
+      "status": "modified",
+      "before_sha256": "e0c99ddd019b3fea125fc956802f466a88c0fb0b24c33cf3211b138d6d000439",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "438714d0ee83dc517ad64eda40aa5d96d4d37e651a68f16f2662bad008e29d3f"
+    },
+    {
+      "path": "tests/test_repository_metadata.py",
+      "status": "modified",
+      "before_sha256": "6f729d28985124e3cf5faa4b15f774ab0adc51230599c64e3b12e9a4b57623e9",
+      "before_basis": "fixed parent Git blob",
+      "after_sha256": "93df33a7c80ecedf48dc6efd31b2f69e81b6fd18af9749ca9513a78056f1a1b8"
+    },
+    {
+      "path": "tests/test_waypoint_reward_timing.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "197d2cd322f3df4b1b7d024ffd11faa3ad90fce57fd60ef8aaac5c79a737ed00"
+    },
+    {
+      "path": "tools/verify_d2_repair_v2_source.py",
+      "status": "added",
+      "before_sha256": null,
+      "before_basis": "absent at parent",
+      "after_sha256": "57498032d7f87eb1e2b62d90ea19ede85cb32647771bbb656b92765772fce95c"
+    }
+  ],
+  "note": "Code, configuration, tests, verifier and source manifest. Report/evidence hashes are recorded in acceptance.json; no self hash."
+}

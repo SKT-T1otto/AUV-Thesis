@@ -1,0 +1,9 @@
+{
+  "exit_code": 1,
+  "tests_run": 13,
+  "errors": 1,
+  "cause": "Test harness used a B3 frozen reference without joint boundary context while probing raw core.step",
+  "resolution": "Probe the raw core count defect on the B2/core path; B3 context and network tests remain separate",
+  "production_code_changed": false,
+  "log": "negative_control_initial_failure.log"
+}

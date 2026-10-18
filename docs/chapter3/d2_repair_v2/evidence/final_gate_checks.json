@@ -1,0 +1,28 @@
+{
+  "source_identity": {
+    "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+    "profile": "windows_existing",
+    "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+    "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+  },
+  "formal_training": {
+    "admitted": false,
+    "reason": "manual pilot admission rejected; inspect acceptance evidence and unresolved source/E0 gates"
+  },
+  "check_only": {
+    "command": [
+      "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+      "-m",
+      "chapter3_bser.experiments.d2_repair_v2.train",
+      "--config",
+      "configs/chapter3/d2_repair_v2/b2_train.json",
+      "--output",
+      "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\collision_terminal\\no_execution_plan"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"executed\": false, \"method\": \"D2_B2_repair_v2\", \"admitted\": false, \"reason\": \"manual pilot admission rejected; inspect acceptance evidence and unresolved source/E0 gates\", \"source_review\": null}\n",
+    "stderr": "",
+    "output_created": false
+  },
+  "evidence_hashes_verified": true
+}

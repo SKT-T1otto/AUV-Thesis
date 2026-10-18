@@ -1,0 +1,43 @@
+{
+  "stage": "runner_guards",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py",
+    "--_stage",
+    "runner_guards",
+    "--output",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+  ],
+  "tests_run": 6,
+  "expected_tests": 6,
+  "successes": [
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_default_plan_never_creates_output_or_starts_tests",
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_existing_output_and_escape_are_rejected",
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_failed_child_cannot_be_reported_as_passed",
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_matrix_covers_all_defects_and_expensive_stages_are_explicit",
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_source_failure_prevents_every_model_stage",
+    "tests.test_d2_repair_acceptance_runner.AcceptanceRunner.test_test_identity_drift_invalidates_otherwise_successful_child"
+  ],
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "exit_code": 0,
+  "wall_seconds": 0.35360319999745116,
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "AUV_REPAIR_TEST_EVIDENCE": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01\\artifacts"
+    }
+  },
+  "is_ci": false,
+  "performance_evidence": false
+}

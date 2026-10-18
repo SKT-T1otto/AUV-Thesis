@@ -1,0 +1,49 @@
+{
+  "stage": "historical_records",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py",
+    "--_stage",
+    "historical_records",
+    "--output",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+  ],
+  "tests_run": 12,
+  "expected_tests": 12,
+  "successes": [
+    "tests.test_core_source_provenance.CoreSourceProvenanceTests.test_all_27_authority_records_map_to_current_core_files",
+    "tests.test_core_source_provenance.CoreSourceProvenanceTests.test_reviewed_registry_evolution_preserves_historical_active_modes",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes",
+    "tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest.test_preexisting_core_python_files_unchanged",
+    "tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest.test_original_40_core_python_files_match",
+    "tests.test_prrac_isolation.PRRACIsolationTests.test_frozen_files_hashes_and_import_direction",
+    "tests.test_prrac_isolation.PRRACIsolationTests.test_legacy_configs_and_dimensions_remain_isolated"
+  ],
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "exit_code": 0,
+  "wall_seconds": 0.6559025999958976,
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "AUV_REPAIR_TEST_EVIDENCE": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01\\artifacts"
+    }
+  },
+  "is_ci": false,
+  "performance_evidence": false
+}

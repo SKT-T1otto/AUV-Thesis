@@ -1,0 +1,16 @@
+{
+  "production_identity_unchanged": true,
+  "source_identity": {
+    "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+    "profile": "windows_existing",
+    "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+    "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+  },
+  "previous_evidence_files_verified": 31,
+  "previous_raw_traces_verified": 4,
+  "outputs_modified": false,
+  "user_models_loaded": false,
+  "long_training": false,
+  "committed": false,
+  "pushed": false
+}

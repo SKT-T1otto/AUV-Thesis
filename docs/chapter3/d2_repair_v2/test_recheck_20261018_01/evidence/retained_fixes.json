@@ -1,0 +1,43 @@
+{
+  "stage": "retained_fixes",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py",
+    "--_stage",
+    "retained_fixes",
+    "--output",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+  ],
+  "tests_run": 6,
+  "expected_tests": 6,
+  "successes": [
+    "tests.test_d2_implementation_repairs.Repairs.test_local_ddpg_uses_local_inputs_in_all_branches",
+    "tests.test_d2_implementation_repairs.Repairs.test_terminal_nan_is_ignored_but_live_nan_raises_before_step",
+    "tests.test_d2_implementation_repairs.Repairs.test_nonfinite_gradient_cannot_partially_step_twin_critics",
+    "tests.test_d2_implementation_repairs.Repairs.test_mutated_sample_rebuilds_targets",
+    "tests.test_d2_implementation_repairs.Repairs.test_ordering_detects_return_metric_disagreement",
+    "tests.test_d2_implementation_repairs.Repairs.test_contracts_and_rejected_reweighting"
+  ],
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "exit_code": 0,
+  "wall_seconds": 2.55167739999888,
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "AUV_REPAIR_TEST_EVIDENCE": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01\\artifacts"
+    }
+  },
+  "is_ci": false,
+  "performance_evidence": false
+}

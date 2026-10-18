@@ -1,0 +1,73 @@
+{
+  "counterexamples": {
+    "b2_broadcast_reward": {
+      "accepted": true,
+      "obs_batch": 7,
+      "reward_batch": 1,
+      "weight_batch": 1,
+      "parameters_changed": true,
+      "losses": [
+        0.45767492055892944,
+        -0.11079424619674683
+      ],
+      "reachability": "malformed external caller only; current trainer supplies correct vectors"
+    },
+    "b3_broadcast_reward": {
+      "accepted": true,
+      "obs_batch": 7,
+      "reward_batch": 1,
+      "weight_batch": 1,
+      "parameters_changed": true,
+      "losses": [
+        0.49320268630981445,
+        -0.1506376564502716
+      ],
+      "reachability": "malformed external caller only; current trainer supplies correct vectors"
+    },
+    "cpu_state_alias": {
+      "returned_snapshot_changed_without_edit": true,
+      "same_policy_storage": true,
+      "reachability": "in-memory retained states only; immediate synchronous torch.save is unaffected"
+    },
+    "replay_capacity_change": {
+      "saved_capacity": 3,
+      "loaded_capacity": 5,
+      "filled": 4,
+      "sampled_ids": [
+        -9876.0,
+        3.0,
+        4.0,
+        5.0
+      ],
+      "read_unwritten_slot": true,
+      "reachability": "generic restore to a different capacity; B2/B3 and repair trainers are fresh-only"
+    },
+    "execution_replay_inherited_push": {
+      "accepted_push_without_execution_metadata": true,
+      "sampled_gates": [
+        [
+          false,
+          false,
+          false,
+          false
+        ]
+      ],
+      "actor_updated": false,
+      "reachability": "inherited .push bypasses new contract; current trainer uses .push_transition"
+    },
+    "core_rollout_agent_count": {
+      "accepted_agents": 3,
+      "returned_actions": 3,
+      "reachability": "raw core step only; runtime checks the final 4 x 3 action shape"
+    },
+    "critic_only_diagnostic_flag": {
+      "last_actor_updated": true,
+      "reachability": "diagnostic stale flag only; current repair trainer always calls update"
+    }
+  },
+  "production_changed": false,
+  "user_models_loaded": false,
+  "long_training": false,
+  "torch": "2.11.0+cu126",
+  "device": "cpu"
+}

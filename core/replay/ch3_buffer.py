@@ -7,6 +7,7 @@ belief-fusion, quarantine, scenario-risk, or tail-training metadata.
 from __future__ import annotations
 
 import torch
+import math
 
 def _resolve_device(device):
     if device is None:
@@ -171,43 +172,82 @@ class CH3ReplayBuffer:
         }
 
     def load_state_dict(self, state):
+        """Restore the same-capacity state only, validating before any mutation."""
+        if not isinstance(state, dict):
+            raise ValueError("replay state must be a mapping")
         expected = {
+            "max_steps": self.max_steps,
             "num_agents": self.num_agents,
             "obs_dims": self.obs_dims,
             "ac_dims": self.ac_dims,
+            "success_priority": self.success_priority,
+            "alpha": self.alpha,
+            "beta_start": self.beta_start,
+            "beta_frames": self.beta_frames,
         }
         for key, value in expected.items():
             loaded = state.get(key)
             if key in {"obs_dims", "ac_dims"}:
+                if not isinstance(loaded, (tuple, list)):
+                    raise ValueError(f"invalid replay {key}")
                 loaded = tuple(loaded)
+            if key in {"max_steps", "num_agents", "beta_frames"} and type(loaded) is not int:
+                raise ValueError(f"replay {key} must be an integer")
             if loaded != value:
                 raise ValueError(f"replay buffer {key} mismatch: expected {value}, got {loaded}")
-        used = int(state["filled_i"])
-        if used < 0 or used > self.max_steps:
+        used, next_idx = state["filled_i"], state["next_idx"]
+        if type(used) is not int or not 0 <= used <= self.max_steps:
             raise ValueError(
                 f"replay buffer filled_i={used} exceeds configured capacity={self.max_steps}"
             )
+        if (type(next_idx) is not int or not 0 <= next_idx < self.max_steps
+                or (used < self.max_steps and next_idx != used)):
+            raise ValueError("invalid replay ring next_idx/filled_i relationship")
+        frame = state["frame"]
+        if isinstance(frame, bool) or not isinstance(frame, (int, float)) or not math.isfinite(frame) or frame < 1:
+            raise ValueError("invalid replay sampling frame")
         fields = (
             "obs_buffs", "ac_buffs", "rew_buffs", "next_obs_buffs", "done_buffs"
         )
+        staged = {}
         for field in fields:
             targets = getattr(self, field)
             sources = state[field]
             if len(targets) != len(sources):
                 raise ValueError(f"replay buffer {field} agent count mismatch")
+            prepared = []
             for target, source in zip(targets, sources):
-                target[:used].copy_(source.to(target.device, dtype=target.dtype))
-        self.success_buffs[:used].copy_(
-            state["success_buffs"].to(self.success_buffs.device, dtype=torch.bool)
-        )
-        self.priorities[:used].copy_(
-            state["priorities"].to(self.priorities.device, dtype=self.priorities.dtype)
-        )
+                if not torch.is_tensor(source) or tuple(source.shape) != tuple(target[:used].shape):
+                    raise ValueError(f"invalid replay {field} tensor shape")
+                if not bool(torch.isfinite(source).all()):
+                    raise ValueError(f"nonfinite replay {field}")
+                if field == "done_buffs" and not bool(((source == 0) | (source == 1)).all()):
+                    raise ValueError("invalid replay done flags")
+                converted = source.detach().to(target.device, dtype=target.dtype).clone()
+                if not bool(torch.isfinite(converted).all()):
+                    raise ValueError(f"replay {field} overflows storage dtype")
+                prepared.append(converted)
+            staged[field] = prepared
+        for field in ("success_buffs", "priorities"):
+            source, target = state[field], getattr(self, field)
+            if not torch.is_tensor(source) or source.shape != (used,) or not bool(torch.isfinite(source).all()):
+                raise ValueError(f"invalid replay {field}")
+            if field == "success_buffs" and not bool(((source == 0) | (source == 1)).all()):
+                raise ValueError("invalid replay success flags")
+            if field == "priorities" and not bool((source > 0).all()):
+                raise ValueError("replay priorities must be positive")
+            staged[field] = source.detach().to(target.device, dtype=target.dtype).clone()
+            if not bool(torch.isfinite(staged[field]).all()):
+                raise ValueError(f"replay {field} overflows storage dtype")
+        # All validation and device/dtype conversions have completed.
+        for field in fields:
+            for target, source in zip(getattr(self, field), staged[field]):
+                target[:used].copy_(source)
+        self.success_buffs[:used].copy_(staged["success_buffs"])
+        self.priorities[:used].copy_(staged["priorities"])
         self.filled_i = used
-        self.next_idx = int(state["next_idx"])
-        if not 0 <= self.next_idx < self.max_steps:
-            raise ValueError(f"invalid replay buffer next_idx={self.next_idx}")
-        self.frame = float(state["frame"])
+        self.next_idx = next_idx
+        self.frame = float(frame)
 
     def __len__(self):
         return self.filled_i

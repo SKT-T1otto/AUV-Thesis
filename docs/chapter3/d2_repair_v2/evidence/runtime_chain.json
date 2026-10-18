@@ -1,0 +1,350 @@
+[
+  {
+    "algorithm": "b2",
+    "repair": false,
+    "scenarios": [
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "near",
+        "steps": 12,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "success",
+        "steps": 6,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "success"
+      },
+      {
+        "kind": "collision",
+        "steps": 1,
+        "found": null,
+        "delivery": null,
+        "outcome": "obstacle_collision"
+      }
+    ],
+    "physical_steps": 147,
+    "coverage": [
+      "discovery",
+      "executor_informed",
+      "frozen_searchers",
+      "obstacle_collision",
+      "pre_found",
+      "success",
+      "timeout",
+      "waiting_handoff"
+    ],
+    "rollout_replay_alignment": true,
+    "team_reward_exact": true,
+    "update_rounds": 4,
+    "actor_steps": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "critic_steps": 32,
+    "target_parameter_checks": 384,
+    "frozen_actor_deltas": [
+      0.0010013515129685402,
+      0.0010013328865170479,
+      0.0010013515129685402
+    ],
+    "legacy_ineffective_commands": 16,
+    "wall_seconds": 46.316363900004944,
+    "reward_weights_changed": false,
+    "networks_changed": false,
+    "performance_evidence": false
+  },
+  {
+    "algorithm": "b3",
+    "repair": false,
+    "scenarios": [
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "near",
+        "steps": 12,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "success",
+        "steps": 6,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "success"
+      },
+      {
+        "kind": "collision",
+        "steps": 1,
+        "found": null,
+        "delivery": null,
+        "outcome": "obstacle_collision"
+      }
+    ],
+    "physical_steps": 147,
+    "coverage": [
+      "discovery",
+      "executor_informed",
+      "frozen_searchers",
+      "obstacle_collision",
+      "pre_found",
+      "success",
+      "timeout",
+      "waiting_handoff"
+    ],
+    "rollout_replay_alignment": true,
+    "team_reward_exact": true,
+    "update_rounds": 4,
+    "actor_steps": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "critic_steps": 32,
+    "target_parameter_checks": 480,
+    "frozen_actor_deltas": [
+      0.001001346274279058,
+      0.001001314609311521,
+      0.0010013356804847717
+    ],
+    "legacy_ineffective_commands": 16,
+    "wall_seconds": 52.101892699996824,
+    "reward_weights_changed": false,
+    "networks_changed": false,
+    "performance_evidence": false
+  },
+  {
+    "algorithm": "b2",
+    "repair": true,
+    "scenarios": [
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "near",
+        "steps": 12,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "success",
+        "steps": 6,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "success"
+      },
+      {
+        "kind": "collision",
+        "steps": 1,
+        "found": null,
+        "delivery": null,
+        "outcome": "obstacle_collision"
+      }
+    ],
+    "physical_steps": 147,
+    "coverage": [
+      "discovery",
+      "executor_informed",
+      "frozen_searchers",
+      "obstacle_collision",
+      "pre_found",
+      "success",
+      "timeout",
+      "waiting_handoff"
+    ],
+    "rollout_replay_alignment": true,
+    "team_reward_exact": true,
+    "update_rounds": 4,
+    "actor_steps": [
+      2,
+      2,
+      2,
+      3
+    ],
+    "critic_steps": 32,
+    "target_parameter_checks": 384,
+    "frozen_actor_deltas": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "legacy_ineffective_commands": 0,
+    "wall_seconds": 46.071565800004464,
+    "reward_weights_changed": false,
+    "networks_changed": false,
+    "performance_evidence": false
+  },
+  {
+    "algorithm": "b3",
+    "repair": true,
+    "scenarios": [
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "normal",
+        "steps": 32,
+        "found": null,
+        "delivery": null,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "near",
+        "steps": 12,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "timeout"
+      },
+      {
+        "kind": "success",
+        "steps": 6,
+        "found": 1,
+        "delivery": 2,
+        "outcome": "success"
+      },
+      {
+        "kind": "collision",
+        "steps": 1,
+        "found": null,
+        "delivery": null,
+        "outcome": "obstacle_collision"
+      }
+    ],
+    "physical_steps": 147,
+    "coverage": [
+      "discovery",
+      "executor_informed",
+      "frozen_searchers",
+      "obstacle_collision",
+      "pre_found",
+      "success",
+      "timeout",
+      "waiting_handoff"
+    ],
+    "rollout_replay_alignment": true,
+    "team_reward_exact": true,
+    "update_rounds": 4,
+    "actor_steps": [
+      2,
+      2,
+      2,
+      3
+    ],
+    "critic_steps": 32,
+    "target_parameter_checks": 480,
+    "frozen_actor_deltas": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "legacy_ineffective_commands": 0,
+    "wall_seconds": 44.10421099999803,
+    "reward_weights_changed": false,
+    "networks_changed": false,
+    "performance_evidence": false
+  }
+]

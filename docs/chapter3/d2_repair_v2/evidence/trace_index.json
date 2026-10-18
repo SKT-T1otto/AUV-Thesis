@@ -1,0 +1,26 @@
+[
+  {
+    "path": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\trace_b2_False.json",
+    "sha256": "0ec9b0ad57cf301a219970b5e7213793324964c3d83bc39c6b94044b09b2bd23",
+    "steps": 147,
+    "compact_example": "transition_examples_b2_False.json"
+  },
+  {
+    "path": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\trace_b2_True.json",
+    "sha256": "7ec23bd4cfbded1aaca4cb39f44803a80e8fe92d9662b0c5f25c6c46f91ad40a",
+    "steps": 147,
+    "compact_example": "transition_examples_b2_True.json"
+  },
+  {
+    "path": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\trace_b3_False.json",
+    "sha256": "9ff3070827200b98295653f1fd86dced688e3c79da04437d3ddc49f77fa5b977",
+    "steps": 147,
+    "compact_example": "transition_examples_b3_False.json"
+  },
+  {
+    "path": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_v2_20261018\\trace_b3_True.json",
+    "sha256": "cfd52d486332aae2f5853ec09d8eafc29990f1387c58da3542d491730f66fa63",
+    "steps": 147,
+    "compact_example": "transition_examples_b3_True.json"
+  }
+]

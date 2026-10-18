@@ -49,7 +49,7 @@ class Phase1ACoreFreezeTest(unittest.TestCase):
                 self.assertEqual(expected_sha, permitted["historical_sha256"])
                 expected_sha = permitted["current_sha256"]
                 expected_ast = permitted["current_ast_dump_sha256"]
-            from tests.d2_repair_review import successor, RECORDS
+            from tests.d2_repair_v2_review import successor, RECORDS
             expected_sha = successor(relative, expected_sha)
             if relative in RECORDS:
                 expected_ast = RECORDS[relative]["current_ast_dump_sha256"]

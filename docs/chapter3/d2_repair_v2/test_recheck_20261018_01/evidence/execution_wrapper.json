@@ -1,0 +1,16 @@
+{
+  "python_reported_exit_code": 2,
+  "outer_exec_tool_exit_code": 1,
+  "test_child_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "powershell_explicit_exit_forwarding": false,
+  "interpretation": "Mechanism checks passed; Python classification 2 records unresolved acceptance gates. Outer shell status is separately preserved.",
+  "command": "$env:OMP_NUM_THREADS='1'; $env:MKL_NUM_THREADS='1'; $env:OPENBLAS_NUM_THREADS='1'; & D:/anaconda/anaconda/envs/AUV/python.exe -m tools.run_d2_repair_acceptance --execute --output tmp/d2_repair_acceptance/full_recheck_20261018_01"
+}

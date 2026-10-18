@@ -1,0 +1,9 @@
+test_admission_rejects_formal_run_without_all_required_evidence (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_any_unregistered_production_drift_is_rejected (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_check_only_creates_no_artifacts (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+test_complete_source_and_independent_review (tests.test_d2_repair_v2_provenance.Provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 10.158s
+
+OK

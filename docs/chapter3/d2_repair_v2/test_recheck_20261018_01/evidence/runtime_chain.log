@@ -1,0 +1,36 @@
+test_real_b2_b3_and_successor_with_bounded_updates (tests.test_d2_repair_v2_runtime_contract.RealTrainingChain) ... chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False normal steps=32 timeout
+chain b2 repair=False near steps=12 timeout
+chain b2 repair=False success steps=6 success
+chain b2 repair=False collision steps=1 obstacle_collision
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False normal steps=32 timeout
+chain b3 repair=False near steps=12 timeout
+chain b3 repair=False success steps=6 success
+chain b3 repair=False collision steps=1 obstacle_collision
+E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\d2_repair_v2\replay.py:26: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  value = torch.as_tensor(transition[name]).detach().cpu().clone()
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True normal steps=32 timeout
+chain b2 repair=True near steps=12 timeout
+chain b2 repair=True success steps=6 success
+chain b2 repair=True collision steps=1 obstacle_collision
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True normal steps=32 timeout
+chain b3 repair=True near steps=12 timeout
+chain b3 repair=True success steps=6 success
+chain b3 repair=True collision steps=1 obstacle_collision
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 187.605s
+
+OK

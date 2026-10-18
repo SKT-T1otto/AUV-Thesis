@@ -1,0 +1,246 @@
+{
+  "schema": "ch3.d2.repair_test_results.v1",
+  "status": "MECHANISM_VERIFIED",
+  "executed": true,
+  "quick": false,
+  "mechanism_checks_passed": true,
+  "full_mechanism_suite_complete": true,
+  "formal_training_allowed": false,
+  "performance_passed": false,
+  "exit_code": 2,
+  "stages": [
+    {
+      "stage": "contracts",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "contracts",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "contracts.json",
+      "log": "contracts.log",
+      "wall_seconds": 77.40173459999642,
+      "timeout": false
+    },
+    {
+      "stage": "negative_controls",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "negative_controls",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "negative_controls.json",
+      "log": "negative_controls.log",
+      "wall_seconds": 29.872629799996503,
+      "timeout": false
+    },
+    {
+      "stage": "retained_fixes",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "retained_fixes",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "retained_fixes.json",
+      "log": "retained_fixes.log",
+      "wall_seconds": 6.055414900001779,
+      "timeout": false
+    },
+    {
+      "stage": "historical_records",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "historical_records",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "historical_records.json",
+      "log": "historical_records.log",
+      "wall_seconds": 3.9470461000018986,
+      "timeout": false
+    },
+    {
+      "stage": "runner_guards",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "runner_guards",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "runner_guards.json",
+      "log": "runner_guards.log",
+      "wall_seconds": 3.8895668999975896,
+      "timeout": false
+    },
+    {
+      "stage": "runtime_chain",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "runtime_chain",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "runtime_chain.json",
+      "log": "runtime_chain.log",
+      "wall_seconds": 191.28763799999433,
+      "timeout": false
+    },
+    {
+      "stage": "scheduler_checkpoint",
+      "command": [
+        "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+        "-m",
+        "tools.run_d2_repair_acceptance",
+        "--_stage",
+        "scheduler_checkpoint",
+        "--output",
+        "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+      ],
+      "exit_code": 0,
+      "report": "scheduler_checkpoint.json",
+      "log": "scheduler_checkpoint.log",
+      "wall_seconds": 221.3038133000009,
+      "timeout": false
+    }
+  ],
+  "source_before": {
+    "identity": {
+      "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+      "profile": "windows_existing",
+      "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+      "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+    },
+    "independent": {
+      "source_passed": true,
+      "profile": "windows_existing",
+      "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+      "modified": [
+        "core/algorithms/maddpg.py",
+        "core/replay/ch3_buffer.py"
+      ],
+      "added": [
+        "chapter3_bser/experiments/d2_repair_v2/__init__.py",
+        "chapter3_bser/experiments/d2_repair_v2/config.py",
+        "chapter3_bser/experiments/d2_repair_v2/evaluate.py",
+        "chapter3_bser/experiments/d2_repair_v2/model.py",
+        "chapter3_bser/experiments/d2_repair_v2/provenance.py",
+        "chapter3_bser/experiments/d2_repair_v2/replay.py",
+        "chapter3_bser/experiments/d2_repair_v2/runtime.py",
+        "chapter3_bser/experiments/d2_repair_v2/train.py"
+      ],
+      "unchanged": 302
+    }
+  },
+  "source_after": {
+    "identity": {
+      "review_sha256": "5dd3288e3aa3bf2e7634ffdc9e200965313acddd32362effa23b4dd949b1f171",
+      "profile": "windows_existing",
+      "inventory_sha256": "244636b8c253e446c6d4492a6bba951e9948b7924f0bd76d7a52c808909f153f",
+      "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8"
+    },
+    "independent": {
+      "source_passed": true,
+      "profile": "windows_existing",
+      "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+      "modified": [
+        "core/algorithms/maddpg.py",
+        "core/replay/ch3_buffer.py"
+      ],
+      "added": [
+        "chapter3_bser/experiments/d2_repair_v2/__init__.py",
+        "chapter3_bser/experiments/d2_repair_v2/config.py",
+        "chapter3_bser/experiments/d2_repair_v2/evaluate.py",
+        "chapter3_bser/experiments/d2_repair_v2/model.py",
+        "chapter3_bser/experiments/d2_repair_v2/provenance.py",
+        "chapter3_bser/experiments/d2_repair_v2/replay.py",
+        "chapter3_bser/experiments/d2_repair_v2/runtime.py",
+        "chapter3_bser/experiments/d2_repair_v2/train.py"
+      ],
+      "unchanged": 302
+    }
+  },
+  "error": null,
+  "acceptance_gates": [
+    {
+      "gate": "legacy_baseline_source",
+      "passed": false,
+      "error": "ValueError('SafeSearch source inventory mismatch: .gitattributes, chapter3_bser/experiments/baselines/common/checkpoint.py, chapter3_bser/experiments/baselines/common/runtime.py, chapter3_bser/experiments/baselines/common/train.py, chapter3_bser/experiments/bser_effect_v1/__init__.py, chapter3_bser/experiments/bser_effect_v1/allocator.py, chapter3_bser/experiments/bser_effect_v1/analysis.py, chapter3_bser/experiments/bser_effect_v1/controller.py, chapter3_bser/experiments/bser_effect_v1/options.py, chapter3_bser/experiments/bser_effect_v1/provenance.py, chapter3_bser/experiments/bser_effect_v1/run_windows.py, chapter3_bser/experiments/bser_effect_v1/runtime.py, chapter3_bser/experiments/bser_effect_v1/solver.py, chapter3_bser/experiments/bser_final_v1/__init__.py, chapter3_bser/experiments/bser_final_v1/allocator.py, chapter3_bser/experiments/bser_final_v1/analysis.py, chapter3_bser/experiments/bser_final_v1/forecast.py, chapter3_bser/experiments/bser_final_v1/options.py, chapter3_bser/experiments/bser_final_v1/provenance.py, chapter3_bser/experiments/bser_final_v1/run_windows.py, chapter3_bser/experiments/bser_final_v1/runtime.py, chapter3_bser/experiments/bser_final_v1/scenarios.py, chapter3_bser/experiments/bser_final_v1/scoring.py, chapter3_bser/experiments/bser_final_v1/solver.py, chapter3_bser/experiments/d2_performance/__init__.py, chapter3_bser/experiments/d2_performance/compute.py, chapter3_bser/experiments/d2_performance/logging.py, chapter3_bser/experiments/d2_performance/options.py, chapter3_bser/experiments/d2_performance/planning.py, chapter3_bser/experiments/d2_performance/provenance.py, chapter3_bser/experiments/d2_performance/round2_provenance.py, chapter3_bser/experiments/d2_repair_v1/__init__.py, chapter3_bser/experiments/d2_repair_v1/config.py, chapter3_bser/experiments/d2_repair_v1/diagnostics.py, chapter3_bser/experiments/d2_repair_v1/evaluate.py, chapter3_bser/experiments/d2_repair_v1/model.py, chapter3_bser/experiments/d2_repair_v1/provenance.py, chapter3_bser/experiments/d2_repair_v1/replay.py, chapter3_bser/experiments/d2_repair_v1/runtime.py, chapter3_bser/experiments/d2_repair_v1/train.py, chapter3_bser/experiments/d2_repair_v2/__init__.py, chapter3_bser/experiments/d2_repair_v2/config.py, chapter3_bser/experiments/d2_repair_v2/evaluate.py, chapter3_bser/experiments/d2_repair_v2/model.py, chapter3_bser/experiments/d2_repair_v2/provenance.py, chapter3_bser/experiments/d2_repair_v2/replay.py, chapter3_bser/experiments/d2_repair_v2/runtime.py, chapter3_bser/experiments/d2_repair_v2/train.py, chapter3_bser/experiments/d2_suite_v1/__init__.py, chapter3_bser/experiments/d2_suite_v1/cli.py, chapter3_bser/experiments/d2_suite_v1/evaluate.py, chapter3_bser/experiments/d2_suite_v1/evaluation_cli.py, chapter3_bser/experiments/d2_suite_v1/evaluation_provenance.py, chapter3_bser/experiments/d2_suite_v1/linux.py, chapter3_bser/experiments/d2_suite_v1/linux_provenance.py, chapter3_bser/experiments/d2_suite_v1/pipeline.py, chapter3_bser/experiments/d2_suite_v1/pipeline_provenance.py, chapter3_bser/experiments/d2_suite_v1/plan.py, chapter3_bser/experiments/d2_suite_v1/provenance.py, chapter3_bser/experiments/d2_suite_v1/run.py, chapter3_bser/experiments/d2_suite_v1/summarize.py, chapter3_bser/experiments/d2_v1/__init__.py, chapter3_bser/experiments/d2_v1/assembly.py, chapter3_bser/experiments/d2_v1/contract.py, chapter3_bser/experiments/d2_v1/controller.py, chapter3_bser/experiments/d2_v1/preflight.py, chapter3_bser/experiments/d2_v1/provenance.py, chapter3_bser/experiments/hgr/runtime.py, chapter3_bser/experiments/hgr/train.py, chapter3_bser/experiments/long_horizon_maddpg_v1/__init__.py, chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py, chapter3_bser/experiments/long_horizon_maddpg_v1/config.py, chapter3_bser/experiments/long_horizon_maddpg_v1/model.py, chapter3_bser/experiments/long_horizon_maddpg_v1/provenance.py, chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py, chapter3_bser/experiments/map_stp_shadow_v1/__init__.py, chapter3_bser/experiments/map_stp_shadow_v1/io.py, chapter3_bser/experiments/map_stp_shadow_v1/routes.py, chapter3_bser/experiments/map_stp_shadow_v1/run.py, chapter3_bser/experiments/map_stp_shadow_v1/scoring.py, chapter3_bser/experiments/safe_search_v1/provenance.py, chapter3_bser/experiments/safe_search_v2/__init__.py, chapter3_bser/experiments/safe_search_v2/guidance.py, chapter3_bser/experiments/safe_search_v2/motion.py, chapter3_bser/experiments/safe_search_v2/options.py, chapter3_bser/experiments/safe_search_v2/provenance.py, chapter3_bser/experiments/safe_search_v2/recovery.py, chapter3_bser/experiments/safe_search_v2/run_windows.py, chapter3_bser/experiments/safe_search_v2/runtime.py, configs/chapter3/d2_repair_v1/b2_train.json, configs/chapter3/d2_repair_v1/b3_train.json, configs/chapter3/d2_repair_v2/b2_train.json, configs/chapter3/d2_repair_v2/b3_train.json, configs/chapter3/d2_suite_v1/experiment.json, configs/chapter3/d2_v1/baseline_registry.json, configs/chapter3/d2_v1/direct_boundary_train.json, configs/chapter3/d2_v1/direct_mc_train.json, configs/chapter3/d2_v1/hgr_train.json, configs/chapter3/long_horizon_maddpg_v1.json, configs/chapter3/map_stp_shadow_v1.json, core/algorithms/maddpg.py, core/env/target_motion.py, core/env/uav_env.py, core/mapping/path_planner.py, core/replay/ch3_buffer.py, scripts/linux/evaluate_d2_reference.sh, scripts/linux/evaluate_d2_suite.sh, scripts/linux/evaluate_d2_trained.sh, scripts/linux/run_d2_full_suite.sh, scripts/linux/run_d2_suite.sh, scripts/linux/summarize_d2_suite.sh, scripts/linux/train_d2_suite.sh, scripts/run_d2_suite.py, tools/benchmark_d2_performance.py, tools/ch3_baselines/framework_provenance.py, tools/ch3_baselines/registry.py, tools/ch3_baselines/run_baseline.py')",
+      "traceback": "Traceback (most recent call last):\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py\", line 136, in acceptance_gates\n    check()\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\ch3_baselines\\framework_provenance.py\", line 32, in framework_sources\n    return baseline_sources()\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\experiments\\d2_v1\\provenance.py\", line 89, in baseline_sources\n    result = framework_sources()\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\experiments\\d2_v1\\provenance.py\", line 74, in framework_sources\n    result = old.framework_sources()\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\experiments\\safe_search_v1\\provenance.py\", line 272, in framework_sources\n    raise ValueError(\"SafeSearch source inventory mismatch: \" + \", \".join(differences))\nValueError: SafeSearch source inventory mismatch: .gitattributes, chapter3_bser/experiments/baselines/common/checkpoint.py, chapter3_bser/experiments/baselines/common/runtime.py, chapter3_bser/experiments/baselines/common/train.py, chapter3_bser/experiments/bser_effect_v1/__init__.py, chapter3_bser/experiments/bser_effect_v1/allocator.py, chapter3_bser/experiments/bser_effect_v1/analysis.py, chapter3_bser/experiments/bser_effect_v1/controller.py, chapter3_bser/experiments/bser_effect_v1/options.py, chapter3_bser/experiments/bser_effect_v1/provenance.py, chapter3_bser/experiments/bser_effect_v1/run_windows.py, chapter3_bser/experiments/bser_effect_v1/runtime.py, chapter3_bser/experiments/bser_effect_v1/solver.py, chapter3_bser/experiments/bser_final_v1/__init__.py, chapter3_bser/experiments/bser_final_v1/allocator.py, chapter3_bser/experiments/bser_final_v1/analysis.py, chapter3_bser/experiments/bser_final_v1/forecast.py, chapter3_bser/experiments/bser_final_v1/options.py, chapter3_bser/experiments/bser_final_v1/provenance.py, chapter3_bser/experiments/bser_final_v1/run_windows.py, chapter3_bser/experiments/bser_final_v1/runtime.py, chapter3_bser/experiments/bser_final_v1/scenarios.py, chapter3_bser/experiments/bser_final_v1/scoring.py, chapter3_bser/experiments/bser_final_v1/solver.py, chapter3_bser/experiments/d2_performance/__init__.py, chapter3_bser/experiments/d2_performance/compute.py, chapter3_bser/experiments/d2_performance/logging.py, chapter3_bser/experiments/d2_performance/options.py, chapter3_bser/experiments/d2_performance/planning.py, chapter3_bser/experiments/d2_performance/provenance.py, chapter3_bser/experiments/d2_performance/round2_provenance.py, chapter3_bser/experiments/d2_repair_v1/__init__.py, chapter3_bser/experiments/d2_repair_v1/config.py, chapter3_bser/experiments/d2_repair_v1/diagnostics.py, chapter3_bser/experiments/d2_repair_v1/evaluate.py, chapter3_bser/experiments/d2_repair_v1/model.py, chapter3_bser/experiments/d2_repair_v1/provenance.py, chapter3_bser/experiments/d2_repair_v1/replay.py, chapter3_bser/experiments/d2_repair_v1/runtime.py, chapter3_bser/experiments/d2_repair_v1/train.py, chapter3_bser/experiments/d2_repair_v2/__init__.py, chapter3_bser/experiments/d2_repair_v2/config.py, chapter3_bser/experiments/d2_repair_v2/evaluate.py, chapter3_bser/experiments/d2_repair_v2/model.py, chapter3_bser/experiments/d2_repair_v2/provenance.py, chapter3_bser/experiments/d2_repair_v2/replay.py, chapter3_bser/experiments/d2_repair_v2/runtime.py, chapter3_bser/experiments/d2_repair_v2/train.py, chapter3_bser/experiments/d2_suite_v1/__init__.py, chapter3_bser/experiments/d2_suite_v1/cli.py, chapter3_bser/experiments/d2_suite_v1/evaluate.py, chapter3_bser/experiments/d2_suite_v1/evaluation_cli.py, chapter3_bser/experiments/d2_suite_v1/evaluation_provenance.py, chapter3_bser/experiments/d2_suite_v1/linux.py, chapter3_bser/experiments/d2_suite_v1/linux_provenance.py, chapter3_bser/experiments/d2_suite_v1/pipeline.py, chapter3_bser/experiments/d2_suite_v1/pipeline_provenance.py, chapter3_bser/experiments/d2_suite_v1/plan.py, chapter3_bser/experiments/d2_suite_v1/provenance.py, chapter3_bser/experiments/d2_suite_v1/run.py, chapter3_bser/experiments/d2_suite_v1/summarize.py, chapter3_bser/experiments/d2_v1/__init__.py, chapter3_bser/experiments/d2_v1/assembly.py, chapter3_bser/experiments/d2_v1/contract.py, chapter3_bser/experiments/d2_v1/controller.py, chapter3_bser/experiments/d2_v1/preflight.py, chapter3_bser/experiments/d2_v1/provenance.py, chapter3_bser/experiments/hgr/runtime.py, chapter3_bser/experiments/hgr/train.py, chapter3_bser/experiments/long_horizon_maddpg_v1/__init__.py, chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py, chapter3_bser/experiments/long_horizon_maddpg_v1/config.py, chapter3_bser/experiments/long_horizon_maddpg_v1/model.py, chapter3_bser/experiments/long_horizon_maddpg_v1/provenance.py, chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py, chapter3_bser/experiments/map_stp_shadow_v1/__init__.py, chapter3_bser/experiments/map_stp_shadow_v1/io.py, chapter3_bser/experiments/map_stp_shadow_v1/routes.py, chapter3_bser/experiments/map_stp_shadow_v1/run.py, chapter3_bser/experiments/map_stp_shadow_v1/scoring.py, chapter3_bser/experiments/safe_search_v1/provenance.py, chapter3_bser/experiments/safe_search_v2/__init__.py, chapter3_bser/experiments/safe_search_v2/guidance.py, chapter3_bser/experiments/safe_search_v2/motion.py, chapter3_bser/experiments/safe_search_v2/options.py, chapter3_bser/experiments/safe_search_v2/provenance.py, chapter3_bser/experiments/safe_search_v2/recovery.py, chapter3_bser/experiments/safe_search_v2/run_windows.py, chapter3_bser/experiments/safe_search_v2/runtime.py, configs/chapter3/d2_repair_v1/b2_train.json, configs/chapter3/d2_repair_v1/b3_train.json, configs/chapter3/d2_repair_v2/b2_train.json, configs/chapter3/d2_repair_v2/b3_train.json, configs/chapter3/d2_suite_v1/experiment.json, configs/chapter3/d2_v1/baseline_registry.json, configs/chapter3/d2_v1/direct_boundary_train.json, configs/chapter3/d2_v1/direct_mc_train.json, configs/chapter3/d2_v1/hgr_train.json, configs/chapter3/long_horizon_maddpg_v1.json, configs/chapter3/map_stp_shadow_v1.json, core/algorithms/maddpg.py, core/env/target_motion.py, core/env/uav_env.py, core/mapping/path_planner.py, core/replay/ch3_buffer.py, scripts/linux/evaluate_d2_reference.sh, scripts/linux/evaluate_d2_suite.sh, scripts/linux/evaluate_d2_trained.sh, scripts/linux/run_d2_full_suite.sh, scripts/linux/run_d2_suite.sh, scripts/linux/summarize_d2_suite.sh, scripts/linux/train_d2_suite.sh, scripts/run_d2_suite.py, tools/benchmark_d2_performance.py, tools/ch3_baselines/framework_provenance.py, tools/ch3_baselines/registry.py, tools/ch3_baselines/run_baseline.py\n"
+    },
+    {
+      "gate": "legacy_repair_v1_source",
+      "passed": false,
+      "error": "ValueError('unreviewed repair source drift: core/algorithms/maddpg.py')",
+      "traceback": "Traceback (most recent call last):\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py\", line 136, in acceptance_gates\n    check()\n  File \"E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\chapter3_bser\\experiments\\d2_repair_v1\\provenance.py\", line 18, in verify_reviewed_changes\n    raise ValueError(f\"unreviewed repair source drift: {name}\")\nValueError: unreviewed repair source drift: core/algorithms/maddpg.py\n"
+    },
+    {
+      "gate": "historical_e0",
+      "passed": false,
+      "file_present": false,
+      "reason": "Historical golden data missing",
+      "replacement_generated": false
+    }
+  ],
+  "artifact_oracles": {
+    "negative_control_checks": 17,
+    "distinct_defects": 13,
+    "runtime_models": 4,
+    "runtime_steps": 588,
+    "scheduler_models": 2,
+    "scheduler_steps": 512
+  },
+  "not_run": [],
+  "wall_seconds": 536.6740542999978,
+  "is_ci": false,
+  "evidence_sha256": {
+    "before.json": "a3c84be2672306dd29ef1ed318c744b7bc104ba2e5d23b307cfe7172f409da71",
+    "contracts.json": "c0b9650883e500d74f3539dbab11be19e8a2d05a3c519c41ae38c05df6db838e",
+    "contracts.log": "150cd5b36a89d81c47b180d95c8ab18b0db17c312dcd15e817dbd607449320bb",
+    "historical_records.json": "6ef4d82bd4b471c120872eedb971ed71bca3d136274797a39023f36e811518a4",
+    "historical_records.log": "c216b44a2d1d2444bbb8eb8f0fd60edfc82ff9711b5d4d9c47dc70b431859907",
+    "negative_controls.json": "eae440d5a3136f5b757093dfc3fc38921b16dae1ace193139f912bfcaad9422c",
+    "negative_controls.log": "927ad3a3e0bd90394825bad7f330eb896eb8d45afd6c3092830eabea83e9b715",
+    "retained_fixes.json": "356e64bc9ab42db6200c353a449f8bd92c0585804311b493019ed65dedea46cb",
+    "retained_fixes.log": "8702cd8fbe842c873b82ac7615850ef2cc77967bcb15ff72f2dbfa8158c8b19d",
+    "runner_guards.json": "a19250b12394dc7d3883ec778bf685a040f3b1d5be4146e7e92299fce239a49f",
+    "runner_guards.log": "61272b7f41ab4c0356363c96511a51f471fd34ca1f4e09e1bfaa5e5a56415e7a",
+    "runtime_chain.json": "05b1c22002661bc552dffba9eaaf38b9957bf266abeae26789bfd312971a9588",
+    "runtime_chain.log": "ce7b36962c7f9b875cacdd3a895bf41239847ca9e405e992acbc8e0b706e688d",
+    "scheduler_checkpoint.json": "c44a7cd2d12e2cf611bcec6a62f3fb9f8d436762bb22852da5a3d831994ea963",
+    "scheduler_checkpoint.log": "221c657c7a8619bc21b5955a761b506bf86cf0438f34796c5ebc56e944e5c4b0",
+    "source_before.json": "29fc709049b144565327d016ab84189bc8200844d7acb4d2eef2c0c330632f2f",
+    "artifacts/negative_controls.json": "fb6377df1f29f00e054d0bffa529ca263f279ec06e75fe51c02ed680b849c4a5",
+    "artifacts/runtime_chain.json": "7ae9774873a784a8a3f864c4768b2187e8d9ac4aa63468ca5aa0546ebb1943eb",
+    "artifacts/scheduler_checkpoint.json": "9337ddd7757393ea402cf3f259c85cea7a197782dae410e688855799912dd30a",
+    "artifacts/trace_b2_False.json": "0ec9b0ad57cf301a219970b5e7213793324964c3d83bc39c6b94044b09b2bd23",
+    "artifacts/trace_b2_True.json": "7ec23bd4cfbded1aaca4cb39f44803a80e8fe92d9662b0c5f25c6c46f91ad40a",
+    "artifacts/trace_b3_False.json": "9ff3070827200b98295653f1fd86dced688e3c79da04437d3ddc49f77fa5b977",
+    "artifacts/trace_b3_True.json": "cfd52d486332aae2f5853ec09d8eafc29990f1387c58da3542d491730f66fa63"
+  }
+}

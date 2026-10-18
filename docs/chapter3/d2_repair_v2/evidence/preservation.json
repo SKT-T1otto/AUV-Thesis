@@ -1,0 +1,44 @@
+{
+  "parent_commit": "6538c3e6a67e96d56940ab09fcff15cd9dc7a7d8",
+  "modified_production": {
+    "core/algorithms/maddpg.py": {
+      "before": "fbf983ec992613a45c10a2ced45725c17b2a412414d64167cb02b33ab8692a91",
+      "after": "206c4b134ac16cfc903cdeabd6ee77de0ca5205dab36702abbf3bdd7ab40ef66"
+    },
+    "core/replay/ch3_buffer.py": {
+      "before": "e22412e43e589962582c2a3ce727b167a6689e60223f6d64fd71ef1e9e5cfa42",
+      "after": "1ad6547e89c8c0291a3633f9a7b46f7c8a3b428577a6dee34115ba2bf04876cb"
+    }
+  },
+  "unchanged_production_count": 302,
+  "historical_manifests_unchanged": {
+    "docs/provenance/baseline_maddpg_evolution.json": "0ba9da52edc45ffb7106cb6e87545e252b8ff4fa43fb7028ef236418bc7086ac",
+    "docs/provenance/bser_effect_v1_evolution.json": "0acb4a61962e2e08f61d0ea8b06c07e892901909ddb88d8d468230cb167759b4",
+    "docs/provenance/bser_final_v1_evolution.json": "c90d7e05e3ae8c4f832036bf51c2490cd039c86d08b92dc42ab157e62bfbb74c",
+    "docs/provenance/ch3_authority_source_hashes_v1.json": "345a5de9ee0955f9b7da1422641a3f0e1b7594e02125c85dbe91a87f647c3330",
+    "docs/provenance/ch3_baseline_protected_pre_final.json": "4840c79debc142e05931db9cad837a20a366b723bd5a8a1bb657c17e4e99f5f5",
+    "docs/provenance/ch3_to_core_migration_manifest.json": "df1b34ac73d23606078c10866717fac27986e0c24d3f8d4a4d45a2e40dbc4c69",
+    "docs/provenance/collision_terminal_evolution.json": "9cf26c6f5c187410789f281d115cb62ea6ce7b9fe4d43084b7863500c9628388",
+    "docs/provenance/d2_performance_v1_evolution.json": "3c2a31d3516d844f0af4581b0ede5ce0c109516a0f78ac56e64f4ec6954030b9",
+    "docs/provenance/d2_performance_v2_evolution.json": "463eebf742108e85a473db33ccd84fac7fc8df73c230b5a4e53d75fdf443833e",
+    "docs/provenance/d2_repair_v1_evolution.json": "4f7a3aca6f197407acb4de2fd53caf49a6b45329dcf7079b6571417126430ca9",
+    "docs/provenance/d2_suite_linux_evaluation_v1_evolution.json": "600795a0a4f4cc344332d456ebeb90a7e9961adb08a123ff87fb4bfa3a944c74",
+    "docs/provenance/d2_suite_linux_v1_evolution.json": "ddef800f8c2c7071c0a6499710853b6575f2635256f6b1292c83e7afaf06d5e2",
+    "docs/provenance/d2_suite_pipeline_v1_evolution.json": "5918f1297de315c12ca021988424113b131f6d2b35b4104f3876311eed5f2e49",
+    "docs/provenance/d2_suite_v1_evolution.json": "0d8720831248cf6e3a5cd81d049c4dd378e3e46c3013d09deb629fe87b21372a",
+    "docs/provenance/d2_v1_evolution.json": "9e2d80e4f7cf3a15bb4c68b08acf0de8dc899771689d92c31c958547d7532cc4",
+    "docs/provenance/hgr_evolution.json": "14272e954f50bea1a5ff05a6810268df17e990a66b0b866a13588dc8357a4dc9",
+    "docs/provenance/long_horizon_maddpg_v1_evolution.json": "d21356e3b82d7a5303204a07fae213c225a8ae0bce9ee2d9def7917793a136a9",
+    "docs/provenance/safe_search_v1_evolution.json": "07f96e5276859ff312664878a0496c2eb7850e811f2d36b91a28b226384eb7d8",
+    "docs/provenance/safe_search_v2_evolution.json": "931af1d0760fb87d02cdf7b7058bcef51eea68153ad795d6154b1c89fb1904fd"
+  },
+  "legacy_suite_mapping_unchanged": true,
+  "repair_v1_all_production_unchanged": true,
+  "original_configs_unchanged": true,
+  "source_records": 27,
+  "outputs_modified": false,
+  "user_models_loaded": false,
+  "long_training": false,
+  "committed": false,
+  "pushed": false
+}

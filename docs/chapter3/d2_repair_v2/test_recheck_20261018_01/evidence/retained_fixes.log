@@ -1,0 +1,11 @@
+test_local_ddpg_uses_local_inputs_in_all_branches (tests.test_d2_implementation_repairs.Repairs) ... ok
+test_terminal_nan_is_ignored_but_live_nan_raises_before_step (tests.test_d2_implementation_repairs.Repairs) ... ok
+test_nonfinite_gradient_cannot_partially_step_twin_critics (tests.test_d2_implementation_repairs.Repairs) ... ok
+test_mutated_sample_rebuilds_targets (tests.test_d2_implementation_repairs.Repairs) ... ok
+test_ordering_detects_return_metric_disagreement (tests.test_d2_implementation_repairs.Repairs) ... ok
+test_contracts_and_rejected_reweighting (tests.test_d2_implementation_repairs.Repairs) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.322s
+
+OK

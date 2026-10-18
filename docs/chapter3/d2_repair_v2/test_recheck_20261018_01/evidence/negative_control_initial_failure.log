@@ -1,0 +1,40 @@
+test_batch_broadcast_oracle_rejects_frozen_parent (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_capacity_restore_oracle_rejects_old_loader (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_cpu_snapshot_oracle_rejects_parent_alias (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_critic_only_flag_oracle_rejects_parent_stale_flag (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_execution_push_oracle_rejects_v1_bypass (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_frozen_actor_oracle_rejects_legacy_training (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_hold_action_oracle_rejects_disabled_gate (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_local_ddpg_oracle_rejects_pre_v1_joint_input (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_mutable_sample_oracle_rejects_pre_v1_cache (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_nonfinite_gradient_oracle_rejects_pre_v1_optimizer_write (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_step_count_oracle_rejects_parent_zip_truncation (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ERROR
+test_terminal_nan_oracle_rejects_pre_v1_target (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+test_waypoint_bonus_oracle_rejects_legacy_timing (tests.test_d2_repair_v2_negative_controls.NegativeControls) ... ok
+
+======================================================================
+ERROR: test_step_count_oracle_rejects_parent_zip_truncation (tests.test_d2_repair_v2_negative_controls.NegativeControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_d2_repair_v2_negative_controls.py", line 148, in test_step_count_oracle_rejects_parent_zip_truncation
+    with self.assertRaises(AssertionError): oracle(old)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\test_d2_repair_v2_negative_controls.py", line 145, in oracle
+    with self.assertRaises(ValueError): model.step([torch.zeros(28)]*3)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\fixtures\maddpg_before_repair_v2.py.txt", line 158, in step
+    return [a.step(obs, explore=explore) for a, obs in zip(self.agents, proc_obs)]
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\tests\fixtures\maddpg_before_repair_v2.py.txt", line 158, in <listcomp>
+    return [a.step(obs, explore=explore) for a, obs in zip(self.agents, proc_obs)]
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\core\algorithms\agents.py", line 97, in step
+    action = self.policy(obs)
+  File "D:\anaconda\anaconda\envs\AUV\lib\site-packages\torch\nn\modules\module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "D:\anaconda\anaconda\envs\AUV\lib\site-packages\torch\nn\modules\module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\baselines\common\model.py", line 112, in forward
+    raise RuntimeError("B3 policies require boundary context from the joint observations")
+RuntimeError: B3 policies require boundary context from the joint observations
+
+----------------------------------------------------------------------
+Ran 13 tests in 26.078s
+
+FAILED (errors=1)

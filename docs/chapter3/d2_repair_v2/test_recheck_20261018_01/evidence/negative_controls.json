@@ -1,0 +1,50 @@
+{
+  "stage": "negative_controls",
+  "command": [
+    "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tools\\run_d2_repair_acceptance.py",
+    "--_stage",
+    "negative_controls",
+    "--output",
+    "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01"
+  ],
+  "tests_run": 13,
+  "expected_tests": 13,
+  "successes": [
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_batch_broadcast_oracle_rejects_frozen_parent",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_capacity_restore_oracle_rejects_old_loader",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_cpu_snapshot_oracle_rejects_parent_alias",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_critic_only_flag_oracle_rejects_parent_stale_flag",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_execution_push_oracle_rejects_v1_bypass",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_frozen_actor_oracle_rejects_legacy_training",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_hold_action_oracle_rejects_disabled_gate",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_local_ddpg_oracle_rejects_pre_v1_joint_input",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_mutable_sample_oracle_rejects_pre_v1_cache",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_nonfinite_gradient_oracle_rejects_pre_v1_optimizer_write",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_step_count_oracle_rejects_parent_zip_truncation",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_terminal_nan_oracle_rejects_pre_v1_target",
+    "tests.test_d2_repair_v2_negative_controls.NegativeControls.test_waypoint_bonus_oracle_rejects_legacy_timing"
+  ],
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "exit_code": 0,
+  "wall_seconds": 26.516996400001517,
+  "environment": {
+    "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "D:\\anaconda\\anaconda\\envs\\AUV\\python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.2.6",
+    "device": "cpu",
+    "threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "AUV_REPAIR_TEST_EVIDENCE": "E:\\gym\\code\\WORKSPACE\\AUV-Thesis\\tmp\\d2_repair_acceptance\\full_recheck_20261018_01\\artifacts"
+    }
+  },
+  "is_ci": false,
+  "performance_evidence": false
+}

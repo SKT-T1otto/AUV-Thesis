@@ -1,0 +1,50 @@
+{
+  "schema": "ch3.d2.repair_test_experiment.v1",
+  "purpose": "Implementation mechanisms only; no learning-performance claim",
+  "bounds": {"environment_steps_per_scene": 32, "episodes_per_trainer_model": 8, "environment_start_budget_per_trainer_model": 256, "multiagent_update_rounds_per_model": 4},
+  "negative_controls": ["batch_broadcast", "capacity_restore", "execution_push_bypass", "cpu_snapshot_alias", "step_zip_truncation", "critic_only_stale_flag", "waypoint_timing", "inactive_actor", "hold_residual", "terminal_nan_mask", "mutable_sample_cache", "local_ddpg_input", "nonfinite_optimizer_write"],
+  "stages": [
+    {
+      "id": "contracts",
+      "expected_tests": 26,
+      "full_only": false,
+      "tests": ["tests.test_maddpg_sample_contract", "tests.test_ch3_replay_restore_contract", "tests.test_execution_replay_gate_contract", "tests.test_maddpg_terminal_target_numerics", "tests.test_maddpg_actor_update_mask", "tests.test_waypoint_reward_timing", "tests.test_d2_repair_v2_provenance", "tests.test_d2_repair_v2_ablation"]
+    },
+    {
+      "id": "negative_controls",
+      "expected_tests": 13,
+      "full_only": false,
+      "tests": ["tests.test_d2_repair_v2_negative_controls"]
+    },
+    {
+      "id": "retained_fixes",
+      "expected_tests": 6,
+      "full_only": false,
+      "tests": ["tests.test_d2_implementation_repairs.Repairs.test_local_ddpg_uses_local_inputs_in_all_branches", "tests.test_d2_implementation_repairs.Repairs.test_terminal_nan_is_ignored_but_live_nan_raises_before_step", "tests.test_d2_implementation_repairs.Repairs.test_nonfinite_gradient_cannot_partially_step_twin_critics", "tests.test_d2_implementation_repairs.Repairs.test_mutated_sample_rebuilds_targets", "tests.test_d2_implementation_repairs.Repairs.test_ordering_detects_return_metric_disagreement", "tests.test_d2_implementation_repairs.Repairs.test_contracts_and_rejected_reweighting"]
+    },
+    {
+      "id": "historical_records",
+      "expected_tests": 12,
+      "full_only": false,
+      "tests": ["tests.test_core_source_provenance", "tests.test_repository_metadata", "tests.test_phase1a_core_freeze", "tests.test_phase1a1_original_core_freeze", "tests.test_prrac_isolation"]
+    },
+    {
+      "id": "runner_guards",
+      "expected_tests": 6,
+      "full_only": false,
+      "tests": ["tests.test_d2_repair_acceptance_runner"]
+    },
+    {
+      "id": "runtime_chain",
+      "expected_tests": 1,
+      "full_only": true,
+      "tests": ["tests.test_d2_repair_v2_runtime_contract"]
+    },
+    {
+      "id": "scheduler_checkpoint",
+      "expected_tests": 1,
+      "full_only": true,
+      "tests": ["tests.test_d2_repair_v2_checkpoint"]
+    }
+  ]
+}
