@@ -1,0 +1,26 @@
+[
+  {
+    "model": "b2",
+    "threads": [
+      1,
+      14
+    ],
+    "state_hashes": [
+      "2d2705035acd80447079998844190cef3d4bb49ccc3db807a65ed6d63b1bbb0b",
+      "2d2705035acd80447079998844190cef3d4bb49ccc3db807a65ed6d63b1bbb0b"
+    ],
+    "identical": true
+  },
+  {
+    "model": "b3",
+    "threads": [
+      1,
+      14
+    ],
+    "state_hashes": [
+      "8d99ba01c055c02148c272500cbd0407777ef8effd76c22624ec363131bbc7bb",
+      "8d99ba01c055c02148c272500cbd0407777ef8effd76c22624ec363131bbc7bb"
+    ],
+    "identical": true
+  }
+]

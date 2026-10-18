@@ -1,0 +1,18 @@
+{
+  "schema": "ch3.long_horizon_maddpg.reviewed_evolution.v1",
+  "parent_sha256": "463eebf742108e85a473db33ccd84fac7fc8df73c230b5a4e53d75fdf443833e",
+  "authorization": "2026-10-17 user requested further MADDPG audit and a repair for delayed discovery discounting; independent opt-in method only",
+  "changed_existing_files": [],
+  "added": {
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/__init__.py": "02e68cc4bef6313cedfc0bb507356a441e4567a130b07fab289631575a4be75c",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py": "c4c0679931a9dd63a74f437e3d106d53945f0338cf7ac5e3fa319e4f592488f1",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/config.py": "1909a874970d0ee48254d49b8005c6c7f569f81f5c527e8ab387eb3cd8042545",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/model.py": "aafbc4cbb5a269fadf1a1c6d053f9665354ecc3e7ae3ce74586f2395788db8b1",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/provenance.py": "613da8b3372c8de08e6db15809f39b435ef63c6f29ae73a6716d415098daa8ce",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py": "7d49fe65d5c3b31f06e25be1fec67dcfec44c71874dacdeaae639adf604c40d6",
+    "configs/chapter3/long_horizon_maddpg_v1.json": "dbe8d98f7a2650e04c30072756856a83937e4b78b37d43dffcef557fb4cccf11",
+    "docs/chapter3/long_horizon_maddpg_v1/README.md": "40ab262b87822b1b440beeb591ab6872b03b3e43ba049b892c42d351e41a364d",
+    "tests/test_long_horizon_maddpg_v1.py": "ba6f89bff25175f1c6337a3c74e4dc361e333355463e981e3a779dea3bf5640f"
+  },
+  "sha256": "566638c8f45081a5950dbe9a32246e98783f13a41977c1d819bc91dca21edb47"
+}

@@ -1,0 +1,176 @@
+         31017931 function calls (30798999 primitive calls) in 56.410 seconds
+
+   Ordered by: cumulative time
+   List reduced from 805 to 100 due to restriction <100>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.007    0.000   57.175    0.572 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\baselines\common\runtime.py:127(advance)
+208777/600    1.085    0.000   57.070    0.095 E:\gym\code\WORKSPACE\AUV-Thesis\tools\benchmark_d2_performance.py:117(timed)
+      100    0.002    0.000   38.546    0.385 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\phase1c_prrac\training_env.py:48(step)
+      100    0.003    0.000   38.512    0.385 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\phase1c_bser_rmaddpg_v2\training_env.py:126(step)
+      100    0.000    0.000   38.457    0.385 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py:233(step)
+      100    0.002    0.000   38.457    0.385 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\mission_env.py:99(step)
+      100    0.011    0.000   38.455    0.385 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:2354(step)
+      200    0.002    0.000   27.166    0.136 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\integration\guided_env.py:46(_guided_update)
+      200    0.110    0.001   27.145    0.136 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:1797(_update_nav_targets)
+      366    0.024    0.000   24.333    0.066 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1709(grid_astar_path)
+      366    0.064    0.000   24.177    0.066 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:474(grid_astar_path)
+      366    3.845    0.011   23.263    0.064 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1610(_core_cell_path)
+   290602    1.150    0.000   16.699    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1553(_edge_is_valid)
+   194084    2.405    0.000   13.683    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1545(_segment_is_free_np)
+      100    0.004    0.000   12.510    0.125 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\runtime.py:54(step)
+      107    0.004    0.000   10.963    0.102 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\controllers\state_provider.py:83(snapshot)
+       12    0.002    0.000   10.936    0.911 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_state.py:134(extract_planning_state)
+       12    0.041    0.003   10.928    0.911 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:243(build_planning_graph)
+    57456    2.147    0.000    8.578    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1145(_sampled_online_segment_free)
+   217390    1.932    0.000    7.613    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1589(_edge_time)
+       12    0.347    0.029    7.018    0.585 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:96(_topology)
+      100    0.002    0.000    6.348    0.063 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\bser_effect_v1\controller.py:40(step)
+      100    0.030    0.000    5.985    0.060 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:2247(_sense_and_update_shared_map)
+        7    0.000    0.000    5.657    0.808 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\d2_performance\planning.py:73(refresh)
+        7    0.000    0.000    5.657    0.808 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\planning_refresh.py:54(refresh)
+      100    0.000    0.000    5.248    0.052 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\online\controller.py:146(step)
+      100    0.002    0.000    5.248    0.052 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\online\controller.py:186(_step_corrected)
+        8    0.000    0.000    4.533    0.567 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\allocators.py:15(search_pool)
+      100    0.000    0.000    4.238    0.042 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:586(_update_pse_executor_standby)
+      100    0.001    0.000    4.238    0.042 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:649(_update_pse_executor_standby_v2)
+   218721    2.375    0.000    4.149    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1568(_physical_edge_time)
+        7    0.000    0.000    4.086    0.584 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\bser_effect_v1\allocator.py:97(allocate_partial)
+      134    0.896    0.007    4.002    0.030 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:761(_single_source_cell_costs)
+    53296    1.348    0.000    3.582    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:331(_heuristic)
+    32035    0.585    0.000    3.535    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1131(_online_segment_cells)
+      100    2.280    0.023    3.519    0.035 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1417(integrate_obstacle_scan)
+   582052    0.969    0.000    3.111    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:89(_wrapreduction_any_all)
+     1650    0.128    0.000    2.814    0.002 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:229(_connector_candidates)
+       17    0.002    0.000    2.765    0.163 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\planning_refresh.py:63(search)
+        8    1.147    0.143    2.758    0.345 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\public_geometry.py:172(filter_planning_state)
+        4    0.000    0.000    2.728    0.682 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:991(expected_response_cost)
+        4    0.002    0.000    2.725    0.681 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:878(estimate_travel_time)
+        4    0.000    0.000    2.643    0.661 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:888(<dictcomp>)
+   655067    2.628    0.000    2.628    0.000 {method 'numpy' of 'torch._C.TensorBase' objects}
+      134    0.663    0.005    2.601    0.019 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:719(_planning_adjacency)
+      376    0.007    0.000    2.442    0.006 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:82(endpoint_status)
+       24    0.940    0.039    2.438    0.102 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:141(_build_role_adjacency)
+    10400    0.265    0.000    2.420    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:2220(_raycast_ground_truth)
+    42435    1.006    0.000    2.300    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1120(_online_cells)
+    54832    1.042    0.000    2.293    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1582(_continuous_edge_time)
+   657696    2.104    0.000    2.104    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+     1323    0.043    0.000    2.050    0.002 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1389(_component_labels)
+       10    0.403    0.040    1.958    0.196 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:414(_component_labels)
+   312388    0.307    0.000    1.899    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2477(any)
+   661515    1.859    0.000    1.859    0.000 {method 'detach' of 'torch._C.TensorBase' objects}
+   269664    0.279    0.000    1.799    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2589(all)
+        8    0.001    0.000    1.765    0.221 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\candidate_generator.py:78(generate_search_candidates)
+    31500    0.241    0.000    1.738    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\target_motion.py:74(segment_aabb_first_hit)
+        8    0.014    0.002    1.595    0.199 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\candidate_generator.py:51(_ordered_pool)
+        8    0.719    0.090    1.547    0.193 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\candidate_generator.py:14(_local_peak_indices)
+        2    0.004    0.002    1.508    0.754 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1010(plan_executor_standby)
+        4    0.009    0.002    1.491    0.373 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:802(estimate_travel_time_matrix)
+   128200    0.449    0.000    1.463    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\target_motion.py:54(_vec3)
+        4    0.000    0.000    1.359    0.340 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:833(<dictcomp>)
+  1160901    1.301    0.000    1.301    0.000 {built-in method numpy.asarray}
+      110    0.007    0.000    1.241    0.011 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\objective.py:40(build_objective_context)
+      105    0.002    0.000    1.195    0.011 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\bser_effect_v1\allocator.py:116(rescore)
+       12    0.881    0.073    1.155    0.096 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:220(_graph_hash)
+   409002    0.493    0.000    1.127    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:179(<genexpr>)
+      122    0.001    0.000    0.981    0.008 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\travel_cost_service.py:248(travel_times_from)
+      122    0.790    0.006    0.980    0.008 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\travel_cost_service.py:210(single_source)
+    88676    0.538    0.000    0.953    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\linalg\_linalg.py:2575(norm)
+   132630    0.200    0.000    0.931    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2241(clip)
+    42435    0.633    0.000    0.903    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\function_base.py:25(linspace)
+  1415117    0.876    0.000    0.876    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:115(_flatten)
+     2950    0.163    0.000    0.777    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1535(_point_is_valid)
+        8    0.584    0.073    0.765    0.096 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\public_geometry.py:153(_graph_hash)
+   134113    0.101    0.000    0.739    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:51(_wrapfunc)
+   126566    0.656    0.000    0.656    0.000 {method 'reshape' of 'torch._C.TensorBase' objects}
+   125498    0.156    0.000    0.631    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\map_module.py:176(_as_points)
+      200    0.022    0.000    0.599    0.003 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\events\event_detector.py:80(detect)
+        1    0.000    0.000    0.588    0.588 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\bser_effect_v1\allocator.py:83(allocate)
+    10400    0.012    0.000    0.576    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1384(_cells_from_points_np)
+   130767    0.069    0.000    0.573    0.000 {method 'clip' of 'numpy.ndarray' objects}
+      123    0.007    0.000    0.529    0.004 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\travel_cost_service.py:149(query)
+   132630    0.512    0.000    0.512    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\_methods.py:99(_clip)
+   256021    0.473    0.000    0.473    0.000 {method 'item' of 'torch._C.TensorBase' objects}
+    65428    0.394    0.000    0.445    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:84(_flat)
+   221846    0.444    0.000    0.444    0.000 {method 'cpu' of 'torch._C.TensorBase' objects}
+    11873    0.028    0.000    0.419    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\numeric.py:2243(allclose)
+     2950    0.267    0.000    0.416    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\map_module.py:201(_grid_index_from_point)
+  2790687    0.389    0.000    0.389    0.000 {method 'get' of 'dict' objects}
+   131967    0.389    0.000    0.389    0.000 {method 'to' of 'torch._C.TensorBase' objects}
+   671888    0.359    0.000    0.388    0.000 {built-in method builtins.min}
+      200    0.180    0.001    0.376    0.002 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:938(_get_obs)
+      107    0.001    0.000    0.370    0.003 E:\gym\code\WORKSPACE\AUV-Thesis\tools\benchmark_d2_performance.py:63(astar)
+      107    0.039    0.000    0.369    0.003 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\travel_cost_service.py:109(_astar)
+   648310    0.345    0.000    0.345    0.000 {method 'update' of '_hashlib.HASH' objects}
+      100    0.005    0.000    0.339    0.003 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\safe_guidance.py:70(compile_guidance)
+    11876    0.178    0.000    0.302    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\numeric.py:2337(isclose)
+
+
+         31017931 function calls (30798999 primitive calls) in 56.410 seconds
+
+   Ordered by: internal time
+   List reduced from 805 to 60 due to restriction <60>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      366    3.845    0.011   23.263    0.064 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1610(_core_cell_path)
+   655067    2.628    0.000    2.628    0.000 {method 'numpy' of 'torch._C.TensorBase' objects}
+   194084    2.405    0.000   13.683    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1545(_segment_is_free_np)
+   218721    2.375    0.000    4.149    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1568(_physical_edge_time)
+      100    2.280    0.023    3.519    0.035 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1417(integrate_obstacle_scan)
+    57456    2.147    0.000    8.578    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1145(_sampled_online_segment_free)
+   657696    2.104    0.000    2.104    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+   217390    1.932    0.000    7.613    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1589(_edge_time)
+   661515    1.859    0.000    1.859    0.000 {method 'detach' of 'torch._C.TensorBase' objects}
+    53296    1.348    0.000    3.582    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:331(_heuristic)
+  1160901    1.301    0.000    1.301    0.000 {built-in method numpy.asarray}
+   290602    1.150    0.000   16.699    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1553(_edge_is_valid)
+        8    1.147    0.143    2.758    0.345 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\public_geometry.py:172(filter_planning_state)
+208777/600    1.085    0.000   57.070    0.095 E:\gym\code\WORKSPACE\AUV-Thesis\tools\benchmark_d2_performance.py:117(timed)
+    54832    1.042    0.000    2.293    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1582(_continuous_edge_time)
+    42435    1.006    0.000    2.300    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1120(_online_cells)
+   582052    0.969    0.000    3.111    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:89(_wrapreduction_any_all)
+       24    0.940    0.039    2.438    0.102 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:141(_build_role_adjacency)
+      134    0.896    0.007    4.002    0.030 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:761(_single_source_cell_costs)
+       12    0.881    0.073    1.155    0.096 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:220(_graph_hash)
+  1415117    0.876    0.000    0.876    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:115(_flatten)
+      122    0.790    0.006    0.980    0.008 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\travel_cost_service.py:210(single_source)
+        8    0.719    0.090    1.547    0.193 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\candidate_generator.py:14(_local_peak_indices)
+      134    0.663    0.005    2.601    0.019 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:719(_planning_adjacency)
+   126566    0.656    0.000    0.656    0.000 {method 'reshape' of 'torch._C.TensorBase' objects}
+    42435    0.633    0.000    0.903    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\function_base.py:25(linspace)
+    32035    0.585    0.000    3.535    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1131(_online_segment_cells)
+        8    0.584    0.073    0.765    0.096 E:\gym\code\WORKSPACE\AUV-Thesis\chapter3_bser\experiments\safe_search_v1\public_geometry.py:153(_graph_hash)
+    88676    0.538    0.000    0.953    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\linalg\_linalg.py:2575(norm)
+   132630    0.512    0.000    0.512    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\_methods.py:99(_clip)
+   409002    0.493    0.000    1.127    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:179(<genexpr>)
+   256021    0.473    0.000    0.473    0.000 {method 'item' of 'torch._C.TensorBase' objects}
+   128200    0.449    0.000    1.463    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\target_motion.py:54(_vec3)
+   221846    0.444    0.000    0.444    0.000 {method 'cpu' of 'torch._C.TensorBase' objects}
+       10    0.403    0.040    1.958    0.196 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:414(_component_labels)
+    65428    0.394    0.000    0.445    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:84(_flat)
+  2790687    0.389    0.000    0.389    0.000 {method 'get' of 'dict' objects}
+   131967    0.389    0.000    0.389    0.000 {method 'to' of 'torch._C.TensorBase' objects}
+   671888    0.359    0.000    0.388    0.000 {built-in method builtins.min}
+       12    0.347    0.029    7.018    0.585 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\planning_graph.py:96(_topology)
+   648310    0.345    0.000    0.345    0.000 {method 'update' of '_hashlib.HASH' objects}
+   312388    0.307    0.000    1.899    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2477(any)
+   269664    0.279    0.000    1.799    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2589(all)
+     2950    0.267    0.000    0.416    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\map_module.py:201(_grid_index_from_point)
+   312969    0.267    0.000    0.267    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+    10400    0.265    0.000    2.420    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:2220(_raycast_ground_truth)
+   582052    0.247    0.000    0.247    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:91(<dictcomp>)
+    31500    0.241    0.000    1.738    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\target_motion.py:74(segment_aabb_first_hit)
+   434930    0.233    0.000    0.233    0.000 {built-in method math.log}
+   406866    0.210    0.000    0.210    0.000 {built-in method _heapq.heappop}
+   132630    0.200    0.000    0.931    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\fromnumeric.py:2241(clip)
+   548612    0.199    0.000    0.199    0.000 {built-in method builtins.max}
+   535392    0.196    0.000    0.206    0.000 {built-in method builtins.sorted}
+      200    0.180    0.001    0.376    0.002 E:\gym\code\WORKSPACE\AUV-Thesis\core\env\uav_env.py:938(_get_obs)
+   234073    0.179    0.000    0.179    0.000 {method 'tobytes' of 'numpy.ndarray' objects}
+    11876    0.178    0.000    0.302    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\_core\numeric.py:2337(isclose)
+   792792    0.174    0.000    0.174    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1660(<genexpr>)
+   361060    0.167    0.000    0.238    0.000 D:\anaconda\anaconda\envs\AUV\lib\site-packages\numpy\lib\_index_tricks_impl.py:717(__next__)
+     2950    0.163    0.000    0.777    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\path_planner.py:1535(_point_is_valid)
+   125498    0.156    0.000    0.631    0.000 E:\gym\code\WORKSPACE\AUV-Thesis\core\mapping\map_module.py:176(_as_points)
+
+

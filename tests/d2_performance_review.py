@@ -22,3 +22,16 @@ PERMITTED = dict(historical_sha256=HISTORICAL, current_sha256=CURRENT, current_a
 PERMITTED_BY_PATH = {record["path"]: dict(
     historical_sha256=record["phase0b2_sha256"], current_sha256=record["current_sha256"],
     current_ast_dump_sha256=record["current_ast_dump_sha256"]) for record in RECORDS}
+
+# The first-round manifest and assertions above remain frozen. The new user
+# request explicitly reviews only this small successor to its planner record.
+ROUND2_CURRENT = "032cc1f5f1488f668ac7c1b4e8f7bb0a01003f9546f04312008dd464ffcb269c"
+ROUND2_AST = "e2020c73db9b4181bdf35a98371beb12fa12e50bc52f270395266f922088db83"
+ROUND2_RECORD = dict(path=PATH, phase0b2_sha256=HISTORICAL, previous_reviewed_sha256=CURRENT,
+                     current_sha256=ROUND2_CURRENT, current_ast_dump_sha256=ROUND2_AST)
+round2 = json.loads((ROOT / "docs/provenance/d2_performance_v2_evolution.json").read_text())
+assert round2["core_records"] == [ROUND2_RECORD]
+assert round2["historical_manifests_modified"] is False
+PERMITTED_BY_PATH[PATH] = dict(historical_sha256=HISTORICAL, current_sha256=ROUND2_CURRENT,
+                              current_ast_dump_sha256=ROUND2_AST)
+RECORDS = [ROUND2_RECORD, TARGET_RECORD]

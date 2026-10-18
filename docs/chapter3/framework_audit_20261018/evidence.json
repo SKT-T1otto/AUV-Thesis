@@ -1,0 +1,373 @@
+{
+  "schema": "ch3.framework.readonly_audit.v1",
+  "date": "2026-10-18",
+  "review_status": "not_accepted_as_error_free_or_ready_for_formal_algorithm_claims",
+  "scope": {
+    "python_files": 369,
+    "python_lines": 68533,
+    "core_python_files": 44,
+    "chapter3_python_files": 251,
+    "ast_parse_failures": [],
+    "legacy_import_or_path_mutation": [],
+    "not_a_line_by_line_semantic_certification": true,
+    "production_sources_changed_during_audit": [],
+    "undefined_global_name_candidates": []
+  },
+  "gamma_proposal": {
+    "adopted": false,
+    "previous_recommendation_withdrawn": true,
+    "old_b2_b3_gamma": 0.95,
+    "all_future_reward_components_reweighted": true,
+    "multiple_training_changes_confounded": true
+  },
+  "source_comparison": {
+    "linux_declared_source_sha256": "84d403cd1e3c084b14d4bf217a1fb27e253a5bff9f8dfd082fa5d609ffa236a9",
+    "matched_profile": "d2_performance_v1.git_clone_preserved",
+    "critical_file_checks": [
+      {
+        "path": "chapter3_bser/experiments/baselines/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/common/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/common/checkpoint.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/common/model.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/common/runtime.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/common/train.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_boundary/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_boundary/checkpoint.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_boundary/runtime.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_boundary/train.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_mc/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_mc/checkpoint.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_mc/runtime.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/baselines/direct_mc/train.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/phase1c_bser_rmaddpg_v2/reward_adapter.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/phase1c_bser_rmaddpg_v2/training_env.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/experiments/reward_objective.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/integration/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/integration/control_context.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/integration/guided_env.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "chapter3_bser/integration/rmaddpg_bridge.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/agents.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/maddpg.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/misc.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/networks.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/algorithms/noise.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/env/mission_env.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/env/observation_contract.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/env/task_protocol.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/env/uav_env.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/replay/__init__.py",
+        "matches_linux_declared_profile": true
+      },
+      {
+        "path": "core/replay/ch3_buffer.py",
+        "matches_linux_declared_profile": true
+      }
+    ],
+    "matched_count": 33,
+    "historical_provenance_record_count": 27,
+    "historical_record_targets_still_present": true,
+    "complete_current_parent_profile_matches": [
+      "windows_existing"
+    ],
+    "no_claim_of_remote_linux_disk_access": true
+  },
+  "mechanism_probes": {
+    "B2": {
+      "actor_widths": [
+        28,
+        128,
+        128,
+        3
+      ],
+      "critic_widths": [
+        124,
+        256,
+        256,
+        1
+      ],
+      "actor_lr": 0.001,
+      "critic_lr": 0.0005,
+      "target_initial_delta": 0.0,
+      "gamma": 0.95,
+      "tau": 0.005,
+      "oracle_gradient_action_before": 0.0020319048780947924,
+      "oracle_gradient_action_after": 0.017345299944281578,
+      "other_actor_max_delta": 0.0,
+      "target_delta_before_soft_update": 0.0,
+      "critic_gradient_written_by_actor": true,
+      "inactive_actor_parameter_max_delta": 0.0010010302066802979,
+      "same_sample_mutation_target_stale": true,
+      "cache_rebuild_changes_target": true,
+      "finite_target_values": [
+        10.0,
+        -2.0
+      ],
+      "terminal_with_nonfinite_target_is_nan": true
+    },
+    "B3": {
+      "actor_widths": [
+        28,
+        128,
+        128,
+        3
+      ],
+      "critic_widths": [
+        124,
+        256,
+        256,
+        1
+      ],
+      "actor_lr": 0.001,
+      "critic_lr": 0.0005,
+      "target_initial_delta": 0.0,
+      "gamma": 0.95,
+      "tau": 0.005,
+      "oracle_gradient_action_before": 0.000733441673219204,
+      "oracle_gradient_action_after": 0.015707843005657196,
+      "other_actor_max_delta": 0.0,
+      "target_delta_before_soft_update": 0.0,
+      "critic_gradient_written_by_actor": true,
+      "inactive_actor_parameter_max_delta": 0.0010010823607444763,
+      "same_sample_mutation_target_stale": true,
+      "cache_rebuild_changes_target": true,
+      "finite_target_values": [
+        10.0,
+        -2.0
+      ],
+      "terminal_with_nonfinite_target_is_nan": true
+    },
+    "replay": {
+      "wraparound_ids": [
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0
+      ],
+      "joint_fields_aligned": true,
+      "uniform_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "unused_ddpg_branch": {
+      "shape_error": true,
+      "message": "Given normalized_shape=[31], expected input with shape [*, 31], but got input of size[8, 124]"
+    },
+    "waypoint_order": {
+      "initial_count": 0,
+      "final_count": 1,
+      "reward_calls": [
+        {
+          "t": 1,
+          "flag_at_reward": false,
+          "waypoint_count_at_reward": 0,
+          "coverage_component": 0.75
+        },
+        {
+          "t": 2,
+          "flag_at_reward": false,
+          "waypoint_count_at_reward": 1,
+          "coverage_component": 4.625
+        }
+      ],
+      "terminal": false
+    },
+    "hidden_previous_acceleration": {
+      "observations_exactly_equal": true,
+      "reward_max_difference": 4.0500075556337833e-05,
+      "role_rewards_a": [
+        0.0013711178908124566,
+        0.0013716242974624038,
+        0.00137196178548038,
+        -0.0005035437061451375
+      ],
+      "role_rewards_b": [
+        0.0013306179316714406,
+        0.001331124221906066,
+        0.0013314617099240422,
+        -0.0005440437234938145
+      ]
+    },
+    "global_discount_change": {
+      "0.95": {
+        "constant_reward_sum_400": 0.019999999975426147,
+        "step150_any_event_weight": 0.00045555497448365723,
+        "step150_collision_minus2": -0.0009111099489673145
+      },
+      "0.9982686325973925": {
+        "constant_reward_sum_400": 0.2887890803806203,
+        "step150_any_event_weight": 0.7711054127039707,
+        "step150_collision_minus2": -1.5422108254079414
+      }
+    },
+    "inactive_physics": {
+      "searcher_position_delta_max": 0.0,
+      "searcher_acceleration_max": 0.0
+    },
+    "zero_runtime_equivalence": [
+      {
+        "scenario": "unknown_validation_m20_0001",
+        "steps": 32,
+        "exactly_equal": true,
+        "found_step": null,
+        "handoff_decision_step": null
+      },
+      {
+        "scenario": "bounded_near_target_audit",
+        "steps": 32,
+        "exactly_equal": true,
+        "found_step": 1,
+        "handoff_decision_step": 2
+      }
+    ]
+  },
+  "real_post_found_minibatch": {
+    "actual_step": 4,
+    "found_step": 1,
+    "handoff_decision_step": 2,
+    "agent_finished_in_actual_observation": [
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "actual_dones": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "actor_changes": {
+      "B2": 0.0009999985340982676,
+      "B3": 0.0009999985340982676
+    }
+  },
+  "limitations": [
+    "Whole-repository AST and import/symbol scan is not a line-by-line semantic proof",
+    "Zero-residual equivalence covers two scenarios for 32 steps each",
+    "No user checkpoint or remote Linux disk was read",
+    "No whole-repository test suite or formal training was run",
+    "No causal explanation for Linux Found degradation has been established"
+  ],
+  "operations": {
+    "existing_production_files_modified": false,
+    "existing_configs_modified": false,
+    "historical_manifests_modified": false,
+    "user_outputs_modified": false,
+    "formal_training_started": false,
+    "user_models_loaded": false,
+    "git_commit_or_push": false
+  },
+  "artifacts": {
+    "report": "REPORT.md",
+    "directory_guide": "DIRECTORY_GUIDE.md",
+    "python_catalog": "SOURCE_CATALOG.csv"
+  },
+  "artifact_sha256": {
+    "REPORT.md": "163444469fba1bc2890cc10788e104a289f8d4570b6b2cff328662175f873c8c",
+    "DIRECTORY_GUIDE.md": "426f60479480faf3961286fe7f987a44dc186130833a92ff5215d993d863ca88",
+    "SOURCE_CATALOG.csv": "858596e04ffd7b15f11471e7a79a0a3564c887864bd9d8404410e3fca7d88442"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "authority": "exact pre-repair local source; not missing historical golden",
+  "parent_sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+  "passed": 12,
+  "trajectories": 12,
+  "rows": [
+    {
+      "profile": "M00_MOVING_CLEAR",
+      "trace": "zero_action",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M00_MOVING_CLEAR",
+      "trace": "seeded_random_low_amplitude",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M00_MOVING_CLEAR",
+      "trace": "deterministic_scripted",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M10_MOVING_UNKNOWN_SINGLE",
+      "trace": "zero_action",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M10_MOVING_UNKNOWN_SINGLE",
+      "trace": "seeded_random_low_amplitude",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M10_MOVING_UNKNOWN_SINGLE",
+      "trace": "deterministic_scripted",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M20_MOVING_UNKNOWN_MULTI",
+      "trace": "zero_action",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M20_MOVING_UNKNOWN_MULTI",
+      "trace": "seeded_random_low_amplitude",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M20_MOVING_UNKNOWN_MULTI",
+      "trace": "deterministic_scripted",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M90_MOVING_KNOWN_ORACLE",
+      "trace": "zero_action",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M90_MOVING_KNOWN_ORACLE",
+      "trace": "seeded_random_low_amplitude",
+      "steps": 50,
+      "exactly_equal": true
+    },
+    {
+      "profile": "M90_MOVING_KNOWN_ORACLE",
+      "trace": "deterministic_scripted",
+      "steps": 50,
+      "exactly_equal": true
+    }
+  ]
+}

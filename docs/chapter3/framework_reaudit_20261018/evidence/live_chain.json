@@ -1,0 +1,473 @@
+{
+  "scope": "bounded fresh 16-step tasks; not training or performance evidence",
+  "results": [
+    {
+      "model": "b2",
+      "near_target": false,
+      "steps": 16,
+      "found_step": null,
+      "terminal": true,
+      "outcome": "timeout",
+      "gates": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "rollout_parameters_unchanged": true,
+      "transition_alignment": true,
+      "stored_action_matches_gated_command": true,
+      "shared_reward_exact": true
+    },
+    {
+      "model": "b2",
+      "near_target": true,
+      "steps": 16,
+      "found_step": 1,
+      "terminal": true,
+      "outcome": "timeout",
+      "gates": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rollout_parameters_unchanged": true,
+      "transition_alignment": true,
+      "stored_action_matches_gated_command": true,
+      "shared_reward_exact": true
+    },
+    {
+      "model": "b2",
+      "sampled_real_transitions": 32,
+      "bellman_oracle": true,
+      "soft_update_oracle": true,
+      "actor_steps": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "critic_rounds": 1,
+      "parameters_finite": true
+    },
+    {
+      "model": "b3",
+      "near_target": false,
+      "steps": 16,
+      "found_step": null,
+      "terminal": true,
+      "outcome": "timeout",
+      "gates": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "rollout_parameters_unchanged": true,
+      "transition_alignment": true,
+      "stored_action_matches_gated_command": true,
+      "shared_reward_exact": true
+    },
+    {
+      "model": "b3",
+      "near_target": true,
+      "steps": 16,
+      "found_step": 1,
+      "terminal": true,
+      "outcome": "timeout",
+      "gates": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rollout_parameters_unchanged": true,
+      "transition_alignment": true,
+      "stored_action_matches_gated_command": true,
+      "shared_reward_exact": true
+    },
+    {
+      "model": "b3",
+      "sampled_real_transitions": 32,
+      "bellman_oracle": true,
+      "soft_update_oracle": true,
+      "actor_steps": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "critic_rounds": 1,
+      "parameters_finite": true
+    }
+  ]
+}

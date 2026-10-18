@@ -1,0 +1,83 @@
+{
+  "scope": "latest recorded local verification; not CI or algorithm-performance evidence",
+  "python": "3.10.20 | packaged by Anaconda, Inc. | (main, Mar 11 2026, 17:42:35) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "torch": "2.11.0+cu126",
+  "numpy": "2.2.6",
+  "training_device": "cpu",
+  "cpu_threads": 1,
+  "source_sha256": "e33b6d207700b997d19b3181c6847be677b109dd72c64ddeea2ab36fa45ff0ba",
+  "targeted_tests": {
+    "run": 29,
+    "passed": 29,
+    "checks": [
+      "test_all_repairs_disabled_preserve_b2_b3_learning (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_arrival_repair_cannot_run_after_terminal_collision (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_contracts_and_rejected_reweighting (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_frozen_actor_does_not_move_even_with_adam_momentum (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_gates_in_online_and_target_inputs (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_hold_and_unreachable_requests_override_residual (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_local_ddpg_uses_local_inputs_in_all_branches (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_mixed_actor_loss_equals_only_active_rows (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_mutated_sample_rebuilds_targets (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_nonfinite_gradient_cannot_partially_step_twin_critics (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_ordering_detects_return_metric_disagreement (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_real_frozen_transition_and_hold_action_logging (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_real_waypoint_bonus_once_with_unchanged_other_components (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_replay_wrap_keeps_gates_with_transitions (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_short_training_checkpoint_and_held_out_evaluation (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_terminal_nan_is_ignored_but_live_nan_raises_before_step (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_ungated_legacy_learning_matches_before_source (tests.test_d2_implementation_repairs.Repairs) ... ok",
+      "test_collision_public_facade_evolution_is_exact (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_formal_evidence_is_not_ignored (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_hgr_registry_evolution_is_exact_and_preserves_previous_review (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_metadata_matches_chapter3_phase1c_wip (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_phase0b2_provenance_and_permitted_post_baseline_evolution (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_phase1c_registry_evolution_preserves_legacy_active_modes (tests.test_repository_metadata.RepositoryMetadataTests) ... ok",
+      "test_all_27_authority_records_map_to_current_core_files (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok",
+      "test_reviewed_registry_evolution_preserves_historical_active_modes (tests.test_core_source_provenance.CoreSourceProvenanceTests) ... ok",
+      "test_preexisting_core_python_files_unchanged (tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest) ... ok",
+      "test_original_40_core_python_files_match (tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest) ... ok",
+      "test_frozen_files_hashes_and_import_direction (tests.test_prrac_isolation.PRRACIsolationTests) ... ok",
+      "test_legacy_configs_and_dimensions_remain_isolated (tests.test_prrac_isolation.PRRACIsolationTests) ... ok"
+    ]
+  },
+  "historical_provenance_records": 27,
+  "historical_golden_replay": "unavailable: experiments/chapter3/e0_core_migration/golden_trace_manifest.json missing",
+  "formal_training_started": false,
+  "performance_passed": false,
+  "source_records": [
+    {
+      "path": "core/algorithms/maddpg.py",
+      "previous_reviewed_sha256": "a574285b33d9a82971cf8016ce93e79f1c90b07cca5236edf5deb7fcb9b6d907",
+      "current_sha256": "fbf983ec992613a45c10a2ced45725c17b2a412414d64167cb02b33ab8692a91",
+      "current_ast_dump_sha256": "9f53a219fbd6ac4d5d926c6d1b58306a0bcee7dd144797fe355b5bf76afe6527"
+    },
+    {
+      "path": "core/env/uav_env.py",
+      "previous_reviewed_sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+      "current_sha256": "402878207aa69f334311e1c690dbc7b231a7fde0a0a7affaf5c645c1dd24d60b",
+      "current_ast_dump_sha256": "c7bc24f1ae273e153bc1e6158388bb97a74227433ee90b3720a151a81e408467"
+    },
+    {
+      "path": "chapter3_bser/experiments/baselines/common/runtime.py",
+      "previous_reviewed_sha256": "a9c8030d9e146c50f5ed76efa60645957661072ef566da67082cd481753cb56b",
+      "current_sha256": "d494fcee4f9c73368557999f4ac9e5736d3418ac9bcf30e45351c65e5fc226a6",
+      "current_ast_dump_sha256": "6de2075974daea811f1063911eff9e979a5d148f62144b159abb59e77e79be74"
+    }
+  ],
+  "full_regression": {
+    "completed": false,
+    "status": "not_green; broad attempt interrupted, complete relevant modules run separately",
+    "source_seals_relaxed": false
+  },
+  "relevant_regression": {
+    "modules": 29,
+    "tests_run": 104,
+    "passed": 98,
+    "assertion_failures": 1,
+    "error_records": 8,
+    "all_issues": "legacy SafeSearch complete-source seal mismatch"
+  },
+  "old_linux_return_metric_ordering": "not analyzed; user confirmed data not copied and scoped this task to implementation/mechanism verification"
+}

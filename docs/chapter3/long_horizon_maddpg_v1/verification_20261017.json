@@ -1,0 +1,84 @@
+{
+  "schema": "ch3.long_horizon_maddpg.local_verification.v1",
+  "date": "2026-10-17",
+  "scope": "latest recorded local bounded verification, not CI or full-repository success",
+  "regression": {
+    "passed": 60,
+    "failed": 0,
+    "subtests_passed": 23,
+    "log": "tmp/ch3_rl_long_horizon_20261017/regression.log",
+    "junit": "tmp/ch3_rl_long_horizon_20261017/regression.xml"
+  },
+  "integration": {
+    "isolated_complete_parent_source": true,
+    "real_simulator": true,
+    "hidden_dim": 16,
+    "warmup_steps": 0,
+    "actor_delay": 1,
+    "completed_training_episodes": 1,
+    "actual_training_environment_steps": 400,
+    "critic_rounds": 100,
+    "actor_updates": [
+      3,
+      3,
+      3,
+      100
+    ],
+    "new_checkpoint_saved_and_reloaded": true,
+    "evaluation_episodes": 1,
+    "evaluation_optimizer_updates": 0,
+    "formal_performance_evidence": false
+  },
+  "discount": {
+    "gamma": 0.9982686325973925,
+    "horizon_steps": 400,
+    "horizon_retention": 0.5000000000000004,
+    "retention_by_steps": {
+      "20": 0.9659363289248456,
+      "50": 0.9170040432046713,
+      "100": 0.8408964152537147,
+      "150": 0.7711054127039707,
+      "200": 0.7071067811865478,
+      "400": 0.5000000000000004
+    },
+    "previous_gamma": 0.95,
+    "previous_retention_150": 0.00045555497448365723,
+    "changed_optimization_objective": true,
+    "warning": "Longer discount horizon does not prove fast credit propagation or better task performance."
+  },
+  "current_workspace_gate": {
+    "ready": false,
+    "unreviewed_additions": [
+      "chapter3_bser/experiments/map_stp_shadow_v1/__init__.py",
+      "chapter3_bser/experiments/map_stp_shadow_v1/io.py",
+      "chapter3_bser/experiments/map_stp_shadow_v1/routes.py",
+      "chapter3_bser/experiments/map_stp_shadow_v1/run.py",
+      "chapter3_bser/experiments/map_stp_shadow_v1/scoring.py",
+      "configs/chapter3/map_stp_shadow_v1.json"
+    ],
+    "historical_gates_modified": false
+  },
+  "implementation_sha256": {
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/model.py": "aafbc4cbb5a269fadf1a1c6d053f9665354ecc3e7ae3ce74586f2395788db8b1",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/config.py": "1909a874970d0ee48254d49b8005c6c7f569f81f5c527e8ab387eb3cd8042545",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py": "7d49fe65d5c3b31f06e25be1fec67dcfec44c71874dacdeaae639adf604c40d6",
+    "chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py": "c4c0679931a9dd63a74f437e3d106d53945f0338cf7ac5e3fa319e4f592488f1",
+    "configs/chapter3/long_horizon_maddpg_v1.json": "dbe8d98f7a2650e04c30072756856a83937e4b78b37d43dffcef557fb4cccf11"
+  },
+  "existing_source_files_changed_by_this_task": [],
+  "user_outputs_modified": false,
+  "formal_training_started": false,
+  "performance_passed": false,
+  "unresolved": [
+    "Historical waypoint bonus event ordering remains unchanged; independent reward semantics review required",
+    "Early-discovery shaping still prefers earlier discovery",
+    "One-step credit propagation speed and Q bias need diagnostic comparisons",
+    "No Linux logs or user model were loaded; causes of reported task degradation are not proven"
+  ],
+  "final_new_method_recheck": {
+    "passed": 22,
+    "failed": 0,
+    "includes_default_128_256_network_widths": true,
+    "junit": "tmp/ch3_rl_long_horizon_20261017/final_new_tests.xml"
+  }
+}

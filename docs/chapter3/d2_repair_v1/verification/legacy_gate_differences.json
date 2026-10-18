@@ -1,0 +1,57 @@
+{
+  "windows_existing": {
+    "before_this_repair": {
+      "added": [
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/__init__.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/config.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/model.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/provenance.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/__init__.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/io.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/routes.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/run.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/scoring.py",
+        "configs/chapter3/long_horizon_maddpg_v1.json",
+        "configs/chapter3/map_stp_shadow_v1.json"
+      ],
+      "missing": [],
+      "changed": []
+    },
+    "after_this_repair": {
+      "added": [
+        "chapter3_bser/experiments/d2_repair_v1/__init__.py",
+        "chapter3_bser/experiments/d2_repair_v1/config.py",
+        "chapter3_bser/experiments/d2_repair_v1/diagnostics.py",
+        "chapter3_bser/experiments/d2_repair_v1/evaluate.py",
+        "chapter3_bser/experiments/d2_repair_v1/model.py",
+        "chapter3_bser/experiments/d2_repair_v1/provenance.py",
+        "chapter3_bser/experiments/d2_repair_v1/replay.py",
+        "chapter3_bser/experiments/d2_repair_v1/runtime.py",
+        "chapter3_bser/experiments/d2_repair_v1/train.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/__init__.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/cli.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/config.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/model.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/provenance.py",
+        "chapter3_bser/experiments/long_horizon_maddpg_v1/runtime.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/__init__.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/io.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/routes.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/run.py",
+        "chapter3_bser/experiments/map_stp_shadow_v1/scoring.py",
+        "configs/chapter3/d2_repair_v1/b2_train.json",
+        "configs/chapter3/d2_repair_v1/b3_train.json",
+        "configs/chapter3/long_horizon_maddpg_v1.json",
+        "configs/chapter3/map_stp_shadow_v1.json"
+      ],
+      "missing": [],
+      "changed": [
+        "chapter3_bser/experiments/baselines/common/runtime.py",
+        "core/algorithms/maddpg.py",
+        "core/env/uav_env.py"
+      ]
+    }
+  }
+}

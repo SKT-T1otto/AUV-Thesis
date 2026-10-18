@@ -48,6 +48,7 @@ class _BaseUAVEnv:
         collision_detection_revision=None,
         terminal_reward_revision=None,
         collision_terminal_reward=-2.0,
+        waypoint_reward_timing="legacy_v1",
         random_z_range=(0.5, 7.5),
         random_search_waypoint_count=(2, 4),
         random_executor_waypoint_count=(1, 1),
@@ -149,6 +150,9 @@ class _BaseUAVEnv:
         self.space_size = self._vec(space_size)
         self.dt = float(dt)
         self.max_steps = int(max_steps)
+        if waypoint_reward_timing not in ("legacy_v1", "arrival_before_reward_v1"):
+            raise ValueError("unknown waypoint reward timing revision")
+        self.waypoint_reward_timing = waypoint_reward_timing
         identity = validate_task_config({
             "task_protocol": task_protocol,
             "collision_terminal_reward": collision_terminal_reward,
@@ -2152,6 +2156,21 @@ class UAVEnv(_BaseUAVEnv):
             self.total_waypoints_per_agent[agent] += 1
             self.current_target_arrived[agent] = False
 
+    def _capture_search_arrival_rewards(self):
+        """Observe arrivals without changing goals, coverage or planner state.
+
+        Path commits still run after reward calculation. In particular progress
+        must be measured toward the old goal, not its replacement. These are
+        the environment's original internal search goals, not guidance subgoals.
+        """
+        if self.task_found:
+            return
+        for agent in range(3):
+            distance = torch.norm(self._agent_pos[agent] - self._search_waypoints[agent])
+            if (float(distance) < self.search_arrive_eps and
+                    self.map_module.endpoint_status(self._agent_pos[agent], role="searcher")["reachable"]):
+                self.just_reached_waypoint[agent] = True
+
     def _update_capture(self, agent_start, target_start):
         if not (self.task_found and self.executor_target_assigned):
             self._capture_hold_counter = 0
@@ -2465,6 +2484,8 @@ class UAVEnv(_BaseUAVEnv):
                 self._compute_nav_distances(),
                 torch.norm(self._agent_vel, dim=1),
             )
+        if self.waypoint_reward_timing == "arrival_before_reward_v1":
+            self._capture_search_arrival_rewards()
         rewards = self._calculate_mission_rewards(previous_nav_distances)
         self._update_search_path_events()
         self._update_nav_targets(

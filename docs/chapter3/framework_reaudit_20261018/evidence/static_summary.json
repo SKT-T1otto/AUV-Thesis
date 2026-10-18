@@ -1,0 +1,34 @@
+{
+  "scope": [
+    "core",
+    "chapter3_bser",
+    "chapter4_rcag",
+    "chapter5_vsgc",
+    "legacy_adapters",
+    "scripts",
+    "tools",
+    "docs",
+    "historical_verification",
+    "文献"
+  ],
+  "files": 384,
+  "lines": 69395,
+  "per_package": {
+    "core": 44,
+    "chapter3_bser": 260,
+    "scripts": 20,
+    "tools": 23,
+    "docs": 31,
+    "historical_verification": 5,
+    "文献": 1
+  },
+  "syntax_errors": [],
+  "internal_imports": 881,
+  "missing_absolute_internal_imports": [],
+  "forbidden_patterns": [],
+  "config_json_files": 57,
+  "config_json_errors": [],
+  "statically_resolved_calls": 4882,
+  "signature_candidates": [],
+  "limitations": "AST/import inventory is not a proof of all runtime behavior; tests/outputs/tmp excluded"
+}

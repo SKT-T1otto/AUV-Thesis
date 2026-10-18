@@ -1,0 +1,238 @@
+{
+  "scope": "complete selected core/environment/training modules, not all repository tests",
+  "modules": [
+    "test_core_checkpoint_roundtrip",
+    "test_core_has_no_legacy_imports",
+    "test_core_import_graph",
+    "test_core_scenario_generation",
+    "test_core_source_provenance",
+    "test_core_standalone_env",
+    "test_core_training_smoke",
+    "test_core_without_legacy_directory",
+    "test_mission_core_contract",
+    "test_observation_28d_contract",
+    "test_collision_terminal_protocol",
+    "test_phase1a_core_freeze",
+    "test_phase1a1_original_core_freeze",
+    "test_phase1c_guidance",
+    "test_phase1b2_path_tracking",
+    "test_phase1c_v2_training_smoke",
+    "test_phase1c_v2_reward_protocol",
+    "test_phase1c_v2_execution_reward",
+    "test_prrac_replay",
+    "test_prrac_native_train_eval_runtime_equivalence",
+    "test_prrac_b1_native_training_runtime",
+    "test_prrac_training_smoke",
+    "test_prrac_isolation",
+    "test_team_reward",
+    "test_ch3_baseline_training",
+    "test_ch3_baseline_validation",
+    "test_d2_implementation_repairs",
+    "test_repository_metadata",
+    "test_d2_target_prediction_cache"
+  ],
+  "tests_run": 99,
+  "successes": [
+    "tests.test_core_has_no_legacy_imports.NoHistoricalRuntimeImportsTests.test_core_ast_has_no_historical_runtime_imports_or_path_injection",
+    "tests.test_core_import_graph.CoreImportGraphTests.test_all_absolute_core_imports_resolve",
+    "tests.test_core_scenario_generation.CoreScenarioGenerationTests.test_core_regenerates_frozen_manifests_exactly",
+    "tests.test_core_source_provenance.CoreSourceProvenanceTests.test_all_27_authority_records_map_to_current_core_files",
+    "tests.test_core_source_provenance.CoreSourceProvenanceTests.test_reviewed_registry_evolution_preserves_historical_active_modes",
+    "tests.test_core_standalone_env.CoreStandaloneEnvironmentTests.test_facade_uses_core_and_preserves_contract",
+    "tests.test_core_without_legacy_directory.CoreWithoutHistoricalDirectoryTests.test_historical_area_contains_no_python_and_is_not_required",
+    "tests.test_mission_core_contract.MissionCoreContractTests.test_cpu_reset_step_and_public_views",
+    "tests.test_observation_28d_contract.ObservationContractTests.test_exact_layout",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_adapter_disabled_still_overrides",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_collision_beats_deadline",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_deadline_success_and_timeout",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_every_agent_and_phase_ends_team_with_final_reward",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_frozen_agent_has_no_phantom_collision",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_invalid_reset_has_explicit_diagnostic",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_segment_tunnelling_and_legacy_endpoint_behavior",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_simultaneous_agents_one_team_failure_and_no_success_event",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_target_contact_and_separation_are_not_obstacle_collision",
+    "tests.test_collision_terminal_protocol.CollisionEnvironmentTests.test_terminal_reward_configuration_is_validated",
+    "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_closed_geometry_cases",
+    "tests.test_collision_terminal_protocol.CollisionGeometryTests.test_invalid_geometry_rejected",
+    "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_cache_and_metric_missingness",
+    "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_collector_preserves_terminal_transition_and_does_not_replan",
+    "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_terminal_nan_next_state_never_evaluated",
+    "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_critic_warmup_freezes_actors_and_updates_critics",
+    "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_mixed_batch_only_nonterminal_rows_bootstrap",
+    "tests.test_phase1a_core_freeze.Phase1ACoreFreezeTest.test_preexisting_core_python_files_unchanged",
+    "tests.test_phase1a1_original_core_freeze.Phase1A1OriginalCoreFreezeTest.test_original_40_core_python_files_match",
+    "tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest.test_phase1c_config_is_disabled_by_default",
+    "tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest.test_reset_step_guidance_and_replay_transition_are_aligned",
+    "tests.test_phase1c_guidance.Phase1CGuidanceSmokeTest.test_unknown_map_reset_defers_invalid_legacy_initial_endpoint",
+    "tests.test_phase1b2_path_tracking.Phase1B2PathTrackingTest.test_tracks_path_in_order_without_jumping_to_final_waypoint",
+    "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_discovery_transition_restores_only_discovery_components",
+    "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_reward_adapter_source_has_no_core_protocol_dependency",
+    "tests.test_phase1c_v2_reward_protocol.Phase1CV2RewardProtocolTests.test_searcher_freeze_is_explicit_and_independent_of_core_protocol",
+    "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_execution_bonuses_are_incremental_and_terminal_bonus_is_one_shot",
+    "tests.test_phase1c_v2_execution_reward.Phase1CV2ExecutionRewardTests.test_training_wrapper_emits_reward_metadata_and_diagnostics",
+    "tests.test_prrac_replay.PRRACReplayTests.test_ring_replacement_roundtrip_generator_and_priority",
+    "tests.test_prrac_native_train_eval_runtime_equivalence.PRRACNativeTrainEvalRuntimeEquivalenceTests.test_identical_public_state_sequence_has_identical_native_b1_semantics",
+    "tests.test_prrac_b1_native_training_runtime.B1NativeTrainingRuntimeTests.test_native_worker_uses_b1_and_returns_search_metrics_without_tensors",
+    "tests.test_prrac_b1_native_training_runtime.B1NativeTrainingRuntimeTests.test_s1_config_changes_only_allowed_runtime_fields",
+    "tests.test_prrac_training_smoke.PRRACTrainingSmokeTests.test_every_dry_run_requirement_is_enforced",
+    "tests.test_prrac_isolation.PRRACIsolationTests.test_frozen_files_hashes_and_import_direction",
+    "tests.test_prrac_isolation.PRRACIsolationTests.test_legacy_configs_and_dimensions_remain_isolated",
+    "tests.test_team_reward.TeamRewardTests.test_final_source_mean_broadcast_and_discount_accounting",
+    "tests.test_team_reward.TeamRewardTests.test_objective_transfer_is_explicit_and_evaluation_cache_rejects_mix",
+    "tests.test_team_reward.TeamRewardTests.test_real_prrac_collector_replay_and_critic_use_final_team_signal",
+    "tests.test_team_reward.TeamRewardTests.test_team_config_changes_only_objective_and_output",
+    "tests.test_ch3_baseline_validation.ContractValidationTests.test_direct_training_configs_preserve_the_common_task",
+    "tests.test_ch3_baseline_validation.ContractValidationTests.test_entry_help_and_training_rejection_for_priors",
+    "tests.test_ch3_baseline_validation.ContractValidationTests.test_registry_module_and_exact_four_contracts",
+    "tests.test_ch3_baseline_validation.ContractValidationTests.test_same_planning_state_has_distinct_objective_and_standby_paths",
+    "tests.test_d2_implementation_repairs.Repairs.test_all_repairs_disabled_preserve_b2_b3_learning",
+    "tests.test_d2_implementation_repairs.Repairs.test_arrival_repair_cannot_run_after_terminal_collision",
+    "tests.test_d2_implementation_repairs.Repairs.test_contracts_and_rejected_reweighting",
+    "tests.test_d2_implementation_repairs.Repairs.test_frozen_actor_does_not_move_even_with_adam_momentum",
+    "tests.test_d2_implementation_repairs.Repairs.test_gates_in_online_and_target_inputs",
+    "tests.test_d2_implementation_repairs.Repairs.test_hold_and_unreachable_requests_override_residual",
+    "tests.test_d2_implementation_repairs.Repairs.test_local_ddpg_uses_local_inputs_in_all_branches",
+    "tests.test_d2_implementation_repairs.Repairs.test_mixed_actor_loss_equals_only_active_rows",
+    "tests.test_d2_implementation_repairs.Repairs.test_mutated_sample_rebuilds_targets",
+    "tests.test_d2_implementation_repairs.Repairs.test_nonfinite_gradient_cannot_partially_step_twin_critics",
+    "tests.test_d2_implementation_repairs.Repairs.test_ordering_detects_return_metric_disagreement",
+    "tests.test_d2_implementation_repairs.Repairs.test_real_frozen_transition_and_hold_action_logging",
+    "tests.test_d2_implementation_repairs.Repairs.test_real_waypoint_bonus_once_with_unchanged_other_components",
+    "tests.test_d2_implementation_repairs.Repairs.test_replay_wrap_keeps_gates_with_transitions",
+    "tests.test_d2_implementation_repairs.Repairs.test_short_training_checkpoint_and_held_out_evaluation",
+    "tests.test_d2_implementation_repairs.Repairs.test_terminal_nan_is_ignored_but_live_nan_raises_before_step",
+    "tests.test_d2_implementation_repairs.Repairs.test_ungated_legacy_learning_matches_before_source",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_collision_public_facade_evolution_is_exact",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_formal_evidence_is_not_ignored",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_hgr_registry_evolution_is_exact_and_preserves_previous_review",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_metadata_matches_chapter3_phase1c_wip",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase0b2_provenance_and_permitted_post_baseline_evolution",
+    "tests.test_repository_metadata.RepositoryMetadataTests.test_phase1c_registry_evolution_preserves_legacy_active_modes",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_generator_and_custom_metadata_fallback",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_mutations_and_physical_context",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_physical_integrator_and_collision_helpers_frozen",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_prefixes_reflections_and_overlapping_start",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_rng_signed_zero_and_instrumented_fallback",
+    "tests.test_d2_target_prediction_cache.PredictionCacheTests.test_validation_and_reflection_limit_preserved"
+  ],
+  "skipped": [],
+  "successful": false,
+  "wall_seconds": 339.2750961999991,
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "success_count": 81,
+  "failure_count": 0,
+  "error_count": 26,
+  "failures": [],
+  "errors": [
+    {
+      "test": "tests.test_core_checkpoint_roundtrip.CoreCheckpointRoundtripTests.test_weights_only_checkpoint_roundtrip",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_core_training_smoke.CoreTrainingSmokeTests.test_two_by_ten_training_closure",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_100_pair_plan_only_and_protocol_provenance",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected (name='evaluation_failure.json')",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected (name='incomplete_episode_evaluation.csv')",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_existing_strict_failure_and_plot_artifacts_are_protected (name='collision_terminal_outcomes.png')",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_real_warmstart_training_summary_and_same_protocol_resume",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_checkpoint_roundtrip_preserves_identity_and_replay",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluation_writes_complete_report_and_resumes_cache",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_strict_evaluator_terminal_never_calls_actor_for_prior_only",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_collision_terminal_protocol.CollisionTrainingTests.test_transfer_actor_only_and_resume_rejected",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_phase1c_v2_training_smoke.Phase1CV2TrainingSmokeTests.test_training_update_replay_checkpoint_and_resume_smoke",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_phase1c_v2_training_smoke.Phase1CV2TrainingSmokeTests.test_v1_checkpoint_is_explicitly_rejected",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_prrac_training_smoke.PRRACTrainingSmokeTests.test_real_update_diagnostics_and_checkpoint_in_temporary_directory",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_team_reward.TeamRewardTests.test_real_checkpoint_actor_warmstart_and_hgr_mean_initialization",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_training.IndependentTrainingTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_training.IndependentTrainingTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_ch3_baseline_training.TrainingEntryTests.test_b0_b1_unchanged",
+      "cause": "SafeSearch source inventory mismatch"
+    },
+    {
+      "test": "tests.test_ch3_baseline_training.TrainingEntryTests.test_evaluation_rejects_hgr_checkpoint",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_ch3_baseline_training.TrainingEntryTests.test_training_check_only",
+      "cause": "SafeSearch source inventory mismatch"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_validation.B0SmokeTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_validation.B0SmokeTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_validation.B1SmokeTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "setUpClass (tests.test_ch3_baseline_validation.B1SmokeTests)",
+      "cause": "temporary file or subprocess permission error"
+    },
+    {
+      "test": "tests.test_ch3_baseline_validation.ContractValidationTests.test_check_only_never_constructs_trainer_or_writes_outputs",
+      "cause": "SafeSearch source inventory mismatch"
+    },
+    {
+      "test": "tests.test_ch3_baseline_validation.ContractValidationTests.test_frozen_production_and_baseline_source_gates",
+      "cause": "SafeSearch source inventory mismatch"
+    }
+  ],
+  "complete_traceback_path": "tmp/framework_reaudit_20261018/regression.json",
+  "is_ci": false
+}

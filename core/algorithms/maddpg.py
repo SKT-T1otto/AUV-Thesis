@@ -59,6 +59,7 @@ class MADDPG(object):
         self.init_dict = None
         self.checkpoint_metadata = None
         self.last_residual_regularization_term = 0.0
+        self.last_actor_updated = False
         self._cached_sample_key = None
         self._cached_sample = None
 
@@ -174,9 +175,8 @@ class MADDPG(object):
         return out
 
     def _prepare_sample(self, sample):
-        key = (id(sample), self.device)
-        if self._cached_sample_key == key and self._cached_sample is not None:
-            return self._cached_sample
+        # Replay batches contain mutable tensors. Object identity is not a
+        # content/version key, and ids can be reused after a caller drops a batch.
         obs, acs, rews, next_obs, dones, weights, indices, success_flags = self._unpack_sample(sample)
         obs = self._to_device(obs)
         acs = self._to_device(acs)
@@ -184,20 +184,41 @@ class MADDPG(object):
         next_obs = self._to_device(next_obs)
         dones = self._to_device(dones)
         weights = torch.as_tensor(weights, dtype=torch.float32, device=self.device).view(-1, 1)
-        with torch.no_grad():
-            next_acs = self._build_target_actions(next_obs)
-            target_vf_in = torch.cat((*next_obs, *next_acs), dim=1)
-        joint_vf_in = torch.cat((*obs, *acs), dim=1)
+        for name, values in (("observations", obs), ("actions", acs), ("rewards", rews),
+                             ("next observations", next_obs), ("dones", dones), ("weights", [weights])):
+            for value in values:
+                self._require_finite(value, name)
+        if any(not bool(((d == 0) | (d == 1)).all()) for d in dones):
+            raise ValueError("replay done flags must be binary")
+        if bool((weights < 0).any()):
+            raise ValueError("replay weights must be nonnegative")
         packed = {
             "obs": obs, "acs": acs, "rews": rews, "next_obs": next_obs,
             "dones": dones, "weights": weights, "indices": indices,
-            "success_flags": success_flags, "next_acs": next_acs,
-            "target_vf_in": target_vf_in, "joint_vf_in": joint_vf_in,
+            "success_flags": success_flags,
         }
-        self._cached_sample_key = key
-        self._cached_sample = packed
+        self._augment_sample(packed, sample)
+        with torch.no_grad():
+            next_acs = self._build_target_actions(next_obs)
+            next_acs = self._project_policy_actions(packed, next_acs, next_state=True)
+            target_vf_in = torch.cat((*next_obs, *next_acs), dim=1)
+        joint_vf_in = torch.cat((*obs, *acs), dim=1)
+        packed.update(next_acs=next_acs, target_vf_in=target_vf_in, joint_vf_in=joint_vf_in)
         return packed
 
+    @staticmethod
+    def _require_finite(value, name):
+        if not bool(torch.isfinite(value).all()):
+            raise FloatingPointError(f"nonfinite {name}")
+
+    def _augment_sample(self, batch, sample):
+        """Optional execution metadata; never implicitly enlarge network inputs."""
+
+    def _project_policy_actions(self, batch, actions, *, next_state=False):
+        return actions
+
+    def _actor_sample_weights(self, batch, agent_i):
+        return None
 
 
     def _build_target_actions(self, next_obs):
@@ -218,9 +239,19 @@ class MADDPG(object):
         with torch.no_grad():
             q1_next = ag.target_critic1(target_vf_in)
             q2_next = ag.target_critic2(target_vf_in)
+            active = ~done_i.view(-1, 1).bool()
+            self._require_finite(q1_next[active], "nonterminal target critic 1")
+            self._require_finite(q2_next[active], "nonterminal target critic 2")
             min_q_next = torch.min(q1_next, q2_next)
-            target_q = rew_i.view(-1, 1) + self.gamma * min_q_next * (1 - done_i.view(-1, 1))
+            target_q = rew_i.view(-1, 1) + torch.where(
+                active, self.gamma * min_q_next, torch.zeros_like(min_q_next))
+            self._require_finite(target_q, "critic target before clipping")
             return torch.clamp(target_q, -10.0, 10.0)
+
+    def _target_critic_input(self, batch, agent_i):
+        if self.alg_types[agent_i] == "MADDPG":
+            return batch["target_vf_in"]
+        return torch.cat((batch["next_obs"][agent_i], batch["next_acs"][agent_i]), dim=1)
 
     def _critic_input(self, batch, agent_i):
         obs = batch["obs"]
@@ -232,7 +263,7 @@ class MADDPG(object):
     def update_critic_only(self, sample, agent_i):
         batch = self._prepare_sample(sample)
         ag = self.agents[agent_i]
-        target_q = self._compute_target_q(ag, batch["target_vf_in"], batch["rews"][agent_i], batch["dones"][agent_i])
+        target_q = self._compute_target_q(ag, self._target_critic_input(batch, agent_i), batch["rews"][agent_i], batch["dones"][agent_i])
         vf_in = self._critic_input(batch, agent_i)
 
         q1 = ag.critic1(vf_in)
@@ -243,21 +274,23 @@ class MADDPG(object):
         loss2 = F.smooth_l1_loss(q2, target_q, reduction="none")
         td_loss = loss1 + loss2
         vf_loss = (td_loss * batch["weights"]).mean()
+        self._require_finite(vf_loss, "critic loss")
 
         ag.critic1_optimizer.zero_grad(set_to_none=True)
         ag.critic2_optimizer.zero_grad(set_to_none=True)
         vf_loss.backward()
-        torch.nn.utils.clip_grad_norm_(ag.critic1.parameters(), 0.5)
-        torch.nn.utils.clip_grad_norm_(ag.critic2.parameters(), 0.5)
+        torch.nn.utils.clip_grad_norm_(ag.critic1.parameters(), 0.5, error_if_nonfinite=True)
+        torch.nn.utils.clip_grad_norm_(ag.critic2.parameters(), 0.5, error_if_nonfinite=True)
         ag.critic1_optimizer.step()
         ag.critic2_optimizer.step()
 
         return float(vf_loss.item()), td_error
 
     def update(self, sample, agent_i, parallel=False, logger=None):
+        self.last_actor_updated = False
         batch = self._prepare_sample(sample)
         ag = self.agents[agent_i]
-        target_q = self._compute_target_q(ag, batch["target_vf_in"], batch["rews"][agent_i], batch["dones"][agent_i])
+        target_q = self._compute_target_q(ag, self._target_critic_input(batch, agent_i), batch["rews"][agent_i], batch["dones"][agent_i])
         vf_in = self._critic_input(batch, agent_i)
 
         q1 = ag.critic1(vf_in)
@@ -268,16 +301,34 @@ class MADDPG(object):
         loss2 = F.smooth_l1_loss(q2, target_q, reduction="none")
         td_loss = loss1 + loss2
         vf_loss = (td_loss * batch["weights"]).mean()
+        self._require_finite(vf_loss, "critic loss")
 
         ag.critic1_optimizer.zero_grad(set_to_none=True)
         ag.critic2_optimizer.zero_grad(set_to_none=True)
         vf_loss.backward()
-        torch.nn.utils.clip_grad_norm_(ag.critic1.parameters(), 0.5)
-        torch.nn.utils.clip_grad_norm_(ag.critic2.parameters(), 0.5)
+        torch.nn.utils.clip_grad_norm_(ag.critic1.parameters(), 0.5, error_if_nonfinite=True)
+        torch.nn.utils.clip_grad_norm_(ag.critic2.parameters(), 0.5, error_if_nonfinite=True)
         ag.critic1_optimizer.step()
         ag.critic2_optimizer.step()
 
         ag.policy_optimizer.zero_grad(set_to_none=True)
+        actor_weights = self._actor_sample_weights(batch, agent_i)
+        if actor_weights is not None:
+            actor_weights = actor_weights.reshape(-1, 1)
+            self._require_finite(actor_weights, "actor sample weights")
+            if bool((actor_weights < 0).any()):
+                raise ValueError("actor sample weights must be nonnegative")
+            if not bool(actor_weights.sum() > 0):
+                # Adam momentum also moves parameters on a zero-gradient step.
+                self.last_residual_regularization_term = 0.0
+                return float(vf_loss.item()), 0.0, td_error
+
+        def actor_mean(value):
+            if actor_weights is None:
+                return value.mean()
+            per_row = value.reshape(value.shape[0], -1).mean(dim=1, keepdim=True)
+            return (per_row * actor_weights).sum() / actor_weights.sum()
+
         curr_pol_out, curr_pol_act = self._build_policy_action(agent_i, batch["obs"][agent_i], explore_gumbel=True)
 
         all_pol_acs = []
@@ -291,15 +342,18 @@ class MADDPG(object):
                     else:
                         all_pol_acs.append(torch.clamp(pi(ob), -1.0, 1.0))
 
-        vf_in_pol = torch.cat((*batch["obs"], *all_pol_acs), dim=1)
+        all_pol_acs = self._project_policy_actions(batch, all_pol_acs)
+        vf_in_pol = (torch.cat((*batch["obs"], *all_pol_acs), dim=1)
+                     if self.alg_types[agent_i] == "MADDPG" else
+                     torch.cat((batch["obs"][agent_i], all_pol_acs[agent_i]), dim=1))
         q_pol = ag.critic1(vf_in_pol)
-        pol_loss = -q_pol.mean()
+        pol_loss = -actor_mean(q_pol)
 
         # In residual-prior control, the actor output is a correction term rather
         # than the full acceleration command. Penalizing large residuals keeps the
         # learned policy from fighting the waypoint prior unless the critic supports it.
         if self.residual_action_reg > 0.0:
-            residual_regularization = (curr_pol_out ** 2).mean() * self.residual_action_reg
+            residual_regularization = actor_mean(curr_pol_out ** 2) * self.residual_action_reg
             self.last_residual_regularization_term = float(
                 residual_regularization.detach().item()
             )
@@ -309,12 +363,14 @@ class MADDPG(object):
 
         if self.discrete_action:
             probs = F.softmax(curr_pol_out, dim=-1)
-            entropy = -(probs * torch.log(probs + 1e-8)).sum(dim=-1).mean()
+            entropy = actor_mean(-(probs * torch.log(probs + 1e-8)).sum(dim=-1, keepdim=True))
             pol_loss = pol_loss - 2e-3 * entropy
 
+        self._require_finite(pol_loss, "actor loss")
         pol_loss.backward()
-        torch.nn.utils.clip_grad_norm_(ag.policy.parameters(), 0.2)
+        torch.nn.utils.clip_grad_norm_(ag.policy.parameters(), 0.2, error_if_nonfinite=True)
         ag.policy_optimizer.step()
+        self.last_actor_updated = True
 
         if logger is not None:
             logger.add_scalars(

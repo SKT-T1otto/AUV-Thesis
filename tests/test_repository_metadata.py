@@ -69,6 +69,9 @@ for _record in _collision_evolution["records"]:
     for _key in ("phase0b2_sha256", "current_sha256"):
         assert _record[_key] == PERMITTED_POST_BASELINE_EVOLUTIONS[_record["path"]][_key]
 
+from tests.d2_repair_review import add_evolutions
+add_evolutions(PERMITTED_POST_BASELINE_EVOLUTIONS, historical_key="phase0b2_sha256")
+
 
 class RepositoryMetadataTests(unittest.TestCase):
     def test_hgr_registry_evolution_is_exact_and_preserves_previous_review(self):

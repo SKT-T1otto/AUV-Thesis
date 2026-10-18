@@ -38,6 +38,8 @@ class Phase1A1OriginalCoreFreezeTest(unittest.TestCase):
                 permitted = PERMITTED_EVOLUTION[relative]
                 self.assertEqual(expected, permitted["historical_sha256"])
                 expected = permitted["current_sha256"]
+            from tests.d2_repair_review import successor
+            expected = successor(relative, expected)
             self.assertTrue(
                 _matches_exact_or_one_historical_eof_blank(blob, expected),
                 relative,

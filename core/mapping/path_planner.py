@@ -1568,8 +1568,15 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
     def _physical_edge_time(self, left, right, role):
         if self.device.type != "cpu":
             return ObstacleAwareTaskMapPlanner._edge_time(self, left, right, role)
-        delta = self.xyz_centers[right] - self.xyz_centers[left]
-        return _online_physical_time(tuple(delta.tolist()), delta.dtype,
+        if self.xyz_centers.dtype in (torch.float32, torch.float64):
+            # A live view avoids two tiny Torch indexing operations per edge.
+            # Subtraction keeps the tensor's native precision; the original
+            # Torch norm and scalar arithmetic still run in the existing cache.
+            centers = self.xyz_centers.detach().numpy()
+            delta = centers[right] - centers[left]
+        else:
+            delta = self.xyz_centers[right] - self.xyz_centers[left]
+        return _online_physical_time(tuple(delta.tolist()), self.xyz_centers.dtype,
                                      str(role).lower().startswith("exec"))
 
     def _continuous_edge_time(self, left, right, role):
@@ -1581,8 +1588,12 @@ class OnlineUnknownMapTaskPlanner(ObstacleAwareTaskMapPlanner):
 
     def _edge_time(self, left, right, role):
         physical = self._physical_edge_time(left, right, role)
-        p_left = float(self.occupancy_probability[left].item())
-        p_right = float(self.occupancy_probability[right].item())
+        if self.occupancy_probability.device.type == "cpu" and self.occupancy_probability.dtype in (torch.float32, torch.float64):
+            occupancy = self.occupancy_probability.detach().numpy()
+            p_left, p_right = float(occupancy[left]), float(occupancy[right])
+        else:
+            p_left = float(self.occupancy_probability[left].item())
+            p_right = float(self.occupancy_probability[right].item())
         probability = 0.5 * (p_left + p_right)
         entropy = 0.0
         if 0.0 < probability < 1.0:

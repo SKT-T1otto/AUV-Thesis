@@ -1,0 +1,5 @@
+{
+  "config_duplicate_key_errors": [],
+  "reproduction_scripts_compile": true,
+  "docs_namespace": "ModuleSpec(name='docs.chapter3.framework_reaudit_20261018.reproduce', loader=None, submodule_search_locations=_NamespacePath(['E:\\\\gym\\\\code\\\\WORKSPACE\\\\AUV-Thesis\\\\docs\\\\chapter3\\\\framework_reaudit_20261018\\\\reproduce']))"
+}

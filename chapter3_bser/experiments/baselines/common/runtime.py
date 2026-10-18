@@ -34,6 +34,8 @@ def _make_base_env(config):
         str(config.get("base_candidate", "ch3_v3_full_reference")), str(config["profile"]),
     )
     settings.update({key: config[key] for key in (*PROTOCOL_FIELDS, "collision_terminal_reward") if key in config})
+    if "waypoint_reward_timing" in config:
+        settings["waypoint_reward_timing"] = config["waypoint_reward_timing"]
     return MissionCoreEnv(**environment_kwargs_from_config(
         settings, device="cpu", max_steps=int(config["max_steps"]), return_numpy=False,
     ))
@@ -132,6 +134,7 @@ class BaselineMissionRuntime:
         actions = torch.cat(model.step(observations, explore=explore), dim=0).detach().cpu()
         if actions.shape != (4, 3) or not bool(torch.isfinite(actions).all()):
             raise ValueError("baseline actor must produce finite 4 x 3 actions")
+        actions = self._actions_for_step(actions)
         step_obs, rewards, dones = self.env.step(actions)
         if self.terminal:
             self.observations = step_obs
@@ -155,6 +158,10 @@ class BaselineMissionRuntime:
             dones=done_values, next_observations=_observations(self.observations),
             **copy.deepcopy(self.env.reward_accounting.last),
         )
+
+    def _actions_for_step(self, actions):
+        """Identity in historical baselines; independent variants may constrain actions."""
+        return actions
 
     def summary(self):
         summary = self.env.finalize_episode()

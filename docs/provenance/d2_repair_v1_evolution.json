@@ -1,0 +1,39 @@
+{
+  "schema": "ch3.d2.repair_evolution.v1",
+  "authorization": "2026-10-18 explicit user request to fix audited defects; retain composite rewards, gamma=.95 and 28D/3D/124D",
+  "historical_manifests_modified": false,
+  "records": [
+    {
+      "path": "core/algorithms/maddpg.py",
+      "previous_reviewed_sha256": "a574285b33d9a82971cf8016ce93e79f1c90b07cca5236edf5deb7fcb9b6d907",
+      "current_sha256": "fbf983ec992613a45c10a2ced45725c17b2a412414d64167cb02b33ab8692a91",
+      "current_ast_dump_sha256": "9f53a219fbd6ac4d5d926c6d1b58306a0bcee7dd144797fe355b5bf76afe6527"
+    },
+    {
+      "path": "core/env/uav_env.py",
+      "previous_reviewed_sha256": "2626d3f957a8e448db34868442d28cc20988cbb46292dd48700eab0335ad7eaf",
+      "current_sha256": "402878207aa69f334311e1c690dbc7b231a7fde0a0a7affaf5c645c1dd24d60b",
+      "current_ast_dump_sha256": "c7bc24f1ae273e153bc1e6158388bb97a74227433ee90b3720a151a81e408467"
+    },
+    {
+      "path": "chapter3_bser/experiments/baselines/common/runtime.py",
+      "previous_reviewed_sha256": "a9c8030d9e146c50f5ed76efa60645957661072ef566da67082cd481753cb56b",
+      "current_sha256": "d494fcee4f9c73368557999f4ac9e5736d3418ac9bcf30e45351c65e5fc226a6",
+      "current_ast_dump_sha256": "6de2075974daea811f1063911eff9e979a5d148f62144b159abb59e77e79be74"
+    }
+  ],
+  "new_files": {
+    "chapter3_bser/experiments/d2_repair_v1/__init__.py": "bee78986c5147f40a86041d045adb3a34cf15cc3f879b19a2e0344c5a095df37",
+    "chapter3_bser/experiments/d2_repair_v1/config.py": "8085c09b800e09cb0cbe3bb86519e6c720eb3b0d3acc6c6b313cb2ede4576f73",
+    "chapter3_bser/experiments/d2_repair_v1/diagnostics.py": "b34c4f423b86aeb565fc9366cea2888f4318e0f2c3c75599ec958efa05ae903e",
+    "chapter3_bser/experiments/d2_repair_v1/evaluate.py": "eaffa2703c403c0eae74445d3adfd80caaa35d83817c3df6d0f164dfbeb2eeac",
+    "chapter3_bser/experiments/d2_repair_v1/model.py": "51589599e58cfbee2b4fc16d0ebfc87e0445f61d1bb3a213b8ba43343b29750b",
+    "chapter3_bser/experiments/d2_repair_v1/provenance.py": "27a3f6abde09443a9723125fa6fd1de15e780adcfdfc66f7b2825d279e2a40bd",
+    "chapter3_bser/experiments/d2_repair_v1/replay.py": "44fec24ab2be312fe0112e2b232a52f0f76a5e10c4deb0eba226a58a833a9268",
+    "chapter3_bser/experiments/d2_repair_v1/runtime.py": "8388a42f395d474ec98cb6c3deb21591641abf9e9d19f568c2c27d34545fdfc0",
+    "chapter3_bser/experiments/d2_repair_v1/train.py": "1bcf00e6999302d3106ea0bd4652ad01b1c5b839aa922dba92d601ff93e0b5f9",
+    "configs/chapter3/d2_repair_v1/b2_train.json": "2e914420db45d4465bd2addebcdc57f2d912a542d2ba64c14a7791e848c27a35",
+    "configs/chapter3/d2_repair_v1/b3_train.json": "79819c8159eed35071f11cb2365b61c08fad9a3d87103717634aed11a9988c66"
+  },
+  "formal_performance_verified": false
+}

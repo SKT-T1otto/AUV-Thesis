@@ -46,6 +46,9 @@ def checked_copy():
         performance = "docs/provenance/d2_performance_v1_evolution.json"
         if (gate.ROOT / performance).exists():
             names.update((performance, "docs/chapter3/d2_suite_v1/performance/source_review.md"))
+        performance_round2 = "docs/provenance/d2_performance_v2_evolution.json"
+        if (gate.ROOT / performance_round2).exists():
+            names.update((performance_round2, "docs/chapter3/d2_suite_v1/performance_round2/source_review.md"))
         for name in names:
             target = root / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -128,6 +131,9 @@ class SafeSearchProvenanceTests(unittest.TestCase):
                 if (root / "docs/provenance/d2_performance_v1_evolution.json").exists():
                     from chapter3_bser.experiments.d2_performance.provenance import extend_profile as extend_performance
                     expected_files = extend_performance(root, profile, expected_files)
+                if (root / "docs/provenance/d2_performance_v2_evolution.json").exists():
+                    from chapter3_bser.experiments.d2_performance.round2_provenance import extend_profile as extend_round2
+                    expected_files = extend_round2(root, profile, expected_files)
                 for name, expected in expected_files.items():
                     path = root / name
                     original = (gate.ROOT / name).read_bytes()

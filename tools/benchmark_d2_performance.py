@@ -26,6 +26,70 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SCENES = "configs/scenarios/e0_equivalence/M20_MOVING_UNKNOWN_MULTI.json"
 
 
+class QueryDiagnostics:
+    """Opt-in observations only; no changes to graph, planner, RNG or queries.
+
+    A row lookup is one non-stale, non-goal A* expansion. The adjacency proxy
+    delegates the original tuple unchanged, including its neighbor order.
+    This extra instrumentation is excluded from throughput measurements.
+    """
+    def __init__(self):
+        self.patches = ExitStack()
+        self.active = []
+        self.expansions = []
+        self.seen = set()
+        self.repeated = 0
+        self.graphs = {}
+
+    def __enter__(self):
+        from core.mapping.planning_graph import PlanningGraphView
+        from core.mapping.travel_cost_service import TravelCostService
+        original_astar = TravelCostService._astar
+        original_adjacency = PlanningGraphView.adjacency_for_role
+        owner = self
+
+        class Rows:
+            def __init__(self, rows, frame):
+                self.rows, self.frame = rows, frame
+
+            def __getitem__(self, index):
+                self.frame[0] += 1
+                return self.rows[index]
+
+        def adjacency(graph, role):
+            rows = original_adjacency(graph, role)
+            return Rows(rows, owner.active[-1]) if owner.active else rows
+
+        def astar(service, start, goal, role):
+            graph = service.graph
+            owner.graphs[id(graph)] = graph  # Prevent object-id reuse in diagnostics.
+            key = (id(graph), role, int(start), int(goal))
+            owner.repeated += key in owner.seen
+            owner.seen.add(key)
+            frame = [0]
+            owner.active.append(frame)
+            try:
+                return original_astar(service, start, goal, role)
+            finally:
+                owner.active.pop()
+                owner.expansions.append(frame[0])
+
+        self.patches.enter_context(patch.object(PlanningGraphView, "adjacency_for_role", adjacency))
+        self.patches.enter_context(patch.object(TravelCostService, "_astar", astar))
+        return self
+
+    def __exit__(self, *exc):
+        return self.patches.__exit__(*exc)
+
+    def snapshot(self):
+        counts = self.expansions
+        return dict(astar_calls=len(counts), repeated_identical_graph_queries=self.repeated,
+                    astar_expanded_nodes_total=sum(counts),
+                    astar_expanded_nodes_mean=sum(counts) / len(counts) if counts else 0.0,
+                    astar_expanded_nodes_max=max(counts, default=0),
+                    astar_expanded_nodes_by_call=counts)
+
+
 def benchmark_model_builder():
     """The same CPU benchmark also runs on the frozen pre-repair checkout.
 
@@ -107,6 +171,9 @@ class Timings:
         ]
         if self.detailed:
             methods += [
+            ("core.mapping.path_planner", "OnlineUnknownMapTaskPlanner", "_core_cell_path", "B_planner_astar"),
+            ("core.mapping.travel_cost_service", "TravelCostService", "_heuristic", "H_heuristic"),
+            ("core.mapping.travel_cost_service", "TravelCostService", "_connectors", "H_connectors"),
             ("core.env.uav_env", "UAVEnv", "_sense_and_update_shared_map", "B_sense_map"),
             ("core.env.uav_env", "UAVEnv", "_refresh_intercept", "B_intercept"),
             ("core.env.uav_env", "UAVEnv", "_get_obs", "B_observations"),
@@ -122,6 +189,8 @@ class Timings:
             ("core.mapping.planning_graph", "_build_endpoint", "E_endpoint"),
             ("core.mapping.planning_graph", "_build_role_adjacency", "E_adjacency"),
             ("core.mapping.planning_graph", "_graph_hash", "E_graph_hash"),
+            ("core.mapping.planning_graph", "_topology", "E_topology"),
+            ("core.mapping.planning_graph", "_component_labels_from_topology", "E_components"),
             (prefix + "safe_search_v1.public_geometry", "filter_planning_state", "G_filter_graph"),
             (prefix + "baselines.common.checkpoint", "write_json", "L_json_write"),
             (prefix + "baselines.common.checkpoint", "load_checkpoint", "M_checkpoint_load_validate"),
@@ -154,6 +223,12 @@ def record(timing, before, started, steps, **extra):
     wall = time.perf_counter() - started
     return dict(steps=steps, wall_seconds=wall, env_steps_per_second=steps / wall,
                 timings=difference(timing.snapshot(), before), **extra)
+
+
+def cache_diagnostics():
+    from core.mapping import path_planner
+    return {name: getattr(path_planner, name).cache_info()._asdict() for name in
+            ("_online_segment_cells", "_sampled_online_segment_free", "_online_physical_time")}
 
 
 def update_signature(hashed, transition):
@@ -204,6 +279,7 @@ def run(args):
             trace = hashlib.sha256()
             rewards = []
             try:
+                episode_before, episode_started = timing.snapshot(), time.perf_counter()
                 for _ in range(5):
                     if runtime.terminal: break
                     transition = runtime.advance(model, explore=True)
@@ -224,10 +300,16 @@ def run(args):
                 result["cases"].append(record(timing, before, started, runtime.step - first,
                     name="episode_after_5_warmup", scene=index, actual_length=runtime.step,
                     summary=runtime.summary(), transition_sha256=trace.hexdigest(), rewards=rewards))
+                result["cases"].append(record(timing, episode_before, episode_started, runtime.step,
+                    name="full_episode", scene=index, actual_length=runtime.step))
                 print(args.label, index, "warm100", round(warm["env_steps_per_second"], 3), flush=True)
             finally:
                 runtime.close()
             save()
+        if args.rollout_only:
+            result["cache_diagnostics"] = cache_diagnostics()
+            save()
+            return result
         trainer_cls = DirectMCTrainer if args.arm == "B2" else DirectBoundaryTrainer
         trainer = trainer_cls(config, output / "collision_terminal" / "training")
         original_advance = BaselineMissionRuntime.advance
@@ -255,18 +337,20 @@ def run(args):
         result["cases"].append(record(timing, before, started, 0, name="checkpoint"))
         result["global_step"] = trainer.global_step
         result["optimizer_updates"] = trainer.optimizer_updates
+        result["cache_diagnostics"] = cache_diagnostics()
     save()
     return result
 
 
 def environment_profile(args):
-    """Ten real steps with cProfile: diagnose env internals, not throughput."""
+    """Bounded real steps with cProfile: diagnose internals, not throughput."""
     import cProfile
     import pstats
     from chapter3_bser.experiments.baselines.common.runtime import BaselineMissionRuntime
     build_model = benchmark_model_builder()
     torch.set_num_threads(1)
-    config = json.loads((ROOT / "configs/chapter3/d2_v1/direct_mc_train.json").read_text())
+    name = "direct_mc_train.json" if args.arm == "B2" else "direct_boundary_train.json"
+    config = json.loads((ROOT / "configs/chapter3/d2_v1" / name).read_text())
     scene = json.loads((ROOT / args.manifest).read_text())["scenarios"][args.scenes[0]]
     torch.manual_seed(args.seed)
     model = build_model(config)
@@ -275,16 +359,23 @@ def environment_profile(args):
     output.mkdir(parents=True, exist_ok=False)
     profiler = cProfile.Profile()
     try:
-        with Timings(detailed=True) as timings:
+        for _ in range(args.profile_skip):
+            if runtime.terminal:
+                break
+            runtime.advance(model, explore=True)
+        with QueryDiagnostics() as diagnostics, Timings(detailed=True) as timings:
             profiler.enable()
-            for _ in range(10):
+            for _ in range(args.profile_steps):
                 if runtime.terminal:
                     break
                 runtime.advance(model, explore=True)
             profiler.disable()
         (output / "timings.json").write_text(json.dumps(timings.snapshot(), indent=2), encoding="utf-8")
+        (output / "diagnostics.json").write_text(json.dumps(
+            dict(diagnostics.snapshot(), caches=cache_diagnostics()), indent=2), encoding="utf-8")
         with (output / "cprofile.txt").open("w", encoding="utf-8") as stream:
-            pstats.Stats(profiler, stream=stream).sort_stats("cumulative").print_stats(65)
+            pstats.Stats(profiler, stream=stream).sort_stats("cumulative").print_stats(100)
+            pstats.Stats(profiler, stream=stream).sort_stats("tottime").print_stats(60)
         profiler.dump_stats(str(output / "profile.pstats"))
     finally:
         runtime.close()
@@ -378,9 +469,15 @@ def main():
     parser.add_argument("--threads", type=int, choices=(1, 2, 4, 8), default=1)
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cpu")
     parser.add_argument("--profile-environment", action="store_true")
+    parser.add_argument("--rollout-only", action="store_true",
+                        help="diagnostic phase trial; final validation still requires bounded training")
+    parser.add_argument("--profile-steps", type=int, default=10)
+    parser.add_argument("--profile-skip", type=int, default=0)
     parser.add_argument("--compute-only", action="store_true")
     parser.add_argument("--logging-only", action="store_true")
     args = parser.parse_args()
+    if not 1 <= args.profile_steps <= 400 or not 0 <= args.profile_skip < 400:
+        parser.error("profile steps must be 1..400 and skip must be 0..399")
     if len(args.scenes) > 3:
         parser.error("bounded benchmark permits at most three scenes")
     if sum((args.profile_environment, args.compute_only, args.logging_only)) > 1:

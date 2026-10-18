@@ -234,6 +234,10 @@ def framework_sources(root=None):
         if performance.exists():
             from chapter3_bser.experiments.d2_performance.provenance import extend_profile as extend_performance
             expected = extend_performance(root, profile, expected)
+        performance_round2 = root / "docs/provenance/d2_performance_v2_evolution.json"
+        if performance_round2.exists():
+            from chapter3_bser.experiments.d2_performance.round2_provenance import extend_profile as extend_round2
+            expected = extend_round2(root, profile, expected)
         if current == dict(files=expected, sha256=digest(expected)):
             matched.append(profile)
     if matched:
@@ -259,6 +263,8 @@ def framework_sources(root=None):
             result["d2_suite_pipeline_evolution_sha256"] = file_sha256(pipeline)
         if performance.exists():
             result["d2_performance_evolution_sha256"] = file_sha256(performance)
+        if performance_round2.exists():
+            result["d2_performance_round2_evolution_sha256"] = file_sha256(performance_round2)
         return result
     expected = manifest["profiles"]["windows_existing"]["files"]
     differences = sorted(n for n in current["files"].keys() | expected.keys()
